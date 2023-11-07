@@ -37,8 +37,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-
       - name: Build and Push Docker Image to ECR
         run: |
-          docker build -t 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:latest .
+          docker build -t recode-fe .
+          docker tag recode-fe:latest 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:latest
           docker push 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:latest
