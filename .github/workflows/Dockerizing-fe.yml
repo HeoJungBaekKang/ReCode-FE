@@ -45,7 +45,8 @@ jobs:
 
       - name: Build and Push Docker Image to ECR
         run: |
-          docker buildx build -t recode-fe --file ./ --platform linux/amd64,linux/arm64 -o type=registry --push .
+          docker buildx build -t recode-fe --platform linux/amd64,linux/arm64 -o type=registry --push .
+          docker tag recode-fe:latest 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:latest
           699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:latest
         shell: bash
 
