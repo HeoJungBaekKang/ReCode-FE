@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-node@v4.0.0
         with:
           node-version: 14
+
+      - name: Remove modules
+        run: |
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
     
       - name: Install Dependencies
         run: npm install
