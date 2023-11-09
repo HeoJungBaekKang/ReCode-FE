@@ -9,13 +9,7 @@ import Header from './components/Fix/Header';
 import Mypage_Myprofile from './components/Mypage/Mypage_Myprofile';
 import ChangePasswordForm from './components/Client/ChangePasswordForm';
 import TermsofService from './components/Client/TermsOfService';
-import Login from "./components/Client/Login";
-import Join from "./components/Client/Join";
-import StudyRecruitment from "./components/Study/StudyRecruitment";
-import MultiSelect from "./components/Study/MultiSelect";
-
-
-
+import StudyRoom_Detail from './components/StudyRoom/StudyRoom_Detail';
 
 function App() {
   return (
@@ -37,6 +31,7 @@ function App() {
           <Route path="/client/termsofService" element={<TermsofService/>} />
           <Route path="/client/findEmail" element={<FindEmailForm/>} />
           <Route path="/" element={<Main />} />
+          <Route path="/studyroom" element={<StudyRoom_Detail/>} />
         </Routes>
       </div>
     </Router>
