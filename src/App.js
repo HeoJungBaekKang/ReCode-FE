@@ -20,7 +20,7 @@ import ChangePassword from "./components/Mypage/ChangePassword";
 import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
 import StudyRoom_Detail from './components/StudyRoom/StudyRoom_Detail';
 import Board from "./components/StudyRoom/StudyRoom_Board";
-
+import Qna from "./components/Qna/Qna";
 
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/studyroom" element={<StudyRoom_Detail/>} />
           <Route path="/studyroom/board" element={<Board/>} />
+          <Route path="/qna" element={<Qna/>} />
         </Routes>
       </div>
     </Router>
