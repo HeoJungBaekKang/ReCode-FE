@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/memoize": "^0.8.1",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.1.4",
     "@testing-library/jest-dom": "^5.17.0",
@@ -13,7 +14,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
-    "react-scripts": "^5.0.1",
     "react-select": "^5.8.0",
     "react-slick": "^0.29.0",
     "tw-elements": "^1.0.0",
@@ -47,6 +47,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
+    "react-scripts": "^5.0.1",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "^3.3.5"
   }

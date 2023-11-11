@@ -21,7 +21,11 @@ import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
 import StudyRoom_Detail from './components/StudyRoom/StudyRoom_Detail';
 import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
-
+import HelpDesk from "./components/Mypage/StudyList";
+import StudyRoom_Post from './components/StudyRoom/StudyRoom_Post';
+import StudyRoom_Attendance from './components/StudyRoom/StudyRoom_Attendance';
+import QnaDetail from "./components/Qna/QnaDetail";
+import QnaPost from "./components/Qna/QnaPost";
 
 function App() {
   return (
@@ -47,13 +51,17 @@ function App() {
           <Route path="/mypage/multiselect" element={<MultiSelect />} />
           <Route path="/client/findId" element={<FindIdForm />} />
           <Route path="/client/findPassword" element={<FindPasswordForm />} />
-          <Route path="/client/changePassword" element={<ChangePasswordForm/>} />
           <Route path="/client/termsofService" element={<TermsofService/>} />
           <Route path="/client/findEmail" element={<FindEmailForm/>} />
           <Route path="/" element={<Main />} />
           <Route path="/studyroom" element={<StudyRoom_Detail/>} />
           <Route path="/studyroom/board" element={<Board/>} />
           <Route path="/qna" element={<Qna/>} />
+          <Route path="/qna/detail" element={<QnaDetail/>} />
+          <Route path="/qna/post" element={<QnaPost/>} />
+          <Route path="/mypage/helpDesk" element={<HelpDesk />} />
+          <Route path="/studyroom/post" element={<StudyRoom_Post />} />
+          <Route path="/studyroom/attendance" element={<StudyRoom_Attendance />} />
         </Routes>
       </div>
     </Router>

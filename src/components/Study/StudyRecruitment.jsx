@@ -1,7 +1,6 @@
 import { useState } from "react";
 import MultiSelect from "./MultiSelect";
 
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -10,7 +9,6 @@ export default function StudyRecruitment() {
   const [agreed, setAgreed] = useState(false);
 
   return (
-    
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
         className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
@@ -43,7 +41,6 @@ export default function StudyRecruitment() {
               >
                 모집인원
               </label>
-
               <select
                 id="max-num"
                 name="max-num"
@@ -65,15 +62,15 @@ export default function StudyRecruitment() {
           <div className="sm:col-span-2">
             <div className="w-48">
               <label
-                htmlFor="max-num"
+                htmlFor="skill"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
                 모집구분
               </label>
 
               <select
-                id="max-num"
-                name="max-num"
+                id="skill"
+                name="skill"
                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-"
               >
                 <option value="1">백엔드</option>
@@ -82,89 +79,87 @@ export default function StudyRecruitment() {
             </div>
           </div>
         </div>
-
-        <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="first-name"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
-              스터디 시작 날짜
-            </label>
-            <div className="mt-1">
-              <input
-                type="date"
-                name="start-date"
-                id="start-date"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div>
-            <label
-              htmlFor="end-date"
-              className="block text-sm font-semibold leading-6 text-gray-900"
-            >
-              스터디 종료 날짜
-            </label>
-            <div className="mt-1">
-              <input
-                type="date"
-                name="end-date"
-                id="end-date"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="title"
-              className="block text-sm font-semibold leading-2 text-gray-900"
-            >
-              스터디 이름
-            </label>
-            <div className="mt-2.5 mb-4">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                autoComplete="title"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-            <MultiSelect></MultiSelect>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="title"
-              className="block text-sm font-semibold leading-3 text-gray-900"
-            >
-              제목
-            </label>
-            <div className="mt-2.5">
-              <input
-                type="text"
-                name="title"
-                id="title"
-                autoComplete="title"
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <div className="mt-2.5">
-              <textarea
-                name="discription"
-                id="discription"
-                rows={11}
-                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                defaultValue={""}
-              />
-            </div>
+        <div>
+          <label
+            htmlFor="first-name"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            스터디 시작 날짜
+          </label>
+          <div className="mt-1">
+            <input
+              type="date"
+              name="start-date"
+              id="start-date"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
           </div>
         </div>
+        <div>
+          <label
+            htmlFor="end-date"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            스터디 종료 날짜
+          </label>
+          <div className="mt-1">
+            <input
+              type="date"
+              name="end-date"
+              id="end-date"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold leading-2 text-gray-900"
+          >
+            스터디 이름
+          </label>
+          <div className="mt-2.5 mb-4">
+            <input
+              type="text"
+              name="title"
+              id="title"
+              autoComplete="title"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+          <MultiSelect></MultiSelect>
+        </div>
+
+        <div className="sm:col-span-2 mt-2.5">
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold leading-3 text-gray-900"
+          >
+            제목
+          </label>
+          <div className="mt-2.5">
+            <input
+              type="text"
+              name="title"
+              id="title"
+              autoComplete="title"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+        <div className="sm:col-span-2">
+          <div className="mt-2.5">
+            <textarea
+              name="discription"
+              id="discription"
+              rows={11}
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              defaultValue={""}
+            />
+          </div>
+        </div>
+
         <div className="mt-10">
           <div className="flex gap-x-3">
             <button
