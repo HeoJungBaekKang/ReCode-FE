@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import { PencilIcon } from "@heroicons/react/24/solid";
 import {
     Card,
@@ -9,6 +10,7 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 import MypageSidebar from "./MypageSidebar";
+
 
 const TABLE_ROWS = [
     {
@@ -50,6 +52,9 @@ const TABLE_ROWS4 = [
 ];
 
 const Mypage_Myprofile = () => {
+
+    const navigate = useNavigate();
+
     return (
         <>
             <MypageSidebar />
@@ -103,8 +108,8 @@ const Mypage_Myprofile = () => {
                                                                 개인정보 수정
                                                             </Typography>
                                                             <Tooltip content="Edit User">
-                                                                <IconButton variant="text">
-                                                                    <PencilIcon className="h-4 w-4" />
+                                                                <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/modifyProfile')}>
+                                                                    <PencilIcon className="h-4 w-4 " />
                                                                 </IconButton>
                                                             </Tooltip>
                                                         </div>
@@ -123,7 +128,7 @@ const Mypage_Myprofile = () => {
                     <CardBody className="px-0">
                         <table className="mt-4 w-full min-w-max table-auto text-left">
                             <tbody>
-                                {TABLE_ROWS2.map(({ name, hasTooltip }, index) => {
+                                {TABLE_ROWS2.map(({ name }, index) => {
                                     const classes = index === TABLE_ROWS2.length - 1
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
@@ -143,8 +148,8 @@ const Mypage_Myprofile = () => {
                                                 </div>
                                             </td>
                                             <td className={classes}>
-                                                <Tooltip content="Edit User">
-                                                    <IconButton variant="text">
+                                                <Tooltip content="Write Essay">
+                                                    <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/essay')}>
                                                         <PencilIcon className="h-4 w-4" />
                                                     </IconButton>
                                                 </Tooltip>
@@ -178,7 +183,7 @@ const Mypage_Myprofile = () => {
                             <CardBody className="px-0">
                                 <table className="mt-4 w-full min-w-max table-auto text-left">
                                     <tbody>
-                                        {TABLE_ROWS3.map(({ name, hasTooltip }, index) => {
+                                        {TABLE_ROWS3.map(({ name }, index) => {
                                             const classes = index === TABLE_ROWS3.length - 1
                                                 ? "p-4"
                                                 : "p-4 border-b border-blue-gray-50";
@@ -198,8 +203,8 @@ const Mypage_Myprofile = () => {
                                                         </div>
                                                     </td>
                                                     <td className={classes}>
-                                                        <Tooltip content="Edit User">
-                                                            <IconButton variant="text">
+                                                        <Tooltip content="Edit Password">
+                                                            <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/changePassword')}>
                                                                 <PencilIcon className="h-4 w-4" />
                                                             </IconButton>
                                                         </Tooltip>
@@ -229,7 +234,7 @@ const Mypage_Myprofile = () => {
                             <CardBody className="px-0">
                                 <table className="mt-4 w-full min-w-max table-auto text-left">
                                     <tbody>
-                                        {TABLE_ROWS4.map(({ name, hasTooltip }, index) => {
+                                        {TABLE_ROWS4.map(({ name }, index) => {
                                             const classes = index === TABLE_ROWS4.length - 1
                                                 ? "p-4"
                                                 : "p-4 border-b border-blue-gray-50";
@@ -249,8 +254,8 @@ const Mypage_Myprofile = () => {
                                                         </div>
                                                     </td>
                                                     <td className={classes}>
-                                                        <Tooltip content="Edit User">
-                                                            <IconButton variant="text">
+                                                        <Tooltip content="Withdraw">
+                                                            <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/Withdraw')}>
                                                                 <PencilIcon className="h-4 w-4" />
                                                             </IconButton>
                                                         </Tooltip>

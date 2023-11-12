@@ -21,11 +21,14 @@ import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
 import StudyRoom_Detail from './components/StudyRoom/StudyRoom_Detail';
 import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
-import HelpDesk from "./components/Mypage/StudyList";
+import HelpDesk from "./components/StudyList";
 import StudyRoom_Post from './components/StudyRoom/StudyRoom_Post';
 import StudyRoom_Attendance from './components/StudyRoom/StudyRoom_Attendance';
 import QnaDetail from "./components/Qna/QnaDetail";
 import QnaPost from "./components/Qna/QnaPost";
+import StudyManagement from "./components/Admin/StudyManagement";
+import User_list from "./components/Admin/User_list";
+import Leader_Permission from "./components/Admin/Leader_Permission";
 
 function App() {
   return (
@@ -37,7 +40,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/join" element={<Join />} />
-          <Route path="/client/recruitment" element={<StudyRecruitment />} />
+          <Route path="/studyroom/recruitment" element={<StudyRecruitment />} />
           <Route path="/mypage" element={<MypageMain />} />
           <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
           <Route path="/mypage/myprofile/essay" element={<Essay />} />
@@ -62,6 +65,9 @@ function App() {
           <Route path="/mypage/helpDesk" element={<HelpDesk />} />
           <Route path="/studyroom/post" element={<StudyRoom_Post />} />
           <Route path="/studyroom/attendance" element={<StudyRoom_Attendance />} />
+          <Route path="/admin/studymanagement" element={<StudyManagement />} />
+          <Route path="/admin/userList" element={<User_list />} />
+          <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
         </Routes>
       </div>
     </Router>

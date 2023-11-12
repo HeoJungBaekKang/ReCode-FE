@@ -16,6 +16,58 @@ const posts = [
           'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
       },
     },
+    {
+      id: 1,
+      title: '카카오톡 클론 코딩 스터디',
+      href: '#',
+      description:
+        '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
+      date: 'Mar 16, 2020',
+      datetime: '2020-03-16',
+      category: { title: '', href: '#' },
+      author: {
+        name: '정성현',
+        role: 'user',
+        href: '#',
+        imageUrl:
+          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+    },
+    {
+      id: 1,
+      title: '카카오톡 클론 코딩 스터디',
+      href: '#',
+      description:
+        '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
+      date: 'Mar 16, 2020',
+      datetime: '2020-03-16',
+      category: { title: '', href: '#' },
+      author: {
+        name: '정성현',
+        role: 'user',
+        href: '#',
+        imageUrl:
+          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+    },
+    {
+      id: 1,
+      title: '카카오톡 클론 코딩 스터디',
+      href: '#',
+      description:
+        '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
+      date: 'Mar 16, 2020',
+      datetime: '2020-03-16',
+      category: { title: '', href: '#' },
+      author: {
+        name: '정성현',
+        role: 'user',
+        href: '#',
+        imageUrl:
+          'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+      },
+    },
+    
     // More posts...
   ]
   
@@ -29,9 +81,11 @@ const posts = [
               함께 배우고 성장해봐요! 
             </p>
           </div>
+          <div class="justify-items-stretch">
           <div className="mx-auto mt-10m max-w-2xl gap-y-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {posts.map((post) => (
-              <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
+          
+              <article key={post.id} className="flex max-w-xl flex-col items-start justify-between ">
                 <div className="flex items-center gap-x-4 text-xs">
                   <time dateTime={post.datetime} className="text-gray-500">
                     {post.date}
@@ -65,8 +119,11 @@ const posts = [
                   </div>
                 </div>
               </article>
+              
+              
             ))}
           </div>
+        </div>
         </div>
       </div>
     )

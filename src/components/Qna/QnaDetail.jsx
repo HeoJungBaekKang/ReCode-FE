@@ -7,11 +7,6 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 
-const TABLE_ROWS = [
-    {
-        name: "다른 계정과 연동을 하고 싶어서 이 계정은 탈퇴를 하려합니다.",
-    },
-];
 
 export default function QnaDetail() {
     const [isReplyOpen, setIsReplyOpen] = useState(false);

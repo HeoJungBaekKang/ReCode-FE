@@ -28,6 +28,19 @@ const TABLE_ROWS = [
     },
 ];
 
+const modalPosition = {
+    width: "70%",
+    maxWidth: "38rem",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+}
+
 const Withdraw = () => {
     const [showModal, setShowModal] = useState(false);
 
@@ -86,21 +99,20 @@ const Withdraw = () => {
                                 })}
                             </tbody>
                         </table>
-                        <br /><br /><br />
-                        <div className="flex justify-end space-x-4">
+                        <div className="flex justify-end space-x-4 mt-4">
                             <button
                                 type="button"
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 w-20 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                                 취소
                             </button>
                             <TERipple rippleColor="white">
                                 <button
                                     type="button"
-                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-20 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue mr-2"
                                     onClick={() => setShowModal(true)}
                                 >
-                                 탈퇴
+                                    탈퇴
                                 </button>
                             </TERipple>
                         </div>
@@ -110,36 +122,17 @@ const Withdraw = () => {
 
             {/* Modal */}
             <TEModal show={showModal} setShow={setShowModal}>
-                <TEModalDialog>
+                <TEModalDialog style={modalPosition}>
                     <TEModalContent>
                         <TEModalHeader>
                             <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                                 Recode
                             </h5>
-                            <button
-                                type="button"
-                                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
-                                onClick={() => setShowModal(true)}
-                                aria-label="Close"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="h-6 w-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
                         </TEModalHeader>
+                        <div className="mt-10 mb-10">
                         <TEModalBody>그동안 Recode 서비스를 이용해주셔서 감사드립니다.</TEModalBody>
-                        <TEModalFooter>
+                        </div>
+                        <TEModalFooter style={{ display: 'flex', justifyContent: 'center' }}>
                             <TERipple rippleColor="light">
                                 <button
                                     type="button"

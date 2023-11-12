@@ -1,11 +1,13 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import Slider from "react-slick";
 import "./Main.css";
 import Layout from "./LayoutGrid";
 import Search from "./Fix/Search";
 import MultiSelect from "./Study/MultiSelect";
-import StudyList from "./Mypage/StudyList";
+import StudyList from "./StudyList";
 import Dropdowns from "./Fix/Dropdowns"
+import Pagination from "./Fix/Pagination";
 
 
 const Main = () => {
@@ -18,15 +20,16 @@ const Main = () => {
     className: "theClass",
     arrows: false,
   };
+
+  const navigate  = useNavigate();
+
   return (
     <>
       <Layout>
         <section>
           <div
             id="slider-container"
-            class="w-1800px mx-auto 
-      mt-12"
-          >
+            class="w-1800px mx-auto mt-12">
             <Slider {...settings}>
               <article
                 style={{ display: "grid !important" }}
@@ -66,6 +69,10 @@ const Main = () => {
               </button>
             </div>
 
+            <button onClick={() => navigate('/studyroom/recruitment')} className="col-end-7 col-span-1 h-10">
+              스터디 생성
+            </button>
+
             <div className="col-end-9 col-span-2">
               <Search></Search>
             </div>
@@ -85,7 +92,7 @@ const Main = () => {
           </div>
         </div>
             <StudyList/>
-
+            <Pagination />
       </Layout>
     </>
   );
