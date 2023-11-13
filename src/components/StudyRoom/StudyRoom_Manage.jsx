@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 
@@ -8,7 +9,7 @@ const Manage = () => {
         CreateDate: '2023-11-13',
     };
 
-
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -25,7 +26,7 @@ const Manage = () => {
                         <div className="flex items-center space-x-60 mb-4">
                             <span className="text-xl mr-4 font-semibold">스터디 모집 글</span>
                             <div className="flex items-end">
-                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
+                                <button onClick={() => navigate('/studyroom/manage/modify')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
                                     버튼
                                 </button>
                             </div>
@@ -35,7 +36,9 @@ const Manage = () => {
                     <div className="flex items-center space-x-60 mb-4">
                         <span className="text-xl mr-4 font-semibold">스터디 신청 현황</span>
                         <div className="flex items-end">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
+                            <button 
+                                onClick={() => navigate('/studyroom/applicationdetail/:id')} 
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
                                 버튼
                             </button>
                         </div>
