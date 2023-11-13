@@ -1,8 +1,10 @@
 import React from 'react';
 
+
 export default function Pagination() {
     return (
-        <div>
+        <div className="relative mt-10 flex justify-center items-center">
+            <div className='flex justify-start w-full max-w-3xl space-x-4'>
             <nav aria-label="Page navigation example">
                 <ul className="list-style-none flex">
                     <li>
@@ -34,6 +36,7 @@ export default function Pagination() {
                     </li>
                 </ul>
             </nav>
+            </div>
         </div>
     );
 }

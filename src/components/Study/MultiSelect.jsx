@@ -12,12 +12,7 @@ function MultiSelect() {
 
   return (
     <div>
-      <label
-        htmlFor="multi"
-        className="block text-sm font-semibold leading-3 text-gray-900 mb-3"
-      >
-        관심기술스택
-      </label>
+
       <Select options={options} isMulti />
     </div>
   );
