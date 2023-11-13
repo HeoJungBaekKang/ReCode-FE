@@ -29,6 +29,7 @@ import QnaPost from "./components/Qna/QnaPost";
 import StudyManagement from "./components/Admin/StudyManagement";
 import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
+import ChatList from "./components/Chat/ChatList";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
           <Route path="/admin/studymanagement" element={<StudyManagement />} />
           <Route path="/admin/userList" element={<User_list />} />
           <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+          <Route path="/chat/chatList" element={<ChatList />} />
         </Routes>
       </div>
     </Router>
