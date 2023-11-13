@@ -14,7 +14,7 @@ import {
 } from "@material-tailwind/react";
 
 
-const StudyRoom_Detail = () => {
+const Detail = () => {
 
     // test
     const post = {
@@ -182,4 +182,4 @@ const StudyRoom_Detail = () => {
 };
 
 
-export default StudyRoom_Detail;
+export default Detail;

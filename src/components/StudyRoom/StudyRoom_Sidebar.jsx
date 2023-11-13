@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 
-function StudyRoom_Sidebar() {
+function Sidebar() {
 
   const [isAdmin, setIsAdmin] = useState(true);
   const userRole = 'admin';
@@ -66,7 +66,6 @@ function StudyRoom_Sidebar() {
 
 
 
-
             {/* 관리자만 볼 수 있는 메뉴 */}
             {isAdmin && (
               <li>
@@ -78,6 +77,9 @@ function StudyRoom_Sidebar() {
                 </a>
               </li>
             )}
+
+          
+
           </ul>
         </div>
       </aside>
@@ -85,4 +87,4 @@ function StudyRoom_Sidebar() {
   );
 }
 
-export default StudyRoom_Sidebar;
+export default Sidebar;
