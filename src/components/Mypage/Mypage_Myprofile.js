@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { UserMinusIcon } from "@heroicons/react/24/outline";
 import {
     Card,
     CardHeader,
@@ -263,7 +264,7 @@ const Mypage_Myprofile = () => {
                                                     <td className={classes}>
                                                         <Tooltip content="Withdraw">
                                                             <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/Withdraw')}>
-                                                                <PencilIcon className="h-4 w-4" />
+                                                                <UserMinusIcon className="h-4 w-4" />
                                                             </IconButton>
                                                         </Tooltip>
                                                     </td>

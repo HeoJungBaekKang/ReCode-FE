@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 import {
     Card,
     CardHeader,
@@ -41,7 +44,35 @@ const modalPosition = {
     justifyContent: "center"
 }
 
-const Withdraw = () => {
+export default function Withdraw() {
+    const navigate = useNavigate();
+    const { authData } = useContext(AuthContext);
+    console.log(authData);
+
+    const handleWithdraw = async (event) => {
+        try {
+            await axios.post(`http://localhost:8081/api/v1/users/${authData.id}/delete`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        navigate("/");
+                    } else {
+                        console.log("계정 탈퇴 실패");
+                    }
+                });
+        } catch (error) {
+            console.error("계정 탈퇴 중 오류 발생 : ", error);
+        }
+    }
+
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -108,7 +139,7 @@ const Withdraw = () => {
                             </button>
                             <TERipple rippleColor="white">
                                 <button
-                                    type="button"
+                                    type="submit"
                                     className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 w-20 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue mr-2"
                                     onClick={() => setShowModal(true)}
                                 >
@@ -137,7 +168,7 @@ const Withdraw = () => {
                                 <button
                                     type="button"
                                     className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                                    onClick={() => setShowModal(false)}
+                                    onClick={() => {setShowModal(false); handleWithdraw();}}
                                 >
                                     확인
                                 </button>
@@ -148,6 +179,4 @@ const Withdraw = () => {
             </TEModal>
         </>
     );
-};
-
-export default Withdraw;
+}

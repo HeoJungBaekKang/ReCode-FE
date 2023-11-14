@@ -29,7 +29,7 @@ export default function Essay() {
                     if (code === 1) {
                         console.log(essay);
                         console.log("자기 소개서 등록 성공");
-                        navigate("/mypage/myprofile");
+                        navigate("/mypage/myprofile/modifyProfile");
                     } else {
                         console.log("자기 소개서 등록 실패");
                     }
