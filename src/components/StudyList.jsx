@@ -214,7 +214,7 @@ export default function StudyList() {
     // More posts...
   ]
   const chunkedPosts = chunk(posts, 9)
-  
+
   const [currentPage, setCurrentPage] = useState(0)
 
   return (
@@ -236,6 +236,9 @@ export default function StudyList() {
                       <time dateTime={post.datetime} className="text-gray-500">
                         {post.date}
                       </time>
+                      <div className="bg-green-400 text-white text-xs px-2 py-1 rounded-full">
+                        모집중
+                      </div>
                       <a
                         href={post.category.href}
                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
