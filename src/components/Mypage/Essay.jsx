@@ -39,8 +39,6 @@ export default function Essay() {
         }
     };
 
-    const [essayData, setEssayData] = useState([]);
-
 
     const handleGet = async () => {
         try {
