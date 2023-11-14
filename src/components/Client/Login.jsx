@@ -12,15 +12,15 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post("http://localhost:8081/api/login", {
         username,
         password,
       });
-  
+
       const { code, data } = response.data;
-  
+
       if (code === 1) {
         const { id, username, nickname, createdAt } = data;
         const token = response.headers.authorization;
