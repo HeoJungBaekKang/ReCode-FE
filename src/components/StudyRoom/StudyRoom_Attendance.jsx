@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 
-const StudyRoom_Attendance = () => {
+const Attendance = () => {
 
     // test
     const date = {
@@ -97,4 +97,4 @@ const StudyRoom_Attendance = () => {
     );
 }
 
-export default StudyRoom_Attendance;
+export default Attendance;

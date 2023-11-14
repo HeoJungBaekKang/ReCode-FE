@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 
 function MultiSelect() {
+  
   const options = [
     { value: "java", label: "자바" },
     { value: "spring", label: "스프링" },

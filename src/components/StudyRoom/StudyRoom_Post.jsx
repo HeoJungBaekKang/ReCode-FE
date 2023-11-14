@@ -1,7 +1,7 @@
 import React from "react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
-const StudyRoom_Post = () => {
+const Post = () => {
     return (
         <div>
             <StudyRoom_Sidebar />
@@ -68,4 +68,4 @@ const StudyRoom_Post = () => {
     );
 }
 
-export default StudyRoom_Post;
+export default Post;

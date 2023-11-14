@@ -7,7 +7,6 @@ import Search from "./Fix/Search";
 import MultiSelect from "./Study/MultiSelect";
 import StudyList from "./StudyList";
 import Dropdowns from "./Fix/Dropdowns"
-import Pagination from "./Fix/Pagination";
 
 
 const Main = () => {
@@ -92,7 +91,6 @@ const Main = () => {
           </div>
         </div>
             <StudyList/>
-            <Pagination />
       </Layout>
     </>
   );

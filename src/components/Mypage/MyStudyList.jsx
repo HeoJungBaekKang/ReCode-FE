@@ -219,7 +219,7 @@ export default function MyStudyList() {
     return (
         <div className="bg-white py-24 sm:py-5">
             <div className="mx-auto max-w-9xl px-6 lg:px-8">
-                <div className="mx-auto mt-10m max-w-2xl gap-y-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+                <div className="mx-auto mt-10m gap-y-4 gap-x-6 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                     {chunkedPosts[currentPage].map((post) => (
                         <article key={post.id} className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md">
                             <div className="flex items-center gap-x-4 text-xs">
