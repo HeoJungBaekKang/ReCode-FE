@@ -1,10 +1,51 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate, useParams } from 'react-router-dom';
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
+import axios from 'axios';
 
-const Board = () => {
+export default function Board() {
     const [isOpen, setIsOpen] = useState(false);
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
+    const { authData } = useContext(AuthContext);
+    const { study_id } = useParams();
+
+    const [currentPage, setCurrentPage] = useState(0)
+
+    const [posts, setPost] = useState([]);
+
+    const handleGet = async () => {
+        try {
+            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/list`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    setPost(response.data.data || []);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("게시글 목록 조회 성공");
+                    } else {
+                        console.log("게시글 목록 조회 실패");
+                    }
+                });
+        } catch (error) {
+            console.error("게시글 목록 조회 중 오류 발생 : ", error);
+            console.log(error.response);
+        }
+    }
+
+    const chunkedPosts = chunk(posts, 10)
+
+    useEffect(() => {
+        handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
+    }, []);
 
     return (
         <>
@@ -74,165 +115,62 @@ const Board = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
+                                {chunkedPosts && chunkedPosts[currentPage] && chunkedPosts[currentPage].map((post, index) => (
+                                    <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td className="w-20 p-4">
+                                            <div className="flex items-center">
+                                                {post.id}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {post.category}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {post.title}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {post.nickname}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {post.createdAt}
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div className='mt-10 flex justify-center'>
+            <div className="mt-6 flex justify-center">
                 <nav aria-label="Page navigation example">
-                    <ul class="list-style-none flex">
-                        <li>
-                            <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                href="#"
-                                aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                href="#"
-                            >1</a
+                    <ul className="list-style-none flex">
+                        <li key="previous-button">
+                            <button
+                                disabled={currentPage === 0}
+                                onClick={() => setCurrentPage(currentPage - 1)}
+                                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                             >
+                                Previous
+                            </button>
                         </li>
-                        <li aria-current="page">
-                            <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                href="#"
-                            >2</a
+                        {chunkedPosts.map((_, index) => (
+                            <li key={`page-button-${index}`}>
+                                <button
+                                    onClick={() => setCurrentPage(index)}
+                                    className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage ? 'text-neutral-50 bg-blue-200' : 'text-neutral-600'} transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                                >
+                                    {index + 1}
+                                </button>
+                            </li>
+                        ))}
+                        <li key="next-button">
+                            <button
+                                disabled={currentPage === chunkedPosts.length - 1}
+                                onClick={() => setCurrentPage(currentPage + 1)}
+                                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                             >
-                        </li>
-                        <li>
-                            <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                href="#"
-                            >3</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                href="#"
-                                aria-label="Next"
-                            ><span aria-hidden="true">&raquo;</span>
-                            </a>
+                                Next
+                            </button>
                         </li>
                     </ul>
                 </nav>
@@ -241,4 +179,13 @@ const Board = () => {
     );
 }
 
-export default Board;
+function chunk(array, size) {
+    const chunked_arr = []
+    let copied = [...array]
+
+    while (copied.length > 0) {
+        chunked_arr.push(copied.splice(0, size))
+    }
+
+    return chunked_arr
+}
