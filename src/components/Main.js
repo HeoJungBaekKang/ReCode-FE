@@ -68,7 +68,7 @@ const Main = () => {
               </button>
             </div>
 
-            <button onClick={() => navigate('/studyroom/recruitment')} className="col-end-7 col-span-1 h-10">
+            <button onClick={() => navigate('/client/recruitment')} className="col-end-7 col-span-1 h-10">
               스터디 생성
             </button>
 
