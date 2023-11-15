@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const PostDetail = () => {
     const { postId } = useParams();
+    const [postData, setPostData] = useState(null);
+
+    useEffect(() => {
+        // postId를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
+        const fetchPostData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8081/api/posts/${postId}`);
+                setPostData(response.data);
+            } catch (error) {
+                console.error("글 정보를 가져오는 중 오류 발생:", error);
+            }
+        };
+
+        fetchPostData();
+    }, [postId]);
+
+
 
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([
@@ -14,7 +32,7 @@ const PostDetail = () => {
 
 
     // 예시 데이터
-    const postData = {
+    const data = {
         id: postId,
         title: "쪄뉸낌찌찌꺠까쬬아요",
         author: "huno",
@@ -61,11 +79,11 @@ const PostDetail = () => {
                     <label className="block text-xl font-semibold mb-8">게시글 상세보기</label>
 
                     <div className="mb-4">
-                        <p className="text-lg font-semibold mb-2">{postData.title}</p>
+                        <p className="text-lg font-semibold mb-2">{data.title}</p>
                         <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                            글 번호: {postData.id} | 작성자: {postData.author} | 작성일: {postData.date}
+                            글 번호: {data.id} | 작성자: {data.author} | 작성일: {data.date}
                         </p>
-                        <p className="text-gray-700 dark:text-white">{postData.content}</p>
+                        <p className="text-gray-700 dark:text-white">{data.content}</p>
                     </div>
 
                     {/* 수정 버튼과 삭제 버튼 */}
@@ -127,7 +145,7 @@ const PostDetail = () => {
                     </div>
 
 
-                  
+
                 </div>
             </div>
         </div>

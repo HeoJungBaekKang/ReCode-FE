@@ -4,7 +4,7 @@ import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const Board = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const navigate  = useNavigate();
+    const navigate = useNavigate();
 
     return (
         <>
@@ -74,75 +74,6 @@ const Board = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td className="w-20 p-4">
-                                        <div className="flex items-center">
-                                            글번호
-                                        </div>
-                                    </td>
-                                    <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <div className="pl-3">
-                                            <div className="text-base font-semibold">카테고리</div>
-                                        </div>
-                                    </th>
-                                    <td className="px-6 py-4">
-                                        글 제목
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">
-                                            작성자
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center">작성일</div>
-                                    </td>
-                                </tr>
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td className="w-20 p-4">
                                         <div className="flex items-center">
