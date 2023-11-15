@@ -32,8 +32,8 @@ import Leader_Permission from "./components/Admin/Leader_Permission";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
 import StudyRoom_Manage from "./components/StudyRoom/StudyRoom_Manage";
-import ApplicationStatus from "./components/StudyRoom/StudyRoom_ApplicationStatus";
-import ApplicationDetail from "./components/StudyRoom/StudyRoom_ApplicationDetail";
+import ApplicationStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
+import ApplicationDetail from "./components/StudyRoom/StudyRoom_ManageApplicationDetail";
 import StudyModify from "./components/StudyRoom/StudyModify";
 import StudyRoomNotLogin from "./components/StudyRoom/StudyroomDetailNotLogin";
 

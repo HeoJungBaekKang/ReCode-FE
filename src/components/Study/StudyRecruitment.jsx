@@ -1,15 +1,48 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import MultiSelect from "./MultiSelect";
+import axios from 'axios';
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function StudyRecruitment() {
-  const [agreed, setAgreed] = useState(false);
-  const navigate  = useNavigate();
+ const navigate = useNavigate();
 
+  const { setAuthData } = useContext(AuthContext);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8081/api/login", {
+        username,
+        password,
+      });
+
+      const { code, data } = response.data;
+
+      if (code === 1) {
+        const { id, username, createdAt } = data;
+        const token = response.headers.authorization;
+        setAuthData({ id, username, createdAt, token });
+        localStorage.setItem("token", token);
+        console.log("로그인 성공");
+        navigate("/");
+      } else {
+        console.log("로그인 실패");
+      }
+    } catch (error) {
+      console.error("로그인 요청 중 오류 발생:", error);
+    }
+  };
+
+
+  //============
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
       <div
