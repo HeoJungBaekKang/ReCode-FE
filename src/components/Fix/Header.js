@@ -10,7 +10,8 @@ const Main = () => {
     const handleLogout = () => {
         setAuthData({});
         localStorage.removeItem("token");
-
+        localStorage.removeItem("authData");  // authData를 로컬 스토리지에서 삭제
+    
         navigate('/');
     };
 

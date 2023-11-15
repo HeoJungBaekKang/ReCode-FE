@@ -22,10 +22,13 @@ export default function Login() {
       const { code, data } = response.data;
 
       if (code === 1) {
-        const { id, username, createdAt } = data;
+        const { id, username, nickname, createdAt } = data;
         const token = response.headers.authorization;
-        setAuthData({ id, username, createdAt, token });
+        const newAuthData = { id, username, nickname, createdAt, token };
+        console.log(newAuthData);
+        setAuthData(newAuthData);
         localStorage.setItem("token", token);
+        localStorage.setItem("authData", JSON.stringify(newAuthData)); // authData를 로컬 스토리지에 저장
         console.log("로그인 성공");
         navigate("/");
       } else {

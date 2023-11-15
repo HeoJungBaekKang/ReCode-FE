@@ -15,15 +15,15 @@ import MypageSidebar from "./MypageSidebar";
 const TABLE_ROWS = [
     {
         name: "아이디",
-    },
-    {
-        name: "이름",
+        data: "username",
     },
     {
         name: "닉네임",
+        data: "nickname",
     },
     {
         name: "이메일",
+        data: "email",
     },
     {
         hasTooltip: true, // 툴팁을 추가할 요소에 대한 플래그
@@ -75,7 +75,7 @@ const Mypage_Myprofile = () => {
                     <CardBody className="px-0">
                         <table className="mt-4 w-full min-w-max table-auto text-left">
                             <tbody>
-                                {TABLE_ROWS.map(({ name, hasTooltip }, index) => {
+                                {TABLE_ROWS.map(({ name, data, hasTooltip }, index) => {
                                     const classes = index === TABLE_ROWS.length - 1
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
@@ -91,11 +91,18 @@ const Mypage_Myprofile = () => {
                                                         >
                                                             {name}
                                                         </Typography>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className={classes}>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="flex flex-col">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
-                                                            className="font-normal opacity-70"
+                                                            className="font-normal"
                                                         >
+                                                            {data}
                                                         </Typography>
                                                     </div>
                                                     {hasTooltip && (

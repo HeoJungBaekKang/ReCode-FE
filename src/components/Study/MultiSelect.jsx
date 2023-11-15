@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 
-function MultiSelect() {
-  
+function MultiSelect({ value, onChange }) {
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const options = [
     { value: "java", label: "자바" },
     { value: "spring", label: "스프링" },
@@ -11,10 +12,22 @@ function MultiSelect() {
     { value: "javascript", label: "javascript" },
   ];
 
+  const handleChange = (selected) => {
+    setSelectedOptions(selected);
+   
+    if (onChange) {
+      onChange(selected.map(option => option.value));
+    }
+  };
+
   return (
     <div>
-
-      <Select options={options} isMulti />
+      <Select
+        options={options}
+        isMulti
+        value={selectedOptions}
+        onChange={handleChange}
+      />
     </div>
   );
 }
