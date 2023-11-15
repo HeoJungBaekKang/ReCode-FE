@@ -38,6 +38,7 @@ import Detail from './components/StudyRoom/StudyRoom_Detail';
 import Post from './components/StudyRoom/StudyRoom_Post';
 import Attendance from './components/StudyRoom/StudyRoom_Attendance';
 import Manage from "./components/StudyRoom/StudyRoom_Manage";
+import ModifySkill from "./components/Admin/ModifySkill";
 
 
 function App() {
@@ -90,6 +91,7 @@ function App() {
             <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />
             <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+            <Route path="/admin/modifyskill" element={<ModifySkill />} />
           </Routes>
         </div>
       </AuthProvider>
