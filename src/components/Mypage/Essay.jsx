@@ -23,7 +23,7 @@ export default function Essay() {
             })
                 .then(response => {
                     console.log(response.data);
-
+                    console.log(response.data.essay);
                     const code = response.data.code;
 
                     if (code === 1) {
