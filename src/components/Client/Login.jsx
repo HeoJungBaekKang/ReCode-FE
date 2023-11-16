@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
+
   const navigate = useNavigate();
 
   const { setAuthData } = useContext(AuthContext);
@@ -39,6 +40,7 @@ export default function Login() {
     }
   };
 
+ 
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

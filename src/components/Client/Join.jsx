@@ -1,24 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 
+const CheckUsernameDuplicate = async(username)=> {
+
+  try{
+    const response = await fetch( `http://localhost:8081/api/user-name/${username}/exists`);
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
+return result;
+
+  }
+  catch(error){
+return "err"
+  }
+}
+
 export default function Join() {
+  const [username, setUsername] = useState(""); // 아이디 상태 변수
+
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "",
     password: "",
     email: "",
     nickname: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+      const usernameHandler = (e) => {
+      setUsername(e.target.value);
+      console.log(username)
+      };
+
+    const handlename = async () =>{
+      const currentName = username
+      const result = await CheckUsernameDuplicate(currentName);
+      console.log(result.code)
+      if (result.code === 1) {
+        // 사용 가능한 아이디
+        alert("사용 가능한 아이디입니다.");
+       
+      } else if (result.code === -1) {
+        // 이미 사용 중인 아이디
+        alert("이미 사용 중인 아이디입니다.");
+      } 
+    } 
+
+  const handleInputChange = () => {};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,12 +97,14 @@ export default function Join() {
                   type="text"
                   autoComplete="username"
                   required
-                  value={formData.username}
-                  onChange={handleInputChange}
+                  value={username}
+                  onChange={usernameHandler}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
+                  name="idCheck"
+                  onClick={handlename}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
                     hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
@@ -189,3 +222,4 @@ export default function Join() {
     </>
   );
 }
+
