@@ -1,9 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
+import { UserMinusIcon } from "@heroicons/react/24/outline";
+import {
+    IconButton,
+    Tooltip,
+} from "@material-tailwind/react";
 import axios from "axios";
 
 export default function MyStudyList() {
+
+    const navigate = useNavigate();
 
     const { authData } = useContext(AuthContext);
     const { user_id } = useParams();
@@ -55,8 +63,18 @@ export default function MyStudyList() {
                                 <div className="text-gray-500">
                                     {post.study_name}
                                 </div>
-                                <div className="bg-green-400 text-white text-xs px-2 py-1 rounded-full">
+                                <div className={`text-xs px-2 py-1 rounded-full ${post.status === '거절됨' ? 'bg-red-400 text-white' :
+                                    post.status === '대기중' ? 'bg-gray-400 text-white' :
+                                        'bg-green-400 text-white'
+                                    }`}>
                                     {post.status}
+                                </div>
+                                <div className="flex justify-end flex-grow">
+                                    <Tooltip content="Remove">
+                                        <IconButton variant="text" onClick={() => navigate('/')}>
+                                            <UserMinusIcon className="h-4 w-4" />
+                                        </IconButton>
+                                    </Tooltip>
                                 </div>
                             </div>
                             <div className="flex items-start text-sm">
