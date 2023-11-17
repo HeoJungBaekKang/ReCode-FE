@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://localhost:8081/api/v1/study/1/list`;
+            let url = `http://localhost:8081/api/v1/study/${study_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
