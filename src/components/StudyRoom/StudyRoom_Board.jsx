@@ -6,11 +6,13 @@ import axios from 'axios';
 
 export default function Board() {
     const [isOpen, setIsOpen] = useState(false);
+    const [currentCategory, setCurrentCategory] = useState('카테고리');
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
     const { study_id } = useParams();
 
     const [keyword, setKeyword] = useState("");
+    const [category, setCategory] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(0)
 
@@ -18,7 +20,15 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
+            let url = `http://localhost:8081/api/v1/study/1/list`;
+            if (keyword) {
+                url += `?keyword=${keyword}`;
+            }
+            if (category !== null) { // 카테고리가 설정된 경우에만 카테고리를 요청에 포함
+                const separator = keyword ? '&' : '?';
+                url += `${separator}category=${category}`;
+            }
+            await axios.get(url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -42,12 +52,32 @@ export default function Board() {
             console.log(error.response);
         }
     }
+    
+    const handleCategoryChange = (category) => {
+        setCurrentCategory(category || '카테고리');
+        let categoryNumber;
+        switch (category) {
+            case '공지사항':
+                categoryNumber = 0;
+                break;
+            case '회고록':
+                categoryNumber = 1;
+                break;
+            case '자료공유':
+                categoryNumber = 2;
+                break;
+            default:
+                categoryNumber = null;
+        }
+        setCategory(categoryNumber);
+        handleGet(); // 카테고리가 변경될 때마다 handleGet 호출
+    }
 
     const chunkedPosts = chunk(posts, 10)
 
     useEffect(() => {
         handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
-    }, [keyword]);
+    }, [keyword, category]);
 
     return (
         <>
@@ -62,21 +92,24 @@ export default function Board() {
                                     type="button"
                                     onClick={() => setIsOpen(!isOpen)}>
                                     <span className="sr-only">Action button</span>
-                                    카테고리
+                                    {currentCategory}
                                     <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                                     </svg>
                                 </button>
-                                <div id="dropdownAction" className={`absolute z-10 ${isOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
+                                <div id="dropdownAction" className={`absolute z-10 ${isOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 mt-2`}>
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200 mt-2" aria-labelledby="dropdownActionButton">
                                         <li>
-                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">공지사항</a>
+                                            <button className="block px-4 py-2 bg-transparent border-0 text-black hover:bg-transparent dark:hover:bg-transparent dark:hover:text-black" onClick={() => handleCategoryChange('공지사항')}>공지사항</button>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">회고록</a>
+                                            <button className="block px-4 py-2 bg-transparent border-0 text-black hover:bg-transparent dark:hover:bg-transparent dark:hover:text-black" onClick={() => handleCategoryChange('회고록')}>회고록</button>
                                         </li>
                                         <li>
-                                            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">자료공유</a>
+                                            <button className="block px-4 py-2 bg-transparent border-0 text-black hover:bg-transparent dark:hover:bg-transparent dark:hover:text-black" onClick={() => handleCategoryChange('자료공유')}>자료공유</button>
+                                        </li>
+                                        <li>
+                                            <button className="block px-4 py-2 bg-transparent border-0 text-black hover:bg-transparent dark:hover:bg-transparent dark:hover:text-black" onClick={() => handleCategoryChange(null)}>전체보기</button>
                                         </li>
                                     </ul>
                                 </div>
@@ -198,39 +231,39 @@ function SearchBox({ keyword, setKeyword }) {
     const { study_id } = useParams();
 
     const [results, setResults] = useState([]);
-  
+
     useEffect(() => {
-      if (keyword) {
-        axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authData.token}`
-          }
-        })
-          .then(response => {
-            setResults(response.data.data || []);
-          })
-          .catch(error => {
-            console.error("Error fetching data: ", error);
+        if (keyword) {
+            axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    setResults(response.data.data || []);
+                })
+                .catch(error => {
+                    console.error("Error fetching data: ", error);
+                    setResults([]);
+                });
+        } else {
             setResults([]);
-          });
-      } else {
-        setResults([]);
-      }
+        }
     }, [keyword]);
-  
+
     const handleInputChange = (event) => {
-      setKeyword(event.target.value);
+        setKeyword(event.target.value);
     };
-  
+
     return (
-      <input
-        type="text"
-        id="table-search-users"
-        className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="검색어를 입력해주세요."
-        value={keyword}
-        onChange={handleInputChange}
-      />
+        <input
+            type="text"
+            id="table-search-users"
+            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="검색어를 입력해주세요."
+            value={keyword}
+            onChange={handleInputChange}
+        />
     );
-  }
+}

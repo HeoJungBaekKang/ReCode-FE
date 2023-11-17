@@ -62,7 +62,7 @@ function App() {
             <Route path="/client/findPassword" element={<FindPasswordForm />} />
             <Route path="/client/termsofService" element={<TermsofService />} />
             <Route path="/client/findEmail" element={<FindEmailForm />} />
-            <Route path="/mypage/:user_id" element={<MypageMain />} />
+            <Route path="/mypage" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
