@@ -91,10 +91,10 @@ export default function Join() {
     }
   }
 
-  const handleInputChange = (evnet) => {
+  const handleInputChange = (event) => {
     setFormData({
       ...formData,
-      [evnet.target.name]: evnet.target.value,
+      [event.target.name]: event.target.value,
     });
   };
 
