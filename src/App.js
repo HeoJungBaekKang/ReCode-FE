@@ -62,7 +62,7 @@ function App() {
             <Route path="/client/findPassword" element={<FindPasswordForm />} />
             <Route path="/client/termsofService" element={<TermsofService />} />
             <Route path="/client/findEmail" element={<FindEmailForm />} />
-            <Route path="/mypage" element={<MypageMain />} />
+            <Route path="/mypage/:user_id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
@@ -73,7 +73,7 @@ function App() {
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
             <Route path="/studyroom" element={<Detail />} />
             <Route path="/studyroomNotLogin" element={<StudyRoomNotLogin />} />
-            <Route path="/studyroom/:study_id/board" element={<Board />} />
+            <Route path="/studyroom/board" element={<Board />} />
             <Route path="/studyroom/post" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />

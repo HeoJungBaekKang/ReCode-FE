@@ -10,13 +10,15 @@ export default function Board() {
     const { authData } = useContext(AuthContext);
     const { study_id } = useParams();
 
+    const [keyword, setKeyword] = useState("");
+
     const [currentPage, setCurrentPage] = useState(0)
 
     const [posts, setPost] = useState([]);
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/list`, {
+            await axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -45,7 +47,7 @@ export default function Board() {
 
     useEffect(() => {
         handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
-    }, []);
+    }, [keyword]);
 
     return (
         <>
@@ -66,7 +68,7 @@ export default function Board() {
                                     </svg>
                                 </button>
                                 <div id="dropdownAction" className={`absolute z-10 ${isOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
-                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+                                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200 mt-2" aria-labelledby="dropdownActionButton">
                                         <li>
                                             <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">공지사항</a>
                                         </li>
@@ -90,7 +92,7 @@ export default function Board() {
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                         </svg>
                                     </div>
-                                    <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요." />
+                                    <SearchBox keyword={keyword} setKeyword={setKeyword} />
                                 </div>
                             </div>
                         </div>
@@ -189,3 +191,46 @@ function chunk(array, size) {
 
     return chunked_arr
 }
+
+function SearchBox({ keyword, setKeyword }) {
+
+    const { authData } = useContext(AuthContext);
+    const { study_id } = useParams();
+
+    const [results, setResults] = useState([]);
+  
+    useEffect(() => {
+      if (keyword) {
+        axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData.token}`
+          }
+        })
+          .then(response => {
+            setResults(response.data.data || []);
+          })
+          .catch(error => {
+            console.error("Error fetching data: ", error);
+            setResults([]);
+          });
+      } else {
+        setResults([]);
+      }
+    }, [keyword]);
+  
+    const handleInputChange = (event) => {
+      setKeyword(event.target.value);
+    };
+  
+    return (
+      <input
+        type="text"
+        id="table-search-users"
+        className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="검색어를 입력해주세요."
+        value={keyword}
+        onChange={handleInputChange}
+      />
+    );
+  }
