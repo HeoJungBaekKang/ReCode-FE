@@ -38,20 +38,50 @@
 
 // export default MultiSelect;
 
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
+import axios from "axios";
+
 function MultiSelect() {
-  const options = [
-    { value: "java", label: "자바" },
-    { value: "spring", label: "스프링" },
-    { value: "c언어", label: "c언어" },
-    { value: "react", label: "react" },
-    { value: "javascript", label: "javascript" },
-  ];
+  const { authData } = useContext(AuthContext);
+  const [skills, setSkills] = useState([]);
+
+  useEffect(() => {
+    const handleGet = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8081/api/v1/get-skills`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData.token}`
+          }
+        });
+
+        console.log(response.data);
+
+        const code = response.data.code;
+        if (code === 1) {
+          console.log("스택 목록 불러오기 성공");
+          setSkills(response.data.data.skills || []);
+        } else {
+          console.log("스택 목록 불러오기 실패");
+        }
+      } catch (error) {
+        console.error("스택 목록 불러오기 중 오류 : ", error);
+        console.log(error.response);
+      }
+    };
+
+    handleGet();
+  }, [authData.token]);
+
+  const options = skills.map(skill => ({ value: skill, label: skill }));
+
   return (
     <div>
       <Select options={options} isMulti />
     </div>
   );
 }
+
 export default MultiSelect;

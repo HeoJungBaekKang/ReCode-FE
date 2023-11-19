@@ -61,24 +61,24 @@ export default function StudyRecruitment() {
       });
   };
 
-  // const handleSkillsChange = (event) => {
-  //   const { name, value } = event.target;
+  const handleSkillsChange = (event) => {
+    const { name, value } = event.target;
 
-  //   if (event.target.multiple) {
-  //     // 멀티셀렉트 처리
-  //     const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-  //     setWrite({
-  //       ...write,
-  //       [name]: selectedOptions,
-  //     });
-  //   } else {
-  //     // 단일 선택 처리
-  //     setWrite({
-  //       ...write,
-  //       [name]: value,
-  //     });
-  //   }
-  // };
+    if (event.target.multiple) {
+      // 멀티셀렉트 처리
+      const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
+      setWrite({
+        ...write,
+        [name]: selectedOptions,
+      });
+    } else {
+      // 단일 선택 처리
+      setWrite({
+        ...write,
+        [name]: value,
+      });
+    }
+  };
 
   return (
     <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-xl sm:mt-20">
@@ -211,7 +211,7 @@ export default function StudyRecruitment() {
         </div>
       </div>
 
-      {/* <MultiSelect name="skills" onChange={handleCustomSelectChange} /> */}
+      <MultiSelect name="skills" onChange={handleCustomSelectChange} />
       <div className="sm:col-span-2 mt-2.5">
         <label
           htmlFor="title"

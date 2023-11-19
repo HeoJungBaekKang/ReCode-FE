@@ -16,13 +16,13 @@ export default function ModifySkill() {
     const { authData } = useContext(AuthContext);
 
     const [skill, setSkill] = useState({
-        skill: "",
+        skills: "",
     });
 
 
-    const handleGet = async () => {
+    const handlePost = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/`, {
+            await axios.post(`http://localhost:8081/api/v1/amin/addskill`, skill, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -36,20 +36,17 @@ export default function ModifySkill() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("등록된 스킬 조회 성공");
+                        console.log("스택 등록 성공");
                     } else {
-                        console.log("등록된 스킬 조회 실패");
+                        console.log("스택 등록 실패");
                     }
                 });
         } catch (error) {
-            console.error("등록된 스킬 조회 중 오류 발생 : ", error);
+            console.error("스택 등록 중 오류 발생 : ", error);
         }
     };
 
-    useEffect(() => {
-        handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
-    }, []);
-
+    
     return (
         <>
             <AdminSidebar />
@@ -86,8 +83,8 @@ export default function ModifySkill() {
                                                 id="skill"
                                                 rows="3"
                                                 className="block p-2.5 max-w-[400px] mt-3 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-4 mr-4"
-                                                value={skill.skill || ''}
-                                                onChange={(e) => setSkill({ ...skill, skill: e.target.value })}
+                                                value={skill.skills || ''}
+                                                onChange={(e) => setSkill({ ...skill, skills: e.target.value })}
                                             ></textarea>
                                         </div>
                                     </td>
@@ -95,13 +92,14 @@ export default function ModifySkill() {
                             </tbody>
                         </table>
                         <div className="flex justify-end mt-4">
-                        <button
-                            type="submit"
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            완료
-                        </button>
-                    </div>
+                            <button
+                                type="submit"
+                                onClick={handlePost}
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                                완료
+                            </button>
+                        </div>
                     </CardBody>
                 </Card>
             </div >

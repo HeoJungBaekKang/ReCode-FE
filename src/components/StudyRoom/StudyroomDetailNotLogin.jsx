@@ -19,7 +19,7 @@ const StudyRoomNotLogin = () => {
         current_num: "",
         max_num: "",
         master: "",
-        skillNames: "",
+        skillNames: [],
         createdAt: "",
         updatedAt: "",
     });
@@ -72,7 +72,7 @@ const StudyRoomNotLogin = () => {
                         </div>
                         <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                             <span className="mr-4">사용언어:</span>
-                            {detail.skillNames.map((skill, index) => (
+                            {Array.isArray(detail.skillNames) && detail.skillNames.map((skill, index) => ( // 배열인지 확인
                                 <span key={index} className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full">
                                     {skill}
                                 </span>

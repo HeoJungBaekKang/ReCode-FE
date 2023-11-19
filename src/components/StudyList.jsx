@@ -13,31 +13,58 @@ export default function StudyList() {
 
   const handleGet = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/main/list`, {
+      const headers = authData.userId
+        ? {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData.token}`,
+          }
+        : {
+            'Content-Type': 'application/json',
+          };
+  
+      const response = await axios.get(`http://localhost:8081/api/main/list`, { headers });
+  
+      console.log(response.data);
+  
+      setPost(response.data.data || []);
+  
+      const code = response.data.code;
+  
+      if (code === 1) {
+        console.log("스터디 목록 불러오기 성공");
+      } else {
+        console.log("스터디 목록 불러오기 실패");
+      }
+    } catch (error) {
+      console.error("스터디 목록 조회 중 오류 : ", error);
+    }
+  };  
+
+  const checkStudyRoomMembership = async (studyRoomId) => {
+    try {
+      const response = await axios.get(`http://localhost:8081/api/users/${authData.userId}/studyrooms/${studyRoomId}/isInStudyRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
         }
-      })
-        .then(response => {
-          console.log(response.data);
+      });
 
-          setPost(response.data);
-
-          setPost(response.data.data || []);
-
-          const code = response.data.code;
-
-          if (code === 1) {
-            console.log("스터디 목록 불러오기 성공");
-          } else {
-            console.log("스터디 목록 불러오기 실패");
-          }
-        });
+      return response.data.isInStudyRoom;
     } catch (error) {
-      console.error("스터디 목록 조회 중 오류 : ", error);
+      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
+
+      throw error;
     }
   }
+
+  const handleStudyRoomClick = async (studyRoomId) => {
+    if (authData.userId) {
+      const isInStudyRoom = await checkStudyRoomMembership(studyRoomId);
+      navigate(isInStudyRoom ? `/studyroom/${studyRoomId}` : `/studyroomNotLogin/${studyRoomId}`);
+    } else {
+      navigate(`/studyroomNotLogin/${studyRoomId}`);
+    }
+  }  
 
   const chunkedPosts = chunk(posts, 9)
 
@@ -89,11 +116,11 @@ export default function StudyList() {
                       ))}
                     </div>
                     <div className="group relative">
-                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                        <Link to={`/studyroom/${post.id}`}>
+                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
+                        <div onClick={() => handleStudyRoomClick(post.id)}>
                           <span className="absolute inset-0" />
                           {post.title}
-                        </Link>
+                        </div>
                       </h3>
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">
