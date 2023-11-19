@@ -71,7 +71,7 @@ function App() {
             <Route path="/mypage/myprofile/Withdraw" element={<Withdraw />} />
             <Route path="/mypage/multiselect" element={<MultiSelect />} />
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
-            <Route path="/studyroom" element={<Detail />} />
+            <Route path="/studyroom/:study_room_id" element={<Detail />} />
             <Route path="/studyroomNotLogin" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board" element={<Board />} />
             <Route path="/studyroom/post" element={<Post />} />

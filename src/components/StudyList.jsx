@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react"
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 export default function StudyList() {
@@ -90,10 +90,10 @@ export default function StudyList() {
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                        <a href="/">
+                        <Link to={`/studyroom/${post.id}`}>
                           <span className="absolute inset-0" />
                           {post.title}
-                        </a>
+                        </Link>
                       </h3>
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">
