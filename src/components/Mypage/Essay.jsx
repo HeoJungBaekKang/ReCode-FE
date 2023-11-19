@@ -42,7 +42,7 @@ export default function Essay() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/mypage/${authData.id}/getessay`, {
+            await axios.get(`http://localhost:8081/api/v1/mypage/${authData.id}/study-applications`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
