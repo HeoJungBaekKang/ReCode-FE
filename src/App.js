@@ -38,6 +38,8 @@ import Detail from './components/StudyRoom/StudyRoom_Detail';
 import Post from './components/StudyRoom/StudyRoom_Post';
 import Attendance from './components/StudyRoom/StudyRoom_Attendance';
 import Manage from "./components/StudyRoom/StudyRoom_Manage";
+import NoticePage from "./components/Pages/NoticePage";
+import NoticeForm from "./components/Notice/NoticeForm";
 
 
 function App() {
@@ -90,6 +92,8 @@ function App() {
             <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />
             <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+            <Route path="/notice" element={<NoticePage />} />
+            <Route path="/notice/create" element={<NoticeForm />} />
           </Routes>
         </div>
       </AuthProvider>
