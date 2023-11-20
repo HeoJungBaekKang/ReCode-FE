@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import {
     Card,
@@ -7,9 +7,13 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Noties() {
-    const [isOpen, setIsOpen] = useState(false)
+    const {authData} = useContext(AuthContext);
+    const [isOpen, setIsOpen] = useState(false);
+
+    console.log('관리자 권한 잘 넘어오나요?', authData);
 
     return (
         <>
@@ -111,11 +115,13 @@ export default function Noties() {
                                 </div>
                                 <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요." />
                             </div>
+                            {authData.isAdmin && (
                             <Link to={"/notice/create"}>
                             <button className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-20 px-3 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                 글 작성
                             </button>
                             </Link>
+                            )}
                         </div>
                     </div>
                 </div>
