@@ -53,7 +53,6 @@ function MultiSelect() {
         const response = await axios.get(`http://localhost:8081/api/v1/get-skills`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authData.token}`
           }
         });
 
