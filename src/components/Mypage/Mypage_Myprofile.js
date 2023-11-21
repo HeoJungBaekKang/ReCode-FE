@@ -253,7 +253,7 @@ export default function Mypage_Myprofile() {
                                                     </td>
                                                     <td className={classes}>
                                                         <Tooltip content="Edit Password">
-                                                            <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/changePassword')}>
+                                                            <IconButton variant="text" onClick={() => navigate('/email')}>
                                                                 <PencilIcon className="h-4 w-4" />
                                                             </IconButton>
                                                         </Tooltip>

@@ -88,7 +88,7 @@ export default function Login() {
                 </label>
                 <div className="text-sm">
                   <a
-                    href="/client/findPassword"
+                    href="/email"
                     className="font-semibold text-indigo-600 hover:text-red-500"
                   >
                     Forgot password?
