@@ -18,10 +18,6 @@ import Identifing from "./components/Mypage/Identifing";
 import ModifyProfile from "./components/Mypage/ModifyProfile";
 import ChangePassword from "./components/Mypage/ChangePassword";
 import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
-<<<<<<< HEAD
-import StudyRoom_Detail from "./components/StudyRoom/StudyRoom_Detail";
-=======
->>>>>>> b57d994e3a19035aa944e3d03df5f586104c0a69
 import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
@@ -32,23 +28,16 @@ import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
-<<<<<<< HEAD
-import StudyRoom_Manage from "./components/StudyRoom/StudyRoom_Manage";
-=======
->>>>>>> b57d994e3a19035aa944e3d03df5f586104c0a69
 import ApplicationStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
 import ApplicationDetail from "./components/StudyRoom/StudyRoom_ManageApplicationDetail";
 import StudyModify from "./components/StudyRoom/StudyModify";
 import StudyRoomNotLogin from "./components/StudyRoom/StudyroomDetailNotLogin";
-<<<<<<< HEAD
-=======
 import PostDetail from "./components/StudyRoom/StudyRoom_PostDetail";
 import Quiz from "./components/StudyRoom/StudyRoom_Quiz";
 import Detail from './components/StudyRoom/StudyRoom_Detail';
 import Post from './components/StudyRoom/StudyRoom_Post';
 import Attendance from './components/StudyRoom/StudyRoom_Attendance';
 import Manage from "./components/StudyRoom/StudyRoom_Manage";
->>>>>>> b57d994e3a19035aa944e3d03df5f586104c0a69
 
 
 function App() {
@@ -104,11 +93,7 @@ function App() {
           </Routes>
         </div>
       </AuthProvider>
-<<<<<<< HEAD
-    </Router>
-=======
     </Router >
->>>>>>> b57d994e3a19035aa944e3d03df5f586104c0a69
   );
 }
 

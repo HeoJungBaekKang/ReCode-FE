@@ -22,12 +22,24 @@ export default function StudyRecruitment() {
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target; 
-    setWrite({
-      ...write,
-      [name]: value,
-    });
+    const { name, value } = e.target;
+  
+    // "skills" 필드에 대한 특별한 처리
+    if (name === "skills") {
+      // 선택한 값을 배열로 변환하고 "skills" 배열에 할당
+      const selectedSkills = Array.from(e.target.selectedOptions, (option) => option.value);
+      setWrite({
+        ...write,
+        [name]: selectedSkills,
+      });
+    } else {
+      setWrite({
+        ...write,
+        [name]: value,
+      });
+    }
   };
+  
   const submitWrite = async (e) => {
     e.preventDefault();
 
