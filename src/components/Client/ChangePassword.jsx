@@ -76,6 +76,7 @@ export default function ChangePassword() {
                 navigate('/login');
             } else {
                 console.log("비밀번호 변경 실패");
+                console.log(headers);
             }
         } catch (error) {
             console.error("비밀번호 변경 중 오류 발생 : ", error);
@@ -102,14 +103,13 @@ export default function ChangePassword() {
                 });
                 if (response.data.code === 1) {
                     console.log("유효한 이메일 입니다.");
-                    // Proceed with allowing the user to change the password
                 } else {
                     console.log("토큰이 유효하지 않습니다.");
-                    navigate('/error'); // Navigate to an error page or handle error
+                    alert("유효하지 않은 이메일입니다.");
                 }
             } catch (error) {
                 console.error("이메일 토큰 유효성 검사중 오류 발생: ", error);
-                navigate('/');
+                alert("이메일 토큰 유효성 검사중 오류 발생");
             }
         }
     };

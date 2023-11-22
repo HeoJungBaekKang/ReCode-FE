@@ -23,6 +23,7 @@ export default function Email() {
 
             if (code === 1) {
                 console.log("이메일 전송 성공");
+                alert("이메일이 전송되었습니다. 입력해주신 이메일을 확인해주세요.")
             } else {
                 console.log("이메일 전송 실패");
             }
