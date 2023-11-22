@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { UserMinusIcon } from "@heroicons/react/24/outline";
+import axios from 'axios';
 import {
     Card,
     CardHeader,
@@ -10,25 +13,6 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 import MypageSidebar from "./MypageSidebar";
-
-
-const TABLE_ROWS = [
-    {
-        name: "아이디",
-        data: "username",
-    },
-    {
-        name: "닉네임",
-        data: "nickname",
-    },
-    {
-        name: "이메일",
-        data: "email",
-    },
-    {
-        hasTooltip: true, // 툴팁을 추가할 요소에 대한 플래그
-    },
-];
 
 const TABLE_ROWS2 = [
     {
@@ -51,9 +35,51 @@ const TABLE_ROWS4 = [
     },
 ];
 
-const Mypage_Myprofile = () => {
+
+export default function Mypage_Myprofile() {
 
     const navigate = useNavigate();
+    const { authData } = useContext(AuthContext);
+    console.log(authData);
+
+    const [info, setInfo] = useState({
+        username: "",
+        nickname: "",
+        email: "",
+    })
+
+    const handleGet = async () => {
+        try {
+            await axios.get(`http://localhost:8081/api/v1/users/${authData.id}/getuser`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data); // code, msg, data
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        setInfo({
+                            username: response.data.data.username,
+                            nickname: response.data.data.nickname,
+                            email: response.data.data.email,
+                        });
+                        console.log("개인 정보 조회 성공");
+                    } else {
+                        console.log("개인 정보 조회 실패");
+                    }
+                });
+        } catch (error) {
+            console.error("개인 정보 조회 중 오류 발생 : ", error);
+        }
+    };
+
+    useEffect(() => {
+        handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
+    }, []);
 
     return (
         <>
@@ -75,8 +101,24 @@ const Mypage_Myprofile = () => {
                     <CardBody className="px-0">
                         <table className="mt-4 w-full min-w-max table-auto text-left">
                             <tbody>
-                                {TABLE_ROWS.map(({ name, data, hasTooltip }, index) => {
-                                    const classes = index === TABLE_ROWS.length - 1
+                                {[
+                                    {
+                                        name: "아이디",
+                                        data: info.username,
+                                    },
+                                    {
+                                        name: "닉네임",
+                                        data: info.nickname,
+                                    },
+                                    {
+                                        name: "이메일",
+                                        data: info.email,
+                                    },
+                                    {
+                                        hasTooltip: true,
+                                    },
+                                ].map(({ name, data, hasTooltip }, index) => {
+                                    const classes = index === 3
                                         ? "p-4"
                                         : "p-4 border-b border-blue-gray-50";
                                     return (
@@ -263,7 +305,7 @@ const Mypage_Myprofile = () => {
                                                     <td className={classes}>
                                                         <Tooltip content="Withdraw">
                                                             <IconButton variant="text" onClick={() => navigate('/mypage/myprofile/Withdraw')}>
-                                                                <PencilIcon className="h-4 w-4" />
+                                                                <UserMinusIcon className="h-4 w-4" />
                                                             </IconButton>
                                                         </Tooltip>
                                                     </td>
@@ -280,5 +322,3 @@ const Mypage_Myprofile = () => {
         </>
     );
 }
-
-export default Mypage_Myprofile;

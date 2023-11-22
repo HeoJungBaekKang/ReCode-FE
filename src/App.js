@@ -38,6 +38,7 @@ import Detail from './components/StudyRoom/StudyRoom_Detail';
 import Post from './components/StudyRoom/StudyRoom_Post';
 import Attendance from './components/StudyRoom/StudyRoom_Attendance';
 import Manage from "./components/StudyRoom/StudyRoom_Manage";
+import ModifySkill from "./components/Admin/ModifySkill";
 
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
             <Route path="/client/findPassword" element={<FindPasswordForm />} />
             <Route path="/client/termsofService" element={<TermsofService />} />
             <Route path="/client/findEmail" element={<FindEmailForm />} />
-            <Route path="/mypage" element={<MypageMain />} />
+            <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
@@ -70,8 +71,8 @@ function App() {
             <Route path="/mypage/myprofile/Withdraw" element={<Withdraw />} />
             <Route path="/mypage/multiselect" element={<MultiSelect />} />
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
-            <Route path="/studyroom" element={<Detail />} />
-            <Route path="/studyroomNotLogin" element={<StudyRoomNotLogin />} />
+            <Route path="/studyroom/:study_room_id" element={<Detail />} />
+            <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board" element={<Board />} />
             <Route path="/studyroom/post" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
@@ -90,6 +91,7 @@ function App() {
             <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />
             <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+            <Route path="/admin/modifyskill" element={<ModifySkill />} />
           </Routes>
         </div>
       </AuthProvider>
