@@ -40,7 +40,7 @@ export default function Login() {
     }
   };
 
- 
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -58,12 +58,22 @@ export default function Login() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                ID
-              </label>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  ID
+                </label>
+                <div className="text-sm">
+                  <a
+                    href="/client/findId"
+                    className="font-semibold text-indigo-600 hover:text-red-500"
+                  >
+                    Forgot id?
+                  </a>
+                </div>
+              </div>
               <div className="mt-2">
                 <input
                   id="username"
@@ -128,8 +138,8 @@ export default function Login() {
               join now
             </a>
           </p>
-        </div>
-      </div>
+        </div >
+      </div >
     </>
   );
 }

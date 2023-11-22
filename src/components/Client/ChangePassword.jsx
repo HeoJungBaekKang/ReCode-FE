@@ -33,66 +33,91 @@ export default function ChangePassword() {
         }
     }, [location]);
 
-    
+
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
         setPasswordMatch(e.target.value === confirmPassword);
     };
-    
+
     const handleConfirmPasswordChange = (e) => {
         setConfirmPassword(e.target.value);
         setPasswordMatch(password === e.target.value);
     };
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // 비밀번호, 비밀번호 확인의 일치여부 확인
         if (password !== confirmPassword) {
             console.error("비밀번호가 일치하지 않습니다.");
-            return; // 비밀번호가 일치하지 않을 경우 함수 실행 중단
+            return;
         }
-        
-        const url = authData && authData.token ?
-        `http://localhost:8081/api/v1/change-password` :
-        `http://localhost:8081/api/change-password`;
-        
-        const payload = {
-            password: password
+
+        const payload = { 
+            password: password,
+            emailCheckToken: token
         };
         if (token) {
-            payload.token = token; // URL 에 토큰이 있을 경우 가져옴
+            // 토큰이 존재한다면 payload 에 추가
+            payload.emailCheckToken = token;
         }
-        
+
+        console.log("페이로드가 전송됨: ", payload);
+
+        // 엔드포인트 설정
+        let url = token ? 'http://localhost:8081/api/change-password'
+            : 'http://localhost:8081/api/v1/change-password';
+
+        // 헤더 설정, 헤더에 토큰이 필요할 경우 (비로그인 유저)
         const headers = {};
         if (authData && authData.token) {
-            headers.Authorization = `Bearer ${authData.token}`; // 토큰이 유효하면 헤더에 추가
+            headers.Authorization = `Bearer &{authData.token}`;
         }
-        
+
+        // api 호출
         try {
             const response = await axios.post(url, payload, { headers });
-            const code = response.data.code;
-            
-            if (code === 1) {
+            if (response.data.code === 1) {
                 console.log("비밀번호 변경 성공");
-                navigate('/login');
+                alert("비밀번호가 변경되었습니다.");
+
+                // url 에서 토큰 정보 없애기
+                const newUrl = window.location.pathname; // url 토큰 정보는 없어지지만 path 는 유지되도록
+                navigate(newUrl, {replace:true}); // 페이지가 다시 로드되지 않고 현재의 Url을 변경
+
+                navigate('/login'); // 비밀번호 변경이 성공되면 로그인 창으로 이동
             } else {
-                console.log("비밀번호 변경 실패");
+                console.log("비밀번호 변경 실패: ", response.data.msg);
             }
         } catch (error) {
-            console.error("비밀번호 변경 중 오류 발생 : ", error);
+            // 배포할 때는 에러 출력 부분 수정 필요!
+            if (error.response) {
+                // Request 가 존재하고 서버에서의 상태코드 출력
+                console.error("에러 Response: ", error.response.data);
+                console.error("에러 Status: ", error.response.status);
+                console.error("에러 Headers: ", error.response.headers);
+            } else if (error.request) {
+                // Request 는 존재하지만 Response 가 없을때
+                console.error("에러 Request: ". error.request);
+            } else {
+                console.error("비밀번호 변경 중 오류 발생: ", error.message);
+            }
+            // 오류의 config 객체 출력, Axios 요청에 상용된 매개변수에 대한 디버깅
+            console.error("에러 Config: ", error.config);
         }
-    }
+    };
 
     const handleGet = async () => {
         const queryParams = new URLSearchParams(location.search);
         const tokenFromUrl = queryParams.get('token');
         const email = queryParams.get('email');
-    
+
         if (tokenFromUrl && email) {
             // 유저 로그인 여부
             const url = authData && authData.token ?
                 `http://localhost:8081/api/v1/check-mail-token` :
                 `http://localhost:8081/api/check-mail-token`;
-    
+
             try {
                 const response = await axios.get(url, {
                     params: {
@@ -102,10 +127,10 @@ export default function ChangePassword() {
                 });
                 if (response.data.code === 1) {
                     console.log("유효한 이메일 입니다.");
-                    // Proceed with allowing the user to change the password
+                    // 토큰이 유효하면 비밀번호 변경을 진행
                 } else {
                     console.log("토큰이 유효하지 않습니다.");
-                    navigate('/error'); // Navigate to an error page or handle error
+                    alert("토큰이 유효하지 않습니다. 이메일 전송을 다시 진행해주세요.");
                 }
             } catch (error) {
                 console.error("이메일 토큰 유효성 검사중 오류 발생: ", error);
