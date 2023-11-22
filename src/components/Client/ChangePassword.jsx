@@ -15,6 +15,8 @@ export default function ChangePassword() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    console.log(authData);
+
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -53,7 +55,7 @@ export default function ChangePassword() {
             return;
         }
 
-        const payload = { 
+        const payload = {
             password: password,
             emailCheckToken: token
         };
@@ -65,14 +67,16 @@ export default function ChangePassword() {
         console.log("페이로드가 전송됨: ", payload);
 
         // 엔드포인트 설정
-        let url = token ? 'http://localhost:8081/api/change-password'
-            : 'http://localhost:8081/api/v1/change-password';
+        let url = `http://localhost:8081/api/${authData && authData.token ? 'v1/' : ''}change-password`;
 
-        // 헤더 설정, 헤더에 토큰이 필요할 경우 (비로그인 유저)
+        // 헤더 설정, 헤더에 토큰이 필요할 경우 (로그인 유저)
         const headers = {};
         if (authData && authData.token) {
-            headers.Authorization = `Bearer &{authData.token}`;
+            headers.Authorization = `Bearer ${authData.token}`;
         }
+        console.log("URL: ", url);
+        console.log("Headers: ", headers);
+        console.log("Payload: ", payload);
 
         // api 호출
         try {
@@ -83,7 +87,7 @@ export default function ChangePassword() {
 
                 // url 에서 토큰 정보 없애기
                 const newUrl = window.location.pathname; // url 토큰 정보는 없어지지만 path 는 유지되도록
-                navigate(newUrl, {replace:true}); // 페이지가 다시 로드되지 않고 현재의 Url을 변경
+                navigate(newUrl, { replace: true }); // 페이지가 다시 로드되지 않고 현재의 Url을 변경
 
                 navigate('/login'); // 비밀번호 변경이 성공되면 로그인 창으로 이동
             } else {
@@ -98,7 +102,7 @@ export default function ChangePassword() {
                 console.error("에러 Headers: ", error.response.headers);
             } else if (error.request) {
                 // Request 는 존재하지만 Response 가 없을때
-                console.error("에러 Request: ". error.request);
+                console.error("에러 Request: ".error.request);
             } else {
                 console.error("비밀번호 변경 중 오류 발생: ", error.message);
             }
@@ -113,17 +117,25 @@ export default function ChangePassword() {
         const email = queryParams.get('email');
 
         if (tokenFromUrl && email) {
-            // 유저 로그인 여부
+            // 유저 로그인 여부 엔드포인드 설정
             const url = authData && authData.token ?
                 `http://localhost:8081/api/v1/check-mail-token` :
                 `http://localhost:8081/api/check-mail-token`;
+
+            // 헤더 설정
+            const headers = {};
+            if (authData && authData.token) {
+                headers['Authorization'] = `Bearer ${authData.token}`;
+            }
+
 
             try {
                 const response = await axios.get(url, {
                     params: {
                         emailCheckToken: tokenFromUrl,
                         email: email
-                    }
+                    },
+                    headers: headers
                 });
                 if (response.data.code === 1) {
                     console.log("유효한 이메일 입니다.");
@@ -134,7 +146,7 @@ export default function ChangePassword() {
                 }
             } catch (error) {
                 console.error("이메일 토큰 유효성 검사중 오류 발생: ", error);
-                navigate('/');
+                alert("이메일 토큰 유효성 검사중 오류 발생: ", error);
             }
         }
     };
