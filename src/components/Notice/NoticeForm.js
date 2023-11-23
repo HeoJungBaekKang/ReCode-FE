@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateNotice from "../../services/CreateNotice";
 
@@ -7,10 +7,9 @@ const NoticeForm = () => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-
+  
     const handlerSubmit = async(event) => {
         event.preventDefault();
-
         try {
             const noticeData = {title, content};
             const createNotice = await CreateNotice(noticeData);
@@ -22,6 +21,9 @@ const NoticeForm = () => {
             console.log('공지사항 생성 실패 : ', error);
         }
     };
+
+
+
 
     return(
         <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">

@@ -9,7 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Noties() {
+export default function NoticePage() {
+
     const {authData} = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
 

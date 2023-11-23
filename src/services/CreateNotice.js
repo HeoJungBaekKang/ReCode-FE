@@ -2,8 +2,18 @@ import axios from "axios";
 
 
 const CreateNotice = async(noticeData) => {
+
   try {
-    const response = await axios.post('http://localhost:8081/api/admin/v1/create-notice', noticeData);
+    const token = localStorage.getItem("token");
+
+    console.log(token);
+
+    const response = await axios.post('http://localhost:8081/api/admin/v1/notice', noticeData, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token}`,
+      }
+    })
     console.log(response.data);
     return response.data;
   } catch (error) {

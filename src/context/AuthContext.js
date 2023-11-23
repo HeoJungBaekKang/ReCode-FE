@@ -12,8 +12,8 @@ export const AuthProvider = ({ children }) => {
       username: null,
       nickname: null,
       createdAt: null,
-      token: localStorage.getItem("token") || null,
       role: null, // minhee 추가한 부분 : 사용자의 역할 정보 추가
+      token: localStorage.getItem("token") || null,
     };
 
     // 관리자 여부 확인 
@@ -24,6 +24,9 @@ export const AuthProvider = ({ children }) => {
     return initialAuthData;
   
   });
+
+  
+
 
   return (
     <AuthContext.Provider value={{ authData, setAuthData }}>
