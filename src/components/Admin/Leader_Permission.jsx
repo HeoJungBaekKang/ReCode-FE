@@ -13,6 +13,34 @@ import Search from "../Fix/Search";
 export default function User_list() {
   const [isOpen, setIsOpen] = useState(false);
 
+  //====
+  const handlePost = async () => {
+    try {
+        await axios.post(`http://localhost:8081/api/v1/admin/addskill`, skill, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authData.token}`
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+
+                setSkill({ skill: response.data.data.skill || '' }); // 가져온 데이터로 essay 상태를 업데이트
+
+                const code = response.data.code;
+
+                if (code === 1) {
+                    console.log("스택 등록 성공");
+                } else {
+                    console.log("스택 등록 실패");
+                }
+            });
+    } catch (error) {
+        console.error("스택 등록 중 오류 발생 : ", error);
+    }
+};
+//=====
+
   return (
     <>
       <AdminSidebar />
