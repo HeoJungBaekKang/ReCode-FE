@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
     Card,
@@ -8,13 +8,39 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import fetchNoticeList from "../../services/fetchNoticeList";
 
 export default function NoticePage() {
+    const [noticeList, setNoticeList] = useState([]);
+    const [loading, setLoading] = useState(true); // 로딩 상태
+    const [error, setError] = useState(null); // 에러 상태
 
     const {authData} = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
 
-    console.log('관리자 권한 잘 넘어오나요?', authData);
+
+        async function fetchData(){
+            try {
+                const response = await fetchNoticeList();  // API에서 공지사항 목록을 가져오는 함수  
+                // const responseData = await response.json();
+
+                console.log('data안에는 무엇이 있나요' , response.data);
+
+                setNoticeList(response.data);  // 가져온 데이터를 상태에 설정 
+                setLoading(false);
+        
+            } catch (error) {
+                console.log('목록 불러오기 실패', error)
+                setError(error);
+                setLoading(false);
+                
+            }
+            
+        }
+        useEffect(()=> {
+        fetchData();
+    }, []); 
+
 
     return (
         <>
@@ -39,32 +65,20 @@ export default function NoticePage() {
                                                 <tr>
                                                     <th scope="col" className="px-6 py-4">글번호</th>
                                                     <th scope="col" className="px-6 py-4">제목</th>
+                                                    <th scope="col" className="px-6 py-4">내용</th>
                                                     <th scope="col" className="px-6 py-4">작성자</th>
                                                     <th scope="col" className="px-6 py-4">작성일</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr
+                                                {noticeList.map((notice)=> (
+                                                    <tr key={notice.id}
                                                     className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">강의 자료 문의</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">ys**</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">2023-11-03</td>
-                                                </tr>
-                                                <tr
-                                                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">SNOMED CT 매핑자료 스키마 제공 문의</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">m**</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">2023-10-31</td>
-                                                </tr>
-                                                <tr
-                                                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">POSTOM ver.7.0 AFP에 관해 질문이 있습니다.</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">김**</td>
-                                                    <td className="whitespace-nowrap px-6 py-4">2023-10-27</td>
-                                                </tr>
+                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{notice.id}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{notice.title}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{notice.content}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>
