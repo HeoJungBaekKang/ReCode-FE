@@ -42,6 +42,7 @@ import ModifySkill from "./components/Admin/ModifySkill";
 import NoticePage from "./components/Pages/NoticePage";
 import NoticeForm from "./components/Notice/NoticeForm";
 import Email from "./components/Client/EmailForm";
+import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
+            <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
           </Routes>
         </div>
       </AuthProvider>

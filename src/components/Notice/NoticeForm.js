@@ -22,9 +22,6 @@ const NoticeForm = () => {
         }
     };
 
-
-
-
     return(
         <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
       <div className="flex gap-x-3">

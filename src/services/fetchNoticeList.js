@@ -1,6 +1,7 @@
 import axios from "axios";
 
 async function fetchNoticeList(){
+
     try {
         const token = localStorage.getItem("token");
 
@@ -25,5 +26,4 @@ async function fetchNoticeList(){
         throw error; 
     }
 }
-
 export default fetchNoticeList;
