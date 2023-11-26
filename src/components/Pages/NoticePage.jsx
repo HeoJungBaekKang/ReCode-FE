@@ -77,6 +77,9 @@ export default function NoticePage() {
                                                     <td className="whitespace-nowrap px-6 py-4 font-medium">{notice.id}</td>
                                                     <td className="whitespace-nowrap px-6 py-4">{notice.title}</td>
                                                     <td className="whitespace-nowrap px-6 py-4">{notice.content}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{notice.createdBy}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{notice.createdAt}</td>
+
                                                     </tr>
                                                 ))}
                                             </tbody>
