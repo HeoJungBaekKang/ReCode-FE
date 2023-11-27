@@ -44,6 +44,7 @@ import NoticeForm from "./components/Notice/NoticeForm";
 import Email from "./components/Client/EmailForm";
 import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
+import MainPageFilter from "./components/Pages/MainPageFilter";
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
             <Route path="/notice/create" element={<NoticeForm />} />
             <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
             <Route path="/faq" element={<FaqPage />} />
+            <Route path="/filter" element={<MainPageFilter />} />
           </Routes>
         </div>
       </AuthProvider>
