@@ -38,32 +38,10 @@ export default function StudyList() {
     } catch (error) {
       console.error("스터디 목록 조회 중 오류 : ", error);
     }
-  };  
-
-  const checkStudyRoomMembership = async (studyRoomId) => {
-    try {
-      const response = await axios.get(`http://localhost:8081/api/users/${authData.userId}/studyrooms/${studyRoomId}/isInStudyRoom`, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authData.token}`
-        }
-      });
-
-      return response.data.isInStudyRoom;
-    } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
-
-      throw error;
-    }
-  }
-
+  }; 
+  
   const handleStudyRoomClick = async (studyRoomId) => {
-    if (authData.userId) {
-      const isInStudyRoom = await checkStudyRoomMembership(studyRoomId);
-      navigate(isInStudyRoom ? `/studyroom/${studyRoomId}` : `/studyroomNotLogin/${studyRoomId}`);
-    } else {
       navigate(`/studyroomNotLogin/${studyRoomId}`);
-    }
   }  
 
   const chunkedPosts = chunk(posts, 9)

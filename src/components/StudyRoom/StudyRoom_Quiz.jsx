@@ -1,18 +1,50 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useParams } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
+import axios from "axios";
 
 const Quiz = () => {
-
+    const { authData } = useContext(AuthContext);
+    const { study_room_id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [quizzes, setQuizzes] = useState([]);
 
-    const linkData = [
-        { id: 1, title: "민히님은 바보다", link: "https://forms.gle/bhKtnHM6RJiJgdhg7" },
-        { id: 2, title: "2222", link: "https://www.naver.com" },
-        // 다른 링크들 추가
-    ];
+    const handleGet = async () => {
+        if (!study_room_id) {
+            console.error("Study Room ID undefined");
+            return;
+        }
+
+        try {
+            await axios.get(`http://localhost:8081/api/v1/study/${study_room_id}/quiz-list`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("퀴즈 목록 불러오기 성공");
+                    } else {
+                        console.log("퀴즈 목록 불러오기 실패");
+                    }
+                });
+        } catch (error) {
+            console.error("퀴즈 목록 불러오는 중 오류 발생 : ", error.response);
+        }
+    }
+
+    useEffect(() => {
+        console.log("Study Room ID:", study_room_id);
+        handleGet();
+    }, [study_room_id])
 
     const openModal = () => {
         setModalOpen(true);
@@ -55,33 +87,56 @@ const Quiz = () => {
                                     <th scope="col" className="w-20 p-4">
                                         글 번호
                                     </th>
-                                    <th scope="col" className="px-16 py-3">
+                                    <th scope="col" className="px-10 py-3">
                                         제목
                                     </th>
+                                    <th scope="col" className="px-3 py-3">
+                                        난이도
+                                    </th>
                                     <th scope="col" className="px-6 py-3">
+                                        닉네임
+                                    </th>
+                                    <th scope="col" className="px-12 py-3">
                                         Link
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
+                                        작성일
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {linkData.map((data) => (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                {quizzes.map(quiz => (
+                                    <tr key={quiz.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td className="w-20 p-4">
                                             <div className="flex items-center ml-4">
-                                                {data.id}
+                                                {quiz.id}
                                             </div>
                                         </td>
                                         <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="pl-3">
-                                                <div className="text-base font-semibold">{data.title}</div>
+                                                <div className="text-base font-semibold">{quiz.title}</div>
                                             </div>
                                         </th>
+                                        <td className="w-20 p-4">
+                                            <div className="flex items-center ml-4">
+                                                {quiz.difficulty}
+                                            </div>
+                                        </td>
+                                        <td className="w-20 p-4">
+                                            <div className="flex items-center ml-4">
+                                                {quiz.nickname}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4">
-                                            <a href={data.link} target="_blank" rel="noopener noreferrer">
-                                                {data.link}
+                                            <a href={quiz.quiz_link} target="_blank" rel="noopener noreferrer">
+                                                {quiz.quiz_link}
                                             </a>
                                         </td>
-
+                                        <td className="w-20 p-4">
+                                            <div className="flex items-center ml-4">
+                                                {quiz.created_At}
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
