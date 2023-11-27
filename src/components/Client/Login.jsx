@@ -75,7 +75,7 @@ export default function Login() {
                     href="/client/findId"
                     className="font-semibold text-indigo-600 hover:text-red-500"
                   >
-                    Forgot ID?
+                    Forgot id?
                   </a>
                 </div>
               </div>
