@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateNotice from "../../services/CreateNotice";
+import { AuthContext } from "../../context/AuthContext";
 
 const NoticeForm = () => {
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-  
+    const {authData} = useContext(AuthContext);
+    
+    // 사용자의 권한 확인
+    useEffect(()=> {
+      if(!authData.isAdmin) {
+        navigate('/'); // 권한이 없다면 홈페이지나 로그인 페이지 등으로 리디렉션 
+      }
+    }, [authData, navigate]);
+
     const handlerSubmit = async(event) => {
         event.preventDefault();
         try {
@@ -22,7 +31,11 @@ const NoticeForm = () => {
         }
     };
 
+    // 권한이 admin인 경우에만 페이지 내용 렌더링 
     return(
+        authData.isAdmin && (
+
+      
         <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
       <div className="flex gap-x-3">
       <label
@@ -98,6 +111,7 @@ const NoticeForm = () => {
         </div>
       </div>
     </form>
+    )
     )
 };
 
