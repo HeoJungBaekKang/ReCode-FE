@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import fetchNoticeList from "../../services/fetchNoticeList";
+import { fetchNoticeList } from "../../services/NoticeService.js";
 
 export default function NoticePage() {
     const navigate = useNavigate();
@@ -24,6 +24,7 @@ export default function NoticePage() {
 
 
   async function fetchData() {
+
     try {
       const response = await fetchNoticeList(); // API에서 공지사항 목록을 가져오는 함수
       // const responseData = await response.json();

@@ -7,9 +7,8 @@ import {
   CardBody,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
-import fetchNoticeDetail from "../../services/fetchNoticeDetail";
 import { AuthContext } from "../../context/AuthContext";
-import { saveNotice } from "../../services/saveNotice";
+import { fetchNoticeDetail, saveNotice, deleteNotice } from "../../services/NoticeService.js";
 
 export default function NoticeDetailPage() {
   const { authData } = useContext(AuthContext);
@@ -49,6 +48,19 @@ export default function NoticeDetailPage() {
 
     fetchData();
   }, [noticeId]); // noticeId가 변경될 때마다 데이터를 다시 가져오도록 설정
+
+
+  const handleDelete = async () => {
+    if (window.confirm("이 공지사항을 삭제하시겠습니까?")) {
+        try {
+            await deleteNotice(noticeId);
+            navigate('/notices'); // 삭제 후 목록 페이지로 이동
+        } catch (error) {
+            console.error('삭제 중 오류 발생', error);
+            // 오류 처리
+        }
+    }
+};
 
   const handleSaveChanges = async () => {
     try {
@@ -214,7 +226,7 @@ export default function NoticeDetailPage() {
               </button>
                 {authData.isAdmin && (
                     <button 
-      
+                    onClick={handleDelete}
                     className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">
                         삭제
                     </button>

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CreateNotice from "../../services/CreateNotice";
 import { AuthContext } from "../../context/AuthContext";
+import { CreateNotice } from "../../services/NoticeService";
 
-const NoticeForm = () => {
+export const NoticeForm = () => {
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
@@ -35,7 +35,6 @@ const NoticeForm = () => {
     return(
         authData.isAdmin && (
 
-      
         <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
       <div className="flex gap-x-3">
       <label
