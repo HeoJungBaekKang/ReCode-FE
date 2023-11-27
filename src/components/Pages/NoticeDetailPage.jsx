@@ -54,7 +54,7 @@ export default function NoticeDetailPage() {
     if (window.confirm("이 공지사항을 삭제하시겠습니까?")) {
         try {
             await deleteNotice(noticeId);
-            navigate('/notices'); // 삭제 후 목록 페이지로 이동
+            navigate('/notice'); // 삭제 후 목록 페이지로 이동
         } catch (error) {
             console.error('삭제 중 오류 발생', error);
             // 오류 처리

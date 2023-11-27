@@ -43,6 +43,7 @@ import NoticePage from "./components/Pages/NoticePage";
 import NoticeForm from "./components/Notice/NoticeForm";
 import Email from "./components/Client/EmailForm";
 import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
+import FaqPage from "./components/Pages/FaqPage";
 
 
 function App() {
@@ -99,6 +100,7 @@ function App() {
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
             <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
+            <Route path="/faq" element={<FaqPage />} />
           </Routes>
         </div>
       </AuthProvider>
