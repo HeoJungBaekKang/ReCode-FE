@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate, useParams } from 'react-router-dom';
 import AdminSidebar from "./AdminSidebar";
 import Pagination from "../Fix/Pagination";
-
 import {
   Card,
   CardHeader,
@@ -9,36 +10,84 @@ import {
   CardBody,
 } from "@material-tailwind/react";
 import Search from "../Fix/Search";
+import axios from "axios";
 
-export default function User_list() {
+export default function Member_list() {
   const [isOpen, setIsOpen] = useState(false);
+  const [category, setCategory] = useState(null);
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState('카테고리')
 
-  //====
-  const handlePost = async () => {
-    try {
-        await axios.post(`http://localhost:8081/api/v1/admin/addskill`, skill, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authData.token}`
-            }
+  const { authData } = useContext(AuthContext);
+  const { study_id } = useParams();
+
+  const [keyword, setKeyword] = useState("");
+  const [studymember, setPost] = useState([]);
+
+  const handleGet = async () => {
+      try {
+
+        let url = `http://localhost:8081/api/v1/study-member/${study_id}/list`;
+
+        if(keyword){
+          url += `?keyword=${keyword}`;
+        }
+        if(category !== null){
+          const seperator = keyword ? '&' : '?';
+          url += `${seperator}category=${category}`;
+        }
+        
+        await axios.get( url , {
+          headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : `Bearer ${authData.token}`
+          }
         })
             .then(response => {
-                console.log(response.data);
+              console.log(response.data);
 
-                setSkill({ skill: response.data.data.skill || '' }); // 가져온 데이터로 essay 상태를 업데이트
+              setPost(response.data.data || []);
 
-                const code = response.data.code;
+              const code = response.data.code;
 
-                if (code === 1) {
-                    console.log("스택 등록 성공");
-                } else {
-                    console.log("스택 등록 실패");
-                }
-            });
-    } catch (error) {
-        console.error("스택 등록 중 오류 발생 : ", error);
+              if(code === 1){
+                console.log("멤버 목록 조회 성공");
+              }else{
+                console.log("멤버 목록 조회 실패");
+              }
+            })
+      } catch (error) {
+        console.error("스터디 멤버 조회 중 오류 발생 : ",error);
+        console.log(error.response);
+      }
+  }
+
+  const handleCategoryChange = (category) => {
+    setCurrentCategory(category || '카테고리');
+    let categoryNumber;
+    switch (category) {
+        case '공지사항':
+            categoryNumber = 0;
+            break;
+        case '회고록':
+            categoryNumber = 1;
+            break;
+        case '자료공유':
+            categoryNumber = 2;
+            break;
+        default:
+            categoryNumber = null;
     }
-};
+    setCategory(categoryNumber);
+    handleGet(); // 카테고리가 변경될 때마다 handleGet 호출
+}
+
+const chunkedPosts = chunk(posts,10);
+
+useEffect( () => {
+  handleGet(); // 페이지 처음 Rendering시 얘 실행
+},   [keyword]);
+
 //=====
 
   return (
@@ -87,6 +136,26 @@ export default function User_list() {
                         </tr>
                       </thead>
                       <tbody>
+
+                        { chunkedPosts && chunkedPosts[currentPage] && chunkedPosts[currentPage].map( (post,index) => (
+                          <tr key={index} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                {studymember.id}
+                            </td>
+
+                            <td className="whitespace-nowrap px-6 py-4">
+                                {studymember.id}
+                            </td>
+
+                          <td className="whitespace-nowrap px-6 py-4">팀장</td>
+
+                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
+                            {" "}
+                            역할변경{" "}
+                          </button>
+
+                          </tr>
+                        ) ) }
                         <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
                           <td className="whitespace-nowrap px-6 py-4 font-medium">
                             1
@@ -99,46 +168,8 @@ export default function User_list() {
                             {" "}
                             역할변경{" "}
                           </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
                         </tr>
 
-                        <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            2
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">asdf</td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            스터디원
-                          </td>
-                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            역할변경{" "}
-                          </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
-                        </tr>
-                        <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            3
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">dfhg</td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            스터디원
-                          </td>
-                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            역할변경{" "}
-                          </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
-                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -152,4 +183,19 @@ export default function User_list() {
       </div>
     </>
   );
+}
+
+function chunk(array,size) {
+  const chunked_arr = []
+  let copied = [...array]
+
+  while(copied.length > 0){
+    chunked_arr.push(copied.splice(0,size))
+  }
+
+  return chunked_arr
+}
+
+function SearchBox( {keyword, setKeyword} ){
+
 }
