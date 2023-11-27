@@ -28,9 +28,9 @@ export default function Login() {
       const { code, data } = response.data;
 
       if (code === 1) {
-        const { id, username, nickname, createdAt } = data;
+        const { id, username, nickname, role, createdAt } = data; // role 추가 : minhee 
         const token = response.headers.authorization;
-        const newAuthData = { id, username, nickname, createdAt, token };
+        const newAuthData = { id, username, nickname, role, createdAt, token };
         console.log(newAuthData);
         setAuthData(newAuthData);
         localStorage.setItem("token", token);
