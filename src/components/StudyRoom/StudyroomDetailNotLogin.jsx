@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -6,6 +7,9 @@ const StudyRoomNotLogin = () => {
 
     const navigate = useNavigate();
     const { study_room_id } = useParams();
+    const { study_id } = useParams();
+    const { authData } = useContext(AuthContext);
+    console.log(authData);
 
     const [detail, setDetail] = useState({
         study_room_id: "",
@@ -50,8 +54,73 @@ const StudyRoomNotLogin = () => {
         }
     };
 
+    const [isInStudyRoom, setIsInStudyRoom] = useState(false);
+
+    const handlePost = async () => {
+
+        try {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/apply`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console(response.data);
+                    
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("스터디 신청 완료");
+                    } else {
+                        console.log("스터디 신청 실패");
+                    }
+                });
+        } catch (error) {
+            console.error("스터디 신청 중 오류 발생 :", error);
+        }
+    };
+
+    // 스터디룸 가입 여부를 확인하는 함수
+    const checkStudyRoomMembership = async () => {
+        if (!authData) {
+            alert("로그인이 필요합니다.");
+            navigate('/login'); // 로그인 페이지로 이동
+            return;
+        }
+
+        try {
+            const response = await axios.get(`http://localhost:8081/api/v1/users/${authData.id}/studyrooms/${study_room_id}/isInStudyRoom`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+
+            setIsInStudyRoom(response.data.isInStudyRoom);
+        } catch (error) {
+            console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
+        }
+    };
+
+    // 신청 버튼 클릭 핸들러
+    const handleStudyRoomClick = async () => {
+        if (!authData.id) {
+            alert("로그인이 필요합니다.");
+            navigate('/login');
+            return;
+        }
+
+        if (isInStudyRoom) {
+            alert("이미 가입된 스터디입니다.");
+        } else {
+            handlePost();
+        }
+    };
+
     useEffect(() => {
-        handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
+        handleGet();
+        checkStudyRoomMembership();
     }, []);
 
     return (
@@ -86,7 +155,8 @@ const StudyRoomNotLogin = () => {
                     </div>
                     <div className="mt-5 flex justify-end">
                         <button
-                            type="button"
+                            type="submit"
+                            onClick={handleStudyRoomClick}
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             신청

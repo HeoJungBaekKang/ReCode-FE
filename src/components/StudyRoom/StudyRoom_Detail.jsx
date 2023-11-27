@@ -33,7 +33,7 @@ export default function Detail() {
         current_num: "",
         max_num: "",
         master: "",
-        skillNames: "",
+        skillNames: [],
         createdAt: "",
         updatedAt: "",
     });

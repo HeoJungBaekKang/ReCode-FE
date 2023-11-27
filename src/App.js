@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import FindIdForm from "./components/Client/FindIdForm";
 import FindPasswordForm from "./components/Client/FindPasswordForm";
-import ChangePasswordForm from "./components/Client/ChangePasswordForm";
 import TermsofService from "./components/Client/TermsOfService";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
@@ -83,7 +82,7 @@ function App() {
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
             <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
-            <Route path="/studyroom/quiz" element={<Quiz />} />
+            <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
             <Route path="/studyroom/post" exact element={Post} />
             <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
             <Route path="/studyroom/manage" element={<Manage />} />
