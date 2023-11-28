@@ -6,6 +6,7 @@ import {
     Typography,
     CardBody,
 } from "@material-tailwind/react";
+import Layout from "../Layout/Layout";
 
 
 export default function Qna() {
@@ -13,7 +14,7 @@ export default function Qna() {
 
     return (
         <>
-            <QnaSidebar />
+        <Layout sidebar={<QnaSidebar />} >
             <div className="ml-56 mt-12">
                 <Card className="h-full w-auto mx-4">
                     <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -119,6 +120,7 @@ export default function Qna() {
                     </div>
                 </div>
             </div>
+            </Layout>
         </>
     );
 }
