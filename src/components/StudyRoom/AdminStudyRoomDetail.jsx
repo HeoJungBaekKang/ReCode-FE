@@ -6,7 +6,6 @@ import axios from "axios";
 const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
   const { study_room_id } = useParams();
-  const {authData} = useContext(AuthContext); //로그인 상태 가져오기
 
   const [detail, setDetail] = useState({
     study_room_id: "",
@@ -49,35 +48,6 @@ const StudyRoomNotLogin = () => {
     } catch (error) {
       console.error("스터디 상세보기 조회 중 오류 발생 : ", error);
     }
-  };
-
-  const handleApply = async () => {
-    try {
-        await axios
-          .post(`http://localhost:8081/api/v1/study/${study_room_id}/apply`, {
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization': `Bearer ${authData.token}`
-            },
-          })
-          .then((response) => {
-            console.log(response.data);
-  
-            setDetail(response.data.data || {});
-  
-            const code = response.data.code;
-
-            console.log(authData.id);
-  
-            if (code === 1) {
-              console.log("스터디 신청 성공");
-            } else {
-              console.log("스터디 신청 실패");
-            }
-          });
-      } catch (error) {
-        console.error("스터디 신청 중 오류 발생 : ", error);
-      }
   };
 
   useEffect(() => {
@@ -133,14 +103,10 @@ const StudyRoomNotLogin = () => {
               </p>
             </div>
           </div>
-          <div className="mt-5 flex justify-end"
-          onClick = {() => handleApply()}>
+          <div className="mt-5 flex justify-end">
             <button
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 
-              focus:ring-4 focus:outline-none focus:ring-blue-300 
-              font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-              dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               신청
             </button>

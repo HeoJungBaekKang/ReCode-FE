@@ -44,6 +44,7 @@ import Email from "./components/Client/EmailForm";
 import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
+import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
             <Route path="/studyroom/:study_room_id" element={<Detail />} />
             <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
+            <Route path="/AdminstudyroomDetail/:study_room_id" element={<AdminStudyRoomDetail />} />
             <Route path="/studyroom/board" element={<Board />} />
             <Route path="/studyroom/post" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />

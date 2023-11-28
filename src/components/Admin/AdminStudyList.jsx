@@ -40,8 +40,8 @@ export default function AdminStudyList() {
         }
     };//handleGet
 
-    const handleStudyRoomClick = async (studyRoomId) => {
-        navigate(`/studyroomNotLogin/${studyRoomId}`);
+    const AdminhandleStudyRoomClick = async (studyRoomId) => {
+        navigate(`/AdminstudyroomDetail/${studyRoomId}`);
     }
 
     // const posts = [
@@ -107,7 +107,7 @@ export default function AdminStudyList() {
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
-                        <div onClick={() => handleStudyRoomClick(post.id)}>
+                        <div onClick={() => AdminhandleStudyRoomClick(post.id)}>
                           <span className="absolute inset-0" />
                           {post.title}
                         </div>
