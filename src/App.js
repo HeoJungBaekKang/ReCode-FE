@@ -7,7 +7,7 @@ import TermsofService from "./components/Client/TermsOfService";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
-import StudyRecruitment from "./components/Study/StudyRecruitment";
+import StudyRecruitment from "./components/Study/StudyRecruitmentForm";
 import MultiSelect from "./components/Study/MultiSelect";
 import FindEmailForm from "./components/Client/FindEmailForm";
 import MypageMain from "./components/Mypage/MypageMain";
@@ -41,6 +41,9 @@ import ModifySkill from "./components/Admin/ModifySkill";
 import NoticePage from "./components/Pages/NoticePage";
 import NoticeForm from "./components/Notice/NoticeForm";
 import Email from "./components/Client/EmailForm";
+import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
+import FaqPage from "./components/Pages/FaqPage";
+import MainPageFilter from "./components/Pages/MainPageFilter";
 
 
 function App() {
@@ -96,6 +99,9 @@ function App() {
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
+            <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/filter" element={<MainPageFilter />} />
           </Routes>
         </div>
       </AuthProvider>

@@ -1,8 +1,9 @@
 #slider-container article {
     display: grid !important;
-    width: 1350px !important;
-    background-color: #ee5757;
-    margin: 2rem auto;
+    width: 1350px;
+    background-color: #eaf72e53;
+    margin: auto;
+    height: 200px;
   }
   
   .slick-slider .slick-arrow:before {
@@ -24,18 +25,4 @@
   
   .slick-slider .slick-dots li {
     margin: 0 0.5rem;
-  }
-
-  .fixed-container {
-    display: flex;
-    justify-content: center;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 120px 120px 140px 140px 150px 300px 400px; /* 1열과 4열을 1fr로 설정 */
-  }
-
-  .custom-button {
-    background-color: transparent;
   }

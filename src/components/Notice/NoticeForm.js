@@ -1,16 +1,25 @@
-import { useState, useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CreateNotice from "../../services/CreateNotice";
+import { AuthContext } from "../../context/AuthContext";
+import { CreateNotice } from "../../services/NoticeService";
+import ckeditor from "../ckeditor";
 
-const NoticeForm = () => {
+export const NoticeForm = () => {
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const {authData} = useContext(AuthContext);
+    
+    // 사용자의 권한 확인
+    useEffect(()=> {
+      if(!authData.isAdmin) {
+        navigate('/'); // 권한이 없다면 홈페이지나 로그인 페이지 등으로 리디렉션 
+      }
+    }, [authData, navigate]);
 
     const handlerSubmit = async(event) => {
         event.preventDefault();
-
         try {
             const noticeData = {title, content};
             const createNotice = await CreateNotice(noticeData);
@@ -23,7 +32,11 @@ const NoticeForm = () => {
         }
     };
 
+    // 권한이 admin인 경우에만 페이지 내용 렌더링 
     return(
+
+        authData.isAdmin && (
+
         <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
       <div className="flex gap-x-3">
       <label
@@ -68,6 +81,8 @@ const NoticeForm = () => {
         </label>
         <div className="sm:col-span-2">
          <div className="mt-2.5">
+          <div>
+           
            <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -77,9 +92,14 @@ const NoticeForm = () => {
             className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             defaultValue={""}
           />
+         
+          </div>
+        
         </div>
+      
       </div>
       </div>
+      
 
       <div className="mt-10">
         <div className="flex gap-x-3">
@@ -99,6 +119,8 @@ const NoticeForm = () => {
         </div>
       </div>
     </form>
+
+    )
     )
 };
 
