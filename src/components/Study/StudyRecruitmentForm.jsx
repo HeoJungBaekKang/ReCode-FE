@@ -12,8 +12,6 @@ export default function StudyRecruitment() {
   const navigate = useNavigate();
   const [selectedSkills, setSelectedSkills] = useState([]);
 
-
-
   // 요일 목록
   const daysOfWeek = [
     { id: 'monday', label: '월요일' },
