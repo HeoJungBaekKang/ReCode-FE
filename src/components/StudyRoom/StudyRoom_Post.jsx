@@ -20,7 +20,7 @@ const Post = () => {
             // 작성된 글을 서버로 전송
             console.log("전송 전 newPost:", newPost); // 디버깅용
 
-            const response = await axios.post("http://localhost:8081/api/v1/post", newPost);
+            const response = await axios.post("http://localhost:8081/api/v1/study/{study_room_id}/posts", newPost);
             console.log("글 작성이 완료되었습니다.");
             console.log("서버에서 받은 응답:", response.data);
 
