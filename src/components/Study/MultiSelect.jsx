@@ -1,49 +1,9 @@
-// import React, { useState } from "react";
-// import Select from "react-select";
-
-// function MultiSelect({ onChange }) {
-
-//   const handleChange = (selectedOptions) => {
-//     // selectedOptions는 선택된 옵션 객체들의 배열
-//     onChange(selectedOptions.map(option => option.value));
-//   };
-
-
-//   const [selectedOptions, setSelectedOptions] = useState([]);
-
-//   const options = [
-//     { value: 'html', label: 'HTML' },
-//     { value: 'css', label: 'CSS' },
-//     { value: 'javascript', label: 'JavaScript' },
-//     { value: 'spring', label: 'spring' },
-//     { value: 'JPA', label: 'JPA' },
-//     { value: 'react', label: 'react' },
-//     // 여기에 추가 옵션
-//   ];
-
-
-//   return (
-//     <Select
-//       isMulti
-//       name="skills"
-//       options={options}
-//       value={selectedOptions}
-//       onChange={handleChange}
-//       className="basic-multi-select"
-//       classNamePrefix="select"
-//     />
-//   );
-
-// }
-
-// export default MultiSelect;
-
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
 import axios from "axios";
 
-function MultiSelect() {
+function MultiSelect({onChange}) {
   const { authData } = useContext(AuthContext);
   const [skills, setSkills] = useState([]);
 
@@ -75,11 +35,27 @@ function MultiSelect() {
     handleGet();
   }, [authData.token]);
 
-  const options = skills.map(skill => ({ value: skill, label: skill }));
+  const options = skills.map(skill => ({ value: skill, label: skill}));
+
+  console.log('options 확인 ' , options);
+  
+  const handleChange = (selectedOptions) => {
+
+    console.log('selectedOptions 선택된 정보 확인 ! : ',selectedOptions);
+
+    // 선택한 옵션들의 값을 이름 목록으로 추출
+    const selectedSkillNames = selectedOptions.map(option => option.value);
+
+
+    console.log('selectedSkillNames 선택된 정보 확인 ! : ',selectedSkillNames);
+
+    // 선택한 스킬 이름 목록을 상위 컴포넌트로 전달
+    onChange(selectedSkillNames);
+  };
 
   return (
     <div>
-      <Select options={options} isMulti />
+        <Select options={options} isMulti onChange={handleChange} />
     </div>
   );
 }
