@@ -57,7 +57,7 @@ const StudyRoomNotLogin = () => {
   const handlePost = async () => {
 
     try {
-      await axios.post(`http://localhost:8081/api/v1/study/${study_room_id}/apply`, {
+      await axios.post(`http://localhost:8081/api/v1/study/${study_room_id}/apply`, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -75,7 +75,8 @@ const StudyRoomNotLogin = () => {
           }
         });
     } catch (error) {
-      console.error("스터디 신청 중 오류 발생 :", error.response);
+      console.error("스터디 신청 중 오류 발생 :", error);
+      alert("이미 가입된 스터디입니다.");
       console.log(authData.id);
     }
   };
