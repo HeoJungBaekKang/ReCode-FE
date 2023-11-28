@@ -7,8 +7,11 @@ import axios from "axios";
 const Quiz = () => {
     const { authData } = useContext(AuthContext);
     const { study_room_id } = useParams();
+    const { quiz_id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
+    const [detailModalOpen, setDetailModalOpen] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
+    const [isEditing, setIsEditing] = useState(false)
     const [currentPage, setCurrentPage] = useState(0)
 
     // 새로운 퀴즈를 위한 상태 변수 추가
@@ -88,6 +91,7 @@ const Quiz = () => {
                         console.log("퀴즈 등록 성공", response.data);
 
                         closeModal();
+                        handleGet();
                     } else {
                         console.log("퀴즈 등록 실패");
                     }
@@ -97,12 +101,102 @@ const Quiz = () => {
         }
     };
 
-    const handleModify = () => {
-
+    const openDetailModal = () => {
+        setDetailModalOpen(true);
     };
 
-    const handleDelete = () => {
+    const closeDetailModal = () => {
+        setDetailModalOpen(false);
+    };
 
+    const handleDetail = async () => {
+        try {
+            await axios.get(`http://localhost:8081/api/v1/study/${study_room_id}/quiz/${authData.id}/detail`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("퀴즈 상세보기 성공 : ", response.data.data);
+                        setQuiz(response.data.data);
+                    } else {
+                        console.log("퀴즈 상세보기 실패 :", response);
+                    }
+                });
+        } catch (error) {
+            console.log("퀴즈 상세보기 중 오류 발생 : ", error);
+        }
+    };
+
+    // 수정 버튼 클릭 이벤트 핸들러
+    const handleEditClick = () => {
+        if (!isEditing) {
+            setIsEditing(true);  // 수정 상태로 전환
+        } else {
+            handleModify();      // 수정 완료 상태에서는 수정 이벤트를 실행
+            setIsEditing(false); // 수정 상태 종료
+        }
+    };
+
+    const handleModify = async (event) => {
+        try {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_room_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("퀴즈 수정 성공 : ", quiz);
+
+                        closeDetailModal();
+                        handleGet();
+                    } else {
+                        console.log("퀴즈 수정 실패 :", response);
+                    }
+                });
+        } catch (error) {
+            console.log("퀴즈 수정 중 오류 발생 : ", error);
+        }
+    };
+
+    const handleDelete = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_room_id}/quiz/${quiz.id}/delete`, {}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("퀴즈 삭제 성공");
+
+                        setQuizzes(response.data.data || []); // 리스트 갱신
+
+                        closeDetailModal();
+                    } else {
+                        console.log("퀴즈 삭제 실패 :", response);
+                    }
+                });
+        } catch (error) {
+            console.log("퀴즈 삭제 중 오류 발생 : ", error);
+        }
     };
 
     const chunkedQuizzes = chunk(quizzes, 10)
@@ -116,10 +210,10 @@ const Quiz = () => {
             <div className='ml-60'>
                 {/* 모달 오픈 버튼 */}
                 <div className="flex justify-end mr-5">
-                    <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer">
+                    <a href="https://forms.google.com/" target="_blank" rel="noopener noreferrer" className="bg-transparent text-black w-30 p-2 rounded">
                         문제 만들기
                     </a>
-                    <button onClick={openModal} className="bg-transparent text-black w-20 p-2 rounded">
+                    <button onClick={openModal} className="bg-transparent text-black w-20 p-2 rounded hover:bg-transparent">
                         글 작성
                     </button>
                 </div>
@@ -158,7 +252,12 @@ const Quiz = () => {
                                             </div>
                                         </td>
                                         <th scope="row" className="flex items-center px-8 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <div className="pl-3">
+                                            <div className="pl-3" onClick={async () => {
+                                                if (quiz.nickname === authData.nickname) {
+                                                    await handleDetail();
+                                                    openDetailModal();
+                                                }
+                                            }}>
                                                 <div className="text-base font-semibold">{quiz.title}</div>
                                             </div>
                                         </th>
@@ -180,16 +279,6 @@ const Quiz = () => {
                                         <td className="pl-2 p-4">
                                             <div className="flex items-center ml-4">
                                                 {quiz.updated_At}
-                                            </div>
-                                        </td>
-                                        <td className="pl-2 p-4">
-                                            <div className="flex items-center ml-4">
-                                                <button onClick={handleModify} className="bg-transparent text-black w-20 p-2 rounded">
-                                                    수정
-                                                </button>
-                                                <button onClick={handleDelete} className="bg-transparent text-black w-20 p-2 rounded">
-                                                    삭제
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -233,11 +322,11 @@ const Quiz = () => {
                     </ul>
                 </nav>
             </div>
-            {/* 모달 */}
+            {/* 퀴즈 작성 모달 */}
             {modalOpen && (
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg">
-                        <h2 className="text-2xl font-semibold mb-4">글 작성 모달</h2>
+                        <h2 className="text-2xl font-semibold mb-4">퀴즈 작성</h2>
                         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                             제목
                         </label>
@@ -275,12 +364,6 @@ const Quiz = () => {
                         ></textarea>
                         <div className="flex justify-end space-x-4">
                             <button
-                                onClick={handleModify}
-                                className="bg-blue-500 text-white p-2 rounded"
-                            >
-                                수정
-                            </button>
-                            <button
                                 onClick={handleWriteComplete}
                                 className="bg-blue-500 text-white px-6 w-80 rounded"
                             >
@@ -288,6 +371,72 @@ const Quiz = () => {
                             </button>
                             <button
                                 onClick={closeModal}
+                                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded ml-2"
+                            >
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {/* 상세보기 모달 */}
+            {detailModalOpen && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded-lg">
+                        <h2 className="text-2xl font-semibold mb-4">퀴즈</h2>
+                        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                            제목
+                        </label>
+                        <input
+                            id="title"
+                            value={quiz.title || ''}
+                            onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
+                            className="w-full border p-2 mb-4"
+                            disabled={!isEditing}
+                        />
+                        <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700">
+                            난이도
+                        </label>
+                        <select
+                            id="difficulty"
+                            name="difficulty"
+                            value={quiz.difficulty}
+                            onChange={(e) => setQuiz({ ...quiz, difficulty: e.target.value })}
+                            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            disabled={!isEditing}
+                        >
+                            <option value="0">난이도를 선택해주세요.</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <label htmlFor="quiz_link" className="block text-sm font-medium text-gray-700">
+                            LINK
+                        </label>
+                        <textarea
+                            id="quiz_link"
+                            value={quiz.quiz_link || ''}
+                            onChange={(e) => setQuiz({ ...quiz, quiz_link: e.target.value })}
+                            className="w-full border p-2 mb-4"
+                            disabled={!isEditing}
+                        ></textarea>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                onClick={handleEditClick}
+                                className="bg-blue-500 text-white p-2 rounded"
+                            >
+                                {isEditing ? '수정 완료' : '수정'}
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="bg-red-500 text-white px-6 w-80 rounded"
+                            >
+                                삭제
+                            </button>
+                            <button
+                                onClick={closeDetailModal}
                                 className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded ml-2"
                             >
                                 닫기
