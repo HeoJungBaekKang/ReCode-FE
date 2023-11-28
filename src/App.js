@@ -7,7 +7,7 @@ import TermsofService from "./components/Client/TermsOfService";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
-import StudyRecruitment from "./components/Study/StudyRecruitment";
+import StudyRecruitment from "./components/Study/StudyRecruitmentForm";
 import MultiSelect from "./components/Study/MultiSelect";
 import FindEmailForm from "./components/Client/FindEmailForm";
 import MypageMain from "./components/Mypage/MypageMain";

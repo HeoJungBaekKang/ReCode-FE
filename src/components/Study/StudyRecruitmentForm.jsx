@@ -1,16 +1,67 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import DateTimePicker from "../Fix/DateTimePicker";
-import { data } from "autoprefixer";
 import MultiSelect from "./MultiSelect";
+import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
+
 
 export default function StudyRecruitment() {
+
+  const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
   const [selectedSkills, setSelectedSkills] = useState([]);
 
-  console.log(authData);
+  // 요일 목록
+  const daysOfWeek = [
+    { id: 'monday', label: '월요일' },
+    { id: 'tuesday', label: '화요일' },
+    { id: 'wednesday', label: '수요일' },
+    { id: 'thursday', label: '목요일' },
+    { id: 'friday', label: '금요일' },
+    { id: 'saturday', label: '토요일' },
+    { id: 'sunday', label: '일요일' },
+  ];
+
+  const handleCheckboxChange = (e) => {
+    const dayId = e.target.id;
+    const isChecked = e.target.checked;
+
+    if (isChecked) {
+      // 선택한 요일을 추가
+      setSelectedDays([...selectedDays, dayId]);
+    } else {
+      // 선택한 요일을 제거
+      setSelectedDays(selectedDays.filter((day) => day !== dayId));
+    }
+  };
+
+  const isValidTimeFormat = (time) => {
+    const regex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+    return regex.test(time);
+  };
+
+  // 분 단위의 시간을 HH:MM 형식의 문자열로 변환하는 함수
+  const convertToHHMM = (timeInMinutes) => {
+    const hours = Math.floor(timeInMinutes / 60)
+      .toString()
+      .padStart(2, "0");
+    const minutes = (timeInMinutes % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  // 출석인정 시간
+  const [startTime, setStartTime] = useState(""); // 출석 인정 시작 시간
+  const [endTime, setEndTime] = useState(""); // 출석 인정 종료 시간
+
+  const handleStartTimeChange = (e) => {
+    setStartTime(e.target.value);
+  };
+
+  const handleEndTimeChange = (e) => {
+    setEndTime(e.target.value);
+  };
+
 
   // 초기값 세팅 부분
   const [write, setWrite] = useState({
@@ -22,61 +73,71 @@ export default function StudyRecruitment() {
     endTime: "",
     startDate: "",
     endDate: "",
+    studyDay:"",
     maxNum: "",
-    userId: "",
+    userId: authData.id,
   });
 
   const handleCustomSelectChange = (selectedOptions) => {
-    // selectedOptions는 선택된 옵션 객체들의 배열
-    setSelectedSkills(selectedOptions.map(option => option.value));
-    console.log(selectedSkills);
+  console.log('selectedOptions 확인 @@ : ', selectedOptions);
+  setSelectedSkills(selectedOptions);
   };
 
-  // 단일 select skill handler
 
-  
   const submitWrite = async (e) => {
     e.preventDefault();
 
-    const combinedSkills = [...selectedSkills, write.skills].filter(Boolean);
+    if (!isValidTimeFormat(startTime) || !isValidTimeFormat(endTime)) {
+      alert("시간을 입력해주세요.");
 
-    const formData = {
-      ...write,
-      skills: combinedSkills,
-    };
+      return;
+    }
 
-    fetch(`http://localhost:8081/api/v1/study`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization: `Bearer ${authData.token}`,
-      },
-      // javascript 오브젝트를 json으로 변경해서 전송한다는 의미
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json(data))
-      .then((res) => {
+    try {
 
-        console.log(res.data);
-      });
-  };
+        const dayId = e.target.id;
+        const isChecked = e.target.checked;
+      
+        if (isChecked) {
+          // 선택한 요일을 추가
+          setSelectedDays([...selectedDays, dayId]);
+        } else {
+          // 선택한 요일을 제거
+          setSelectedDays(selectedDays.filter((day) => day !== dayId));
+        }
+      
+      const formattedStartTime = convertToHHMM(
+        parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1])
+      );
+      const formattedEndTime = convertToHHMM(
+        parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
+      );
 
-  const handleSkillsChange = (event) => {
-    const { name, value } = event.target;
-
-    if (event.target.multiple) {
-      // 멀티셀렉트 처리
-      const selectedOptions = Array.from(event.target.selectedOptions, option => option.value);
-      setWrite({
+      const combinedSkills = [...selectedSkills, write.skills].filter(Boolean);
+      // const combinedSkills = [...selectedSkills, write.skills];
+    
+     
+      const studyRecruitmentData = {
         ...write,
-        [name]: selectedOptions,
-      });
-    } else {
-      // 단일 선택 처리
-      setWrite({
-        ...write,
-        [name]: value,
-      });
+        skills: combinedSkills,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
+        studyDay:selectedDays,
+
+        // 다른 필드들도 추가해야 함
+      };
+      console.log('아 정말 하기 싫다 진짜 : ',studyRecruitmentData);
+
+      const response = await createStudyRecruitment(studyRecruitmentData);
+
+      // 성공 처리: response를 이용하여 처리
+      console.log("스터디 모집 글 작성 완료", response);
+
+      navigate("/"); // 목록 페이지 경로로 변경
+      // 필요한 리디렉션 또는 다른 동작 수행
+    } catch (error) {
+      // 오류 처리
+      console.error("스터디 모집 글 작성 중 오류 발생", error);
     }
   };
 
@@ -95,9 +156,10 @@ export default function StudyRecruitment() {
               id="maxNum"
               name="maxNum"
               value={write.maxNum}
-              onChange={(e) => setWrite({...write, maxNum: e.target.value})}
+              onChange={(e) => setWrite({ ...write, maxNum: e.target.value })}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             >
+              <option value="">선택</option>
               <option value="1">1명</option>
               <option value="2">2명</option>
               <option value="3">3명</option>
@@ -124,12 +186,12 @@ export default function StudyRecruitment() {
               id="skills"
               name="skills"
               value={write.skills}
-              onChange={(e) => setWrite({...write, skills: e.target.value})}
+              onChange={(e) => setWrite({ ...write, skills: e.target.value })}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-"
             >
               <option>선택</option>
               <option value="frontEnd">frontend</option>
-              <option value="backEnd">backEnd</option>
+              <option value="backEnd">backend</option>
             </select>
           </div>
         </div>
@@ -144,7 +206,7 @@ export default function StudyRecruitment() {
         <div className="mt-1">
           <input
             value={write.startDate}
-            onChange={(e) => setWrite({...write, startDate: e.target.value})}
+            onChange={(e) => setWrite({ ...write, startDate: e.target.value })}
             type="date"
             name="startDate"
             id="startDate"
@@ -162,7 +224,7 @@ export default function StudyRecruitment() {
         <div className="mt-1">
           <input
             value={write.endDate}
-            onChange={(e) => setWrite({...write, endDate: e.target.value})}
+            onChange={(e) => setWrite({ ...write, endDate: e.target.value })}
             type="date"
             name="endDate"
             id="endDate"
@@ -171,25 +233,58 @@ export default function StudyRecruitment() {
         </div>
       </div>
 
-      <label
-        htmlFor="startDate"
-        className="block text-sm font-semibold leading-6 text-gray-900"
-      >
-        출석 인정 시작 시간
-      </label>
-      <div className="mt-1">
-        <DateTimePicker onChange={(e) => setWrite({...write, startTime: e.target.value})}/>
-      </div>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label
+            htmlFor="startTime"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            출석 인정 시작 시간
+          </label>
+          <div className="mt-2.5 mb-4 relative rounded-md shadow-sm">
+            <input
+              type="time"
+              value={startTime}
+              onChange={handleStartTimeChange}
+            />
+          </div>
+        </div>
 
-      <label
-        htmlFor="startDate"
-        className="block text-sm font-semibold leading-6 text-gray-900"
-      >
-        출석 인정 마지막 시간
-      </label>
-      <div className="mt-1">
-      <DateTimePicker onChange={(e) => setWrite({...write, skills: e.target.value})} />
+        <div>
+          <label
+            htmlFor="endTime"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            출석 인정 마지막 시간
+          </label>
+          <div className="mt-2.5 mb-4 w-full relative rounded-md shadow-sm">
+            <input type="time" value={endTime} onChange={handleEndTimeChange} />
+          </div>
+        </div>
       </div>
+      <div>
+      <label
+            htmlFor="studyDay"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            스터디 진행 요일
+          </label>
+      <div>
+        {daysOfWeek.map((day) => (
+          <label key={day.id}>
+            <input
+              type="checkbox"
+              id={day.id}
+              value={write.studyDay}
+              checked={selectedDays.includes(day.id)}
+              onChange={handleCheckboxChange}
+            />
+            {day.label}
+          </label>
+        ))}
+      </div>
+      <p> {selectedDays.join(', ')}</p>
+    </div>
 
       <div className="sm:col-span-2">
         <label
@@ -201,7 +296,7 @@ export default function StudyRecruitment() {
         <div className="mt-2.5 mb-4">
           <input
             value={write.studyName}
-            onChange={(e) => setWrite({...write, studyName: e.target.value})}
+            onChange={(e) => setWrite({ ...write, studyName: e.target.value })}
             type="text"
             name="studyName"
             id="studyName"
@@ -211,6 +306,14 @@ export default function StudyRecruitment() {
         </div>
       </div>
 
+      <div className="sm:col-span-2">
+        <label
+          htmlFor="skills"
+          className="block text-sm font-semibold leading-2 text-gray-900"
+        >
+          기술 스택 선정 
+        </label>
+      </div>
       <MultiSelect name="skills" onChange={handleCustomSelectChange} />
       <div className="sm:col-span-2 mt-2.5">
         <label
@@ -222,7 +325,7 @@ export default function StudyRecruitment() {
         <div className="mt-2.5">
           <input
             value={write.title}
-            onChange={(e) => setWrite({...write, title: e.target.value})}
+            onChange={(e) => setWrite({ ...write, title: e.target.value })}
             type="text"
             name="title"
             id="title"
@@ -235,7 +338,9 @@ export default function StudyRecruitment() {
         <div className="mt-2.5">
           <textarea
             value={write.description}
-            onChange={(e) => setWrite({...write, description: e.target.value})}
+            onChange={(e) =>
+              setWrite({ ...write, description: e.target.value })
+            }
             name="description"
             id="description"
             rows={11}
