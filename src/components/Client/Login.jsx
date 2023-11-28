@@ -1,14 +1,20 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
+
   const navigate = useNavigate();
 
   const { setAuthData } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  // 구글 로그인
+  const [searchParams] = useSearchParams();
+  const accessToken = searchParams.get('access_token');
+  const refreshToken = searchParams.get('refresh_token');
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,6 +45,7 @@ export default function Login() {
     }
   };
 
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -56,12 +63,22 @@ export default function Login() {
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleLogin}>
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                ID
-              </label>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  ID
+                </label>
+                <div className="text-sm">
+                  <a
+                    href="/client/findId"
+                    className="font-semibold text-indigo-600 hover:text-red-500"
+                  >
+                    Forgot id?
+                  </a>
+                </div>
+              </div>
               <div className="mt-2">
                 <input
                   id="username"
@@ -86,7 +103,7 @@ export default function Login() {
                 </label>
                 <div className="text-sm">
                   <a
-                    href="/client/findPassword"
+                    href="/email"
                     className="font-semibold text-indigo-600 hover:text-red-500"
                   >
                     Forgot password?
@@ -126,8 +143,14 @@ export default function Login() {
               join now
             </a>
           </p>
-        </div>
-      </div>
+          <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:3000&mode=login">
+            <button>Google Login</button>
+          </a>
+          <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:3000&mode=unlink">
+            <button>Google Unlink</button>
+          </a>
+        </div >
+      </div >
     </>
   );
 }

@@ -1,8 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 
+const CheckUsernameDuplicate = async (username) => {
+
+  try {
+    const response = await fetch(`http://localhost:8081/api/user-name/${username}/exists`);
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
+    return result;
+
+  }
+  catch (error) {
+    return "err"
+  }
+}
+
+const CheckEmailDuplicate = async (email) => {
+
+  try {
+    const response = await fetch(`http://localhost:8081/api/user-email/${email}/exists`);
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
+    return result;
+
+  }
+  catch (error) {
+    return "err"
+  }
+}
+
 export default function Join() {
+  const [username, setUsername] = useState(""); // 아이디 상태 변수
+  const [email, setEmail] = useState("");
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -12,16 +45,68 @@ export default function Join() {
     nickname: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const usernameHandler = (e) => {
+    setUsername(e.target.value);
     setFormData({
       ...formData,
-      [name]: value,
+      username: e.target.value,
+    })
+    console.log(username)
+  };
+
+  const handlename = async () => {
+    const currentName = username
+    const result = await CheckUsernameDuplicate(currentName);
+    console.log(result.code)
+    if (result.code === 1) {
+      // 사용 가능한 아이디
+      alert("사용 가능한 아이디입니다.");
+
+    } else if (result.code === -1) {
+      // 이미 사용 중인 아이디
+      alert("이미 사용 중인 아이디입니다.");
+    }
+  }
+
+  const userEmailHandler = (e) => {
+    setEmail(e.target.value);
+    setFormData({
+      ...formData,
+      email: e.target.value,
+    })
+    console.log(email)
+  };
+
+  const handleEmail = async () => {
+    const currentEmail = email
+    const result = await CheckEmailDuplicate(currentEmail);
+    console.log(result.code)
+    if (result.code === 1) {
+      // 사용 가능한 이메일
+      alert("사용 가능한 이메일입니다.");
+
+    } else if (result.code === -1) {
+      // 이미 사용 중인 이메일
+      alert("이미 사용 중인 이메일입니다.");
+    }
+  }
+
+  const handleInputChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
     });
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // 필수 필드 검증
+    if (!formData.username || !formData.password || !formData.email || !formData.nickname) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
 
     try {
       const response = await AuthService.signup(formData);
@@ -31,9 +116,11 @@ export default function Join() {
         navigate("/login");
       } else {
         alert("회원가입 실패");
+        console.log(formData);
       }
     } catch (error) {
       console.error("오류 발생:", error);
+      console.log(formData);
     }
   };
 
@@ -67,11 +154,13 @@ export default function Join() {
                   autoComplete="username"
                   required
                   value={formData.username}
-                  onChange={handleInputChange}
+                  onChange={usernameHandler}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
+                  name="idCheck"
+                  onClick={handlename}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
                     hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
@@ -111,7 +200,7 @@ export default function Join() {
               >
                 Email
               </label>
-              <div className="mt-2">
+              <div className="mt-2 flex items-center">
                 <input
                   id="email"
                   name="email"
@@ -119,11 +208,21 @@ export default function Join() {
                   autoComplete="email"
                   required
                   value={formData.email}
-                  onChange={handleInputChange}
+                  onChange={userEmailHandler}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  name="emailCheck"
+                  onClick={handleEmail}
+                  className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
+                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
+                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                >
+                  중복확인
+                </button>
               </div>
             </div>
 

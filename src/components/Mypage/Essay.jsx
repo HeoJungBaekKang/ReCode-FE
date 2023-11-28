@@ -23,7 +23,7 @@ export default function Essay() {
             })
                 .then(response => {
                     console.log(response.data);
-
+                    console.log(response.data.essay);
                     const code = response.data.code;
 
                     if (code === 1) {
@@ -42,7 +42,7 @@ export default function Essay() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/mypage/${authData.id}/getessay`, {
+            await axios.get(`http://localhost:8081/api/v1/mypage/${authData.id}/study-applications`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
