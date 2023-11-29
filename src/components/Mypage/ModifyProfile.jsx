@@ -24,6 +24,7 @@ export default function ModifyProfile() {
     })
       .then(res => {
         console.log(res.data);
+        navigate('/mypage/myprofile');
       });
   }
   return (
