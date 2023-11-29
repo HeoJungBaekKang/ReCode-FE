@@ -16,7 +16,7 @@ export default function StudyList() {
         : {
             'Content-Type': 'application/json',
           };
-      const response = await axios.get(`http://localhost:8081/api/main/list`, { headers });
+      const response = await axios.get(`http://52.79.108.89:8080/api/main/list`, { headers });
       console.log(response.data);
       setPost(response.data.data || []);
       const code = response.data.code;
@@ -32,7 +32,6 @@ export default function StudyList() {
   const handleStudyRoomClick = async (studyRoomId) => {
       navigate(`/studyroomNotLogin/${studyRoomId}`);
   }
-  
   const chunkedPosts = chunk(posts, 9)
   const [currentPage, setCurrentPage] = useState(0)
   useEffect(() => {
@@ -65,8 +64,10 @@ export default function StudyList() {
                           'bg-gray-400 text-white'
                         }`}>
                         {
-                          post.max_num - post.current_num <= 2 && post.max_num !== post.current_num ? '마감 임박' :
-                            post.max_num > post.current_num ? '모집중' :
+                          post.max_num - post.current_num <= 2 && post.max_num !== post.current_num ?
+                            `현재 인원 : ${post.max_num - post.current_num}` :
+                            post.max_num > post.current_num ?
+                              `현재 인원: ${post.max_num - post.current_num}` :
                               '모집 완료'
                         }
                       </div>
@@ -79,11 +80,10 @@ export default function StudyList() {
                       ))}
                     </div>
                     <div className="group relative">
-                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
-                        <div onClick={() => handleStudyRoomClick(post.id)}>
-                          <span className="absolute inset-0" />
+                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                        <Link to={`/studyroom/${post.id}`}>
                           {post.title}
-                        </div>
+                        </Link>
                       </h3>
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">
@@ -137,7 +137,7 @@ export default function StudyList() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 function chunk(array, size) {

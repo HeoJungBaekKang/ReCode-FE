@@ -15,7 +15,7 @@ export default function Essay() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://15.164.85.184/api/v1/mypage/${authData.id}/essay`, essay, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/mypage/${authData.id}/essay`, essay, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -42,7 +42,7 @@ export default function Essay() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/mypage/${authData.id}/study-applications`, {
+            await axios.get(`http://52.79.108.89:8080/api/v1/mypage/${authData.id}/study-applications`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

@@ -29,7 +29,7 @@ const StudyRoomNotLogin = () => {
   const handleGet = async () => {
     try {
       await axios
-        .get(`http://15.164.85.184/api/study/${study_room_id}`, {
+        .get(`http://52.79.108.89:8080/api/study/${study_room_id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -59,7 +59,7 @@ const StudyRoomNotLogin = () => {
   const handlePost = async () => {
 
     try {
-      await axios.post(`http://15.164.85.184/api/v1/study/${study_room_id}/apply`, {}, {
+      await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/apply`, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -90,7 +90,7 @@ const StudyRoomNotLogin = () => {
     }
 
     try {
-      const response = await axios.get(`http://15.164.85.184/api/v1/users/${authData.id}/studyrooms/${study_room_id}/isInStudyRoom`, {
+      const response = await axios.get(`http://52.79.108.89:8080/api/v1/users/${authData.id}/studyrooms/${study_room_id}/isInStudyRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`

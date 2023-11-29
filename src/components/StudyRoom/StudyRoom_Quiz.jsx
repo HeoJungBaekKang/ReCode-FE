@@ -30,7 +30,7 @@ const Quiz = () => {
         }
 
         try {
-            let url = `http://15.164.85.184/api/v1/study/${study_room_id}/quiz-list`;
+            let url = `http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz-list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -76,7 +76,7 @@ const Quiz = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://15.164.85.184/api/v1/study/${study_room_id}/quiz`, quiz, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -116,7 +116,7 @@ const Quiz = () => {
 
     const handleDetail = async () => {
         try {
-            await axios.get(`http://15.164.85.184/api/v1/study/${study_room_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${authData.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -151,7 +151,7 @@ const Quiz = () => {
 
     const handleModify = async (event) => {
         try {
-            await axios.post(`http://15.164.85.184/api/v1/study/${study_room_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -179,7 +179,7 @@ const Quiz = () => {
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://15.164.85.184/api/v1/study/${study_room_id}/quiz/${quiz.id}/delete`, {}, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/delete`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -484,7 +484,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://15.164.85.184/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
