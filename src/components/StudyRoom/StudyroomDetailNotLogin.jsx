@@ -40,6 +40,8 @@ const StudyRoomNotLogin = () => {
             console.log("스터디 상세보기 조회 성공");
             checkStudyRoomMembership();
             console.log("isInstudyRoom: ", isInStudyRoom)
+            checkStudyRoomMembership();
+            console.log("isInstudyRoom: ", isInStudyRoom)
           } else {
             console.log("스터디 상세보기 조회 실패");
           }

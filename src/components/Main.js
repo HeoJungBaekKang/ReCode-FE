@@ -7,6 +7,7 @@ import Search from "./Fix/Search";
 import MultiSelect from "./Study/MultiSelect";
 import StudyList from "./StudyList";
 import MainPageFilter from "./Pages/MainPageFilter";
+import Footer from "./Fix/Footer";
 
 const Main = () => {
   var settings = {
@@ -103,7 +104,7 @@ const Main = () => {
         <MainPageFilter onFilterChange={handleFilterChange} />
                 {/* 필터링된 스터디 그룹을 표시 */}
       </div>
-      
+      <Footer />
     </>
   );
 };
