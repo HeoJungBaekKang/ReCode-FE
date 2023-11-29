@@ -7,7 +7,6 @@ import axios from "axios";
 const Quiz = () => {
     const { authData } = useContext(AuthContext);
     const { study_room_id } = useParams();
-    const { quiz_id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const [detailModalOpen, setDetailModalOpen] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
@@ -252,17 +251,19 @@ const Quiz = () => {
                                             </div>
                                         </td>
                                         <th scope="row" className="flex items-center px-8 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                            <div className="pl-3" onClick={async () => {
-                                                if (quiz.nickname === authData.nickname) {
-                                                    await handleDetail();
-                                                    openDetailModal();
-                                                }
-                                            }}>
+                                            <div className="pl-3"
+                                                style={{ cursor: quiz.nickname === authData.nickname ? 'pointer' : 'default' }}
+                                                onClick={async () => {
+                                                    if (quiz.nickname === authData.nickname) {
+                                                        await handleDetail();
+                                                        openDetailModal();
+                                                    }
+                                                }}>
                                                 <div className="text-base font-semibold">{quiz.title}</div>
                                             </div>
                                         </th>
                                         <td className="w-20 p-4">
-                                            <div className="flex items-center ml-4">
+                                            <div className="flex items-center mr-5">
                                                 <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" />{quiz.difficulty}
                                             </div>
                                         </td>
@@ -336,23 +337,25 @@ const Quiz = () => {
                             onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
                             className="w-full border p-2 mb-4"
                         />
-                        <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700">
-                            난이도
-                        </label>
-                        <select
-                            id="difficulty"
-                            name="difficulty"
-                            value={quiz.difficulty}
-                            onChange={(e) => setQuiz({ ...quiz, difficulty: e.target.value })}
-                            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        >
-                            <option value="0">난이도를 선택해주세요.</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                        <div className="">
+                            <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700">
+                                난이도
+                            </label>
+                            <select
+                                id="difficulty"
+                                name="difficulty"
+                                value={quiz.difficulty}
+                                onChange={(e) => setQuiz({ ...quiz, difficulty: e.target.value })}
+                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            >
+                                <option value="0">난이도를 선택해주세요.</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
                         <label htmlFor="quiz_link" className="block text-sm font-medium text-gray-700">
                             LINK
                         </label>
@@ -383,7 +386,9 @@ const Quiz = () => {
             {detailModalOpen && (
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg">
-                        <h2 className="text-2xl font-semibold mb-4">퀴즈</h2>
+                        <h2 className="text-2xl font-semibold mb-4">퀴즈</h2><label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mt-2 mb-2">
+                            작성자 : {quiz.nickname}
+                        </label>
                         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                             제목
                         </label>
@@ -401,11 +406,12 @@ const Quiz = () => {
                             id="difficulty"
                             name="difficulty"
                             value={quiz.difficulty}
+                            placeholder={quiz.difficulty}
                             onChange={(e) => setQuiz({ ...quiz, difficulty: e.target.value })}
                             className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             disabled={!isEditing}
                         >
-                            <option value="0">난이도를 선택해주세요.</option>
+                            <option value="0">{quiz.difficulty}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
