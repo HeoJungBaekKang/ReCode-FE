@@ -2,54 +2,44 @@ import React, { useState, useContext, useEffect } from "react"
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
 export default function StudyList() {
-
   const navigate = useNavigate();
-
   const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
-
   const [posts, setPost] = useState([]);
-
   const handleGet = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/main/list`, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-        .then(response => {
-          console.log(response.data);
-
-          setPost(response.data);
-
-          setPost(response.data.data || []);
-
-          const code = response.data.code;
-
-          if (code === 1) {
-            console.log("스터디 목록 불러오기 성공");
-          } else {
-            console.log("스터디 목록 불러오기 실패");
+      const headers = authData.userId
+        ? {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authData.token}`,
           }
-        });
+        : {
+            'Content-Type': 'application/json',
+          };
+      const response = await axios.get(`http://localhost:8081/api/main/list`, { headers });
+      console.log(response.data);
+      setPost(response.data.data || []);
+      const code = response.data.code;
+      if (code === 1) {
+        console.log("스터디 목록 불러오기 성공");
+      } else {
+        console.log("스터디 목록 불러오기 실패");
+      }
     } catch (error) {
       console.error("스터디 목록 조회 중 오류 : ", error);
     }
+  };
+  const handleStudyRoomClick = async (studyRoomId) => {
+      navigate(`/studyroomNotLogin/${studyRoomId}`);
   }
-
   const chunkedPosts = chunk(posts, 9)
-
   const [currentPage, setCurrentPage] = useState(0)
-
   useEffect(() => {
     handleGet();
   }, []);
-
   if (!chunkedPosts[currentPage]) {
     return <div>스터디가 없습니다.</div>;
   }
-
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -150,14 +140,11 @@ export default function StudyList() {
     </div >
   )
 }
-
 function chunk(array, size) {
   const chunked_arr = []
   let copied = [...array]
-
   while (copied.length > 0) {
     chunked_arr.push(copied.splice(0, size))
   }
-
   return chunked_arr
 }

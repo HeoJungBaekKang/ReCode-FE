@@ -85,11 +85,20 @@ export default function MyStudyList() {
                                 ))}
                             </div>
                             <div className="group relative">
-                                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                    <a href={post.href}>
-                                        <span className="absolute inset-0" />
-                                        {post.title}
-                                    </a>
+                                <h3 className={`mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 ${post.status === '거절됨' || post.status === '대기중' ? 'pointer-events-none' : ''}`}>
+                                    {
+                                        // 링크 활성화 여부를 status에 따라 결정
+                                        post.status === '거절됨' || post.status === '대기중' ?
+                                            (
+                                                <span>{post.title}</span> // 클릭 불가능한 상태
+                                            ) :
+                                            (
+                                                <a href={`/studyroom/${post.id}`}>
+                                                    <span className="absolute inset-0" />
+                                                    {post.title}
+                                                </a>
+                                            )
+                                    }
                                 </h3>
                             </div>
                         </article>
