@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import FindIdForm from "./components/Client/FindIdForm";
 import FindPasswordForm from "./components/Client/FindPasswordForm";
-import ChangePasswordForm from "./components/Client/ChangePasswordForm";
-import TermsofService from "./components/Client/TermsOfService";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
@@ -45,6 +43,7 @@ import Email from "./components/Client/EmailForm";
 import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
+import TermsAndConditions from "./components/Client/Agreement";
 
 
 function App() {
@@ -66,7 +65,6 @@ function App() {
             <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
             <Route path="/client/findPassword" element={<FindPasswordForm />} />
-            <Route path="/client/termsofService" element={<TermsofService />} />
             <Route path="/client/findEmail" element={<FindEmailForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
@@ -86,7 +84,7 @@ function App() {
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
             <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
-            <Route path="/studyroom/quiz" element={<Quiz />} />
+            <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
             <Route path="/studyroom/post" exact element={Post} />
             <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
             <Route path="/studyroom/manage" element={<Manage />} />
@@ -103,6 +101,7 @@ function App() {
             <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
+            <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
           </Routes>
         </div>
       </AuthProvider>
