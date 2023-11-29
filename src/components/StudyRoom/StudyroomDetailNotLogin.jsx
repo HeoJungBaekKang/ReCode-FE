@@ -43,6 +43,8 @@ const StudyRoomNotLogin = () => {
 
           if (code === 1) {
             console.log("스터디 상세보기 조회 성공");
+            checkStudyRoomMembership();
+            console.log("isInstudyRoom: ", isInStudyRoom)
           } else {
             console.log("스터디 상세보기 조회 실패");
           }
@@ -76,8 +78,6 @@ const StudyRoomNotLogin = () => {
         });
     } catch (error) {
       console.error("스터디 신청 중 오류 발생 :", error);
-      alert("이미 가입된 스터디입니다.");
-      console.log(authData.id);
     }
   };
 
@@ -98,10 +98,12 @@ const StudyRoomNotLogin = () => {
       });
 
       setIsInStudyRoom(response.data.isInStudyRoom);
+      console.log("스터디 룸 가입여부 확인", isInStudyRoom);
     } catch (error) {
       console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }
   };
+
 
   // 신청 버튼 클릭 핸들러
   const handleStudyRoomClick = async () => {
@@ -111,7 +113,7 @@ const StudyRoomNotLogin = () => {
       return;
     }
 
-    if (isInStudyRoom) {
+    if (isInStudyRoom === true) {
       alert("이미 가입된 스터디입니다.");
     } else {
       handlePost();
@@ -120,7 +122,6 @@ const StudyRoomNotLogin = () => {
 
   useEffect(() => {
     handleGet();
-    checkStudyRoomMembership();
   }, []);
 
   return (

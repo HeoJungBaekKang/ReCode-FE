@@ -10,6 +10,7 @@ const Quiz = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [detailModalOpen, setDetailModalOpen] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
+    const [keyword, setKeyword] = useState("");
     const [isEditing, setIsEditing] = useState(false)
     const [currentPage, setCurrentPage] = useState(0)
 
@@ -29,7 +30,12 @@ const Quiz = () => {
         }
 
         try {
-            await axios.get(`http://localhost:8081/api/v1/study/${study_room_id}/quiz-list`, {
+            let url = `http://localhost:8081/api/v1/study/${study_room_id}/quiz-list`;
+            if (keyword) {
+                url += `?keyword=${keyword}`;
+            }
+
+            await axios.get(url, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -56,7 +62,7 @@ const Quiz = () => {
     useEffect(() => {
         console.log("Study Room ID:", study_room_id);
         handleGet();
-    }, [study_room_id, authData])
+    }, [study_room_id, authData, keyword])
 
     const openModal = () => {
         setModalOpen(true);
@@ -216,7 +222,8 @@ const Quiz = () => {
                         글 작성
                     </button>
                 </div>
-                <div className='ml-5'>
+                <SearchBox keyword={keyword} setKeyword={setKeyword} />
+                <div className='ml-5 mt-5'>
                     <div className="relative flex-grow overflow-x-auto shadow-md sm:rounded-lg ml-5 mr-5">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -466,4 +473,47 @@ function chunk(array, size) {
     }
 
     return chunked_arr
+}
+
+function SearchBox({ keyword, setKeyword }) {
+
+    const { authData } = useContext(AuthContext);
+    const { study_room_id } = useParams();
+
+    const [results, setResults] = useState([]);
+
+    useEffect(() => {
+        if (keyword) {
+            axios.get(`http://localhost:8081/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    setResults(response.data.data || []);
+                })
+                .catch(error => {
+                    console.error("Error fetching data: ", error.response.data);
+                    setResults([]);
+                });
+        } else {
+            setResults([]);
+        }
+    }, [keyword]);
+
+    const handleInputChange = (event) => {
+        setKeyword(event.target.value);
+    };
+
+    return (
+        <input
+            type="text"
+            id="table-search-users"
+            className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="검색어를 입력해주세요."
+            value={keyword}
+            onChange={handleInputChange}
+        />
+    );
 }

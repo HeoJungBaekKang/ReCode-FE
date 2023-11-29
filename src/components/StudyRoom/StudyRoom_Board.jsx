@@ -234,7 +234,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8081/api/v1/study/1/list?keyword=${keyword}`, {
+            axios.get(`http://localhost:8081/api/v1/study/${study_id}/list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
