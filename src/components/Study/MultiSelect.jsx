@@ -37,7 +37,7 @@ function MultiSelect({onChange}) {
   const options = skills.map(skill => ({ value: skill, label: skill}));
 
   console.log('options 확인 ' , options);
-  
+
   const handleChange = (selectedOptions) => {
 
     console.log('selectedOptions 선택된 정보 확인 ! : ',selectedOptions);
