@@ -12,6 +12,7 @@ function MultiSelect({onChange}) {
       try {
         const response = await axios.get(`http://localhost:8081/api/get-skills`, {
           headers: {
+
             'Content-Type': 'application/json'
           }
         });
