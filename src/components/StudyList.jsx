@@ -32,6 +32,7 @@ export default function StudyList() {
   const handleStudyRoomClick = async (studyRoomId) => {
       navigate(`/studyroomNotLogin/${studyRoomId}`);
   }
+  
   const chunkedPosts = chunk(posts, 9)
   const [currentPage, setCurrentPage] = useState(0)
   useEffect(() => {
