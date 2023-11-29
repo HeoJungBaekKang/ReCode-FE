@@ -171,8 +171,7 @@ const StudyRoomNotLogin = () => {
               </p>
             </div>
           </div>
-          <div className="mt-5 flex justify-end"
-          onClick = {() => handleApply()}>
+          <div className="mt-5 flex justify-end">
             <button
               type="submit"
               onClick={handleStudyRoomClick}
