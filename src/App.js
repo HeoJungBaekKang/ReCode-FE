@@ -2,13 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import FindIdForm from "./components/Client/FindIdForm";
-import FindPasswordForm from "./components/Client/FindPasswordForm";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
 import StudyRecruitment from "./components/Study/StudyRecruitmentForm";
 import MultiSelect from "./components/Study/MultiSelect";
-import FindEmailForm from "./components/Client/FindEmailForm";
 import MypageMain from "./components/Mypage/MypageMain";
 import Essay from "./components/Mypage/Essay";
 import Withdraw from "./components/Mypage/Withdraw";
@@ -60,12 +58,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
-            <Route path="/findPassword" element={<FindPasswordForm />} />
             <Route path="/email" element={<Email />} />
             <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
-            <Route path="/client/findPassword" element={<FindPasswordForm />} />
-            <Route path="/client/findEmail" element={<FindEmailForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />

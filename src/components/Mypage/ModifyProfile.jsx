@@ -16,7 +16,7 @@ export default function ModifyProfile() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await axios.put(`http://localhost:8081/api/v1/users/${authData.id}`, user, {
+    const response = await axios.put(`http://15.164.85.184/api/v1/users/${authData.id}`, user, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${authData.token}`

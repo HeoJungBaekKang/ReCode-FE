@@ -4,7 +4,7 @@ import axios from 'axios';
 // 공지사항 삭제 
 export async function deleteNotice(noticeId){
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+    await axios.delete(`http://15.164.85.184/api/admin/v1/notice/${noticeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
@@ -19,7 +19,7 @@ export const CreateNotice = async(noticeData) => {
   
       console.log(token);
   
-      const response = await axios.post('http://localhost:8081/api/admin/v1/notice', noticeData, {
+      const response = await axios.post('http://15.164.85.184/api/admin/v1/notice', noticeData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization' : `Bearer ${token}`,
@@ -45,7 +45,7 @@ export const CreateNotice = async(noticeData) => {
         throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
       }
   
-    const response = await axios.get(`http://localhost:8081/api/v1/notice-detail/${noticeId}`, {
+    const response = await axios.get(`http://15.164.85.184/api/v1/notice-detail/${noticeId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${token}`,
@@ -71,7 +71,7 @@ export const CreateNotice = async(noticeData) => {
           throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.post(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+        const response = await axios.post(`http://15.164.85.184/api/admin/v1/notice/${noticeId}`, {
             title: noticeTitle,
             content: noticeContent,
         }, {
@@ -99,7 +99,7 @@ export async function fetchNoticeList(){
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
           }
-        const response = await axios.get('http://localhost:8081/api/v1/notice-list',{
+        const response = await axios.get('http://15.164.85.184/api/v1/notice-list',{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${token}`,
