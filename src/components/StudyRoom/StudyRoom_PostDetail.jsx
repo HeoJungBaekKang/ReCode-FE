@@ -11,7 +11,7 @@ const PostDetail = () => {
         // postId를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/api/posts/${postId}`);
+                const response = await axios.get(`http://localhost:8080/api/posts/${postId}`);
                 setPostData(response.data);
             } catch (error) {
                 console.error("글 정보를 가져오는 중 오류 발생:", error);

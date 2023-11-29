@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://52.79.108.89:8080/api/v1/study/${study_id}/list`;
+            let url = `http://localhost:8080/api/v1/study/${study_room_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
