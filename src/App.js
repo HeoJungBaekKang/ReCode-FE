@@ -21,7 +21,7 @@ import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
 import QnaDetail from "./components/Qna/QnaDetail";
-import QnaPost from "./components/Qna/QnaPost";
+import QnaPost, { QnaForm } from "./components/Qna/QnaPost";
 import StudyManagement from "./components/Admin/StudyManagement";
 import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
@@ -91,7 +91,7 @@ function App() {
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
-            <Route path="/qna/detail" element={<QnaDetail />} />
+            <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
             <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />

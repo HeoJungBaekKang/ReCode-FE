@@ -38,7 +38,7 @@ const Main = () => {
           <section>
             <div
               id="slider-container"
-              class="w-full max-w-screen-xl mx-auto mt-12"
+              className="w-full max-w-screen-xl mx-auto mt-12"
             >
               <Slider {...settings}>
                 <article
@@ -64,7 +64,7 @@ const Main = () => {
           </section>
 
           <div className="fixed-container">
-            <div class="grid grid-rows-1 grid-cols-6">
+            <div className="grid grid-rows-1 grid-cols-6">
               <div>
                 <button className="custom-button text-2xl font-semibold text-black bg-transparent hover:text-gray-500 focus:text-gray-500 hover:bg-transparent focus:bg-transparent">
                   <h1>전체보기</h1>
