@@ -25,7 +25,7 @@ export default function FindIdForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:8081/api/find-username`, { email: info.email }, {
+      const response = await axios.post(`http://52.79.108.89:8080/api/find-username`, { email: info.email }, {
         headers: {
           'Content-Type': 'application/json',
         }
