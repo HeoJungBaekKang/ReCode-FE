@@ -83,26 +83,33 @@ const Main = () => {
                   <h1>프론트엔드</h1>
                 </button>
               </div>
-              <div className="grid grid-cols-6">
-                <div className="col-start-8 col-span-2 flex justify-end items-center">
-                  <button
-                    onClick={() => navigate("/client/recruitment")}
-                    className="mt-4 p-2 bg-blue-500 text-white rounded-md"
-                  >
-                    스터디 생성
-                  </button>
-                </div>
-                <br/>
-                <div className="col-end-9 col-span-2 flex justify-end items-center">              
-                  <Search />
-                </div>
+
+              {/* 스터디 생성 버튼 */}
+              <div class="col-start-6">
+                <button
+                  onClick={() => navigate("/client/recruitment")}
+                  className="col-start-6 mt-4 p-2 bg-blue-500 text-white rounded-md"
+                >
+                  <h1>스터디 생성</h1>
+                </button>
               </div>
+            </div>
+          </div>
+
+          <div class="mt-4"></div>
+
+          <div class="grid grid-cols-6 gap-6">
+            {/* MainPageFilter 컴포넌트를 첫 번째 칼럼에 배치 */}
+            <div class="col-start-1 px-8">
+              <MainPageFilter onFilterChange={handleFilterChange} />
+            </div>
+            <div class="col-start-5 col-span-2">
+              <Search className="mt-4 p-2 bg-blue-500 text-white rounded-md"></Search>
             </div>
           </div>
           <StudyList />
         </Layout>
-        <MainPageFilter onFilterChange={handleFilterChange} />
-                {/* 필터링된 스터디 그룹을 표시 */}
+        {/* 필터링된 스터디 그룹을 표시 */}
       </div>
       <Footer />
     </>
