@@ -11,16 +11,11 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // 구글 로그인
-  const [searchParams] = useSearchParams();
-  const accessToken = searchParams.get('access_token');
-  const refreshToken = searchParams.get('refresh_token');
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8081/api/login", {
+      const response = await axios.post("http://15.164.85.184/api/login", {
         username,
         password,
       });
@@ -137,18 +132,12 @@ export default function Login() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
             <a
-              href="/join"
+              href="/termsOfCondtions"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               join now
             </a>
           </p>
-          <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:3000&mode=login">
-            <button>Google Login</button>
-          </a>
-          <a href="http://localhost:8081/oauth2/authorization/google?redirect_uri=http://localhost:3000&mode=unlink">
-            <button>Google Unlink</button>
-          </a>
         </div >
       </div >
     </>

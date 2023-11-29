@@ -1,25 +1,23 @@
-// services/noticeService.js
 import axios from 'axios';
 
-// 공지사항 삭제 
-export async function deleteNotice(noticeId){
-    const token = localStorage.getItem("token");
-    await axios.delete(`http://52.79.108.89:8080/api/admin/v1/notice/${noticeId}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    });
-};
+// export async function deleteNotice(noticeId){
+//     const token = localStorage.getItem("token");
+//     await axios.delete(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+//         headers: {
+//             'Authorization': `Bearer ${token}`,
+//         }
+//     });
+// };
 
-// 공지사항 작성 
-export const CreateNotice = async(noticeData) => {
+//Qna 생성
+export const CreateQna = async(qnaData) => {
 
     try {
       const token = localStorage.getItem("token");
   
       console.log(token);
   
-      const response = await axios.post('http://52.79.108.89:8080/api/admin/v1/notice', noticeData, {
+      const response = await axios.post('http://52.79.108.89:8080/api/admin/v1/qna', qnaData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization' : `Bearer ${token}`,
@@ -29,23 +27,22 @@ export const CreateNotice = async(noticeData) => {
       console.log(response.data);
       return response.data;
     } catch (error) {
-      console.error('공지사항 생성 중 오류 발생', error);
+      console.error('qna error', error);
     }
   };
   
 
-  // 공지사항 상세보기 
-  export async function fetchNoticeDetail(noticeId) {
+  // Qna 단일 조회 
+  export async function fetchQnaDetail(qnaId) {
 
     try {
       const token = localStorage.getItem("token");
   
       if (!token) {
-        // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
         throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
       }
   
-    const response = await axios.get(`http://52.79.108.89:8080/api/v1/notice-detail/${noticeId}`, {
+    const response = await axios.get(`http://52.79.108.89:8080/api/v1/qna/${qnaId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${token}`,
@@ -62,7 +59,7 @@ export const CreateNotice = async(noticeData) => {
   };
  
   // 공지사항 수정 후 저장 버튼 
-  export const saveNotice = async (noticeId, noticeTitle, noticeContent) => {
+  export const saveNotice = async (qnaId, qnaTitle, qnaContent) => {
     try {
         const token = localStorage.getItem("token");
 
@@ -71,9 +68,9 @@ export const CreateNotice = async(noticeData) => {
           throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.post(`http://52.79.108.89:8080/api/admin/v1/notice/${noticeId}`, {
-            title: noticeTitle,
-            content: noticeContent,
+        const response = await axios.put(`http://52.79.108.89:8080/api/admin/v1/qna/${qnaId}`, {
+            title: qnaTitle,
+            content: qnaContent,
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -90,8 +87,8 @@ export const CreateNotice = async(noticeData) => {
     }
 };
 
-// 공지사항 목록 조회
-export async function fetchNoticeList(){
+// Qna 목록 조회
+export async function fetchQnaList(){
 
     try {
         const token = localStorage.getItem("token");
@@ -99,7 +96,7 @@ export async function fetchNoticeList(){
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
           }
-        const response = await axios.get('http://52.79.108.89:8080/api/v1/notice-list',{
+        const response = await axios.get('http://52.79.108.89:8080/api/v1/qna',{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${token}`,
