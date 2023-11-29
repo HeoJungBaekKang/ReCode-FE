@@ -73,7 +73,7 @@ export default function StudyRecruitment() {
     endTime: "",
     startDate: "",
     endDate: "",
-    studyDay:"",
+    attendanceDay:"",
     maxNum: "",
     userId: authData.id,
   });
@@ -94,17 +94,6 @@ export default function StudyRecruitment() {
     }
 
     try {
-
-        const dayId = e.target.id;
-        const isChecked = e.target.checked;
-      
-        if (isChecked) {
-          // 선택한 요일을 추가
-          setSelectedDays([...selectedDays, dayId]);
-        } else {
-          // 선택한 요일을 제거
-          setSelectedDays(selectedDays.filter((day) => day !== dayId));
-        }
       
       const formattedStartTime = convertToHHMM(
         parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1])
@@ -122,10 +111,11 @@ export default function StudyRecruitment() {
         skills: combinedSkills,
         startTime: formattedStartTime,
         endTime: formattedEndTime,
-        studyDay:selectedDays,
+        attendanceDay:selectedDays,
 
-        // 다른 필드들도 추가해야 함
+        // 다른 필드들도 추가해야 함  
       };
+
       console.log('아 정말 하기 싫다 진짜 : ',studyRecruitmentData);
 
       const response = await createStudyRecruitment(studyRecruitmentData);
@@ -145,7 +135,7 @@ export default function StudyRecruitment() {
     <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-xl sm:mt-20">
       <div className="flex gap-x-3">
         <div className="sm:col-span-2">
-          <div class="w-48">
+          <div className="w-48">
             <label
               htmlFor="maxNum"
               className="block text-sm font-semibold leading-6 text-gray-900"
@@ -264,7 +254,7 @@ export default function StudyRecruitment() {
       </div>
       <div>
       <label
-            htmlFor="studyDay"
+            htmlFor="AttendanceDay"
             className="block text-sm font-semibold leading-6 text-gray-900"
           >
             스터디 진행 요일
@@ -275,6 +265,7 @@ export default function StudyRecruitment() {
             <input
               type="checkbox"
               id={day.id}
+              name="attendanceDay"
               value={write.studyDay}
               checked={selectedDays.includes(day.id)}
               onChange={handleCheckboxChange}
@@ -283,7 +274,7 @@ export default function StudyRecruitment() {
           </label>
         ))}
       </div>
-      <p> {selectedDays.join(', ')}</p>
+      <div> {selectedDays.join(', ')}</div>
     </div>
 
       <div className="sm:col-span-2">

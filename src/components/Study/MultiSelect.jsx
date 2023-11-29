@@ -10,7 +10,7 @@ function MultiSelect({onChange}) {
   useEffect(() => {
     const handleGet = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/v1/get-skills`, {
+        const response = await axios.get(`http://localhost:8081/api/get-skills`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authData.token}`
@@ -38,7 +38,7 @@ function MultiSelect({onChange}) {
   const options = skills.map(skill => ({ value: skill, label: skill}));
 
   console.log('options 확인 ' , options);
-  
+
   const handleChange = (selectedOptions) => {
 
     console.log('selectedOptions 선택된 정보 확인 ! : ',selectedOptions);
