@@ -16,7 +16,7 @@ export default function StudyList() {
         : {
             'Content-Type': 'application/json',
           };
-      const response = await axios.get(`http://52.79.108.89:8080/api/main/list`, { headers });
+      const response = await axios.get(`http://localhost:8080/api/main/list`, { headers });
       console.log(response.data);
       setPost(response.data.data || []);
       const code = response.data.code;

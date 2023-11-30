@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
+import { useParams } from "react-router-dom/dist";
 
-const Post = () => {
-
-    const navigate  = useNavigate();
+export default function Post() {
+    const navigate = useNavigate();
+    const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
+    const { study_room_id } = useParams();
 
     // 작성된 글의 상태를 관리하는 state
     const [newPost, setNewPost] = useState({
         category: "",
         title: "",
         content: "",
+        studyRoomId: study_room_id,
+        userId: authData.id
     });
 
     // 글 작성 완료 버튼을 클릭했을 때 실행되는 함수
@@ -20,27 +25,39 @@ const Post = () => {
             // 작성된 글을 서버로 전송
             console.log("전송 전 newPost:", newPost); // 디버깅용
 
-            const response = await axios.post("http://localhost:8080/api/v1/study/{study_room_id}/posts", newPost);
-            console.log("글 작성이 완료되었습니다.");
-            console.log("서버에서 받은 응답:", response.data);
+            // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
+            const response = await axios.post(
+                `http://localhost:8080/api/v1/study/${study_room_id}/posts`,
+                newPost,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                }
+            );
 
+            const code = response.data.code;
 
-            // 작성이 완료되면 입력 필드 초기화
-            setNewPost({
-                category: "",
-                title: "",
-                content: "",
-            });
+            if (code === 1) {
+                console.log("글 작성 성공 : ", response.data);
+                setNewPost(response.data.data.newPost || {});
 
-            // 상세보기 페이지로 이동
-            navigate .push(`/post/${response.data.id}`);
-
-            console.log("전송 후 newPost:", newPost); // 디버깅용
-
+                // 게시판 목록 페이지로 이동
+                navigate(`/post/${response.data.newPost.id}`);
+            } else {
+                console.log("글 작성 실패 :", response);
+            }
         } catch (error) {
-            console.error("글 작성 중 오류 발생:", error);
+            console.log("글 작성 중 오류 발생 :", error.config);
+            console.log(newPost);
+            console.log(newPost.id);
         }
     };
+
+    useEffect(() => {
+        console.log("Study Room ID:", study_room_id);
+    }, [study_room_id, authData]);
 
     return (
         <div>
@@ -49,7 +66,6 @@ const Post = () => {
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
                     <label className="block text-xl font-semibold mb-8">게시글 작성</label>
 
-
                     {/* 카테고리 선택 */}
                     <div className="mb-4">
                         <label htmlFor="category" className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
@@ -57,15 +73,16 @@ const Post = () => {
                         </label>
                         <select
                             id="category"
+                            value={newPost.category || ''}
+                            onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
                             className="w-13 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                         >
-                            <option value="Java">Java</option>
-                            <option value="SpringBoot">SpringBoot</option>
-                            <option value="Python">Python</option>
+                            <option value="1">Java</option>
+                            <option value="2">SpringBoot</option>
+                            <option value="3">Python</option>
                             {/* 다른 카테고리 옵션들 추가 */}
                         </select>
                     </div>
-
 
                     {/* 제목 입력 */}
                     <div className="mb-4">
@@ -75,12 +92,12 @@ const Post = () => {
                         <input
                             type="text"
                             id="title"
+                            value={newPost.title || ''}
+                            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                             placeholder="제목을 입력하세요..."
                         />
                     </div>
-
-
 
                     {/* 본문 입력 */}
                     <div className="mb-4">
@@ -89,6 +106,8 @@ const Post = () => {
                         </label>
                         <textarea
                             id="content"
+                            value={newPost.content || ''}
+                            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                             rows="8"
                             placeholder="게시글 내용을 입력하세요..."
@@ -107,5 +126,3 @@ const Post = () => {
         </div>
     );
 }
-
-export default Post;

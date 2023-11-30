@@ -50,7 +50,7 @@ export default function Mypage_Myprofile() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://52.79.108.89:8080/api/v1/users/${authData.id}/getuser`, {
+            await axios.get(`http://localhost:8080/api/v1/users/${authData.id}/getuser`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

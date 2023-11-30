@@ -72,15 +72,14 @@ function App() {
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
             <Route path="/studyroom/:study_room_id" element={<Detail />} />
             <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
-            <Route path="/studyroom/board" element={<Board />} />
-            <Route path="/studyroom/post" element={<Post />} />
+            <Route path="/studyroom/board/:study_room_id" element={<Board />} />
+            <Route path="/studyroom/post/:study_room_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
             <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
             <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
-            <Route path="/studyroom/post" exact element={Post} />
             <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/manage/modify" element={<StudyModify />} />
