@@ -190,9 +190,10 @@ const StudyRoomNotLogin = () => {
             <button
               type="submit"
               onClick={handleStudyRoomClick}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              신청
+              disabled={detail.current_num === detail.max_num} // Disable the button if current_num equals max_num
+              className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+      ${detail.current_num === detail.max_num ? 'opacity-50 cursor-not-allowed' : ''}`}> {/* Conditional styling for disabled state */}
+              {detail.current_num === detail.max_num ? '마감' : '신청'}
             </button>
           </div>
         </div>
