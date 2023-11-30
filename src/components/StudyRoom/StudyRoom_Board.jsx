@@ -9,7 +9,7 @@ export default function Board() {
     const [currentCategory, setCurrentCategory] = useState('카테고리');
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    const { study_id } = useParams();
+    const { study_room_id } = useParams();
 
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState(null);
@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://localhost:8081/api/v1/study/${study_id}/list`;
+            let url = `http://52.79.108.89:8080/api/v1/study/${study_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -234,7 +234,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8081/api/v1/study/${study_id}/list?keyword=${keyword}`, {
+            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

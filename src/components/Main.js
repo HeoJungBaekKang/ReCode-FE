@@ -7,12 +7,15 @@ import Search from "./Fix/Search";
 import MultiSelect from "./Study/MultiSelect";
 import StudyList from "./StudyList";
 import MainPageFilter from "./Pages/MainPageFilter";
+import Footer from "./Fix/Footer";
 
 const Main = () => {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed:5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     className: "theClass",
@@ -103,7 +106,7 @@ const Main = () => {
         <MainPageFilter onFilterChange={handleFilterChange} />
                 {/* 필터링된 스터디 그룹을 표시 */}
       </div>
-      
+      <Footer />
     </>
   );
 };
