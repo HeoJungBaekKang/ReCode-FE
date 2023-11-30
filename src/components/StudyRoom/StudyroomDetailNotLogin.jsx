@@ -8,7 +8,6 @@ const StudyRoomNotLogin = () => {
   const { study_room_id } = useParams();
   const { authData } = useContext(AuthContext);
   console.log(authData);
-
   const [detail, setDetail] = useState({
     study_room_id: "",
     study_name: "",
@@ -26,7 +25,6 @@ const StudyRoomNotLogin = () => {
     createdAt: "",
     updatedAt: "",
   });
-
   const handleGet = async () => {
     try {
       await axios
@@ -37,13 +35,12 @@ const StudyRoomNotLogin = () => {
         })
         .then((response) => {
           console.log(response.data);
-
           setDetail(response.data.data || {});
-
           const code = response.data.code;
-
           if (code === 1) {
             console.log("스터디 상세보기 조회 성공");
+            checkStudyRoomMembership();
+            console.log("isInstudyRoom: ", isInStudyRoom)
             checkStudyRoomMembership();
             console.log("isInstudyRoom: ", isInStudyRoom)
           } else {
@@ -54,11 +51,8 @@ const StudyRoomNotLogin = () => {
       console.error("스터디 상세보기 조회 중 오류 발생 : ", error.response);
     }
   };
-
   const [isInStudyRoom, setIsInStudyRoom] = useState(false);
-
   const handlePost = async () => {
-
     try {
       await axios.post(`http://localhost:8081/api/v1/study/${study_room_id}/apply`, {}, {
         headers: {
@@ -68,9 +62,7 @@ const StudyRoomNotLogin = () => {
       })
         .then(response => {
           console(response.data);
-
           const code = response.data.code;
-
           if (code === 1) {
             console.log("스터디 신청 완료");
           } else {
@@ -78,10 +70,9 @@ const StudyRoomNotLogin = () => {
           }
         });
     } catch (error) {
-      console.error("스터디 신청 중 오류 발생 :", error);
+      //console.error("스터디 신청 중 오류 발생 :", error);
     }
   };
-
   // 스터디룸 가입 여부를 확인하는 함수
   const checkStudyRoomMembership = async () => {
     if (!authData) {
@@ -89,7 +80,6 @@ const StudyRoomNotLogin = () => {
       navigate('/login'); // 로그인 페이지로 이동
       return;
     }
-
     try {
       const response = await axios.get(`http://localhost:8081/api/v1/users/${authData.id}/studyrooms/${study_room_id}/isInStudyRoom`, {
         headers: {
@@ -98,14 +88,14 @@ const StudyRoomNotLogin = () => {
         }
       });
 
-      setIsInStudyRoom(response.data.isInStudyRoom);
-      console.log("스터디 룸 가입여부 확인", isInStudyRoom);
+      console.log("API Response:", response.data);
+
+      setIsInStudyRoom(response.data);
+      console.log("스터디 룸 가입여부 확인", response.data);
     } catch (error) {
       console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }
   };
-
-
   // 신청 버튼 클릭 핸들러
   const handleStudyRoomClick = async () => {
     if (!authData.id) {
@@ -113,14 +103,23 @@ const StudyRoomNotLogin = () => {
       navigate('/login');
       return;
     }
-
-    if (isInStudyRoom === true) {
-      alert("이미 가입된 스터디입니다.");
-    } else {
-      handlePost();
+  
+    try {
+      await checkStudyRoomMembership();
+  
+      if (isInStudyRoom) {
+        alert("이미 가입된 스터디입니다.");
+      } else {
+        await handlePost();
+        alert("스터디 신청 완료");
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
+      // Handle error as needed
     }
   };
-
+  
   useEffect(() => {
     handleGet();
   }, []);

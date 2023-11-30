@@ -19,10 +19,9 @@ export default function ModifySkill() {
         skills: "",
     });
 
-
     const handlePost = async () => {
         try {
-            await axios.post(`http://localhost:8081/api/v1/amin/addskill`, skill, {
+            await axios.post(`http://localhost:8081/api/v1/admin/addskill`, skill, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
