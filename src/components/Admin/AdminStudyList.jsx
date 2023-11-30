@@ -40,8 +40,8 @@ export default function AdminStudyList() {
         }
     };//handleGet
 
-    const AdminhandleStudyRoomClick = async (studyRoomId) => {
-        navigate(`/AdminstudyroomDetail/${studyRoomId}`);
+    const AdminhandleStudyRoomClick = async (study_room_id) => {
+        navigate(`/admin/adjust/${study_room_id}`);
     }
     
     const chunkedPosts = chunk(posts, 9)

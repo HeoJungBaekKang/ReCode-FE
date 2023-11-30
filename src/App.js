@@ -46,6 +46,7 @@ import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
 import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
+import AdjustRight from "./components/Admin/AdjustRight";
 
 function App() {
 
@@ -105,6 +106,7 @@ function App() {
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
+            <Route path="/admin/adjust/:study_room_id" element={<AdjustRight />} />
           </Routes>
         </div>
       </AuthProvider>
