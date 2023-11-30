@@ -2,14 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import FindIdForm from "./components/Client/FindIdForm";
-import FindPasswordForm from "./components/Client/FindPasswordForm";
-import TermsofService from "./components/Client/TermsOfService";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
 import StudyRecruitment from "./components/Study/StudyRecruitmentForm";
 import MultiSelect from "./components/Study/MultiSelect";
-import FindEmailForm from "./components/Client/FindEmailForm";
 import MypageMain from "./components/Mypage/MypageMain";
 import Essay from "./components/Mypage/Essay";
 import Withdraw from "./components/Mypage/Withdraw";
@@ -21,7 +18,7 @@ import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
 import QnaDetail from "./components/Qna/QnaDetail";
-import QnaPost from "./components/Qna/QnaPost";
+import QnaPost, { QnaForm } from "./components/Qna/QnaPost";
 import StudyManagement from "./components/Admin/StudyManagement";
 import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
@@ -44,6 +41,7 @@ import Email from "./components/Client/EmailForm";
 import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
+import TermsAndConditions from "./components/Client/Agreement";
 
 
 function App() {
@@ -60,13 +58,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
-            <Route path="/findPassword" element={<FindPasswordForm />} />
             <Route path="/email" element={<Email />} />
             <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
-            <Route path="/client/findPassword" element={<FindPasswordForm />} />
-            <Route path="/client/termsofService" element={<TermsofService />} />
-            <Route path="/client/findEmail" element={<FindEmailForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
@@ -91,7 +85,7 @@ function App() {
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
-            <Route path="/qna/detail" element={<QnaDetail />} />
+            <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
             <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />
@@ -102,6 +96,7 @@ function App() {
             <Route path="/notice/:noticeId" element={<NoticeDetailPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
+            <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
           </Routes>
         </div>
       </AuthProvider>
