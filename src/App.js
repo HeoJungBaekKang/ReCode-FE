@@ -42,6 +42,8 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
+import AdminStudyList from "./components/Admin/AdminStudyList";
+import AdjustRight from "./components/Admin/AdjustRight";
 
 
 function App() {
@@ -97,6 +99,8 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
+            <Route path="/admin/studyList" element={<AdminStudyList />} />
+            <Route path="/admin/adjust/:study_room_id" element={<AdjustRight />} />
           </Routes>
         </div>
       </AuthProvider>

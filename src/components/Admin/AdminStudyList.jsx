@@ -1,261 +1,106 @@
-import React, { useState } from "react"
+import React, { useContext, useState,useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 
 
 export default function AdminStudyList() {
 
-    const [currentPage, setCurrentPage] = useState(0)
+    const navigate = useNavigate();
+    const {authData} = useContext(AuthContext); //로그인 상태 가져오기
 
-    const posts = [
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        {
-            id: 1,
-            title: '카카오톡 클론 코딩 스터디',
-            href: '#',
-            description:
-                '카카오톡 클론 코딩으로 실력 함께 키우실 분 구합니다. MSA 전문가 적극 환영',
-            date: 'Mar 16, 2020',
-            datetime: '2020-03-16',
-            category: { title: '', href: '#' },
-            author: {
-                name: '정성현',
-                role: 'user',
-                href: '#',
-                imageUrl:
-                    'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            },
-        },
-        // More posts...
-    ]
+    const [posts,setPost] = useState([]);
 
-    // Post를 9개씩 나눠서 페이징 처리
+    const handleGet = async () => {
+        try{
+            const headers = authData.userId
+            ? {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authData.token}`,
+            }
+            : {
+                'Content-Type': 'application/json',
+            };
+            
+            const response = await axios.get(`http://15.164.85.184/api/main/list`, { headers })
+
+            console.log(response.data);
+
+            setPost(response.data.data || []);
+
+            const code = response.data.code;
+            if (code === 1) {
+                console.log("스터디 목록 불러오기 성공");
+            } else {
+                console.log("스터디 목록 불러오기 실패");
+            }
+        }//try
+        catch(error){
+            console.error("스터디 목록 조회 중 오류 : ", error);
+        }
+    };//handleGet
+
+    const AdminhandleStudyRoomClick = async (study_room_id) => {
+        navigate(`/admin/adjust/${study_room_id}`);
+    }
+    
     const chunkedPosts = chunk(posts, 9)
+    const [currentPage, setCurrentPage] = useState(0)
+    useEffect(() => {
+        handleGet();
+      }, []);
+      if (!chunkedPosts[currentPage]) {
+        return <div>스터디가 없습니다.</div>;
+      }
 
     return (
         <div className="bg-white py-24 sm:py-5">
             <div className="mx-auto max-w-9xl px-6 lg:px-8">
                 <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-6 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
-                    {chunkedPosts[currentPage].map((post) => (
-                        <article key={post.id} className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md">
-                            <div className="flex items-center gap-x-4 text-xs">
-                                <time dateTime={post.datetime} className="text-gray-500">
-                                    {post.date}
-                                </time>
-                                <a
-                                    href={post.category.href}
-                                    className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                                >
-                                    {post.category.title}
-                                </a>
-                            </div>
-                            <div className="group relative">
-                                <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                                    <a href={post.href}>
-                                        <span className="absolute inset-0" />
-                                        {post.title}
-                                    </a>
-                                </h3>
-                                <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
-                            </div>
-                            <div className="relative mt-8 flex items-center gap-x-4">
-                                <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
-                                <div className="text-sm leading-6">
-                                    <p className="font-semibold text-gray-900">
-                                        <a href={post.author.href}>
-                                            <span className="absolute inset-0" />
-                                            {post.author.name}
-                                        </a>
-                                    </p>
-                                    <p className="text-gray-600">{post.author.role}</p>
-                                </div>
-                            </div>
-                        </article>
-                    ))}
+                {chunkedPosts[currentPage].map((post) => (
+                  <article key={post.id} className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md">
+                    <div className="flex items-center gap-x-4 text-xs">
+                      <div className="text-gray-500">
+                        {post.study_name}
+                      </div>
+                      <div className={`text-xs px-2 py-1 rounded-full ${post.max_num - post.current_num <= 2 && post.max_num !== post.current_num ? 'bg-red-400 text-white' :
+                        post.max_num > post.current_num ? 'bg-green-400 text-white' :
+                          'bg-gray-400 text-white'
+                        }`}>
+                        {
+                          post.max_num - post.current_num <= 2 && post.max_num !== post.current_num ? '마감 임박' :
+                            post.max_num > post.current_num ? '모집중' :
+                              '모집 완료'
+                        }
+                      </div>
+                    </div>
+                    <div className="flex items-start text-sm">
+                      {post.skillNames.map((skill, index) => (
+                        <span key={index} style={{ marginRight: '10px' }}>
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="group relative">
+                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
+                        <div onClick={() => AdminhandleStudyRoomClick(post.id)}>
+                          <span className="absolute inset-0" />
+                          {post.title}
+                        </div>
+                      </h3>
+                    </div>
+                    <div className="relative mt-8 flex items-center gap-x-4">
+                      <div className="text-sm leading-6">
+                        <p className="font-semibold text-gray-900">
+                          <div>
+                            <span className="absolute inset-0" />
+                            {post.masterNickname}
+                          </div>
+                        </p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
                 </div>
                 <div className="mt-6 flex justify-center">
                     <nav aria-label="Page navigation example">
