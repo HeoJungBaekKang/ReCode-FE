@@ -77,7 +77,7 @@ function App() {
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
             <Route path="/studyroom/:study_room_id" element={<Detail />} />
             <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
-            <Route path="/studyroom/board" element={<Board />} />
+            <Route path="/studyroom/board/:study_room_id" element={<Board />} />
             <Route path="/studyroom/post" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />
