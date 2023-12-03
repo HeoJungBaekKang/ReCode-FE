@@ -59,10 +59,6 @@ const Main = () => {
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
 
-  const sampleClick = () => {
-    navigate("/sample");
-  }
-
 
   return (
     <>
@@ -83,7 +79,6 @@ const Main = () => {
                   <p className="text-gray-800">이번 주 공지사항입니다. </p>
                 </article>
                 <article
-                  onClick={sampleClick}
                   style={{ display: "grid !important" }}
                   className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto"
                 >

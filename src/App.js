@@ -21,7 +21,6 @@ import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
 import QnaDetail from "./components/Qna/QnaDetail";
 import QnaPost from "./components/Qna/QnaPost";
-import StudyManagement from "./components/Admin/StudyManagement";
 import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
 import { AuthProvider } from "./context/AuthContext";
@@ -47,6 +46,7 @@ import TermsAndConditions from "./components/Client/Agreement";
 import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
 import AdjustRight from "./components/Admin/AdjustRight";
+import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 
 function App() {
 
@@ -95,9 +95,8 @@ function App() {
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/detail" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/studymanagement" element={<StudyManagement />} />
             <Route path="/admin/userList" element={<User_list />} />
-            <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+            <Route path="/admin/leaderPermission/:study_room_id" element={<Leader_Permission />} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
@@ -107,6 +106,7 @@ function App() {
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/adjust/:study_room_id" element={<AdjustRight />} />
+            <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
           </Routes>
         </div>
       </AuthProvider>
