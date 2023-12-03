@@ -1,17 +1,40 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "./Main.css";
 import Layout from "./LayoutGrid";
 import Search from "./Fix/Search";
-import MultiSelect from "./Study/MultiSelect";
 import StudyList from "./StudyList";
-import MainPageFilter from "./Pages/MainPageFilter";
 import Footer from "./Fix/Footer";
-// import { AuthContext } from "../context/AuthContext";
-
+import { useState } from "react";
+import SkillFilter from "./Main/SkillFilter";
+import { getStudies } from "../services/FilterService";
 
 const Main = () => {
+  const [studies, setStudies] = useState([]); // 전체 스터디 목록
+  const [filteredStudies, setFilteredStudies] = useState([]); // 필터링된 스터디 목록
+  const [selectedSkills, setSelectedSkills] = useState([]); // 사용자가 선택한 스터디 목록
+
+  useEffect(() => {
+    // 초기에 전체 스터디 목록을 로드
+    const getSkills = async () => {
+      // 스터디 목록을 로드하는 API 호출
+      const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
+      setStudies(loadStudies);
+    };
+    getSkills();
+  }, []);
+
+  useEffect(() => {
+    // 선택된 스킬에 따라 스터디 목록 필터링
+    const newFilteredStudies = studies.filter((study) =>
+      selectedSkills.every((selectedSkill) =>
+        study.skillNames.includes(selectedSkill)
+      )
+    );
+    setFilteredStudies(newFilteredStudies);
+  }, [selectedSkills, studies]);
+
   var settings = {
     dots: true,
     infinite: true,
@@ -29,10 +52,6 @@ const Main = () => {
   // console.log(authData);
 
   const navigate = useNavigate();
-
-  const handleFilterChange = (selectedTechs) => {
-    // 필터링 로직
-  };
 
   // 공지사항 클릭 시 이동 함수
   const handleNoticeClick = () => {
@@ -97,26 +116,41 @@ const Main = () => {
                   <h1>프론트엔드</h1>
                 </button>
               </div>
-              <div className="grid grid-cols-6">
-                <div className="col-start-8 col-span-2 flex justify-end items-center">
-                  <button
-                    onClick={() => navigate("/client/recruitment")}
-                    className="mt-4 p-2 bg-blue-500 text-white rounded-md"
-                  >
-                    스터디 생성
-                  </button>
-                </div>
-                <br/>
-                <div className="col-end-9 col-span-2 flex justify-end items-center">              
-                  <Search />
-                </div>
+
+              {/* 스터디 생성 버튼 */}
+              <div class="col-start-6">
+                <button
+                  onClick={() => navigate("/client/recruitment")}
+                  className="col-start-6 mt-4 p-2 bg-blue-500 text-white rounded-md"
+                >
+                  <h1>스터디 생성</h1>
+                </button>
               </div>
             </div>
           </div>
-          <StudyList />
+
+          <div class="mt-4"></div>
+
+          <div class="grid grid-cols-6 gap-6">
+            <div class="col-start-1 px-8"></div>
+            <div class="col-start-5 col-span-2">
+              <Search className="mt-4 p-2 bg-blue-500 text-white rounded-md"></Search>
+            </div>
+          </div>
+
+          {/* 필터링 버튼 */}
+          <SkillFilter
+            selectedSkills={selectedSkills}
+            setSelectedSkills={setSelectedSkills}
+            studies={studies} // 스터디 데이터 전달
+            setFilteredStudies={setFilteredStudies}
+          />
+
+          <StudyList
+            filteredStudies={filteredStudies}
+            selectedSkills={selectedSkills}
+          />
         </Layout>
-        <MainPageFilter onFilterChange={handleFilterChange} />
-                {/* 필터링된 스터디 그룹을 표시 */}
       </div>
       <Footer />
     </>
