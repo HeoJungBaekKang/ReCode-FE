@@ -42,6 +42,7 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
+import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 
 
 function App() {
@@ -80,7 +81,7 @@ function App() {
             <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
             <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
             <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
-            <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
+            <Route path="/studyroom/:study_room_id/post/:postId" element={<PostDetail />} />
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
@@ -96,6 +97,7 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
+            <Route path="/studyroom/:study_room_id/post/edit/:postId" element={<EditPost />} />
           </Routes>
         </div>
       </AuthProvider>

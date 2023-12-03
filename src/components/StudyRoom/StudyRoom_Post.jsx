@@ -44,7 +44,8 @@ export default function Post() {
                 setNewPost(response.data.data.newPost || {});
 
                 // 게시판 목록 페이지로 이동
-                navigate(`/post/${response.data.newPost.id}`);
+                navigate(`/studyroom/board/${study_room_id}`);
+        
             } else {
                 console.log("글 작성 실패 :", response);
             }

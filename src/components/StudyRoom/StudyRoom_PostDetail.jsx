@@ -1,57 +1,101 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const PostDetail = () => {
-    const { postId } = useParams();
-    const [postData, setPostData] = useState(null);
+    const { postId, study_room_id, postReply_id } = useParams();
+    const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
+    const navigate = useNavigate();
+    const [postData, setPostData] = useState({
+        "data": {
+            "id": "",
+            "title": "",
+            "nickName": "",
+            "createdAt": "",
+            "content": ""
+        }
+    });
 
     useEffect(() => {
         // postId를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/posts/${postId}`);
-                setPostData(response.data);
+                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                });
+                console.log("API 응답:", response.data);
+                setPostData({ data: response.data.data });
+
+                // 댓글 데이터를 가져오는 요청
+                const commentsResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/${postReply_id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                });
+
+                console.log("댓글 응답:", commentsResponse.data);
+                setComments(commentsResponse.data.data);
+
             } catch (error) {
                 console.error("글 정보를 가져오는 중 오류 발생:", error);
             }
         };
 
         fetchPostData();
-    }, [postId]);
+    }, [postId, study_room_id]);
 
+    // 전체 postData 객체를 로그로 출력
+    useEffect(() => {
+        console.log("게시글 데이터:", postData);
+    }, [postData]);
 
-
-    const [comment, setComment] = useState("");
-    const [comments, setComments] = useState([
-        { id: 1, author: "댓글 작성자1", content: "댓글 내용1" },
-        { id: 2, author: "댓글 작성자2", content: "댓글 내용2" },
-        // 기존 댓글 데이터 추가
-    ]);
-
-
-    // 예시 데이터
-    const data = {
-        id: postId,
-        title: "쪄뉸낌찌찌꺠까쬬아요",
-        author: "huno",
-        date: "2023-11-14",
-        content: "코딩코딩코딩코딩코딩코딩코딩코딩",
-    };
 
     // 수정 버튼 클릭 시의 동작
     const handleEdit = () => {
-        // 수정 버튼을 눌렀을 때의 동작 추가
+
+        navigate(`/studyroom/${study_room_id}/post/edit/${postId}`);
         console.log("수정 버튼 클릭:", postId);
     };
 
     // 삭제 버튼 클릭 시의 동작
-    const handleDelete = () => {
-        // 삭제 버튼을 눌렀을 때의 동작 추가
-        console.log("삭제 버튼 클릭:", postId);
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                }
+            );
+
+            if (response.data.code === 1) {
+                console.log("글 삭제 성공 : ", response.data);
+                navigate(`/studyroom/board/${study_room_id}`);
+            } else {
+                console.log("글 삭제 실패 :", response);
+            }
+        } catch (error) {
+            console.log("글 삭제 중 오류 발생 :", error);
+        }
     };
 
+
+
+    /** 댓글 **/
+    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState([
+        { id: 1, nickName: "댓글 작성자1", content: "댓글 내용1" },
+        { id: 2, nickName: "댓글 작성자2", content: "댓글 내용2" },
+        // 기존 댓글 데이터 추가
+    ]);
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
@@ -59,16 +103,45 @@ const PostDetail = () => {
 
     const handleAddComment = () => {
         if (comment.trim() !== "") {
-            // 댓글 추가 로직을 구현하고, comments 상태를 업데이트합니다.
+            // 댓글 추가 로직을 구현하고, comments 상태를 업데이트
             const newComment = {
                 id: comments.length + 1,
-                author: "huno", // 실제로는 로그인된 사용자 정보를 가져와야 합니다.
+                nickName: "", // 실제로는 로그인된 사용자 정보를 가져와야 합니다.
                 content: comment,
             };
-            setComments([...comments, newComment]);
-            setComment(""); // 댓글 작성 폼 초기화
+
+            // 서버에 댓글 데이터를 전송
+            axios.post(
+                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`,
+                {
+                    postId: postId,
+                    content: comment,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`,
+                    },
+                }
+            )
+                .then(response => {
+                    console.log(response);
+                    // 서버 응답이 성공적일 경우, 댓글 목록에 새 댓글 추가
+                    const newComment = {
+                        id: response.data.data.id,
+                        nickName: response.data.data.nickName, // 서버에서 받아온 사용자 정보
+                        content: response.data.data.content,
+                        createdAt: response.data.data.createdAt, // 서버에서 받아온 작성 시간
+                    };
+                    setComments([...comments, newComment]);
+                    setComment(""); // 댓글 작성 폼 초기화
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
     };
+
 
 
     return (
@@ -76,14 +149,18 @@ const PostDetail = () => {
             <StudyRoom_Sidebar />
             <div className="max-w-screen-md mx-auto p-4">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
-                    <label className="block text-xl font-semibold mb-8">게시글 상세보기</label>
+                    <label className="block text-xl font-semibold mb-8">{postData.data && postData.data.title}</label>
 
                     <div className="mb-4">
-                        <p className="text-lg font-semibold mb-2">{data.title}</p>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
-                            글 번호: {data.id} | 작성자: {data.author} | 작성일: {data.date}
-                        </p>
-                        <p className="text-gray-700 dark:text-white">{data.content}</p>
+                        {postData && (
+                            <>
+                                {/* <p className="text-lg font-semibold mb-2">{postData.title}</p> */}
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
+                                    글 번호: {postData.data && postData.data.id} | 작성자: {postData.data && postData.data.nickName} | 작성일: {postData.data && postData.data.createdAt}
+                                </p>
+                                <p className="text-gray-700 dark:text-white">{postData.data && postData.data.content}</p>
+                            </>
+                        )}
                     </div>
 
                     {/* 수정 버튼과 삭제 버튼 */}
@@ -114,8 +191,9 @@ const PostDetail = () => {
                                 {comments.map((comment) => (
                                     <li key={comment.id} className="py-2">
                                         <div className="flex items-start">
-                                            <span className="font-bold text-blue-500">{comment.author}</span>
+                                            <span className="font-bold text-blue-500">{comment.nickName}</span>
                                             <p className="ml-2 text-gray-700 dark:text-white">{comment.content}</p>
+                                            <p className="ml-2 text-gray-700 dark:text-white">{comment.createdAt}</p>
                                         </div>
                                     </li>
                                 ))}
