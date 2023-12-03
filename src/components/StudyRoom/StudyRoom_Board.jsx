@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://15.164.85.184/api/v1/study/${study_id}/list`;
+            let url = `http://52.79.108.89:8080/api/v1/study/${study_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -234,7 +234,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://15.164.85.184/api/v1/study/${study_id}/list?keyword=${keyword}`, {
+            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
