@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect} from "react";
 import AdminSidebar from "./AdminSidebar";
 import Pagination from "../Fix/Pagination";
-
+import { AuthContext } from "../../context/AuthContext";
 import {
   Card,
   CardHeader,
@@ -10,13 +10,92 @@ import {
 } from "@material-tailwind/react";
 import Search from "../Fix/Search";
 
-export default function User_list() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function UserList() {
+  const [studyRoomId, setStudyRoomId] = useState(1);
+  const [studyMembers, setStudyMembers] = useState([]);
+  const { authData } = useContext(AuthContext);
+
+    // UserList 컴포넌트 상단에 검색어 상태 변수 추가
+    const [searchTerm, setSearchTerm] = useState('');
+
+    // 검색어 업데이트 함수
+    const handleSearchChange = (event) => {
+      setSearchTerm(event.target.value);
+    };
+
+
+// 검색어를 사용하여 목록 필터링
+const filteredMembers = studyMembers.filter((member) =>
+  member.username.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+  const getStudyMembers = async (studyRoomId) => {
+    try {
+      const response = await fetch(`http://localhost:8081/api/v1/study/${studyRoomId}/memberlistandstatus` , {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        }
+      });
+      if (!response.ok) {
+        console.error("Error response:", response);
+        return [];  
+      }
+      const data = await response.json();
+      return data.data; 
+    } catch (error) {
+      console.error("Error fetching study members:", error);
+      return [];  // If there's an error, return an empty array
+    }
+  };
+  
+
+  const updateRole = async (studyId, userId) => {
+    try {
+      // studyMembers array에서 멤버 찾기
+      const member = studyMembers.find((member) => member.user_id === userId);
+  
+      if (!member) {
+        console.error("Member not found:", userId);
+        return;
+      }
+  
+      // Determine the new role based on the current role
+      const newRole = member.created_by === member.user_id ? "group_member" : "group_leader";
+  
+      // Send PUT request to update role
+      await fetch(`http://localhost:8081/api/admin/v1/study-member/${studyId}/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        },
+        body: JSON.stringify({
+          role: newRole  
+        }),
+      });
+  
+      // Fetch updated study members after role update
+      const members = await getStudyMembers(studyRoomId);
+      setStudyMembers(members);
+    } catch (error) {
+      console.error("Error updating role:", error);
+    }
+  };
+  
+  useEffect(() => {
+    const fetchStudyMembers = async () => {
+      const members = await getStudyMembers(studyRoomId);
+      setStudyMembers(members);
+    };
+
+    fetchStudyMembers();
+  }, [studyRoomId]);
 
   return (
     <>
       <AdminSidebar />
-
       <div className="ml-56 mt-12">
         <Card className="h-full w-auto mx-4">
           <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -30,10 +109,9 @@ export default function User_list() {
                   스터디 멤버 목록
                 </Typography>
               </div>
-≈
             </div>
-            <div className="col-span-2 ">
-              <Search></Search>
+            <div className="col-span-2">
+              <Search onChange={handleSearchChange}></Search>
             </div>
           </CardHeader>
           <CardBody className="px-0">
@@ -58,60 +136,23 @@ export default function User_list() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            1
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            minhee
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">팀장</td>
-                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            역할변경{" "}
-                          </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
-                        </tr>
+                      {filteredMembers.map((member) => (
+                            <tr key={member.user_id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+      {member.user_id}
+    </td>
+    <td className="whitespace-nowrap px-6 py-4">
+      {member.username}
+    </td>
+    <td className="whitespace-nowrap px-6 py-4">{member.created_by === member.user_id ? "팀장" : "팀원"}</td>
+    <td>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_room_id, member.user_id)}>
+        역할변경
+      </button>
+    </td>
+  </tr>
+))}
 
-                        <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            2
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">asdf</td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            스터디원
-                          </td>
-                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            역할변경{" "}
-                          </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
-                        </tr>
-                        <tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            3
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">dfhg</td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            스터디원
-                          </td>
-                          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            역할변경{" "}
-                          </button>
-                          <button class="bg-red-500 hover:bg-red-700 text-white font-bold text-xs w-20 rounded">
-                            {" "}
-                            방출{" "}
-                          </button>
-                        </tr>
-                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -119,7 +160,6 @@ export default function User_list() {
             </div>
           </CardBody>
         </Card>
-
         <Pagination />
       </div>
     </>

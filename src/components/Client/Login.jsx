@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { Alert } from "@material-tailwind/react";
 
 export default function Login() {
 
@@ -34,8 +35,10 @@ export default function Login() {
         navigate("/");
       } else {
         console.log("로그인 실패");
+        Alert("Login Failed");
       }
     } catch (error) {
+      Alert("Login Failed");
       console.error("로그인 요청 중 오류 발생:", error);
     }
   };
