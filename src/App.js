@@ -87,7 +87,7 @@ function App() {
             <Route path="/studyroom/manage" element={<Manage />} />
             <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
             <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
-            <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
+            <Route path="/studyroom/quiz/:study_id" element={<Quiz />} />
             <Route path="/studyroom/post" exact element={Post} />
             <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
             <Route path="/studyroom/manage" element={<Manage />} />

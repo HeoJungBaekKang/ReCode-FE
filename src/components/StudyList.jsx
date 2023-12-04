@@ -41,21 +41,21 @@ export default function StudyList({ filteredStudies }) {
                     className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md"
                   >
                     <div className="flex items-center gap-x-4 text-xs">
-                      <div className="text-gray-500">{post.study_name}</div>
+                      <div className="text-gray-500">{post.studyName}</div>
                       <div
                         className={`text-xs px-2 py-1 rounded-full ${
-                          post.max_num - post.current_num <= 2 &&
-                          post.max_num !== post.current_num
+                          post.maxNum - post.currentNum <= 2 &&
+                          post.maxNum !== post.currentNum
                             ? "bg-red-400 text-white"
-                            : post.max_num > post.current_num
+                            : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
                         }`}
                       >
-                        {post.max_num - post.current_num <= 2 &&
+                        {post.maxNum - post.currentNum <= 2 &&
                         post.max_num !== post.current_num
                           ? "마감 임박"
-                          : post.max_num > post.current_num
+                          : post.maxNum > post.currentNum
                           ? "모집중"
                           : "모집 완료"}
                       </div>
