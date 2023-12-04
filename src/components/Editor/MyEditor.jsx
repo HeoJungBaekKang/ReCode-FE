@@ -8,9 +8,6 @@ function MyEditor({ initialContent, onContentChange }) {
 
   const [noticeContent, setNoticeContent] = useState("");
 
-  // useEffect(() => {
-  //   setNoticeContent(initialValue);
-  // }, [initialValue]);
 
   const handleEditorDataChange = (event, editor) => {
     const newContent = editor.getData();
@@ -22,7 +19,7 @@ function MyEditor({ initialContent, onContentChange }) {
   return (
     <div>
       <CKEditor
-        // value={noticeContent}
+  
         editor={ClassicEditor}
         data={initialContent}  // 초기내용 설정 
         config={{

@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import Slider from "react-slick";
 import "./Main.css";
 import Layout from "./LayoutGrid";
@@ -11,6 +12,7 @@ import SkillFilter from "./Main/SkillFilter";
 import { getStudies } from "../services/FilterService";
 
 const Main = () => {
+  const { authData } = useContext(AuthContext);
   const [studies, setStudies] = useState([]); // 전체 스터디 목록
   const [filteredStudies, setFilteredStudies] = useState([]); // 필터링된 스터디 목록
   const [selectedSkills, setSelectedSkills] = useState([]); // 사용자가 선택한 스터디 목록
@@ -18,6 +20,7 @@ const Main = () => {
   useEffect(() => {
     // 초기에 전체 스터디 목록을 로드
     const getSkills = async () => {
+      console.log(authData);
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);

@@ -170,21 +170,19 @@ export default function NoticeDetailPage() {
                         rows={11}
                         className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         initialContent={noticeContent}
-                        // dangerouslySetInnerHTML={__html : noticeContent}
-                        // value={ReactHtmlParser(noticeContent)}
+            
                         onContentChange={handleContentChange}
                       />
                     ) : (
-                      // <Typography
-                      //   variant="small"
-                      //   color="blue-gray"
-                      //   className="font-normal"
-                      // >
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
                       <div>
-                        {/* <div dangerouslySetInnerHTML={{ __html: noticeContent }}></div> */}
                         {ReactHtmlParser(noticeContent)}
                       </div>
-                      // </Typography>
+                      </Typography>
                     )}
                   </div>
                 </div>
@@ -207,7 +205,6 @@ export default function NoticeDetailPage() {
               {authData.isAdmin || authData.userId === noticeCreatedBy ? (
                 <button
                   onClick={handleEditButtonClick}
-                  // onClick={() => setIsEditMode(true)}
                   className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap"
                 >
                   수정
