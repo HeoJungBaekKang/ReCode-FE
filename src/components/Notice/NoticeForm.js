@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CreateNotice } from "../../services/NoticeService";
 import MyEditor from "../Editor/MyEditor";
-import ReactHtmlParser from "react-html-parser";
 import { data } from "autoprefixer";
 
 
