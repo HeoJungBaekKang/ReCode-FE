@@ -138,6 +138,7 @@ const Main = () => {
             filteredStudies={filteredStudies}
             selectedSkills={selectedSkills}
           />
+         
         </Layout>
       </div>
       <Footer />
