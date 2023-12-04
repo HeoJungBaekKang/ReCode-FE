@@ -9,7 +9,7 @@ export default function Board() {
     const [currentCategory, setCurrentCategory] = useState('카테고리');
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState(null);
