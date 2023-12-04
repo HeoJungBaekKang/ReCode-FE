@@ -25,4 +25,4 @@ root.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-export {default as CKEditor} from './components/ckeditor';
+export {default as MyEditor} from './components/Editor/MyEditor';
