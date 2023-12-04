@@ -31,17 +31,6 @@ const PostDetail = () => {
                 console.log("API 응답:", response.data);
                 setPostData({ data: response.data.data });
 
-                // 댓글 데이터를 가져오는 요청
-                const commentsResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/${postReply_id}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${authData.token}`
-                    }
-                });
-
-                console.log("댓글 응답:", commentsResponse.data);
-                setComments(commentsResponse.data.data);
-
             } catch (error) {
                 console.error("글 정보를 가져오는 중 오류 발생:", error);
             }
@@ -92,9 +81,13 @@ const PostDetail = () => {
     /** 댓글 **/
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([
-        { id: 1, nickName: "댓글 작성자1", content: "댓글 내용1" },
-        { id: 2, nickName: "댓글 작성자2", content: "댓글 내용2" },
         // 기존 댓글 데이터 추가
+        {
+            "id": "",
+            "nickName": "",
+            "createdAt": "",
+            "content": ""
+        }
     ]);
 
     const handleCommentChange = (e) => {
@@ -142,6 +135,31 @@ const PostDetail = () => {
         }
     };
 
+    const fetchPostReplyData = async () => {
+        try {
+            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            }
+            );
+            console.log("댓글 응답:", postReplyResponse.data);
+            setComments({ data: postReplyResponse.data.data });
+
+        } catch (error) { // 훈호님 바보
+            console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
+            
+        }
+    };
+
+    useEffect(() => {
+        fetchPostReplyData();
+    }, [postId, study_room_id, postReply_id]);
+
+    // useEffect(() => {
+    //     console.log("Post Reply Id:", postReply_id);
+    // }, [postReply_id, authData]);
 
 
     return (
