@@ -12,7 +12,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { fetchNoticeList } from "../../services/NoticeService.js";
 
 export default function NoticePage() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [noticeList, setNoticeList] = useState([]);
 
 
@@ -20,6 +20,12 @@ export default function NoticePage() {
   const [isOpen, setIsOpen] = useState(false);
   const handleRowClick = (noticeId) => {
     navigate(`/notice/${noticeId}`);
+  };
+
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
   };
 
 
@@ -31,8 +37,13 @@ export default function NoticePage() {
 
       console.log("data안에는 무엇이 있나요", response.data);
 
-      setNoticeList(response.data); // 가져온 데이터를 상태에 설정
- 
+      const notices = response.data.map(notice => ({
+        ...notice,
+        content: stripHtml(notice.content)
+      }));
+
+      setNoticeList(notices); // 가져온 데이터를 상태에 설정
+
     } catch (error) {
       console.log("목록 불러오기 실패", error);
 
@@ -84,7 +95,7 @@ export default function NoticePage() {
                       <tbody>
                         {noticeList.map((notice) => (
                           <tr
-                          onClick={() => handleRowClick(notice.id)}
+                            onClick={() => handleRowClick(notice.id)}
                             key={notice.id}
                             className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                           >
@@ -146,9 +157,8 @@ export default function NoticePage() {
             </button>
             <div
               id="dropdownAction"
-              className={`absolute z-15 ${
-                isOpen ? "block" : "hidden"
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+              className={`absolute z-15 ${isOpen ? "block" : "hidden"
+                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
               style={{ marginTop: "55px" }}
             >
               <ul
