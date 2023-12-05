@@ -35,30 +35,30 @@ export default function StudyList({ filteredStudies }) {
         <div class="justify-items-stretch">
           <div className="bg-white py-24 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
-              <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+            <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}
-                    className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md"
+                    className="flex max-w-3xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-3xl"
+                    style={{ height: '300px' }}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
-                      <div className="text-gray-500">{post.studyName}</div>
+                      <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>
                       <div
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          post.maxNum - post.currentNum <= 2 &&
+                        className={`text-sm px-2 py-1 rounded-full ${post.maxNum - post.currentNum <= 2 &&
                           post.maxNum !== post.currentNum
-                            ? "bg-red-400 text-white"
-                            : post.maxNum > post.currentNum
+                          ? "bg-red-400 text-white"
+                          : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
-                        }`}
+                          }`}
                       >
                         {post.maxNum - post.currentNum <= 2 &&
-                        post.max_num !== post.current_num
+                          post.max_num !== post.current_num
                           ? "마감 임박"
                           : post.maxNum > post.currentNum
-                          ? "모집중"
-                          : "모집 완료"}
+                            ? "모집중"
+                            : "모집 완료"}
                       </div>
                     </div>
                     <div className="flex items-start text-sm">
@@ -76,12 +76,13 @@ export default function StudyList({ filteredStudies }) {
                         </div>
                       </h3>
                     </div>
-                    <div className="relative mt-8 flex items-center gap-x-4">
-                      <div className="text-sm leading-6">
+                    <hr className="w-full border-t" />
+                    <div className="relative flex items-center gap-x-4">
+                      <div className="text-sm mb-5 leading-6">
                         <p className="font-semibold text-gray-900">
-                          <div>
-                            <span className="absolute inset-0" />
-                            {post.masterNickname}
+                          <div className="flex items-center">
+                            <img src="/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
+                            <span className="ml-2">{post.masterNickname}</span>
                           </div>
                         </p>
                       </div>
