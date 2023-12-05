@@ -15,30 +15,22 @@ import {
 } from "../../services/NoticeService.js";
 import ReactHtmlParser from "react-html-parser";
 import MyEditor from "../Editor/MyEditor";
-
-
 export default function NoticeDetailPage() {
   const { authData } = useContext(AuthContext);
   const { noticeId } = useParams();
-
   console.log(noticeId);
-
   const navigate = useNavigate();
-
   const handleGoToList = () => {
     navigate("/notice"); // '목록' 페이지의 경로로 이동
   };
-
   const [noticeTitle, setNoticeTitle] = useState(""); // 상세 공지사항 제목 상태
   const [noticeCreatedAt, setNoticeCreatedAt] = useState(""); // 상세 공지사항 작성일 상태
 
   const [noticeContent, setNoticeContent] = useState(""); // 상세 공지사항 내용 상태
   const [editedContent, setEditedContent] = useState(""); // 수정한 내용 상태
-
   const [noticeCreatedBy, setNoticeCreatedBy] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   // fetchNoticeDetail 함수를 사용하여 데이터를 가져오는 부분
   useEffect(() => {
     const fetchData = async () => {
@@ -55,10 +47,8 @@ export default function NoticeDetailPage() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [noticeId]); // noticeId가 변경될 때마다 데이터를 다시 가져오도록 설정
-
   const handleDelete = async () => {
     if (window.confirm("이 공지사항을 삭제하시겠습니까?")) {
       try {
@@ -70,60 +60,34 @@ export default function NoticeDetailPage() {
       }
     }
   };
-
   const handleSaveChanges = async () => {
     try {
       await saveNotice(noticeId, noticeTitle, noticeContent);
 
-      // const strippedText = new DOMParser().parseFromString(
-      //   noticeContent,
-      //   "text/html"
-      // ).body.textContent;
-      // setNoticeContent(strippedText);
       setIsEditMode(false); // 성공 시 편집 모드 해제
     } catch (error) {
       // 오류 처리
     }
   };
 
-  // const stripHtml = (html) => {
-  //   const tmp = document.createElement("DIV");
-  //   tmp.innerHTML = html;
-  //   return tmp.textContent || tmp.innerText || "";
-  // };
-
-  // const handleEditClick = () => {
-  //   // 수정 버튼을 누를 때 수정 모드로 전환하고 현재 내용을 전달
-  //   setIsEditMode(true);
-  //   const plainTextContent = stripHtml(noticeContent);
-  //   setEditedContent(plainTextContent);
-  //   setEditedContent("현재 에디터 내용"); // 이 내용을 MyEditor에게 전달
-  // };
-
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-
   const handleCreatedByChange = () => {
     setNoticeCreatedBy(!isReplyOpen);
   };
-
   const handleEditButtonClick = () => {
     setIsEditMode(true);
     setEditedContent(noticeContent); // 이 내용을 MyEditor에게 전달
   };
-
   const handleTitleChange = (event) => {
     setNoticeTitle(event.target.value);
   };
-
   const handleContentChange = (newContent) => {
     setNoticeContent(newContent); // 글 내용 입력란의 값이 변경되면 상태 업데이트
   };
-
   // const userRole = 'admin';
   // const postOwnerId = '';
   // const createdBy = '';
-
   return (
     <>
       <QnaSidebar />
@@ -194,7 +158,6 @@ export default function NoticeDetailPage() {
               </table>
             </div>
           </CardHeader>
-
           <CardBody className="px-0">
             <table className="mt-4 w-full min-w-max table-auto text-left">
               <tbody>
@@ -209,22 +172,19 @@ export default function NoticeDetailPage() {
                         rows={11}
                         className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         initialContent={noticeContent}
-                        // dangerouslySetInnerHTML={__html : noticeContent}
-                        // value={ReactHtmlParser(noticeContent)}
+            
                         onContentChange={handleContentChange}
                       />
                     ) : (
-                      // <Typography
-                      //   variant="small"
-                      //   color="blue-gray"
-                      //   className="font-normal"
-                      // >
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
                       <div>
-                        {/* <div dangerouslySetInnerHTML={{ __html: noticeContent }}></div> */}
                         {ReactHtmlParser(noticeContent)}
                       </div>
-
-                      // </Typography>
+                      </Typography>
                     )}
                   </div>
                 </div>
@@ -246,9 +206,7 @@ export default function NoticeDetailPage() {
             <>
               {authData.isAdmin || authData.userId === noticeCreatedBy ? (
                 <button
-                
                   onClick={handleEditButtonClick}
-                  // onClick={() => setIsEditMode(true)}
                   className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap"
                 >
                   수정
@@ -275,3 +233,10 @@ export default function NoticeDetailPage() {
     </>
   );
 }
+
+
+
+
+
+
+

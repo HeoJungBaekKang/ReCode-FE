@@ -4,7 +4,6 @@ import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 
-
 export default function StudyRecruitment() {
 
   const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
@@ -116,7 +115,7 @@ export default function StudyRecruitment() {
         // 다른 필드들도 추가해야 함  
       };
 
-      console.log('아 정말 하기 싫다 진짜 : ',studyRecruitmentData);
+      console.log('studyRecruitmentData : ',studyRecruitmentData);
 
       const response = await createStudyRecruitment(studyRecruitmentData);
 
@@ -149,6 +148,7 @@ export default function StudyRecruitment() {
               onChange={(e) => setWrite({ ...write, maxNum: e.target.value })}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             >
+              {/* 범위 선택 방식으로 변경하기  */}
               <option value="">선택</option>
               <option value="1">1명</option>
               <option value="2">2명</option>
@@ -166,17 +166,17 @@ export default function StudyRecruitment() {
         <div className="sm:col-span-2">
           <div className="w-48">
             <label
-              htmlFor="skills"
+              htmlFor="skillName"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
               모집구분
             </label>
 
             <select
-              id="skills"
-              name="skills"
-              value={write.skills}
-              onChange={(e) => setWrite({ ...write, skills: e.target.value })}
+              id="skillName"
+              name="skilskillNamels"
+              value={write.skills.skillName}
+              onChange={(e) => setWrite({ ...write, skillName: e.target.value })}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-"
             >
               <option>선택</option>
@@ -299,13 +299,13 @@ export default function StudyRecruitment() {
 
       <div className="sm:col-span-2">
         <label
-          htmlFor="skills"
+          htmlFor="skillName"
           className="block text-sm font-semibold leading-2 text-gray-900"
         >
           기술 스택 선정 
         </label>
       </div>
-      <MultiSelect name="skills" onChange={handleCustomSelectChange} />
+      <MultiSelect name="skillName" onChange={handleCustomSelectChange} />
       <div className="sm:col-span-2 mt-2.5">
         <label
           htmlFor="title"
