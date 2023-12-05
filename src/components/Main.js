@@ -19,13 +19,14 @@ const Main = () => {
 
   useEffect(() => {
     // 초기에 전체 스터디 목록을 로드
-    const getSkills = async () => {
+    const getSkillNameByPosition = async () => {
       console.log(authData);
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
+    
     };
-    getSkills();
+    getSkillNameByPosition();
   }, []);
 
   useEffect(() => {
@@ -49,10 +50,6 @@ const Main = () => {
     className: "theClass",
     arrows: false,
   };
-
-  // const { authData, setAuthData } = useContext(AuthContext);
-
-  // console.log(authData);
 
   const navigate = useNavigate();
 

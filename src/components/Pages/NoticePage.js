@@ -36,11 +36,13 @@ export default function NoticePage() {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
       // const responseData = await response.json();
       console.log("data안에는 무엇이 있나요", response.data);
+
       const notices = response.data.map((notice) => ({
         ...notice,
         content: stripHtml(notice.content),
       }));
       setNoticeList(notices); // 가져온 데이터를 상태에 설정
+      
     } catch (error) {
       console.log("목록 불러오기 실패", error);
     }
