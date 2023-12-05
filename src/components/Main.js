@@ -19,13 +19,14 @@ const Main = () => {
 
   useEffect(() => {
     // 초기에 전체 스터디 목록을 로드
-    const getSkills = async () => {
+    const getSkillNameByPosition = async () => {
       console.log(authData);
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
+    
     };
-    getSkills();
+    getSkillNameByPosition();
   }, []);
 
   useEffect(() => {
@@ -41,7 +42,9 @@ const Main = () => {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed:5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     className: "theClass",
@@ -55,6 +58,7 @@ const Main = () => {
     // 공지사항 페이지로 이동
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
+
 
   return (
     <>
