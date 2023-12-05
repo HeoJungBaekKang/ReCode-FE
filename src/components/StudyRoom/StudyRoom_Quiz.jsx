@@ -19,8 +19,9 @@ const Quiz = () => {
         title: "",
         difficulty: "",
         quiz_link: "",
-        studyId: study_id,
-        userId: authData.id
+        studyRoomId: study_id,
+        userId: authData.id,
+        updatedAt: ""
     })
 
     const handleGet = async () => {
@@ -286,7 +287,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="pl-2 p-4">
                                             <div className="flex items-center ml-4">
-                                                {quiz.updated_At}
+                                                {quiz.updatedAt}
                                             </div>
                                         </td>
                                     </tr>

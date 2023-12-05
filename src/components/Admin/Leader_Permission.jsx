@@ -13,6 +13,7 @@ import Search from "../Fix/Search";
 export default function UserList() {
     const [studyRoomId, setStudyRoomId] = useState(1);
     const [studyMembers, setStudyMembers] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0)
     const { authData } = useContext(AuthContext);
 
     // UserList 컴포넌트 상단에 검색어 상태 변수 추가
@@ -93,6 +94,8 @@ export default function UserList() {
         fetchStudyMembers();
     }, [studyRoomId]);
 
+    const chunkedMembers = chunk(filteredMembers, 10)
+
     return (
         <>
             <AdminSidebar />
@@ -136,23 +139,32 @@ export default function UserList() {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            {filteredMembers.map((member) => (
-                                                <tr key={member.user_id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                        {member.user_id}
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        {member.username}
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">{member.created_by === member.user_id ? "팀장" : "팀원"}</td>
-                                                    <td>
-                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_room_id, member.user_id)}>
-                                                            역할변경
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-
+                                            <tbody>
+                                                {chunkedMembers[currentPage] ? (
+                                                    chunkedMembers[currentPage].map((member, index) => (
+                                                        <tr key={member.user_id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
+                                                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                                {index + 1 + currentPage * 10}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {member.username}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">{member.created_by === member.user_id ? "팀장" : "팀원"}</td>
+                                                            <td>
+                                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_room_id, member.user_id)}>
+                                                                    역할변경
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ):(
+                                                    <tr>
+                                                        <td colSpan="4" className="text-center py-4">
+                                                            해당 스터디에 가입된 멤버가 존재하지 않습니다.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -160,8 +172,52 @@ export default function UserList() {
                         </div>
                     </CardBody>
                 </Card>
-                <Pagination />
+                <div className="mt-6 flex justify-center">
+                    <nav aria-label="Page navigation example">
+                        <ul className="list-style-none flex">
+                            <li key="previous-button">
+                                <button
+                                    disabled={currentPage === 0}
+                                    onClick={() => setCurrentPage(currentPage - 1)}
+                                    className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
+                                >
+                                    Previous
+                                </button>
+                            </li>
+                            {chunkedMembers.map((_, index) => (
+                                <li key={`page-button-${index}`}>
+                                    <button
+                                        onClick={() => setCurrentPage(index)}
+                                        className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage ? 'text-neutral-50 bg-blue-200' : 'text-neutral-600'} transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                </li>
+                            ))}
+                            <li key="next-button">
+                                <button
+                                    disabled={currentPage === chunkedMembers.length - 1}
+                                    onClick={() => setCurrentPage(currentPage + 1)}
+                                    className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedMembers.length - 1 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
+                                >
+                                    Next
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </>
     );
+}
+
+function chunk(array, size) {
+    const chunked_arr = []
+    let copied = [...array]
+
+    while (copied.length > 0) {
+        chunked_arr.push(copied.splice(0, size))
+    }
+
+    return chunked_arr
 }

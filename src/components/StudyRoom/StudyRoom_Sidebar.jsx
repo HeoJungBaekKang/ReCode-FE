@@ -1,16 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 
 function Sidebar() {
+  const { authData } = useContext(AuthContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { study_room_id } = useParams();
+  const params = useParams();
 
-  const [isAdmin, setIsAdmin] = useState(true);
-  const userRole = 'admin';
+  const studyId = params.studyId || params.study_room_id;
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const [info, setInfo] = useState({
+    username: "",
+    masterNickname: ""
+  })
+
+  const checkMaster = async () => {
+    try {
+      await axios.get(`http://localhost:8081/api/v1/study/${studyId}/check-master`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        }
+      })
+        .then(response => {
+          console.log(response.data);
+
+          const code = response.data.code;
+
+          if (code === 1) {
+            console.log("해당 스터디의 조장입니다 : ", response.data.data);
+            setInfo({ ...info, username: response.data.data.username });
+          } else {
+            console.log("해당 스터디의 조장이 아닙니다 :", response.data);
+          }
+        });
+    } catch (error) {
+      console.log("스터디 조장인지 체크 중 오류 발생 :", error.response);
+    }
+  };
+
+  useEffect(() => {
+    if (studyId) {
+      console.log("Study Room ID: ", studyId);
+      checkMaster();
+    } else {
+      console.log("Study Room ID Not found");
+    }
+  }, [studyId])
 
   return (
     <div>
@@ -80,7 +122,7 @@ function Sidebar() {
 
 
             {/* 관리자만 볼 수 있는 메뉴 */}
-            {isAdmin && (
+            {authData.username === info.username && (
               <li className="bg-gray-100">
                 <a href="/studyroom/manage" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
