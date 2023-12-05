@@ -479,13 +479,13 @@ function chunk(array, size) {
 function SearchBox({ keyword, setKeyword }) {
 
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [results, setResults] = useState([]);
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8081/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`http://localhost:8081/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
