@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Quiz = () => {
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const [detailModalOpen, setDetailModalOpen] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
@@ -19,18 +19,18 @@ const Quiz = () => {
         title: "",
         difficulty: "",
         quiz_link: "",
-        studyRoomId: study_room_id,
+        studyRoomId: study_id,
         userId: authData.id
     })
 
     const handleGet = async () => {
-        if (!study_room_id) {
+        if (!study_id) {
             console.error("Study Room ID undefined");
             return;
         }
 
         try {
-            let url = `http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz-list`;
+            let url = `http://52.79.108.89:8080/api/v1/study/${study_id}/quiz-list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -76,7 +76,7 @@ const Quiz = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz`, quiz, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -116,7 +116,7 @@ const Quiz = () => {
 
     const handleDetail = async () => {
         try {
-            await axios.get(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -151,7 +151,7 @@ const Quiz = () => {
 
     const handleModify = async (event) => {
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -179,7 +179,7 @@ const Quiz = () => {
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/delete`, {}, {
+            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -478,13 +478,13 @@ function chunk(array, size) {
 function SearchBox({ keyword, setKeyword }) {
 
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [results, setResults] = useState([]);
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
