@@ -19,7 +19,7 @@ import {
 export default function Detail() {
 
     const navigate = useNavigate();
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [detail, setDetail] = useState({
         studyRoomId: "",
@@ -41,7 +41,7 @@ export default function Detail() {
     const handleGet = async () => {
 
         try {
-            await axios.get(`http://localhost:8081/api/study/${study_room_id}`, {
+            await axios.get(`http://localhost:8081/api/study/${study_id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
