@@ -145,21 +145,104 @@ const PostDetail = () => {
             }
             );
             console.log("댓글 응답:", postReplyResponse.data);
-            setComments({ data: postReplyResponse.data.data });
+            setComments(postReplyResponse.data.data);
 
         } catch (error) { // 훈호님 바보
             console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
-            
+
         }
-    };
+    }
 
     useEffect(() => {
         fetchPostReplyData();
-    }, [postId, study_room_id, postReply_id]);
+    }, [postId, study_room_id, postReply_id, authData.token]);
 
-    // useEffect(() => {
-    //     console.log("Post Reply Id:", postReply_id);
-    // }, [postReply_id, authData]);
+
+
+    // 댓글 수정
+    const [editingComment, setEditingComment] = useState(null);
+
+
+    const handleEditComment = (comment) => {
+        // 댓글의 id만을 editingComment 상태에 저장
+        setEditingComment(comment.id);
+    };
+
+    const handleEditingCommentChange = (e, comment) => {
+        // 댓글의 id만을 사용하여 해당 댓글의 내용을 업데이트
+        setComments((prevComments) =>
+            prevComments.map((c) =>
+                c.id === comment.id ? { ...c, content: e.target.value } : c
+            )
+        );
+    };
+
+    const handleUpdateComment = async (comment) => {
+        console.log("postReply_Id", postReply_id);
+        try {
+            const response = await axios.put(
+                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply/edit/${comment.id}`,
+                {
+                    content: comment.content,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`,
+                    },
+                }
+            );
+
+            if (response.data.code === 1) {
+                console.log("댓글 수정 성공 : ", response.data);
+                // 서버 응답이 성공적일 경우, 수정 상태를 초기화
+                setEditingComment(null);
+            } else {
+                console.log("댓글 수정 실패 :", response);
+            }
+        } catch (error) {
+            console.log("댓글 수정 중 오류 발생 :", error);
+            console.log("서버 응답:", error.response); // 서버 응답 기록
+        }
+    };
+
+    // 댓글 삭제
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply/delete/${commentId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`,
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                // 댓글 삭제가 성공하면, 댓글 목록을 다시 불러옵니다.
+                console.log("댓글 삭제 성공 : ", response.data);
+                loadComments();
+            }
+        } catch (error) {
+            console.log("댓글 삭제 중 오류 발생 :", error);
+        }
+    };
+
+    // 댓글 삭제 후 댓글 목록 다시 불러오기
+    const loadComments = async () => {
+        try {
+            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+            setComments(postReplyResponse.data.data);
+        } catch (error) {
+            console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
+        }
+    };
 
 
     return (
@@ -212,12 +295,33 @@ const PostDetail = () => {
                                             <span className="font-bold text-blue-500">{comment.nickName}</span>
                                             <p className="ml-2 text-gray-700 dark:text-white">{comment.content}</p>
                                             <p className="ml-2 text-gray-700 dark:text-white">{comment.createdAt}</p>
+                                            <div className="flex items-right ml-auto">
+                                                <button onClick={() => handleEditComment(comment)} className="ml-2 px-0 py-0 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">수정</button>
+                                                <button onClick={() => handleDeleteComment(comment.id)} className="ml-2 mx-2 px-0 py-0 bg-red-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-red-600">삭제</button>
+                                            </div>
                                         </div>
+
+                                        {/* 수정 폼 */}
+                                        {editingComment === comment.id && (
+                                            <div className="mt-2 flex flex-col items-end">
+                                                <textarea
+                                                    value={comment.content}
+                                                    onChange={(e) => handleEditingCommentChange(e, comment)}
+                                                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                                                    rows="2"
+                                                    style={{ resize: "none" }}
+                                                ></textarea>
+                                                <div className="ml-4">
+                                                    <button onClick={() => handleUpdateComment(comment)} className="mt-2 px-0 py-0 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">저장</button>
+                                                </div>
+                                            </div>
+                                        )}
                                     </li>
                                 ))}
                             </ul>
                         )}
                     </div>
+
 
                     {/* 댓글 작성 폼 */}
                     <div className="mb-4">
@@ -231,6 +335,7 @@ const PostDetail = () => {
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                             rows="4"
                             placeholder="댓글을 입력하세요..."
+                            style={{ resize: "none" }}
                         ></textarea>
                         <button
                             onClick={handleAddComment}
@@ -239,9 +344,6 @@ const PostDetail = () => {
                             댓글 작성
                         </button>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
