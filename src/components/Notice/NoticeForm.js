@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CreateNotice } from "../../services/NoticeService";
 import MyEditor from "../Editor/MyEditor";
-import ReactHtmlParser from "react-html-parser";
 import { data } from "autoprefixer";
 
 export const NoticeForm = () => {
@@ -11,7 +10,6 @@ export const NoticeForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { authData } = useContext(AuthContext);
-
   const plainTextContent = removeFormatting(content);
 
   function removeFormatting(content) {
@@ -50,6 +48,7 @@ export const NoticeForm = () => {
       console.log("공지사항 생성 실패 : ", error);
     }
   };
+
 
   // 권한이 admin인 경우에만 페이지 내용 렌더링
   return (
@@ -105,6 +104,7 @@ export const NoticeForm = () => {
                   onContentChange={handleEditorDataChange}
                   dangerouslySetInnerHTML={{ __html: plainTextContent }}
                 />
+
               </div>
             </div>
           </div>

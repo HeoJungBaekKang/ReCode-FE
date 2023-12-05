@@ -13,7 +13,9 @@ export async function getSkills() {
     if (code === 1) {
       console.log("스택 목록 불러오기 성공");
 
-      return response.data.data.skills || [];
+      const skillNames = response.data.data.map(skill => skill.skillName);
+      return skillNames || [];
+      // return response.data.data.skills || [];
     } else {
       console.log("스택 목록 불러오기 실패");
       return [];

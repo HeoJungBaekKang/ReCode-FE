@@ -25,6 +25,7 @@ export default function NoticeDetailPage() {
   };
   const [noticeTitle, setNoticeTitle] = useState(""); // 상세 공지사항 제목 상태
   const [noticeCreatedAt, setNoticeCreatedAt] = useState(""); // 상세 공지사항 작성일 상태
+
   const [noticeContent, setNoticeContent] = useState(""); // 상세 공지사항 내용 상태
   const [editedContent, setEditedContent] = useState(""); // 수정한 내용 상태
   const [noticeCreatedBy, setNoticeCreatedBy] = useState("");
@@ -62,6 +63,7 @@ export default function NoticeDetailPage() {
   const handleSaveChanges = async () => {
     try {
       await saveNotice(noticeId, noticeTitle, noticeContent);
+
       setIsEditMode(false); // 성공 시 편집 모드 해제
     } catch (error) {
       // 오류 처리

@@ -54,6 +54,9 @@ export default function Join() {
     console.log(username)
   };
 
+  const [isUsernameValidated, setIsUsernameValidated] = useState(false);
+  const [isEmailValidated, setIsEmailValidated] = useState(false);
+
   const handlename = async () => {
     const currentName = username
     const result = await CheckUsernameDuplicate(currentName);
@@ -61,10 +64,11 @@ export default function Join() {
     if (result.code === 1) {
       // 사용 가능한 아이디
       alert("사용 가능한 아이디입니다.");
-
+      setIsUsernameValidated(true);
     } else if (result.code === -1) {
       // 이미 사용 중인 아이디
       alert("이미 사용 중인 아이디입니다.");
+      setIsUsernameValidated(false);
     }
   }
 
@@ -84,10 +88,12 @@ export default function Join() {
     if (result.code === 1) {
       // 사용 가능한 이메일
       alert("사용 가능한 이메일입니다.");
+      setIsEmailValidated(true);
 
     } else if (result.code === -1) {
       // 이미 사용 중인 이메일
       alert("이미 사용 중인 이메일입니다.");
+      setIsEmailValidated(false);
     }
   }
 
@@ -108,15 +114,25 @@ export default function Join() {
       return;
     }
 
+    if (!isUsernameValidated) {
+      alert("아이디 중복확인 후 진행해주시기 바랍니다.");
+      return;
+    }
+
+    if(!isEmailValidated) {
+      alert("이메일 중복확인 후 진행해주시기 바랍니다.");
+      return;
+    }
+
     try {
       const response = await AuthService.signup(formData);
 
-      if (response.code === 1) {
+      if (response.data.code === 1) {
         alert("회원가입 성공");
         navigate("/login");
       } else {
         alert("회원가입 실패");
-        console.log(formData);
+        console.log("회원가입 실패 :", formData);
       }
     } catch (error) {
       console.error("오류 발생:", error);
@@ -130,8 +146,8 @@ export default function Join() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
+            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            alt="Recode logo"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account

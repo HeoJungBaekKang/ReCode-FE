@@ -24,12 +24,13 @@ export default function NoticePage() {
 
   const chunkedPosts = chunk(noticeList, 9);
   const currentPagePosts = chunkedPosts[currentPage - 1];
-
   const stripHtml = (html) => {
     const tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
   };
+
+
   async function fetchData() {
     try {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
@@ -159,9 +160,8 @@ export default function NoticePage() {
             </button>
             <div
               id="dropdownAction"
-              className={`absolute z-15 ${
-                isOpen ? "block" : "hidden"
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+              className={`absolute z-15 ${isOpen ? "block" : "hidden"
+                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
               style={{ marginTop: "55px" }}
             >
               <ul

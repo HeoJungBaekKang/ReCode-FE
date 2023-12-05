@@ -41,12 +41,18 @@ const Main = () => {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    autoplay: true,
+    speed: 1000,
+    autoplaySpeed:5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     className: "theClass",
     arrows: false,
   };
+
+  // const { authData, setAuthData } = useContext(AuthContext);
+
+  // console.log(authData);
 
   const navigate = useNavigate();
 
@@ -55,6 +61,7 @@ const Main = () => {
     // 공지사항 페이지로 이동
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
+
 
   return (
     <>
