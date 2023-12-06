@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
 import { fetchQnaList } from "../../services/QnaService";
 import { format } from 'date-fns';
 
@@ -18,7 +17,6 @@ export default function Qna() {
     const navigate = useNavigate();
     const [qnaList, setQnaList] = useState([]);
 
-    const { authData } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
     const handleRowClick = (qnaId) => {
         navigate(`/qna/${qnaId}`);
