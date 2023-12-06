@@ -6,7 +6,8 @@ COPY . .
 RUN npm run build
 
 FROM nginx:latest
-COPY --from=builder /recode-fe/* /usr/share/nginx/html/
+# COPY --from=builder /recode-fe/* /usr/share/nginx/html/
+COPY --from=builder /recode-fe /usr/share/nginx/html/
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
