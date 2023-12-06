@@ -1,0 +1,161 @@
+.div-wrapper {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.div-wrapper .div {
+  background-color: #ffffff;
+  height: 1052px;
+  position: relative;
+  width: 1440px;
+}
+
+.div-wrapper .text-wrapper {
+  color: #000000;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 48px;
+  font-weight: 400;
+  height: 117px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: -1px;
+  width: 273px;
+}
+
+.div-wrapper .view {
+  height: 562px;
+  width: 730px;
+  background-color: #ffffff; /* 네모가 보이도록 배경색을 흰색으로 설정할 수 있습니다. */
+}
+
+.div-wrapper .text-wrapper-2 {
+  color: #8e8282;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  height: 19px;
+  left: 173px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 72px;
+  width: 384px;
+}
+
+.div-wrapper .text-wrapper-3 {
+  color: #567fcf;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  height: 37px;
+  left: 414px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 419px;
+  width: 130px;
+}
+
+.div-wrapper .overlap {
+  height: 39px;
+  left: 580px;
+  position: absolute;
+  top: 418px;
+  width: 77px;
+}
+
+.div-wrapper .rectangle {
+  height: 37px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 77px;
+}
+
+.div-wrapper .text-wrapper-4 {
+  color: #000000;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 20px;
+  font-weight: 400;
+  height: 38px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 77px;
+}
+
+.div-wrapper .text-wrapper-5 {
+  color: #000000;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 32px;
+  font-weight: 400;
+  height: 53px;
+  left: 151px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 9px;
+  width: 427px;
+}
+
+.div-wrapper .frame {
+  height: 124px;
+  left: 69px;
+  position: absolute;
+  top: 194px;
+  width: 592px;
+}
+
+.div-wrapper .overlap-group {
+  background-color: #fffefe;
+  border: 1px solid;
+  border-color: #000000;
+  border-radius: 10px;
+  height: 43px;
+  left: 30px;
+  position: absolute;
+  top: 42px;
+  width: 550px;
+}
+
+.div-wrapper .text-wrapper-6 {
+  color: #000000;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  height: 32px;
+  left: -1px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 3px;
+  width: 79px;
+}
+
+.div-wrapper .text-wrapper-7 {
+  color: #8e8282;
+  font-family: "Itim-Regular", Helvetica;
+  font-size: 15px;
+  font-weight: 400;
+  height: 22px;
+  left: 0;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  text-align: center;
+  top: 13px;
+  width: 124px;
+}

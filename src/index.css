@@ -1,3 +1,17 @@
 @tailwind base;
+<<<<<<< HEAD
+=======
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+}
+
+>>>>>>> ecf5ce19f8f23913a4ee61f58f7f275c79b32f82
 @tailwind components;
 @tailwind utilities;
