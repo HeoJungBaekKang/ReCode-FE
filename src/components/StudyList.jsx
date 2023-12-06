@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
+  
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
+
   if (!filteredStudies || !filteredStudies.length) {
     return <div>스터디가 없습니다. </div>;
   }
@@ -38,26 +40,26 @@ export default function StudyList({ filteredStudies }) {
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}
-                    className="flex max-w-xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-md"
+                    className="flex max-w-3xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-3xl"
+                    style={{ height: '300px' }}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
-                      <div className="text-gray-500">{post.study_name}</div>
+                      <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>
                       <div
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          post.max_num - post.current_num <= 2 &&
-                          post.max_num !== post.current_num
-                            ? "bg-red-400 text-white"
-                            : post.max_num > post.current_num
+                        className={`text-sm px-2 py-1 rounded-full ${post.maxNum - post.currentNum <= 2 &&
+                          post.maxNum !== post.currentNum
+                          ? "bg-red-400 text-white"
+                          : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
-                        }`}
+                          }`}
                       >
-                        {post.max_num - post.current_num <= 2 &&
-                        post.max_num !== post.current_num
+                        {post.maxNum - post.currentNum <= 2 &&
+                          post.max_num !== post.current_num
                           ? "마감 임박"
-                          : post.max_num > post.current_num
-                          ? "모집중"
-                          : "모집 완료"}
+                          : post.maxNum > post.currentNum
+                            ? "모집중"
+                            : "모집 완료"}
                       </div>
                     </div>
                     <div className="flex items-start text-sm">
@@ -75,12 +77,13 @@ export default function StudyList({ filteredStudies }) {
                         </div>
                       </h3>
                     </div>
-                    <div className="relative mt-8 flex items-center gap-x-4">
-                      <div className="text-sm leading-6">
+                    <hr className="w-full border-t" />
+                    <div className="relative flex items-center gap-x-4">
+                      <div className="text-sm mb-5 leading-6">
                         <p className="font-semibold text-gray-900">
-                          <div>
-                            <span className="absolute inset-0" />
-                            {post.masterNickname}
+                          <div className="flex items-center">
+                            <img src="/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
+                            <span className="ml-2">{post.masterNickname}</span>
                           </div>
                         </p>
                       </div>
@@ -96,11 +99,10 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === 0
-                            ? "text-neutral-500"
-                            : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0
+                          ? "text-neutral-500"
+                          : "text-neutral-600"
+                          } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -109,11 +111,10 @@ export default function StudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${
-                            index === currentPage
-                              ? "text-neutral-50 bg-blue-200"
-                              : "text-neutral-600"
-                          } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage
+                            ? "text-neutral-50 bg-blue-200"
+                            : "text-neutral-600"
+                            } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -123,11 +124,10 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === chunkedPosts.length - 1
-                            ? "text-neutral-500"
-                            : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
+                          ? "text-neutral-500"
+                          : "text-neutral-600"
+                          } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>

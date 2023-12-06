@@ -3,7 +3,7 @@ import { TERipple } from "tw-elements-react";
 import TabsWithButtons from "./TabsWithButtons";
 
 // 시작 
-export default function SkillFilter({
+export default function SelectSkillNames({
   selectedSkills,
   setSelectedSkills,
   studies,
@@ -17,11 +17,6 @@ export default function SkillFilter({
     const filteredStudies = studies.filter((study) =>
       selectedSkills.some((skill) => study.skillNames.includes(skill))
     );
-
-    // // filteredStudies 배열을 스터디 이름을 기준으로 정렬 -> 방금 추가한 부분 
-    // filteredStudies.sort((a, b) => {
-    //   return a.study_name.localeCompare(b.name);
-    // });
 
     // 필터링된 스터디 목록을 상태로 설정
     setFilteredStudies(filteredStudies);
@@ -52,7 +47,7 @@ export default function SkillFilter({
           role="button"
           onClick={toggleShow}
         >
-          STACK 선택하기
+          기술스택 선정
         </a>
       </TERipple>
 

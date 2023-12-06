@@ -9,16 +9,16 @@ const StudyRoomNotLogin = () => {
   const { authData } = useContext(AuthContext);
   console.log(authData);
   const [detail, setDetail] = useState({
-    study_room_id: "",
-    study_name: "",
+    studyRoomId: "",
+    studyName: "",
     title: "",
     description: "",
-    start_date: "",
-    end_date: "",
-    start_time: "",
-    end_time: "",
-    current_num: "",
-    max_num: "",
+    startDate: "",
+    endDate: "",
+    startTime: "",
+    endTime: "",
+    currentNum: "",
+    maxNum: "",
     master: "",
     skillNames: [],
     attendanceDay: [],
@@ -103,10 +103,10 @@ const StudyRoomNotLogin = () => {
       navigate('/login');
       return;
     }
-  
+
     try {
       await checkStudyRoomMembership();
-  
+
       if (isInStudyRoom) {
         alert("이미 가입된 스터디입니다.");
       } else {
@@ -119,7 +119,7 @@ const StudyRoomNotLogin = () => {
       // Handle error as needed
     }
   };
-  
+
   useEffect(() => {
     handleGet();
   }, []);
@@ -133,13 +133,13 @@ const StudyRoomNotLogin = () => {
             <div className="flex justify-between">
               <h1 className="text-3xl font-bold mb-4">{detail.title}</h1>
               <div className="flex justify-end text-xs p-1">
-                <div className={`text-xs px-2 font-style: italic; py-2.5 rounded-full ${detail.max_num - detail.current_num <= 2 && detail.max_num !== detail.current_num ? 'bg-red-400 text-white' :
-                  detail.max_num > detail.current_num ? 'bg-green-400 text-white' :
+                <div className={`text-xs px-2 font-style: italic; py-2.5 rounded-full ${detail.maxNum - detail.currentNum <= 2 && detail.maxNum !== detail.currentNum ? 'bg-red-400 text-white' :
+                  detail.maxNum > detail.currentNum ? 'bg-green-400 text-white' :
                     'bg-gray-400 text-white'
                   }`}>
                   {
-                    detail.max_num - detail.current_num <= 2 && detail.max_num !== detail.current_num ? '마감 임박' :
-                      detail.max_num > detail.current_num ? '모집중' :
+                    detail.maxNum - detail.currentNum <= 2 && detail.maxNum !== detail.currentNum ? '마감 임박' :
+                      detail.maxNum > detail.currentNum ? '모집중' :
                         '모집 완료'
                   }
                 </div>
@@ -151,15 +151,15 @@ const StudyRoomNotLogin = () => {
             </div>
             <hr className="my-10 h-1 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
             <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-              <span className="mr-4">모집인원 {detail.max_num}</span>
-              <span className="mr-4">스터디 기간 {detail.start_date}</span>
-              <span>{detail.end_date}</span>
+              <span className="mr-4">모집인원 {detail.maxNum}</span>
+              <span className="mr-4">스터디 기간 {detail.startDate}</span>
+              <span>{detail.endDate}</span>
             </div>
             <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
               <span className="mr-4">
-                출석인정 시작 시간 {detail.start_time}
+                출석인정 시작 시간 {detail.startTime}
               </span>
-              <span className="mr-4"> 종료 시간 {detail.end_time}</span>
+              <span className="mr-4"> 종료 시간 {detail.endTime}</span>
             </div>
 
             <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
@@ -211,10 +211,10 @@ const StudyRoomNotLogin = () => {
             <button
               type="submit"
               onClick={handleStudyRoomClick}
-              disabled={detail.current_num === detail.max_num} // Disable the button if current_num equals max_num
+              disabled={detail.currentNum === detail.maxNum} // Disable the button if current_num equals max_num
               className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
-      ${detail.current_num === detail.max_num ? 'opacity-50 cursor-not-allowed' : ''}`}> {/* Conditional styling for disabled state */}
-              {detail.current_num === detail.max_num ? '마감' : '신청'}
+      ${detail.currentNum === detail.maxNum ? 'opacity-50 cursor-not-allowed' : ''}`}> {/* Conditional styling for disabled state */}
+              {detail.currentNum === detail.maxNum ? '마감' : '신청'}
             </button>
           </div>
         </div>

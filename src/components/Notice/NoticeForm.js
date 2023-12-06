@@ -5,18 +5,24 @@ import { CreateNotice } from "../../services/NoticeService";
 import MyEditor from "../Editor/MyEditor";
 import { data } from "autoprefixer";
 
-
 export const NoticeForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { authData } = useContext(AuthContext);
+  const plainTextContent = removeFormatting(content);
+
+  function removeFormatting(content) {
+    // CKEditor에서 사용하는 서식 태그를 정규 표현식으로 제거
+    const formattedText = content.replace(/<[^>]*>/g, "");
+    return formattedText;
+  }
 
   // MyEditord에서 전달한 값을 처리하는 함수
   const handleEditorDataChange = (newContent) => {
     // 자식 컴포넌트로 부터 받은 값을 상태에 따라 저장하거나 원하는 작업을 수행
     setContent(newContent);
-    console.log("newContent", newContent);
+    console.log("newContent in form : ", newContent);
   };
 
   // 사용자의 권한 확인
@@ -32,9 +38,7 @@ export const NoticeForm = () => {
       const noticeData = { title, content };
       const createNotice = await CreateNotice(noticeData);
       console.log("생성된 공지사항 : ", createNotice);
-      console.log("내용을 서버로 보내고 있습니다. : ", content);
-      console.log("내용 : ", content);
-      console.log("data 본문", data);
+    
 
       // 성공 후 페이지 리디렉션
       navigate("/notice");
@@ -42,6 +46,7 @@ export const NoticeForm = () => {
       console.log("공지사항 생성 실패 : ", error);
     }
   };
+
 
   // 권한이 admin인 경우에만 페이지 내용 렌더링
   return (
@@ -93,7 +98,11 @@ export const NoticeForm = () => {
           <div className="sm:col-span-2">
             <div className="mt-2.5">
               <div>
-                <MyEditor onContentChange={handleEditorDataChange} />
+                <MyEditor
+                  onContentChange={handleEditorDataChange}
+                  dangerouslySetInnerHTML={{ __html: plainTextContent }}
+                />
+
               </div>
             </div>
           </div>
