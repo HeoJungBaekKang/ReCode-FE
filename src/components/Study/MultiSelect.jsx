@@ -1,40 +1,43 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
-import axios from "axios";
+import { getSkillNameByPosition } from "../../services/FilterService";
 
-function MultiSelect({onChange}) {
+function MultiSelect({onChange, selectedPosition}) {
   const { authData } = useContext(AuthContext);
-  const [skills, setSkills] = useState([]);
+  const [skillNames, setSkillNames] = useState([]);
 
   useEffect(() => {
-    const handleGet = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/get-skills`, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        console.log(response.data);
-
-        const code = response.data.code;
-        if (code === 1) {
-          console.log("스택 목록 불러오기 성공");
-          setSkills(response.data.data.skills || []);
+        let allSkillNames = [];
+  
+        if (selectedPosition === "FullStack") {
+          const frontSkillNames = await getSkillNameByPosition("Frontend");
+          const backSkillNames = await getSkillNameByPosition("Backend");
+          allSkillNames = [...frontSkillNames, ...backSkillNames];
+          setSkillNames(allSkillNames);
+          console.log("FullStakc을 선택하였습니다. : ", skillNames);
         } else {
-          console.log("스택 목록 불러오기 실패");
+          // 그 외 포지션에 대한 스킬 목록 불러오기
+          allSkillNames = await getSkillNameByPosition(selectedPosition);
         }
+  
+        console.log(`${selectedPosition} 스킬 목록 불러오기 성공`);
+        setSkillNames(allSkillNames);
       } catch (error) {
-        console.error("스택 목록 불러오기 중 오류 : ", error);
-        console.log(error.response);
+        console.error(`${selectedPosition} 스킬 목록 불러오기 중 오류:`, error);
       }
     };
+  
+    if (selectedPosition) {
+      fetchData();
+    }
+  }, [selectedPosition]);
+  
 
-    handleGet();
-  }, [authData.token]);
-
-  const options = skills.map(skill => ({ value: skill, label: skill}));
+  
+  const options = skillNames.map(skillName => ({ value: skillName, label: skillName}));
 
   console.log('options 확인 ' , options);
 
@@ -47,7 +50,7 @@ function MultiSelect({onChange}) {
 
 
     console.log('selectedSkillNames 선택된 정보 확인 ! : ',selectedSkillNames);
-
+   
     // 선택한 스킬 이름 목록을 상위 컴포넌트로 전달
     onChange(selectedSkillNames);
   };
@@ -56,6 +59,7 @@ function MultiSelect({onChange}) {
     <div>
         <Select options={options} isMulti onChange={handleChange} />
     </div>
+
   );
 }
 

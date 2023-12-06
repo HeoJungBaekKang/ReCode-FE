@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { getSkills } from "../../services/FilterService";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
 export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
@@ -7,7 +6,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
   const [skills, setSkills] = useState([]);
 
   // tab -> 전체보기, 백엔드, 프론트 엔드 전달받는 함수
-  const [activeTab, setActiveTab] = useState("fullStack");
+  const [activeTab, setActiveTab] = useState("FullStack");
 
   // 탭 전환
   const handleTabClick = async (tabName) => {

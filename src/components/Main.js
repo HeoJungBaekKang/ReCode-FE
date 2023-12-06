@@ -32,7 +32,7 @@ const Main = () => {
   useEffect(() => {
     // 선택된 스킬에 따라 스터디 목록 필터링
     const newFilteredStudies = studies.filter((study) =>
-      selectedSkills.every((selectedSkill) =>
+      selectedSkills.some((selectedSkill) =>
         study.skillNames.includes(selectedSkill)
       )
     );
@@ -94,23 +94,6 @@ const Main = () => {
 
           <div className="fixed-container">
             <div class="grid grid-rows-1 grid-cols-6">
-              <div>
-                <button className="custom-button text-2xl font-semibold text-black bg-transparent hover:text-gray-500 focus:text-gray-500 hover:bg-transparent focus:bg-transparent">
-                  <h1>전체보기</h1>
-                </button>
-              </div>
-
-              <div>
-                <button className="custom-button text-2xl font-semibold text-black bg-transparent hover:text-gray-500 focus:text-gray-500 hover:bg-transparent focus:bg-transparent">
-                  <h1>백엔드</h1>
-                </button>
-              </div>
-
-              <div>
-                <button className="custom-button text-2xl font-semibold text-black bg-transparent hover:text-gray-500 focus:text-gray-500 hover:bg-transparent focus:bg-transparent">
-                  <h1>프론트엔드</h1>
-                </button>
-              </div>
 
               {/* 스터디 생성 버튼 */}
               <div class="col-start-6">
@@ -142,7 +125,7 @@ const Main = () => {
           />
 
           <StudyList
-            filteredStudies={filteredStudies}
+            filteredStudies={filteredStudies.length >  0 ? filteredStudies : studies}
             selectedSkills={selectedSkills}
           />
          
