@@ -60,9 +60,9 @@ const Quiz = () => {
     }
 
     useEffect(() => {
-        console.log("Study Room ID:", study_room_id);
+        console.log("Study Room ID:", study_id);
         handleGet();
-    }, [study_room_id, authData, keyword])
+    }, [study_id, authData, keyword])
 
     const openModal = () => {
         setModalOpen(true);
