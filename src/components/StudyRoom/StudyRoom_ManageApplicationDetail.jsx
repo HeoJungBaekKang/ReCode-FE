@@ -8,9 +8,9 @@ const ApplicationDetail = () => {
     // 여기에서 id에 해당하는 신청자의 세부 정보를 서버에서 가져오고 렌더링
 
     const data = {
-        name: 'huno',
-        email: 'huno@naver.com',
-        introduction: '안녕하세요',
+        name: '',
+        email: '',
+        introduction: '',
     }
 
     const handleApprove = () => {
