@@ -10,7 +10,7 @@ function MultiSelect({onChange}) {
   useEffect(() => {
     const handleGet = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/get-skills`, {
+        const response = await axios.get(`http://52.79.108.89:8080/api/get-skills`, {
           headers: {
 
             'Content-Type': 'application/json'

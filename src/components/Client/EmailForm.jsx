@@ -16,10 +16,10 @@ export default function Email() {
 
         // 로그인 사용자의 경우 헤더에 Bearer 토큰 요청
         if (authData && authData.token) {
-            url = `http://localhost:8081/api/v1/send-email?email=${encodeURIComponent(email)}`;
+            url = `http://52.79.108.89:8080/api/v1/send-email?email=${encodeURIComponent(email)}`;
             headers.Authorization = `Bearer ${authData.token}`;
         } else {
-            url = `http://localhost:8081/api/send-email?email=${encodeURIComponent(email)}`;
+            url = `http://52.79.108.89:8080/api/send-email?email=${encodeURIComponent(email)}`;
         }
 
         try {

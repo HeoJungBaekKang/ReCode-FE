@@ -1,17 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "recode",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.17.0",
-    "react-scripts": "5.0.1",
-=======
   "name": "tailwind_work",
   "version": "0.1.0",
   "private": true,
@@ -28,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.1",
     "buffer": "^6.0.3",
+    "date-fns": "^2.30.0",
     "nextjs": "^0.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,7 +24,6 @@
     "react-slick": "^0.29.0",
     "tw-elements": "^1.0.0",
     "tw-elements-react": "^1.0.0-alpha2",
->>>>>>> ecf5ce19f8f23913a4ee61f58f7f275c79b32f82
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -64,17 +51,15 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "tailwindcss": "^3.3.5"
-  }
-=======
+
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "react-scripts": "^5.0.1",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "^3.3.5"
   },
+
+
   "proxy": "http://52.79.108.89:8080"
 
->>>>>>> ecf5ce19f8f23913a4ee61f58f7f275c79b32f82
 }

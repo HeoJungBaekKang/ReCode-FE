@@ -67,7 +67,7 @@ export default function ChangePassword() {
         console.log("페이로드가 전송됨: ", payload);
 
         // 엔드포인트 설정
-        let url = `http://localhost:8081/api/${authData && authData.token ? 'v1/' : ''}change-password`;
+        let url = `http://52.79.108.89:8080/api/${authData && authData.token ? 'v1/' : ''}change-password`;
 
         // 헤더 설정, 헤더에 토큰이 필요할 경우 (로그인 유저)
         const headers = {};
@@ -119,8 +119,8 @@ export default function ChangePassword() {
         if (tokenFromUrl && email) {
             // 유저 로그인 여부 엔드포인드 설정
             const url = authData && authData.token ?
-                `http://localhost:8081/api/v1/check-mail-token` :
-                `http://localhost:8081/api/check-mail-token`;
+                `http://52.79.108.89:8080/api/v1/check-mail-token` :
+                `http://52.79.108.89:8080/api/check-mail-token`;
 
             // 헤더 설정
             const headers = {};
