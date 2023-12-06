@@ -27,7 +27,7 @@ export default function AdminStudyList({ filteredStudies }) {
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             전체 스터디 목록
           </h2>
-    
+
         </div>
         <div class="justify-items-stretch">
           <div className="bg-white py-24 sm:py-5">
@@ -41,21 +41,20 @@ export default function AdminStudyList({ filteredStudies }) {
                     <div className="flex items-center gap-x-4 text-xs">
                       <div className="text-gray-500">{post.study_name}</div>
                       <div
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          post.max_num - post.current_num <= 2 &&
-                          post.max_num !== post.current_num
+                        className={`text-xs px-2 py-1 rounded-full ${post.max_num - post.current_num <= 2 &&
+                            post.max_num !== post.current_num
                             ? "bg-red-400 text-white"
                             : post.max_num > post.current_num
-                            ? "bg-green-400 text-white"
-                            : "bg-gray-400 text-white"
-                        }`}
+                              ? "bg-green-400 text-white"
+                              : "bg-gray-400 text-white"
+                          }`}
                       >
                         {post.max_num - post.current_num <= 2 &&
-                        post.max_num !== post.current_num
+                          post.max_num !== post.current_num
                           ? "마감 임박"
                           : post.max_num > post.current_num
-                          ? "모집중"
-                          : "모집 완료"}
+                            ? "모집중"
+                            : "모집 완료"}
                       </div>
                     </div>
                     <div className="flex items-start text-sm">
@@ -94,11 +93,10 @@ export default function AdminStudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === 0
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0
                             ? "text-neutral-500"
                             : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                          } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -107,11 +105,10 @@ export default function AdminStudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${
-                            index === currentPage
+                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage
                               ? "text-neutral-50 bg-blue-200"
                               : "text-neutral-600"
-                          } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                            } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -121,11 +118,10 @@ export default function AdminStudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === chunkedPosts.length - 1
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
                             ? "text-neutral-500"
                             : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                          } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>
