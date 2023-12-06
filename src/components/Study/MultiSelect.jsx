@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
-import axios from "axios";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
 function MultiSelect({onChange, selectedPosition}) {

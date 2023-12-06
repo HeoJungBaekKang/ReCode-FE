@@ -125,7 +125,7 @@ const Main = () => {
           />
 
           <StudyList
-            filteredStudies={filteredStudies}
+            filteredStudies={filteredStudies.length >  0 ? filteredStudies : studies}
             selectedSkills={selectedSkills}
           />
          
