@@ -38,9 +38,7 @@ export const NoticeForm = () => {
       const noticeData = { title, content };
       const createNotice = await CreateNotice(noticeData);
       console.log("생성된 공지사항 : ", createNotice);
-      console.log("내용을 서버로 보내고 있습니다. : ", content);
-      console.log("내용 : ", content);
-      console.log("data 본문", data);
+    
 
       // 성공 후 페이지 리디렉션
       navigate("/notice");
