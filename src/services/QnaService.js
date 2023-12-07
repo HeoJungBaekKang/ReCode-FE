@@ -49,8 +49,8 @@ export async function fetchQnaDetail(qnaId) {
     }
 };
 
-// 공지사항 수정 후 저장 버튼 
-export const saveNotice = async (qnaId, qnaTitle, qnaContent) => {
+// modify
+export const saveQna = async (qnaId, qnaTitle, qnaContent) => {
     try {
         const token = localStorage.getItem("token");
 
