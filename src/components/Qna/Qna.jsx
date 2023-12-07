@@ -71,17 +71,20 @@ export default function Qna() {
                                                 <tbody>
                                                     {qnaList.map((qna) => (<tr
                                                         onClick={() => handleRowClick(qna.id)}
-                                                        key={[qna.id, qna.user_id]}
+                                                        key={[qna.id, qna.userId]}
+                                                        // key={qna.id}
                                                         className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                                     >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             {qna.id}
+                                                           
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             {qna.title}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.user_id.nickname}
+                                                            {qna.userId.nickname}
+                                                            {/* {console.log(qna.userId.nickname)} */}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
 

@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { createQna } from "../../services/QnaService";
 import MyEditor from "../Editor/MyEditor";
 
+
 export const QnaPost = () => {
 
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
+    //Qna 생성 핸들러
     const handlerSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -17,11 +19,28 @@ export const QnaPost = () => {
             console.log('생성된 큐엔에~ : ', Qna);
 
             // 성공 후 페이지 리디렉션
-            navigate('/qna');
+            navigate(`/qna`);
+
         } catch (error) {
             console.log('실패 : ', error);
         }
+
+
     };
+    //입력받은 값 저장 핸들러
+    const handleEditorDataChange = (newContent) => {
+        setContent(newContent);
+    };
+
+    //MyEditor 포맷 설정
+    const plainTextContent = removeFormatting(content);
+
+    function removeFormatting(content) {
+        // CKEditor에서 사용하는 서식 태그를 정규 표현식으로 제거
+        const formattedText = content.replace(/<[^>]*>/g, "");
+        return formattedText;
+    }
+
 
     return (
         (
@@ -46,6 +65,7 @@ export const QnaPost = () => {
                     >
                         제목
                     </label>
+
                     <div className="mt-2.5 mb-4">
                         <input
                             type="text"
@@ -69,25 +89,13 @@ export const QnaPost = () => {
                     </label>
                     <div className="sm:col-span-2">
                         <div className="mt-2.5">
+
                             <div>
-                                <div>
-                                    <MyEditor
-                                        onContentChange={[setContent, setTitle]}
-
-                                    />
-                                </div>
-                                {/* <textarea
-                                    value={content}
-                                    onChange={(e) => setContent(e.target.value)}
-                                    name="description"
-                                    id="description"
-                                    rows={20}
-                                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={""}
-                                /> */}
-
+                                <MyEditor
+                                    onContentChange={handleEditorDataChange}
+                                    dangerouslySetInnerHTML={{ __html: plainTextContent }}
+                                />
                             </div>
-
                         </div>
 
                     </div>

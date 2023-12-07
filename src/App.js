@@ -87,7 +87,7 @@ function App() {
             <Route path="/studyroom/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
-            {/* <Route path="/qna/post" element={<QnaPost />} /> */}
+            <Route path="/qna/post" element={<QnaPost />} />
             <Route path="/admin/LeaderPermission/:study_room_id" element={<Leader_Permission />} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
