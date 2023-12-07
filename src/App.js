@@ -24,7 +24,7 @@ import User_list from "./components/Admin/User_list";
 import Leader_Permission from "./components/Admin/Leader_Permission";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
-import ApplicationStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
+import ApplyStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
 import ApplicationDetail from "./components/StudyRoom/StudyRoom_ManageApplicationDetail";
 import StudyModify from "./components/StudyRoom/StudyModify";
 import StudyRoomNotLogin from "./components/StudyRoom/StudyroomDetailNotLogin";
@@ -77,13 +77,13 @@ function App() {
             <Route path="/studyroom/post/:study_room_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />
-            <Route path="/studyroom/manage" element={<Manage />} />
-            <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
-            <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
+            <Route path="/studyroom/:study_room_id/manage" element={<Manage />} />
+            <Route path="/studyroom/:study_room_id/manage/apply" exact element={<ApplyStatus />} />
+            <Route path="/studyroom/:study_room_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
             <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
             <Route path="/studyroom/:study_room_id/post/:postId" element={<PostDetail />} />
-            <Route path="/studyroom/manage" element={<Manage />} />
-            <Route path="/studyroom/manage/modify" element={<StudyModify />} />
+            <Route path="/studyroom/:study_room_id/manage" element={<Manage />} />
+            <Route path="/studyroom/:study_room_id/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />

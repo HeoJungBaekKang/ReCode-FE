@@ -4,6 +4,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import { useParams } from "react-router-dom/dist";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import '../ckeditor.css';
+
+
 
 export default function Post() {
     const navigate = useNavigate();
@@ -45,7 +50,7 @@ export default function Post() {
 
                 // 게시판 목록 페이지로 이동
                 navigate(`/studyroom/board/${study_room_id}`);
-        
+
             } else {
                 console.log("글 작성 실패 :", response);
             }
@@ -101,18 +106,32 @@ export default function Post() {
                     </div>
 
                     {/* 본문 입력 */}
-                    <div className="mb-4">
+                    <div className="mb-4 ck-editor__editable">
                         <label htmlFor="content" className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                             본문
                         </label>
-                        <textarea
+                        {/* <textarea
                             id="content"
                             value={newPost.content || ''}
                             onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                             rows="8"
                             placeholder="게시글 내용을 입력하세요..."
-                        ></textarea>
+                            style={{ resize: "none" }}
+                        ></textarea> */}
+
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={newPost.content}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                setNewPost({ ...newPost, content: data });
+                            }}
+                            editorConfig={{
+                                height: ''
+                            }}
+                        />
+
                     </div>
 
                     {/* 작성완료 버튼 */}
