@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { fetchQnaDetail, fetchReply } from "../../services/QnaService";
 import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
+import ReactHtmlParser from "react-html-parser";
 
 
 export default function QnaDetail() {
@@ -125,7 +126,7 @@ export default function QnaDetail() {
                                             />
                                         ) : (
                                             <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {qnaContent}
+                                                 {ReactHtmlParser(qnaContent)}
                                             </Typography>
                                         )}
                                     </tbody>
