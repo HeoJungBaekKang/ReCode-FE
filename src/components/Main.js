@@ -76,11 +76,12 @@ const Main = () => {
               <Slider {...settings}>
                 <article
                   onClick={handleNoticeClick} // 클릭 시 이동 함수 호출
-                  style={{ display: "grid !important" }}
-                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto"
+                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto notice"
                 >
-                  <h2 className="text-2xl font-bold">공지사항</h2>
-                  <p className="text-gray-800">이번 주 공지사항입니다. </p>
+                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                    <h2 className="text-2xl font-bold">공지사항</h2>
+                    <p className="text-gray-800">이번 주 공지사항입니다. </p>
+                  </div>
                 </article>
                 <article
                   style={{ display: "grid !important" }}
@@ -91,16 +92,12 @@ const Main = () => {
                 </article>
                 <article
                   onClick={handleNaverBookClick}
-                  style={{ 
-                    display: "grid", 
-                    backgroundImage: "url('/book.png')",
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                }}
-                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto"
+                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto book-search"
                 >
-                  <h2 className="text-2xl font-bold">도서 검색</h2>
-                  <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
+                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                    <h2 className="text-2xl font-bold">도서 검색</h2>
+                    <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
+                  </div>
                 </article>
               </Slider>
             </div>
