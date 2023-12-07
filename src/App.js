@@ -45,6 +45,7 @@ import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
 import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
+import NaverBook from "./components/NaverBook/BookList";
 
 function App() {
 
@@ -103,6 +104,7 @@ function App() {
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
+            <Route path="/naverbook" element={<NaverBook />} />
           </Routes>
         </div>
       </AuthProvider>
