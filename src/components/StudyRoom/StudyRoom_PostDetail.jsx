@@ -145,11 +145,11 @@ const PostDetail = () => {
             }
             );
             console.log("댓글 응답:", postReplyResponse.data);
-            setComments({ data: postReplyResponse.data.data });
+            setComments(postReplyResponse.data.data);
 
         } catch (error) { // 훈호님 바보
             console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
-            
+
         }
     };
 
