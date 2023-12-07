@@ -16,21 +16,13 @@ export default function QnaDetail() {
     const { authData } = useContext(AuthContext);
     const { qnaId } = useParams();
     const navigate = useNavigate();
-
-
-    const handleGoToList = () => {
-        navigate("/qna");
-
-    };
     const [qnaTitle, setQnaTitle] = useState("");
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
     const [qnaReply, setQnaReply] = useState([]);
-
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,7 +46,11 @@ export default function QnaDetail() {
     useEffect(() => {
         fetchData();
     }, [qnaId]);
+    
+    const handleGoToList = () => {
+        navigate("/qna");
 
+    };
     const handleReplyButtonClick = () => {
         setIsReplyOpen(!isReplyOpen);
     };
@@ -112,10 +108,10 @@ export default function QnaDetail() {
                         </div>
                     </CardHeader>
                     <CardBody className="px-0">
-                    <div className="ml-5 mr-5 sm:col-span-2">
-                                <div className="mt-2.5">
-                        <table className="mt-4 w-full min-w-max table-auto text-left">
-                           
+                        <div className="ml-5 mr-5 sm:col-span-2">
+                            <div className="mt-2.5">
+                                <table className="mt-4 w-full min-w-max table-auto text-left">
+
                                     <tbody>
 
                                         {isEditMode ? (
@@ -134,10 +130,10 @@ export default function QnaDetail() {
                                         )}
                                     </tbody>
 
-                               
-                        </table>
-                        </div>
+
+                                </table>
                             </div>
+                        </div>
                     </CardBody>
                 </Card>
             </div >
@@ -166,7 +162,7 @@ export default function QnaDetail() {
                         <div className="mb-8 flex items-center justify-between gap-8">
                             <div>
                                 <Typography color="gray" className="mt-1 font-normal">
-                                    답글
+                                    댓글
                                 </Typography>
                             </div>
                         </div>
