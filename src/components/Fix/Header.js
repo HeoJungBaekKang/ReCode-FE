@@ -36,11 +36,11 @@ const Main = () => {
             clearTimeout(timer);
             timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
         };
-    
+
         window.addEventListener('load', resetTimer);
         document.addEventListener('mousemove', resetTimer);
         document.addEventListener('keypress', resetTimer);
-    
+
         return () => {
             clearTimeout(timer);
             window.removeEventListener('load', resetTimer);
