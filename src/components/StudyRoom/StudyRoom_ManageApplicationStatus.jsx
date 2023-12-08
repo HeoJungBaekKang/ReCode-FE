@@ -17,7 +17,7 @@ const ApplyStatus = () => {
 
         const fetchapplications = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study-groups/${study_id}/applications`, {
+                const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -41,7 +41,7 @@ const ApplyStatus = () => {
         setModalOpen(true);
 
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/study-groups/${study_id}/applications/${user.user_id}`, {
+            const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${user.user_id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -64,7 +64,7 @@ const ApplyStatus = () => {
         try {
             
             const response = await axios.post(
-                `http://localhost:8080/api/v1/study-member/${study_id}/${user.user_id}`,
+                `http://localhost:8081/api/v1/study-member/${study_id}/${user.user_id}`,
                 { isApproved },
                 {
                     headers: {

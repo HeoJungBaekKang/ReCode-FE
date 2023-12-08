@@ -18,7 +18,7 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}`, {
+                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -36,7 +36,7 @@ const EditPost = () => {
     const handlePostUpdate = async () => {
         try {
             const response = await axios.put(
-                `http://localhost:8080/api/v1/study/${study_id}/post/edit/${post_id}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/edit/${post_id}`,
                 postData,
                 {
                     headers: {

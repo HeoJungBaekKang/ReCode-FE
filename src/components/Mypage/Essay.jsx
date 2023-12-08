@@ -15,7 +15,7 @@ export default function Essay() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:8080/api/v1/mypage/${authData.id}/essay`, essay, {
+            await axios.post(`http://localhost:8081/api/v1/mypage/${authData.id}/essay`, essay, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

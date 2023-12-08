@@ -22,7 +22,7 @@ const PostDetail = () => {
         // post_id를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}`, {
+                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -56,7 +56,7 @@ const PostDetail = () => {
     const handleDelete = async () => {
         try {
             const response = await axios.delete(
-                `http://localhost:8080/api/v1/study/${study_id}/post/${post_id}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const PostDetail = () => {
 
             // 서버에 댓글 데이터를 전송
             axios.post(
-                `http://localhost:8080/api/v1/study/${study_id}/post/${post_id}/postReply`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`,
                 {
                     post_id: post_id,
                     content: comment,
@@ -137,7 +137,7 @@ const PostDetail = () => {
 
     const fetchPostReplyData = async () => {
         try {
-            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}/postReply`, {
+            const postReplyResponse = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -181,7 +181,7 @@ const PostDetail = () => {
         console.log("postReply_Id", postReply_id);
         try {
             const response = await axios.put(
-                `http://localhost:8080/api/v1/study/${study_id}/post/${post_id}/postReply/edit/${comment.id}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply/edit/${comment.id}`,
                 {
                     content: comment.content,
                 },
@@ -210,7 +210,7 @@ const PostDetail = () => {
     const handleDeleteComment = async (commentId) => {
         try {
             const response = await axios.delete(
-                `http://localhost:8080/api/v1/study/${study_id}/post/${post_id}/postReply/delete/${commentId}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply/delete/${commentId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const PostDetail = () => {
     // 댓글 삭제 후 댓글 목록 다시 불러오기
     const loadComments = async () => {
         try {
-            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}/postReply`, {
+            const postReplyResponse = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
