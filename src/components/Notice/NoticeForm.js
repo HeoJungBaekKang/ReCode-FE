@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CreateNotice } from "../../services/NoticeService";
 import MyEditor from "../Editor/MyEditor";
-import ReactHtmlParser from "react-html-parser";
 import { data } from "autoprefixer";
 
 export const NoticeForm = () => {
@@ -11,7 +10,6 @@ export const NoticeForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const { authData } = useContext(AuthContext);
-
   const plainTextContent = removeFormatting(content);
 
   function removeFormatting(content) {
@@ -40,9 +38,6 @@ export const NoticeForm = () => {
       const noticeData = { title, content };
       const createNotice = await CreateNotice(noticeData);
       console.log("생성된 공지사항 : ", createNotice);
-      console.log("내용을 서버로 보내고 있습니다. : ", content);
-      console.log("내용 : ", content);
-      console.log("data 본문", data);
 
       // 성공 후 페이지 리디렉션
       navigate("/notice");
