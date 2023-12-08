@@ -82,7 +82,7 @@ export default function StudyList({ filteredStudies }) {
                       <div className="text-sm mb-5 leading-6">
                         <p className="font-semibold text-gray-900">
                           <div className="flex items-center">
-                            <img src="/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
+                            <img src="/img/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
                             <span className="ml-2">{post.masterNickname}</span>
                           </div>
                         </p>

@@ -1,28 +1,58 @@
 #slider-container article {
-    display: grid !important;
-    width: 1350px;
-    background-color: #eaf72e53;
-    margin: auto;
-    height: 200px;
-  }
-  
-  .slick-slider .slick-arrow:before {
-    color: #333;
-    font-size: 2rem;
-  }
-  
-  .slick-slider .slick-dots button:before {
-    font-size: 1.5rem;
-    color: teal;
-  }
-  
-  .slick-slider .slick-dots li.slick-active button::before {
-    color: teal;
-  }
-  .slick-slider .slick-dots {
-    bottom: -44px;
-  }
-  
-  .slick-slider .slick-dots li {
-    margin: 0 0.5rem;
-  }
+  display: grid;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: auto;
+  height: 280px;
+}
+
+#slider-container article.book-search {
+  display: grid;
+  background-image: url('/public/img/book.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#slider-container article.book-search div {
+  background-color: rgba(255,255,255,0.5);
+}
+
+#slider-container article.notice {
+  display: grid;
+  background-image: url('/public/img/notice-delivery.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#slider-container article.notice div {
+  background-color: rgba(255,255,255,0.5);
+}
+
+#slider-container article div {
+  background-color: rgba(255,255,255,0.5);
+}
+
+.slick-slider .slick-arrow:before {
+  color: #333;
+  font-size: 2rem;
+}
+
+.slick-slider .slick-dots button:before {
+  font-size: 1.5rem;
+  color: teal;
+}
+
+.slick-slider .slick-dots li.slick-active button::before {
+  color: teal;
+}
+
+.slick-slider .slick-dots {
+  bottom: -44px;
+}
+
+.slick-slider .slick-dots li {
+  margin: 0 0.5rem;
+}

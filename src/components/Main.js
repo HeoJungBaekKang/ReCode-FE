@@ -24,7 +24,7 @@ const Main = () => {
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
-    
+
     };
     getSkillNameByPosition();
   }, []);
@@ -44,7 +44,7 @@ const Main = () => {
     infinite: true,
     autoplay: true,
     speed: 1000,
-    autoplaySpeed:5000,
+    autoplaySpeed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     className: "theClass",
@@ -59,6 +59,10 @@ const Main = () => {
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
 
+  const handleNaverBookClick = () => {
+    navigate("/naverbook")
+  }
+
 
   return (
     <>
@@ -67,16 +71,17 @@ const Main = () => {
           <section>
             <div
               id="slider-container"
-              class="w-full max-w-screen-xl mx-auto mt-12"
+              className="w-full max-w-screen-xl mx-auto mt-12"
             >
               <Slider {...settings}>
                 <article
                   onClick={handleNoticeClick} // 클릭 시 이동 함수 호출
-                  style={{ display: "grid !important" }}
-                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto"
+                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto notice"
                 >
-                  <h2 className="text-2xl font-bold">공지사항</h2>
-                  <p className="text-gray-800">이번 주 공지사항입니다. </p>
+                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                    <h2 className="text-2xl font-bold">공지사항</h2>
+                    <p className="text-gray-800">이번 주 공지사항입니다. </p>
+                  </div>
                 </article>
                 <article
                   style={{ display: "grid !important" }}
@@ -84,6 +89,15 @@ const Main = () => {
                 >
                   <h2 className="text-2xl font-bold">채용 공고</h2>
                   <p className="text-gray-800">- 클릭하면 채용 사이트와 연결</p>
+                </article>
+                <article
+                  onClick={handleNaverBookClick}
+                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto book-search"
+                >
+                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                    <h2 className="text-2xl font-bold">도서 검색</h2>
+                    <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
+                  </div>
                 </article>
               </Slider>
             </div>
@@ -93,10 +107,10 @@ const Main = () => {
           </section>
 
           <div className="fixed-container">
-            <div class="grid grid-rows-1 grid-cols-6">
+            <div className="grid grid-rows-1 grid-cols-6">
 
               {/* 스터디 생성 버튼 */}
-              <div class="col-start-6">
+              <div className="col-start-6">
                 <button
                   onClick={() => navigate("/client/recruitment")}
                   className="col-start-6 mt-4 p-2 bg-blue-500 text-white rounded-md"
@@ -107,11 +121,11 @@ const Main = () => {
             </div>
           </div>
 
-          <div class="mt-4"></div>
+          <div className="mt-4"></div>
 
-          <div class="grid grid-cols-6 gap-6">
-            <div class="col-start-1 px-8"></div>
-            <div class="col-start-5 col-span-2">
+          <div className="grid grid-cols-6 gap-6">
+            <div className="col-start-1 px-8"></div>
+            <div className="col-start-5 col-span-2">
               <Search className="mt-4 p-2 bg-blue-500 text-white rounded-md"></Search>
             </div>
           </div>
@@ -125,10 +139,10 @@ const Main = () => {
           />
 
           <StudyList
-            filteredStudies={filteredStudies.length >  0 ? filteredStudies : studies}
+            filteredStudies={filteredStudies.length > 0 ? filteredStudies : studies}
             selectedSkills={selectedSkills}
           />
-         
+
         </Layout>
       </div>
       <Footer />
