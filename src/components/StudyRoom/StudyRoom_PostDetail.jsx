@@ -22,7 +22,11 @@ const PostDetail = () => {
         // post_id를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
         const fetchPostData = async () => {
             try {
+<<<<<<< HEAD
                 const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`, {
+=======
+                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}`, {
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`

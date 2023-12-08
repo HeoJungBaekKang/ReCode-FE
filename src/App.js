@@ -39,11 +39,19 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
+<<<<<<< HEAD
 // import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
 // import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 // import NaverBook from "./components/NaverBook/BookList";
+=======
+import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
+import AdminStudyList from "./components/Admin/AdminStudyList";
+import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
+import UserList from "./components/Admin/Leader_Permission";
+import NaverBook from "./components/NaverBook/BookList";
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 
 function App() {
@@ -84,6 +92,7 @@ function App() {
             <Route path="/studyroom/quiz/:study_id" element={<Quiz />} />
             <Route path="/studyroom/:study_id/post/:post_id" element={<PostDetail />} />
             <Route path="/studyroom/:study_id/manage/modify" element={<StudyModify />} />
+            <Route path="/AdminstudyroomDetail/:study_id" element={<AdminStudyRoomDetail />} />
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
@@ -97,6 +106,8 @@ function App() {
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
             <Route path="/studyroom/:study_id/post/edit/:post_id" element={<EditPost />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
+            <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
+            <Route path="/naverbook" element={<NaverBook />} />
           </Routes>
         </div>
       </AuthProvider>

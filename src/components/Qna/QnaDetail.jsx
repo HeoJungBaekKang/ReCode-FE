@@ -7,8 +7,9 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchQnaDetail } from "../../services/QnaService";
+import { fetchQnaDetail, fetchReply } from "../../services/QnaService";
 import { AuthContext } from "../../context/AuthContext";
+import { format, parseISO } from 'date-fns';
 
 
 export default function QnaDetail() {
@@ -24,6 +25,7 @@ export default function QnaDetail() {
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
+    const [qnaReply, setQnaReply] = useState([]);
 
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
@@ -34,11 +36,21 @@ export default function QnaDetail() {
             const response = await fetchQnaDetail(qnaId);
             const data = response.data;
             setQnaTitle(data.title);
-            setQnaCreatedAt(data.createdAt);
+            const parsedDate = parseISO(data.createdAt);
+            const formattedDate = format(parsedDate, 'yyyy-MM-dd');
+            setQnaCreatedAt(formattedDate);
             setQnaContent(data.content);
             setQnaCreateBy(data.userId);
-
         };
+        fetchData();
+    }, [qnaId]);
+
+    async function fetchData() {
+        const response = await fetchReply(qnaId);
+        setQnaReply(response.data);
+
+    }
+    useEffect(() => {
         fetchData();
     }, [qnaId]);
 
@@ -98,10 +110,12 @@ export default function QnaDetail() {
                         </div>
                     </CardHeader>
                     <CardBody className="px-0">
+                    <div className="ml-5 mr-5 sm:col-span-2">
+                                <div className="mt-2.5">
                         <table className="mt-4 w-full min-w-max table-auto text-left">
-                            <tbody>
-                                <div className="ml-5 mr-5 sm:col-span-2">
-                                    <div className="mt-2.5">
+                           
+                                    <tbody>
+
                                         {isEditMode ? (
                                             <textarea
                                                 name="discription"
@@ -116,18 +130,20 @@ export default function QnaDetail() {
                                                 {qnaContent}
                                             </Typography>
                                         )}
-                                    </div>
-                                </div>
-                            </tbody>
+                                    </tbody>
+
+                            
                         </table>
+                        </div>
+                            </div>
                     </CardBody>
                 </Card>
             </div >
             <div className="ml-56">
                 <div className="flex justify-end mt-4 mr-5 space-x-4">
-                    {authData.userRole === 'admin' ? (
+                    {authData.userRole === 'ADMIN' ? (
                         <>
-                        
+
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
                             <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">답글 달기</button>
                             <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
@@ -137,44 +153,48 @@ export default function QnaDetail() {
                             {qnaCreateBy === authData.userId && (
                                 <button onClick={handleEditButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">수정</button>
                             )}
-                            <button onClick={handleGoToList}className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
+                            <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
                             <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
                         </>
                     )}
                 </div>
-                {isReplyOpen && (
-                    <Card className="h-full w-auto mx-4">
-                        <CardHeader floated={false} shadow={false} className="rounded-none">
-                            <div className="mb-8 flex items-center justify-between gap-8">
-                                <div>
-                                    <Typography color="gray" className="mt-1 font-normal">
-                                        답글
-                                    </Typography>
-                                </div>
+
+                <Card className="h-full w-auto mx-4">
+                    <CardHeader floated={false} shadow={false} className="rounded-none">
+                        <div className="mb-8 flex items-center justify-between gap-8">
+                            <div>
+                                <Typography color="gray" className="mt-1 font-normal">
+                                    답글
+                                </Typography>
                             </div>
-                        </CardHeader>
-                        <CardBody className="px-0">
-                            <table className="w-full min-w-max table-auto text-left">
-                                <tbody>
-                                    <div className="ml-5 mr-5 sm:col-span-2">
-                                        <div className="mt-2.5">
-                                            <textarea
-                                                name="discription"
-                                                id="discription"
-                                                rows={11}
-                                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                defaultValue={""}
-                                            />
-                                        </div>
-                                    </div>
-                                </tbody>
-                            </table>
-                            <div className="flex justify-end mt-4 mr-5 space-x-4">
-                                <button className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">등록</button>
-                            </div>
-                        </CardBody>
-                    </Card>
-                )}
+                        </div>
+                    </CardHeader>
+                    <CardBody className="px-0">
+                        <table className="w-full min-w-max table-auto text-left">
+                            <tbody>
+                                {qnaReply.map((reply) => (<tr
+                                    // onClick={() => handleRowClick(qna.id)}
+                                    key={reply.id}
+
+
+                                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                                >
+
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                        {reply.comment}
+                                    </td>
+
+                                    {console.log("asdfasd" + reply.comment)}
+                                </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <div className="flex justify-end mt-4 mr-5 space-x-4">
+                            <button className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">등록</button>
+                        </div>
+                    </CardBody>
+                </Card>
+
             </div>
         </>
     );

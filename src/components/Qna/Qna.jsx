@@ -1,4 +1,4 @@
-import React, { useContext, useState , useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 import QnaSidebar from "./QnaSidebar";
 import {
     Card,
@@ -10,6 +10,7 @@ import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { fetchQnaList } from "../../services/QnaService";
+import { format } from 'date-fns';
 
 
 
@@ -28,11 +29,9 @@ export default function Qna() {
 
         try {
             const response = await fetchQnaList();
-
-
             console.log("data안에는 무엇이 있나요", response.data);
-
             setQnaList(response.data); // 가져온 데이터를 상태에 설정
+
 
         } catch (error) {
             console.log("목록 불러오기 실패", error);
@@ -72,9 +71,9 @@ export default function Qna() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {qnaList.map((qna)=>(  <tr
+                                                    {qnaList.map((qna) => (<tr
                                                         onClick={() => handleRowClick(qna.id)}
-                                                        key={qna.id}
+                                                        key={[qna.id, qna.user_id]}
                                                         className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                                     >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
@@ -84,16 +83,14 @@ export default function Qna() {
                                                             {qna.title}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.content}
+                                                            {qna.user_id.nickname}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.createdBy}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.createdAt}
+
+                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd')}
                                                         </td>
                                                     </tr>
-                                                   ))}
+                                                    ))}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -102,7 +99,7 @@ export default function Qna() {
                             </div>
                         </CardBody>
                     </Card>
-                    <label for="table-search" className="sr-only">Search</label>
+                    <label htmlFor="table-search" className="sr-only">Search</label>
                     <div className="relative mt-10 flex justify-center items-center">
                         <div className="flex justify-start w-full max-w-3xl space-x-4">
                             <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction"
@@ -113,7 +110,7 @@ export default function Qna() {
                                 <span className="sr-only">Action button</span>
                                 카테고리
                                 <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                                 </svg>
                             </button>
                             <div id="dropdownAction" className={`absolute z-15 ${isOpen ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
@@ -140,7 +137,7 @@ export default function Qna() {
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                         <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                         </svg>
                                     </div>
                                     <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요." />

@@ -3,9 +3,11 @@ import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
+import Essay from "../Mypage/Essay";
 
 const ApplyStatus = () => {
 
+<<<<<<< HEAD
     const { study_id } = useParams();
     const { authData } = useContext(AuthContext);
     const [applications, setApplications] = useState([]);
@@ -16,12 +18,23 @@ const ApplyStatus = () => {
         email: "",
         essay: ""
     });
+=======
+    const { study_id, user_id } = useParams();
+    const { authData } = useContext(AuthContext);
+    const [applications, setApplications] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState("");
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
 
     useEffect(() => {
 
         const fetchapplications = async () => {
             try {
+<<<<<<< HEAD
                 const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+=======
+                const response = await axios.get(`http://localhost:8080/api/v1/study-groups/${study_id}/applications`, {
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -39,6 +52,7 @@ const ApplyStatus = () => {
     }, [study_id]);
 
 
+<<<<<<< HEAD
     const handleUserNameClick = async (application) => {
         setSelectedUser({
             userId: application.userId,
@@ -49,14 +63,27 @@ const ApplyStatus = () => {
 
         try {
             const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${application.userId}`, {
+=======
+    const handleUserNameClick = async (user) => {
+        console.log("user_id", user.user_id);
+        setSelectedUser(user);
+        setModalOpen(true);
+
+        try {
+            const response = await axios.get(`http://localhost:8080/api/v1/study-groups/${study_id}/applications/${user.user_id}`, {
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
                 }
             });
+<<<<<<< HEAD
             setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
             console.log("정보", application);
             console.log("에세이 조회 성공", response.data)
+=======
+            setSelectedUser(response.data.data);
+>>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
 
         } catch (error) {
             console.error("에세이를 가져오는 중 오류 발생:", error);
@@ -135,7 +162,6 @@ const ApplyStatus = () => {
                         </table>
                     </div>
                 </div>
-
                 {/* Pagination */}
                 <div className='mt-10 flex justify-center'>
                     <nav aria-label="Page navigation example">

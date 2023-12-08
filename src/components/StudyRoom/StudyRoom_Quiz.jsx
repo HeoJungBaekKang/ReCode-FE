@@ -20,7 +20,8 @@ const Quiz = () => {
         difficulty: "",
         quiz_link: "",
         studyRoomId: study_id,
-        userId: authData.id
+        userId: authData.id,
+        updatedAt: ""
     })
 
     const handleGet = async () => {
@@ -221,8 +222,8 @@ const Quiz = () => {
                     <button onClick={openModal} className="bg-transparent text-black w-20 p-2 rounded hover:bg-transparent">
                         글 작성
                     </button>
-                </div>
                 <SearchBox keyword={keyword} setKeyword={setKeyword} />
+                </div>
                 <div className='ml-5 mt-5'>
                     <div className="relative flex-grow overflow-x-auto shadow-md sm:rounded-lg ml-5 mr-5">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -286,7 +287,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="pl-2 p-4">
                                             <div className="flex items-center ml-4">
-                                                {quiz.updated_At}
+                                                {quiz.updatedAt}
                                             </div>
                                         </td>
                                     </tr>
