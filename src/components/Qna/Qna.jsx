@@ -83,7 +83,7 @@ export default function Qna() {
                                                             {/* {console.log(qna.userId.nickname)} */}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd')}
+                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
                                                         </td>
                                                     </tr>
                                                     ))}

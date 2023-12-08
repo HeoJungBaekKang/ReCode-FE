@@ -20,6 +20,7 @@ export default function QnaDetail() {
     const navigate = useNavigate();
     const [qnaTitle, setQnaTitle] = useState("");
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
+    const [qnaUpdatedAt, setQnaUdatedAt] = useState("");
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
     const [userId, setUserId] = useState("");
@@ -32,9 +33,12 @@ export default function QnaDetail() {
             const response = await fetchQnaDetail(qnaId);
             const data = response.data;
             setQnaTitle(data.title);
-            const parsedDate = parseISO(data.createdAt);
-            const formattedDate = format(parsedDate, 'yyyy-MM-dd');
-            setQnaCreatedAt(formattedDate);
+            const parsedCreatedDate = parseISO(data.createdAt);
+            const parsedUpdatedDate = parseISO(data.updatedAt);
+            const formattedCreatedDate = format(parsedCreatedDate, 'yyyy-MM-dd HH:mm');
+            const formattedUpdatedDate = format(parsedUpdatedDate, 'yyyy-MM-dd HH:mm');
+            setQnaCreatedAt(formattedCreatedDate);
+            setQnaUdatedAt(formattedUpdatedDate);
             setQnaContent(data.content);
             setQnaCreateBy(data.userId.nickname);
             setUserId(data.userId.id);
@@ -71,13 +75,13 @@ export default function QnaDetail() {
     //     setQnaCreateBy(event.target.value);
     // };
 
-    const handleContentChange = (event) => {
-        setQnaContent(event.target.value); // 글 내용 입력란의 값이 변경되면 상태 업데이트
+    const handleContentChange = (newContent) => {
+        setQnaContent(newContent); // 글 내용 입력란의 값이 변경되면 상태 업데이트
     };
 
     const handleSaveChanges = async () => {
         try {
-            await saveQna(qnaTitle, qnaContent);
+            await saveQna(qnaId, qnaTitle, qnaContent);
             setIsEditMode(false); // 성공 시 편집 모드 해제
         } catch (error) {
             // 오류 처리
@@ -91,11 +95,11 @@ export default function QnaDetail() {
                 <br />
                 <Card className="h-full w-auto mx-4">
                     <CardHeader floated={false} shadow={false} className="rounded-none">
-                        <div className="mb-8">
+                        <div className="mb-8 flex items-center justify-between gap-8">
                             <table className="w-full text-left border-collapse">
                                 <tbody>
                                     {isEditMode ? (
-                                        <>
+                                        <React.Fragment>
                                             <tr className="border-b">
                                                 <td className="p-2 font-medium text-sm">제목</td>
                                                 <td colSpan="3" className="p-2">
@@ -119,58 +123,77 @@ export default function QnaDetail() {
                                                     {qnaCreateBy}
                                                 </td>
                                             </tr>
-
-
-                                            <table className="mt-4 w-full min-w-max table-auto text-left">
-                                                <tr>
-                                                    <MyEditor
-                                                        data={qnaContent}
-                                                        name="qnaContent"
-                                                        id="qnaContent"
-                                                        rows={11}
-                                                        className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                        initialContent={qnaContent}
-                                                        onContentChange={handleContentChange}
-                                                    />
-
-                                                </tr>
-                                            </table>
-                                        </>
+                                        </React.Fragment>
                                     ) : (
-                                        <>
+                                        <React.Fragment>
+
                                             <tr className="border-b">
                                                 <td className="p-2 font-medium text-sm">제목</td>
                                                 <td className="p-2 text-sm" colSpan="3">
                                                     {qnaTitle}
                                                 </td>
                                             </tr>
-                                            <tr className="border-b">
-                                                <td className="p-2 font-medium text-sm">작성일</td>
-                                                <td className="p-2 text-sm">{qnaCreatedAt}</td>
-                                            </tr>
-                                            <tr className="border-b">
-                                                <td className="p-2 font-medium text-sm">작성자</td>
-                                                <td className="p-2 text-sm">{qnaCreateBy}</td>
+                                            {qnaCreatedAt !== qnaUpdatedAt ? (
+                                                <React.Fragment>
+                                                    <tr className="border-b">
+                                                        <td className="p-2 font-medium text-sm">작성일</td>
+                                                        <td className="p-2 text-sm">{qnaCreatedAt}</td>
+                                                    </tr>
+                                                    <tr className="border-b">
+                                                        <td className="p-2 font-medium text-sm">수정일</td>
+                                                        <td className="p-2 text-sm">{qnaUpdatedAt}</td>
+                                                    </tr>
+                                                    <tr className="border-b">
+                                                        <td className="p-2 font-medium text-sm">작성자</td>
+                                                        <td className="p-2 text-sm">{qnaCreateBy}</td>
+                                                    </tr>
+                                                </React.Fragment>
+                                            ) : (
+                                                <React.Fragment>
+                                                    <tr className="border-b">
+                                                        <td className="p-2 font-medium text-sm">작성일</td>
+                                                        <td className="p-2 text-sm">{qnaCreatedAt}</td>
+                                                    </tr>
+                                                    <tr className="border-b">
+                                                        <td className="p-2 font-medium text-sm">작성자</td>
+                                                        <td className="p-2 text-sm">{qnaCreateBy}</td>
+                                                    </tr>
+                                                </React.Fragment>)}
 
-
-                                            </tr>
-                                            <Typography variant="small" color="blue-gray" className="font-normal">
-                                                {ReactHtmlParser(qnaContent)}
-                                            </Typography>
-                                        </>
-                                    )}
+                                        </React.Fragment>)}
                                 </tbody>
                             </table>
                         </div>
                     </CardHeader>
+
+
                     <CardBody className="px-0">
                         <div className="ml-5 mr-5 sm:col-span-2">
                             <div className="mt-2.5">
                                 <table className="mt-4 w-full min-w-max table-auto text-left">
-
-
-
-
+                                    <tbody>
+                                        {isEditMode ? (
+                                            <React.Fragment>
+                                                <MyEditor
+                                                    data={qnaContent}
+                                                    name="qnaContent"
+                                                    id="qnaContent"
+                                                    rows={11}
+                                                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                    initialContent={qnaContent}
+                                                    onContentChange={handleContentChange}
+                                                />
+                                            </React.Fragment>
+                                        ) : (
+                                            <React.Fragment>
+                                                <tr>
+                                                    <td variant="small" color="blue-gray" className="font-normal">
+                                                        {ReactHtmlParser(qnaContent)}
+                                                    </td>
+                                                </tr>
+                                            </React.Fragment>
+                                        )}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -180,67 +203,64 @@ export default function QnaDetail() {
             <div className="ml-56">
                 <div className="flex justify-end mt-4 mr-5 space-x-4">
                     {userId === authData.id ? (
+                        <React.Fragment>
 
-
-
-                        <>
-                            {/* {console.log("아이디" + authData.id)}
-                            {console.log("글작성자" + userId)} */}
-
-                            {
-                                isEditMode ? (<> < button
-                                    onClick={handleSaveChanges}
-                                    className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap"
-                                >
-                                    저장
-                                </button>
+                            {isEditMode ? (
+                                <React.Fragment>
+                                    < button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
                                     <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                                </>) : (<>
-
+                                </React.Fragment>
+                            ) : (
+                                <React.Fragment>
                                     <button onClick={handleEditButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">수정</button>
                                     <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
                                     <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                </React.Fragment>
+                            )}
 
-                                </>)}
-                        </>
+                        </React.Fragment>
 
                     ) : (
-                        <>
-
+                        <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
                             <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">답글 달기</button>
-                            <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
-                        </>
+                        </React.Fragment>
                     )}
                 </div>
+
+
+
+
 
                 <Card className="h-full w-auto mx-4">
                     <CardHeader floated={false} shadow={false} className="rounded-none">
                         <div className="mb-8 flex items-center justify-between gap-8">
                             <div>
-                                <Typography color="gray" className="mt-1 font-normal">
-                                    댓글
-                                </Typography>
+
+                                <div color="gray" className="mt-1 font-normal">
+                                    답글
+                                </div>
                             </div>
                         </div>
                     </CardHeader>
                     <CardBody className="px-0">
                         <table className="w-full min-w-max table-auto text-left">
                             <tbody>
-                                {qnaReply.map((reply) => (<tr
-                                    // onClick={() => handleRowClick(qna.id)}
-                                    key={reply.id}
+                                {qnaReply.map((reply) => (
+                                    <tr
+
+                                        key={reply.id}
 
 
-                                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                                >
+                                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                                    >
 
-                                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                        {reply.comment}
-                                    </td>
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                            {reply.comment}
+                                        </td>
 
-                                    {console.log("asdfasd" + reply.comment)}
-                                </tr>
+                                        {console.log("asdfasd" + reply.comment)}
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
@@ -250,7 +270,7 @@ export default function QnaDetail() {
                     </CardBody>
                 </Card>
 
-            </div >
+            </div>
         </>
     );
 }
