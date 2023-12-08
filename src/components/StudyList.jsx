@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
   
@@ -70,10 +70,11 @@ export default function StudyList({ filteredStudies }) {
                       ))}
                     </div>
                     <div className="group relative">
-                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                        <Link to={`/studyroom/${post.id}`}>
+                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
+                        <div onClick={() => handleStudyRoomClick(post.id)}>
+                          <span className="absolute inset-0" />
                           {post.title}
-                        </Link>
+                        </div>
                       </h3>
                     </div>
                     <hr className="w-full border-t" />
