@@ -6,12 +6,11 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchQnaDetail, fetchReply } from "../../services/QnaService";
+import { fetchQnaDetail, saveQna, deleteQna, fetchReply } from "../../services/QnaService";
 import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
 import ReactHtmlParser from "react-html-parser";
 import MyEditor from "../Editor/MyEditor";
-import { saveQna } from "../../services/QnaService";
 
 export default function QnaDetail() {
     const { authData } = useContext(AuthContext);
@@ -62,7 +61,7 @@ export default function QnaDetail() {
 
     //Qna 수정 버튼 핸들러
     const handleEditButtonClick = () => {
-        setIsEditMode(true); // '수정' 버튼을 누르면 수정 모드로 변경
+        setIsEditMode(true);
     };
 
     //Qna 제목 수정 핸들러
@@ -75,7 +74,7 @@ export default function QnaDetail() {
         setQnaContent(newContent);
     };
 
-    //Qna 저장 버튼 핸들러
+    //Qna 수정 저장 버튼 핸들러
     const handleSaveChanges = async () => {
         try {
             await saveQna(qnaId, qnaTitle, qnaContent);
@@ -85,6 +84,20 @@ export default function QnaDetail() {
         } catch (error) {
         }
     };
+
+    //Qna 삭제 버튼 핸들러
+    const handleDelete = async () => {
+        if (window.confirm("진짜루 삭제할고야...?")) {
+            try {
+                await deleteQna(qnaId);
+                // 삭제 후 목록 페이지로 이동
+                navigate("/qna");
+            } catch (error) {
+                console.error("삭제 중 오류 발생", error);
+            }
+        }
+    };
+
     //Qna 댓글 목록 조회
     async function fetchData() {
         const response = await fetchReply(qnaId);
@@ -215,7 +228,7 @@ export default function QnaDetail() {
 
             <div className="ml-56">
                 <div className="flex justify-end mt-4 mr-5 space-x-4">
-                    {userId === authData.id ? (
+                    {userId === authData.id || authData.role === "ADMIN" ? (
                         <React.Fragment>
                             {isEditMode ? (
                                 <React.Fragment>
@@ -224,16 +237,22 @@ export default function QnaDetail() {
                                 </React.Fragment>
                             ) : (
                                 <React.Fragment>
-                                    <button onClick={handleEditButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">수정</button>
-                                    <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                                    <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                    {userId === authData.id ? (
+                                    <React.Fragment>
+                                        <button onClick={handleEditButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">수정</button>
+                                        <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
+                                        <button onClick={handleDelete} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                        </React.Fragment>
+                                        ) : (
+                                        <React.Fragment><button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
+                                            <button onClick={handleDelete} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button></React.Fragment>)}
                                 </React.Fragment>
                             )}
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                            <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button>
+                            {/* <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button> */}
                         </React.Fragment>
                     )}
                 </div>
