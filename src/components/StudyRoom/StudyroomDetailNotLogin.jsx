@@ -5,12 +5,12 @@ import axios from "axios";
 
 const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
-  const { study_room_id } = useParams();
+  const { study_id } = useParams();
   const { authData } = useContext(AuthContext);
   console.log(authData);
 
   const [detail, setDetail] = useState({
-    study_room_id: "",
+    study_id: "",
     study_name: "",
     title: "",
     description: "",
@@ -29,7 +29,7 @@ const StudyRoomNotLogin = () => {
   const handleGet = async () => {
     try {
       await axios
-        .get(`http://localhost:8080/api/study/${study_room_id}`, {
+        .get(`http://localhost:8081/api/study/${study_id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -59,7 +59,7 @@ const StudyRoomNotLogin = () => {
   const handlePost = async () => {
 
     try {
-      await axios.post(`http://localhost:8080/api/v1/study/${study_room_id}/apply`, {}, {
+      await axios.post(`http://localhost:8081/api/v1/study/${study_id}/apply`, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -90,7 +90,7 @@ const StudyRoomNotLogin = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/v1/users/${authData.id}/studyrooms/${study_room_id}/isInStudyRoom`, {
+      const response = await axios.get(`http://localhost:8081/api/v1/users/${authData.id}/studyrooms/${study_id}/isInStudyRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`

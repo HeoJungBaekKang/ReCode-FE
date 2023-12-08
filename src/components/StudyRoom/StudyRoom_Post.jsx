@@ -13,14 +13,14 @@ import '../ckeditor.css';
 export default function Post() {
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     // 작성된 글의 상태를 관리하는 state
     const [newPost, setNewPost] = useState({
         category: "",
         title: "",
         content: "",
-        studyRoomId: study_room_id,
+        studyRoomId: study_id,
         userId: authData.id
     });
 
@@ -32,7 +32,7 @@ export default function Post() {
 
             // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
             const response = await axios.post(
-                `http://localhost:8080/api/v1/study/${study_room_id}/posts`,
+                `http://localhost:8081/api/v1/study/${study_id}/posts`,
                 newPost,
                 {
                     headers: {
@@ -49,7 +49,7 @@ export default function Post() {
                 setNewPost(response.data.data.newPost || {});
 
                 // 게시판 목록 페이지로 이동
-                navigate(`/studyroom/board/${study_room_id}`);
+                navigate(`/studyroom/board/${study_id}`);
 
             } else {
                 console.log("글 작성 실패 :", response);
@@ -62,8 +62,8 @@ export default function Post() {
     };
 
     useEffect(() => {
-        console.log("Study Room ID:", study_room_id);
-    }, [study_room_id, authData]);
+        console.log("Study Room ID:", study_id);
+    }, [study_id, authData]);
 
     return (
         <div>

@@ -13,15 +13,12 @@ import Withdraw from "./components/Mypage/Withdraw";
 import Identifing from "./components/Mypage/Identifing";
 import ModifyProfile from "./components/Mypage/ModifyProfile";
 import ChangePassword from "./components/Client/ChangePassword";
-import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
+import MypageMyprofile from "./components/Mypage/Mypage_Myprofile";
 import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
 import QnaDetail from "./components/Qna/QnaDetail";
-import QnaPost, { QnaForm } from "./components/Qna/QnaPost";
-import StudyManagement from "./components/Admin/StudyManagement";
-import User_list from "./components/Admin/User_list";
-import Leader_Permission from "./components/Admin/Leader_Permission";
+import QnaPost from "./components/Qna/QnaPost";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
 import ApplyStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
@@ -42,8 +39,12 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
+// import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
+import AdminStudyList from "./components/Admin/AdminStudyList";
+// import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
+import UserList from "./components/Admin/Leader_Permission";
+// import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
-
 
 function App() {
 
@@ -63,7 +64,7 @@ function App() {
             <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
-            <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
+            <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
             <Route path="/mypage/myprofile/identifing" element={<Identifing />} />
@@ -71,25 +72,22 @@ function App() {
             <Route path="/mypage/myprofile/Withdraw" element={<Withdraw />} />
             <Route path="/mypage/multiselect" element={<MultiSelect />} />
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
-            <Route path="/studyroom/:study_room_id" element={<Detail />} />
-            <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
-            <Route path="/studyroom/board/:study_room_id" element={<Board />} />
-            <Route path="/studyroom/post/:study_room_id" element={<Post />} />
+            <Route path="/studyroom/:study_id" element={<Detail />} />
+            <Route path="/studyroomNotLogin/:study_id" element={<StudyRoomNotLogin />} />
+            <Route path="/studyroom/board/:study_id" element={<Board />} />
+            <Route path="/studyroom/post/:study_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />
-            <Route path="/studyroom/:study_room_id/manage" element={<Manage />} />
-            <Route path="/studyroom/:study_room_id/manage/apply" exact element={<ApplyStatus />} />
-            <Route path="/studyroom/:study_room_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
-            <Route path="/studyroom/quiz/:study_room_id" element={<Quiz />} />
-            <Route path="/studyroom/:study_room_id/post/:postId" element={<PostDetail />} />
-            <Route path="/studyroom/:study_room_id/manage" element={<Manage />} />
-            <Route path="/studyroom/:study_room_id/manage/modify" element={<StudyModify />} />
+            <Route path="/studyroom/:study_id/manage" element={<Manage />} />
+            <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
+            <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
+            <Route path="/studyroom/quiz/:study_id" element={<Quiz />} />
+            <Route path="/studyroom/:study_id/post/:post_id" element={<PostDetail />} />
+            <Route path="/studyroom/:study_id/manage/modify" element={<StudyModify />} />
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/studymanagement" element={<StudyManagement />} />
-            <Route path="/admin/userList" element={<User_list />} />
-            <Route path="/admin/leaderPermission" element={<Leader_Permission />} />
+            <Route path="/admin/leaderPermission/:study_id" element={<UserList/>} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
@@ -97,7 +95,8 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
-            <Route path="/studyroom/:study_room_id/post/edit/:postId" element={<EditPost />} />
+            <Route path="/studyroom/:study_id/post/edit/:post_id" element={<EditPost />} />
+            <Route path="/admin/studyList" element={<AdminStudyList />} />
           </Routes>
         </div>
       </AuthProvider>

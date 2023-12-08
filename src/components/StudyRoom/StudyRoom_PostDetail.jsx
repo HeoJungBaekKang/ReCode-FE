@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const PostDetail = () => {
-    const { postId, study_room_id, postReply_id } = useParams();
+    const { post_id, study_id, postReply_id } = useParams();
     const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
     const navigate = useNavigate();
     const [postData, setPostData] = useState({
@@ -19,10 +19,10 @@ const PostDetail = () => {
     });
 
     useEffect(() => {
-        // postId를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
+        // post_id를 사용하여 서버로부터 해당 글의 정보를 가져오는 요청
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}`, {
+                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -37,7 +37,7 @@ const PostDetail = () => {
         };
 
         fetchPostData();
-    }, [postId, study_room_id]);
+    }, [post_id, study_id]);
 
     // 전체 postData 객체를 로그로 출력
     useEffect(() => {
@@ -48,15 +48,15 @@ const PostDetail = () => {
     // 수정 버튼 클릭 시의 동작
     const handleEdit = () => {
 
-        navigate(`/studyroom/${study_room_id}/post/edit/${postId}`);
-        console.log("수정 버튼 클릭:", postId);
+        navigate(`/studyroom/${study_id}/post/edit/${post_id}`);
+        console.log("수정 버튼 클릭:", post_id);
     };
 
     // 삭제 버튼 클릭 시의 동작
     const handleDelete = async () => {
         try {
             const response = await axios.delete(
-                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const PostDetail = () => {
 
             if (response.data.code === 1) {
                 console.log("글 삭제 성공 : ", response.data);
-                navigate(`/studyroom/board/${study_room_id}`);
+                navigate(`/studyroom/board/${study_id}`);
             } else {
                 console.log("글 삭제 실패 :", response);
             }
@@ -105,9 +105,9 @@ const PostDetail = () => {
 
             // 서버에 댓글 데이터를 전송
             axios.post(
-                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`,
                 {
-                    postId: postId,
+                    post_id: post_id,
                     content: comment,
                 },
                 {
@@ -137,7 +137,7 @@ const PostDetail = () => {
 
     const fetchPostReplyData = async () => {
         try {
-            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`, {
+            const postReplyResponse = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -155,7 +155,7 @@ const PostDetail = () => {
 
     useEffect(() => {
         fetchPostReplyData();
-    }, [postId, study_room_id, postReply_id, authData.token]);
+    }, [post_id, study_id, postReply_id, authData.token]);
 
 
 
@@ -181,7 +181,7 @@ const PostDetail = () => {
         console.log("postReply_Id", postReply_id);
         try {
             const response = await axios.put(
-                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply/edit/${comment.id}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply/edit/${comment.id}`,
                 {
                     content: comment.content,
                 },
@@ -210,7 +210,7 @@ const PostDetail = () => {
     const handleDeleteComment = async (commentId) => {
         try {
             const response = await axios.delete(
-                `http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply/delete/${commentId}`,
+                `http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply/delete/${commentId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -232,7 +232,7 @@ const PostDetail = () => {
     // 댓글 삭제 후 댓글 목록 다시 불러오기
     const loadComments = async () => {
         try {
-            const postReplyResponse = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}/postReply`, {
+            const postReplyResponse = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/post/${post_id}/postReply`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

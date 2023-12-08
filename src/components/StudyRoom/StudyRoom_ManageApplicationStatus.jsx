@@ -6,23 +6,28 @@ import { AuthContext } from "../../context/AuthContext";
 
 const ApplyStatus = () => {
 
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
     const { authData } = useContext(AuthContext);
-    const navigate = useNavigate();
     const [applications, setApplications] = useState([]);
-
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({
+        userId: "",
+        username: "",
+        email: "",
+        essay: ""
+    });
 
     useEffect(() => {
 
         const fetchapplications = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study-groups/${study_room_id}/applications`, {
+                const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("API 응답:", response.data);
+                console.log("신청 정보를 가져오는데 성공:", response.data);
                 setApplications(response.data.data);
 
             } catch (error) {
@@ -31,9 +36,63 @@ const ApplyStatus = () => {
         };
 
         fetchapplications();
-    }, [study_room_id]);
+    }, [study_id]);
 
 
+    const handleUserNameClick = async (application) => {
+        setSelectedUser({
+            userId: application.userId,
+            username: application.username,
+            email: application.email,
+        });
+        setModalOpen(true);
+
+        try {
+            const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${application.userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+            setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
+            console.log("정보", application);
+            console.log("에세이 조회 성공", response.data)
+
+        } catch (error) {
+            console.error("에세이를 가져오는 중 오류 발생:", error);
+        }
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedUser("");
+    };
+
+    // 승인 / 거절 버튼
+    const handleApproval = async () => {
+       
+        console.log("버튼 클릭",selectedUser);
+
+        try {
+
+            const response = await axios.post(`http://localhost:8081/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
+                status: "Approved"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+            setSelectedUser(response.data.data);
+            console.log("승인 성공", response.data);
+            handleCloseModal();
+            // 성공하면 모달 닫히고 목록 조회도 해야함
+
+        } catch (error) {
+            console.error("가입 승인 또는 거절 중 오류 발생:", error);
+        }
+    };
+    
 
     return (
         <>
@@ -64,63 +123,92 @@ const ApplyStatus = () => {
                                         </td>
                                         <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="pl-3">
-                                                <div className="text-base font-semibold">{application.username}</div>
+                                                <a href="#" onClick={() => handleUserNameClick(application)}>
+                                                    {application.username}
+                                                </a>
                                             </div>
                                         </th>
                                         <td className="px-6 py-4">{application.email}</td>
-                                        <div>
-                                            <Link to={`/studyroom/${study_room_id}/applicationdetail/${index + 1}`}> 〉</Link>
-                                        </div>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    <div className='mt-10 flex justify-center'>
-                        <nav aria-label="Page navigation example">
-                            <ul className="list-style-none flex">
-                                <li>
-                                    <a
-                                        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                        href="#"
-                                        aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                        href="#"
-                                    >1</a
-                                    >
-                                </li>
-                                <li aria-current="page">
-                                    <a
-                                        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                        href="#"
-                                    >2</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                        href="#"
-                                    >3</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                                        href="#"
-                                        aria-label="Next"
-                                    ><span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                </div>
+
+                {/* Pagination */}
+                <div className='mt-10 flex justify-center'>
+                    <nav aria-label="Page navigation example">
+                        <ul className="list-style-none flex">
+                            <li>
+                                <a
+                                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                                    href="#"
+                                    aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                                    href="#"
+                                >1</a
+                                >
+                            </li>
+                            <li aria-current="page">
+                                <a
+                                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                                    href="#"
+                                >2</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                                    href="#"
+                                >3</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                                    href="#"
+                                    aria-label="Next"
+                                ><span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div >
+
+            {/* Modal Form */}
+            {modalOpen && selectedUser && (
+                <div className="modal-overlay ml-80 mr-80">
+                    <div className="modal-content">
+                        <p>유저: {selectedUser.username}</p>
+                        <p>Email: {selectedUser.email}</p>
+                        <p>에세이: {selectedUser.essay}</p>
+                        <button onClick={handleCloseModal}>닫기</button>
+
+                        {/* Approve and Reject Buttons */}
+                        <div className="mt-4">
+                            <button
+                                className="bg-green-500 text-white px-4 py-2 mr-2"
+                                onClick={() => handleApproval(selectedUser)}
+                            >
+                                승인
+                            </button>
+                            <button
+                                className="bg-red-500 text-white px-4 py-2"
+                                onClick={() => handleApproval(false)}
+                            >
+                                거절
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -17,7 +17,7 @@ export const CreateQna = async(qnaData) => {
   
       console.log(token);
   
-      const response = await axios.post('http://localhost:8080/api/admin/v1/qna', qnaData, {
+      const response = await axios.post('http://localhost:8081/api/admin/v1/qna', qnaData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization' : `Bearer ${token}`,
@@ -42,7 +42,7 @@ export const CreateQna = async(qnaData) => {
         throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
       }
   
-    const response = await axios.get(`http://localhost:8080/api/v1/qna/${qnaId}`, {
+    const response = await axios.get(`http://localhost:8081/api/v1/qna/${qnaId}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${token}`,
@@ -68,7 +68,7 @@ export const CreateQna = async(qnaData) => {
           throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.put(`http://localhost:8080/api/admin/v1/qna/${qnaId}`, {
+        const response = await axios.put(`http://localhost:8081/api/admin/v1/qna/${qnaId}`, {
             title: qnaTitle,
             content: qnaContent,
         }, {
@@ -96,7 +96,7 @@ export async function fetchQnaList(){
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
           }
-        const response = await axios.get('http://localhost:8080/api/v1/qna',{
+        const response = await axios.get('http://localhost:8081/api/v1/qna',{
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization' : `Bearer ${token}`,
