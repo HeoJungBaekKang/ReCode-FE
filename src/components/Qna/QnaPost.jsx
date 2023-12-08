@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createQna } from "../../services/QnaService";
 import MyEditor from "../Editor/MyEditor";
@@ -16,18 +16,14 @@ export const QnaPost = () => {
         try {
             const qnaData = { title, content };
             const Qna = await createQna(qnaData);
-            console.log('생성된 큐엔에~ : ', Qna);
-
             // 성공 후 페이지 리디렉션
             navigate(`/qna`);
 
         } catch (error) {
-            console.log('실패 : ', error);
         }
-
-
     };
-    //입력받은 값 저장 핸들러
+
+    //Qna 저장 버튼 핸들러
     const handleEditorDataChange = (newContent) => {
         setContent(newContent);
     };
@@ -35,12 +31,11 @@ export const QnaPost = () => {
     //MyEditor 포맷 설정
     const plainTextContent = removeFormatting(content);
 
+    // CKEditor에서 사용하는 서식 태그를 정규 표현식으로 제거
     function removeFormatting(content) {
-        // CKEditor에서 사용하는 서식 태그를 정규 표현식으로 제거
         const formattedText = content.replace(/<[^>]*>/g, "");
         return formattedText;
-    }
-
+    };
 
     return (
         <>
@@ -86,18 +81,15 @@ export const QnaPost = () => {
 
                     <div className="sm:col-span-2">
                         <div className="mt-2.5">
-
-                            <div>
+                            <React.Fragment>
                                 <MyEditor
                                     onContentChange={handleEditorDataChange}
                                     dangerouslySetInnerHTML={{ __html: plainTextContent }}
                                 />
-                            </div>
+                            </React.Fragment>
                         </div>
-                   
                     </div>
                 </div>
-
 
                 <div className="mt-10">
                     <div className="flex gap-x-3">
@@ -107,6 +99,7 @@ export const QnaPost = () => {
                             className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                             취소
                         </button>
+
                         <button
                             type="submit"
                             className="flex-1 rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" >
@@ -116,6 +109,7 @@ export const QnaPost = () => {
                 </div>
             </form>
         </>
-        )};
+    )
+};
 
 export default QnaPost;

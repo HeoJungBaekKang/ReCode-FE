@@ -89,7 +89,6 @@ export default function QnaDetail() {
     async function fetchData() {
         const response = await fetchReply(qnaId);
         setQnaReply(response.data);
-        console.log(response.data)
     }
     useEffect(() => {
         fetchData();
@@ -265,8 +264,6 @@ export default function QnaDetail() {
                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                             {reply.comment}
                                         </td>
-
-                                        {console.log("asdfasd" + reply.comment)}
                                     </tr>
                                 ))}
                             </tbody>
