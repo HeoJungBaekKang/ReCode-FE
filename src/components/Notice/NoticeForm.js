@@ -38,7 +38,6 @@ export const NoticeForm = () => {
       const noticeData = { title, content };
       const createNotice = await CreateNotice(noticeData);
       console.log("생성된 공지사항 : ", createNotice);
-    
 
       // 성공 후 페이지 리디렉션
       navigate("/notice");
@@ -46,7 +45,6 @@ export const NoticeForm = () => {
       console.log("공지사항 생성 실패 : ", error);
     }
   };
-
 
   // 권한이 admin인 경우에만 페이지 내용 렌더링
   return (
@@ -102,7 +100,6 @@ export const NoticeForm = () => {
                   onContentChange={handleEditorDataChange}
                   dangerouslySetInnerHTML={{ __html: plainTextContent }}
                 />
-
               </div>
             </div>
           </div>

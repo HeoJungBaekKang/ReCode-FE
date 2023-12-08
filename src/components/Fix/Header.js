@@ -28,7 +28,6 @@ const Main = () => {
 
         navigate('/');
     };
-
     // 탭이 닫힐 때 자동 로그아웃이 되도록
     useEffect(() => {
         let timer;
@@ -48,6 +47,7 @@ const Main = () => {
             document.removeEventListener('keypress', resetTimer);
         };
     }, []);
+
 
     return (
         <header>
