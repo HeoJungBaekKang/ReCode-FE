@@ -19,19 +19,19 @@ import {
 export default function Detail() {
 
     const navigate = useNavigate();
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [detail, setDetail] = useState({
-        study_room_id: "",
-        study_name: "",
+        studyRoomId: "",
+        studyName: "",
         title: "",
         description: "",
-        start_date: "",
-        end_date: "",
-        start_time: "",
-        end_time: "",
-        current_num: "",
-        max_num: "",
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        currentNum: "",
+        maxNum: "",
         master: "",
         skillNames: [],
         createdAt: "",
@@ -41,7 +41,7 @@ export default function Detail() {
     const handleGet = async () => {
 
         try {
-            await axios.get(`http://localhost:8080/api/study/${study_room_id}`, {
+            await axios.get(`http://localhost:8081/api/study/${study_id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -55,6 +55,7 @@ export default function Detail() {
 
                     if (code === 1) {
                         console.log("스터디 상세보기 조회 성공");
+                        console.log(response.data);
                     } else {
                         console.log("스터디 상세보기 조회 실패");
                     }
@@ -88,7 +89,7 @@ export default function Detail() {
             name:
                 <>
                     1. 스터디 탈퇴 시, 해당 스터디 룸에서 제공되는 서비스에 접근하실 수 없습니다.<br />
-                    2. 탈퇴 시, 해당 스터디 룸에서의 모든 권한이 해제됩니다.<br />
+                    2. 탈퇴timers 시, 해당 스터디 룸에서의 모든 권한이 해제됩니다.<br />
                     3. 탈퇴 후 동일한 스터디로 재가입이 가능하나 기존의 데이터와 연동되지 않습니다.<br />
                     4. 탈퇴 버튼을 통해 탈퇴가 완료됩니다.
                 </>
@@ -110,8 +111,8 @@ export default function Detail() {
                         </div>
                         <hr className="my-10 h-1 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />
                         <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                            <span className="mr-4">모집인원 {detail.max_num}</span>
-                            <span className="mr-4">스터디 기간 {detail.start_date}</span><span>{detail.end_date}</span>
+                            <span className="mr-4">모집인원 {detail.maxNum}</span>
+                            <span className="mr-4">스터디 기간 {detail.startDate}</span><span>{detail.endDate}</span>
                         </div>
                         <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                             <span className="mr-4">사용언어:</span>

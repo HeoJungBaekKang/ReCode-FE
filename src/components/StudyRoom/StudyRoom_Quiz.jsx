@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Quiz = () => {
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
     const [modalOpen, setModalOpen] = useState(false);
     const [detailModalOpen, setDetailModalOpen] = useState(false);
     const [quizzes, setQuizzes] = useState([]);
@@ -19,18 +19,19 @@ const Quiz = () => {
         title: "",
         difficulty: "",
         quiz_link: "",
-        studyRoomId: study_room_id,
-        userId: authData.id
+        studyRoomId: study_id,
+        userId: authData.id,
+        updatedAt: ""
     })
 
     const handleGet = async () => {
-        if (!study_room_id) {
+        if (!study_id) {
             console.error("Study Room ID undefined");
             return;
         }
 
         try {
-            let url = `http://localhost:8080/api/v1/study/${study_room_id}/quiz-list`;
+            let url = `http://localhost:8081/api/v1/study/${study_id}/quiz-list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -60,9 +61,9 @@ const Quiz = () => {
     }
 
     useEffect(() => {
-        console.log("Study Room ID:", study_room_id);
+        console.log("Study Room ID:", study_id);
         handleGet();
-    }, [study_room_id, authData, keyword])
+    }, [study_id, authData, keyword])
 
     const openModal = () => {
         setModalOpen(true);
@@ -76,7 +77,7 @@ const Quiz = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://localhost:8080/api/v1/study/${study_room_id}/quiz`, quiz, {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -116,7 +117,7 @@ const Quiz = () => {
 
     const handleDetail = async () => {
         try {
-            await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -151,7 +152,7 @@ const Quiz = () => {
 
     const handleModify = async (event) => {
         try {
-            await axios.post(`http://localhost:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -179,7 +180,7 @@ const Quiz = () => {
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:8080/api/v1/study/${study_room_id}/quiz/${quiz.id}/delete`, {}, {
+            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -221,8 +222,8 @@ const Quiz = () => {
                     <button onClick={openModal} className="bg-transparent text-black w-20 p-2 rounded hover:bg-transparent">
                         글 작성
                     </button>
-                </div>
                 <SearchBox keyword={keyword} setKeyword={setKeyword} />
+                </div>
                 <div className='ml-5 mt-5'>
                     <div className="relative flex-grow overflow-x-auto shadow-md sm:rounded-lg ml-5 mr-5">
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -286,7 +287,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="pl-2 p-4">
                                             <div className="flex items-center ml-4">
-                                                {quiz.updated_At}
+                                                {quiz.updatedAt}
                                             </div>
                                         </td>
                                     </tr>
@@ -478,13 +479,13 @@ function chunk(array, size) {
 function SearchBox({ keyword, setKeyword }) {
 
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [results, setResults] = useState([]);
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`http://localhost:8081/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

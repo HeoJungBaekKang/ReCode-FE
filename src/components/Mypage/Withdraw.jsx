@@ -46,7 +46,8 @@ const modalPosition = {
 
 export default function Withdraw() {
     const navigate = useNavigate();
-    const { authData } = useContext(AuthContext);
+
+    const { authData, setAuthData } = useContext(AuthContext);
     console.log(authData);
 
     const handleWithdraw = async (event) => {
@@ -63,7 +64,10 @@ export default function Withdraw() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        navigate("/");
+                        setAuthData({});
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("authData");  // authData를 로컬 스토리지에서 삭제
+                        navigate("/login");
                     } else {
                         console.log("계정 탈퇴 실패");
                     }
@@ -161,14 +165,14 @@ export default function Withdraw() {
                             </h5>
                         </TEModalHeader>
                         <div className="mt-10 mb-10">
-                        <TEModalBody>그동안 Recode 서비스를 이용해주셔서 감사드립니다.</TEModalBody>
+                            <TEModalBody>그동안 Recode 서비스를 이용해주셔서 감사드립니다.</TEModalBody>
                         </div>
                         <TEModalFooter style={{ display: 'flex', justifyContent: 'center' }}>
                             <TERipple rippleColor="light">
                                 <button
                                     type="button"
                                     className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                                    onClick={() => {setShowModal(false); handleWithdraw();}}
+                                    onClick={() => { setShowModal(false); handleWithdraw(); }}
                                 >
                                     확인
                                 </button>

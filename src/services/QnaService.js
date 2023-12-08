@@ -1,81 +1,72 @@
 import axios from 'axios';
 
-// export async function deleteNotice(noticeId){
-//     const token = localStorage.getItem("token");
-//     await axios.delete(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
-//         headers: {
-//             'Authorization': `Bearer ${token}`,
-//         }
-//     });
-// };
-
 //Qna 생성
-export const CreateQna = async(qnaData) => {
+export const CreateQna = async (qnaData) => {
 
     try {
-      const token = localStorage.getItem("token");
-  
-      console.log(token);
-  
-      const response = await axios.post('http://localhost:8080/api/admin/v1/qna', qnaData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization' : `Bearer ${token}`,
-        }
-      })
-  
-      console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error('qna error', error);
-    }
-  };
-  
+        const token = localStorage.getItem("token");
 
-  // Qna 단일 조회 
-  export async function fetchQnaDetail(qnaId) {
+        console.log(token);
 
-    try {
-      const token = localStorage.getItem("token");
-  
-      if (!token) {
-        throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
-      }
-  
-    const response = await axios.get(`http://localhost:8080/api/v1/qna/${qnaId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${token}`,
-      }
-    });
-      console.log('data 잘 넘어오는 지 확인', response.data);
-      return response.data; // 성공적인 응답의 데이터를 반환
-  
-      
+        const response = await axios.post('http://localhost:8081/api/admin/v1/qna', qnaData, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+
+        console.log(response.data);
+        return response.data;
     } catch (error) {
-      console.error("API 요청 중 오류 발생", error);
-      throw error;
+        console.error('qna error', error);
     }
-  };
- 
-  // 공지사항 수정 후 저장 버튼 
-  export const saveNotice = async (qnaId, qnaTitle, qnaContent) => {
+};
+
+
+// Qna 단일 조회 
+export async function fetchQnaDetail(qnaId) {
+
     try {
         const token = localStorage.getItem("token");
 
         if (!token) {
-          // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
-          throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
+            throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.put(`http://localhost:8080/api/admin/v1/qna/${qnaId}`, {
+        const response = await axios.get(`http://localhost:8081/api/v1/qna/${qnaId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        console.log('data 잘 넘어오는 지 확인', response.data);
+        return response.data; // 성공적인 응답의 데이터를 반환
+
+
+    } catch (error) {
+        console.error("API 요청 중 오류 발생", error);
+        throw error;
+    }
+};
+
+// 공지사항 수정 후 저장 버튼 
+export const saveNotice = async (qnaId, qnaTitle, qnaContent) => {
+    try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
+            throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
+        }
+
+        const response = await axios.put(`http://localhost:8081/api/admin/v1/qna/${qnaId}`, {
             title: qnaTitle,
             content: qnaContent,
         }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token}`,
-              }
+                'Authorization': `Bearer ${token}`,
+            }
         }
         );
 
@@ -88,24 +79,49 @@ export const CreateQna = async(qnaData) => {
 };
 
 // Qna 목록 조회
-export async function fetchQnaList(){
+export async function fetchQnaList() {
 
     try {
         const token = localStorage.getItem("token");
         if (!token) {
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
-          }
-        const response = await axios.get('http://localhost:8080/api/v1/qna',{
+        }
+        const response = await axios.get('http://localhost:8081/api/v1/qna', {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token}`,
-              }
-        }); 
+                'Authorization': `Bearer ${token}`,
+            }
+            
+        });
+        console.log("목록 응답 성공");
         // 성공적인 응답의 데이터를 반환
-        return response.data; 
+        return response.data;
+        
     } catch (error) {
         console.error('API 요청 중 오류 발생', error);
-        throw error; 
+        throw error;
+    }
+};
+
+export const fetchReply = async (qnaId) => {
+
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
+            throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
+        }
+        const response = await axios.get(`http://localhost:8081/api/v1/qna-reply/${qnaId}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        // 성공적인 응답의 데이터를 반환
+        return response.data;
+    } catch (error) {
+        console.error('API 요청 중 오류 발생', error);
+        throw error;
     }
 };

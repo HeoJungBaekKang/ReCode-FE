@@ -6,7 +6,7 @@ import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const EditPost = () => {
     const { authData } = useContext(AuthContext);
-    const { postId, study_room_id } = useParams();
+    const { post_id, study_id } = useParams();
     const navigate = useNavigate();
 
     const [postData, setPostData] = useState({
@@ -18,7 +18,7 @@ const EditPost = () => {
     useEffect(() => {
         const fetchPostData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_room_id}/post/${postId}`, {
+                const response = await axios.get(`http://localhost:8080/api/v1/study/${study_id}/post/${post_id}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -31,12 +31,12 @@ const EditPost = () => {
         };
 
         fetchPostData();
-    }, [postId, study_room_id]);
+    }, [post_id, study_id]);
 
     const handlePostUpdate = async () => {
         try {
             const response = await axios.put(
-                `http://localhost:8080/api/v1/study/${study_room_id}/post/edit/${postId}`,
+                `http://localhost:8080/api/v1/study/${study_id}/post/edit/${post_id}`,
                 postData,
                 {
                     headers: {
@@ -48,7 +48,7 @@ const EditPost = () => {
 
             if (response.data.code === 1) {
                 console.log("글 수정 성공 : ", response.data);
-                navigate(`/studyroom/${study_room_id}/post/${postId}`);
+                navigate(`/studyroom/${study_id}/post/${post_id}`);
             } else {
                 console.log("글 수정 실패 :", response);
             }

@@ -36,7 +36,7 @@ const TABLE_ROWS4 = [
 ];
 
 
-export default function Mypage_Myprofile() {
+export default function MypageMyprofile() {
 
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);

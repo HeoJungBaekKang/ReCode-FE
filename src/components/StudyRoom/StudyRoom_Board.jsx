@@ -9,7 +9,7 @@ export default function Board() {
     const [currentCategory, setCurrentCategory] = useState('카테고리');
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
 
     const [keyword, setKeyword] = useState("");
     const [category, setCategory] = useState(null);
@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://localhost:8080/api/v1/study/${study_room_id}/list`;
+            let url = `http://localhost:8080/api/v1/study/${study_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -115,7 +115,7 @@ export default function Board() {
                                 </div>
                             </div>
                             <div className="flex items-center">
-                                <Link to={`/studyroom/post/${study_room_id}`} className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                <Link to={`/studyroom/post/${study_id}`} className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                     글 작성
                                 </Link>
                                 <label for="table-search" className="sr-only">Search</label>
@@ -154,14 +154,14 @@ export default function Board() {
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td className="w-20 p-4">
                                             <div className="flex items-center">
-                                                <Link to={`/studyroom/${study_room_id}/post/${post.id}`}>{post.id}</Link>
+                                                <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.id}</Link>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             {post.category}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <Link to={`/studyroom/${study_room_id}/post/${post.id}`}>{post.title}</Link>
+                                            <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.title}</Link>
                                         </td>
                                         <td className="px-6 py-4">
                                             {post.nickname}

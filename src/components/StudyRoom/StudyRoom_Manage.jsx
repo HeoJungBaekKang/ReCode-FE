@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const Manage = () => {
-    const { study_room_id } = useParams();
+    const { study_id } = useParams();
     const navigate = useNavigate();
     const date = {
         CreateDate: '',
@@ -27,7 +27,7 @@ const Manage = () => {
                         <div className="flex items-center space-x-60 mb-4">
                             <span className="text-xl mr-4 font-semibold">스터디 모집 글</span>
                             <div className="flex items-end">
-                                <button onClick={() => navigate(`/studyroom/${study_room_id}/manage/modify`)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
+                                <button onClick={() => navigate(`/studyroom/${study_id}/manage/modify`)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
                                     버튼
                                 </button>
                             </div>
@@ -38,7 +38,7 @@ const Manage = () => {
                         <span className="text-xl mr-4 font-semibold">스터디 신청 현황</span>
                         <div className="flex items-end">
                             <button
-                                onClick={() => navigate(`/studyroom/${study_room_id}/manage/apply`)}
+                                onClick={() => navigate(`/studyroom/${study_id}/manage/apply`)}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-40">
                                 버튼
                             </button>
