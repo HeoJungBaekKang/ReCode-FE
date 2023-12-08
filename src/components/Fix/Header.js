@@ -29,25 +29,25 @@ const Main = () => {
         navigate('/');
     };
 
-    // 탭이 닫힐 때 자동 로그아웃이 되도록
-    useEffect(() => {
-        let timer;
-        const resetTimer = () => {
-            clearTimeout(timer);
-            timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
-        };
+    // // 탭이 닫힐 때 자동 로그아웃이 되도록
+    // useEffect(() => {
+    //     let timer;
+    //     const resetTimer = () => {
+    //         clearTimeout(timer);
+    //         timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
+    //     };
     
-        window.addEventListener('load', resetTimer);
-        document.addEventListener('mousemove', resetTimer);
-        document.addEventListener('keypress', resetTimer);
+    //     window.addEventListener('load', resetTimer);
+    //     document.addEventListener('mousemove', resetTimer);
+    //     document.addEventListener('keypress', resetTimer);
     
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener('load', resetTimer);
-            document.removeEventListener('mousemove', resetTimer);
-            document.removeEventListener('keypress', resetTimer);
-        };
-    }, []);
+    //     return () => {
+    //         clearTimeout(timer);
+    //         window.removeEventListener('load', resetTimer);
+    //         document.removeEventListener('mousemove', resetTimer);
+    //         document.removeEventListener('keypress', resetTimer);
+    //     };
+    // }, []);
 
     return (
         <header>
