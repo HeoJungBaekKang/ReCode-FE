@@ -17,7 +17,6 @@ export default function QnaDetail() {
     const { qnaId } = useParams();
     const navigate = useNavigate();
 
-
     const handleGoToList = () => {
         navigate("/qna");
 
@@ -106,7 +105,6 @@ export default function QnaDetail() {
                             ) : (
                                 <Typography color="gray" className="mt-1 font-normal">
                                     {qnaCreatedAt}
-
                                 </Typography>
                             )}
                         </div>
@@ -134,7 +132,7 @@ export default function QnaDetail() {
                                         )}
                                     </tbody>
 
-                               
+                            
                         </table>
                         </div>
                             </div>

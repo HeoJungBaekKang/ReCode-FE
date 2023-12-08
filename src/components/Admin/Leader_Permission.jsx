@@ -151,7 +151,7 @@ export default function UserList() {
                                                             </td>
                                                             <td className="whitespace-nowrap px-6 py-4">{member.created_by === member.user_id ? "팀장" : "팀원"}</td>
                                                             <td>
-                                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_room_id, member.user_id)}>
+                                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_id, member.user_id)}>
                                                                     역할변경
                                                                 </button>
                                                             </td>

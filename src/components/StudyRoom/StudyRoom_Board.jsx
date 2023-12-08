@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ export default function Board() {
 
     const handleGet = async () => {
         try {
-            let url = `http://localhost:8081/api/v1/study/${study_id}/list`;
+            let url = `http://localhost:8080/api/v1/study/${study_id}/list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -52,7 +52,7 @@ export default function Board() {
             console.log(error.response);
         }
     }
-    
+
     const handleCategoryChange = (category) => {
         setCurrentCategory(category || '카테고리');
         let categoryNumber;
@@ -115,9 +115,9 @@ export default function Board() {
                                 </div>
                             </div>
                             <div className="flex items-center">
-                                <button onClick={() => navigate('/studyroom/post')} className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                <Link to={`/studyroom/post/${study_id}`} className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                     글 작성
-                                </button>
+                                </Link>
                                 <label for="table-search" className="sr-only">Search</label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -154,14 +154,14 @@ export default function Board() {
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td className="w-20 p-4">
                                             <div className="flex items-center">
-                                                {post.id}
+                                                <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.id}</Link>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
                                             {post.category}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {post.title}
+                                            <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.title}</Link>
                                         </td>
                                         <td className="px-6 py-4">
                                             {post.nickname}
@@ -234,7 +234,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8081/api/v1/study/${study_id}/list?keyword=${keyword}`, {
+            axios.get(`http://localhost:8080/api/v1/study/${study_id}/list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

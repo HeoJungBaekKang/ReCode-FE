@@ -52,7 +52,7 @@ export default function Withdraw() {
 
     const handleWithdraw = async (event) => {
         try {
-            await axios.post(`http://localhost:8081/api/v1/users/${authData.id}/withdraw`, {}, {
+            await axios.post(`http://localhost:8080/api/v1/users/${authData.id}/withdraw`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
