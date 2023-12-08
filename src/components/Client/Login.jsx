@@ -10,6 +10,7 @@ export default function Login() {
   const { setAuthData } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();

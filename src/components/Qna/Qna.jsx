@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import QnaSidebar from "./QnaSidebar";
 import {
     Card,
@@ -12,22 +12,16 @@ import { fetchQnaList } from "../../services/QnaService";
 import { format } from 'date-fns';
 
 
-
 export default function Qna() {
     const navigate = useNavigate();
     const [qnaList, setQnaList] = useState([]);
-
     const [isOpen, setIsOpen] = useState(false);
-    const handleRowClick = (qnaId) => {
-        navigate(`/qna/${qnaId}`);
 
-
-    }
     async function fetchData() {
 
         try {
             const response = await fetchQnaList();
-            console.log("data안에는 무엇이 있나요", response.data);
+            // console.log("data안에는 무엇이 있나요", response.data);
             setQnaList(response.data); // 가져온 데이터를 상태에 설정
 
 
@@ -39,6 +33,10 @@ export default function Qna() {
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleRowClick = (qnaId) => {
+        navigate(`/qna/${qnaId}`);
+    }
 
     return (
         <>
@@ -62,7 +60,7 @@ export default function Qna() {
                                             <table className="min-w-full text-left text-sm font-light">
                                                 <thead className="border-b font-medium dark:border-neutral-500">
                                                     <tr>
-                                                        <th scope="col" className="px-6 py-4">#</th>
+                                                        <th scope="col" className="px-6 py-4 ">#</th>
                                                         <th scope="col" className="px-6 py-4">제목</th>
                                                         <th scope="col" className="px-6 py-4">작성자</th>
                                                         <th scope="col" className="px-6 py-4">작성일</th>
@@ -72,12 +70,10 @@ export default function Qna() {
                                                     {qnaList.map((qna) => (<tr
                                                         onClick={() => handleRowClick(qna.id)}
                                                         key={[qna.id, qna.userId]}
-                                                        // key={qna.id}
                                                         className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                                     >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             {qna.id}
-                                                           
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             {qna.title}
@@ -87,8 +83,7 @@ export default function Qna() {
                                                             {/* {console.log(qna.userId.nickname)} */}
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-
-                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd')}
+                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
                                                         </td>
                                                     </tr>
                                                     ))}

@@ -43,26 +43,23 @@ export const QnaPost = () => {
 
 
     return (
-        (
+        <>
             <form onSubmit={handlerSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
                 <div className="flex gap-x-3">
                     <label
                         htmlFor="notice"
-                        className="block text-xl font-semibold leading-2 text-gray-900"
-                    >
+                        className="block text-xl font-semibold leading-2 text-gray-900">
                         Qna 문의 작성
                     </label>
                     <br />
                     <br />
                     <br />
-
                 </div>
 
                 <div className="sm:col-span-2">
                     <label
                         htmlFor="title"
-                        className="block text-sm font-semibold leading-2 text-gray-900"
-                    >
+                        className="block text-sm font-semibold leading-2 text-gray-900">
                         제목
                     </label>
 
@@ -83,10 +80,10 @@ export const QnaPost = () => {
                 <div className="sm:col-span-2 mt-2.5">
                     <label
                         htmlFor="title"
-                        className="block text-sm font-semibold leading-3 text-gray-900"
-                    >
+                        className="block text-sm font-semibold leading-3 text-gray-900">
                         내용
                     </label>
+
                     <div className="sm:col-span-2">
                         <div className="mt-2.5">
 
@@ -97,7 +94,7 @@ export const QnaPost = () => {
                                 />
                             </div>
                         </div>
-
+                   
                     </div>
                 </div>
 
@@ -107,21 +104,18 @@ export const QnaPost = () => {
                         <button
                             type="reset"
                             onClick={() => navigate("/qna")}
-                            className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                        >
+                            className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
                             취소
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
+                            className="flex-1 rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" >
                             작성 완료
                         </button>
                     </div>
                 </div>
             </form>
-        )
-    )
-};
+        </>
+        )};
 
 export default QnaPost;

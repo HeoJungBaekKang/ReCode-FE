@@ -22,7 +22,7 @@ export default function ModifySkill() {
 
     const handlePost = async () => {
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/amin/addskill`, skill, {
+            await axios.post(`http:/localhost:8081/api/v1/amin/addskill`, skill, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
