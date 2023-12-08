@@ -3,7 +3,6 @@ import QnaSidebar from "./QnaSidebar";
 import {
     Card,
     CardHeader,
-    Typography,
     CardBody,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,7 +19,8 @@ export default function QnaDetail() {
     const navigate = useNavigate();
     const [qnaTitle, setQnaTitle] = useState("");
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
-    const [qnaUpdatedAt, setQnaUdatedAt] = useState("");
+    const [formatCreatedAt, setFormatreatedAt] = useState("");
+    const [qnaUpdatedAt, setQnaUpdatedAt] = useState("");
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
     const [userId, setUserId] = useState("");
@@ -28,24 +28,64 @@ export default function QnaDetail() {
     const [isReplyOpen, setIsReplyOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
+    //Qna 단일 조회
     useEffect(() => {
         const fetchData = async () => {
             const response = await fetchQnaDetail(qnaId);
             const data = response.data;
+
             setQnaTitle(data.title);
-            const parsedCreatedDate = parseISO(data.createdAt);
-            const parsedUpdatedDate = parseISO(data.updatedAt);
-            const formattedCreatedDate = format(parsedCreatedDate, 'yyyy-MM-dd HH:mm');
-            const formattedUpdatedDate = format(parsedUpdatedDate, 'yyyy-MM-dd HH:mm');
-            setQnaCreatedAt(formattedCreatedDate);
-            setQnaUdatedAt(formattedUpdatedDate);
+            setQnaCreatedAt(data.createdAt);
+            setQnaUpdatedAt(data.updatedAt);
             setQnaContent(data.content);
             setQnaCreateBy(data.userId.nickname);
             setUserId(data.userId.id);
+
+            //날짜 포맷팅
+            const parsedCreatedDate = parseISO(data.createdAt);
+            const formattedCreatedDate = format(parsedCreatedDate, 'yyyy-MM-dd HH:mm');
+            setFormatreatedAt(formattedCreatedDate)
         };
         fetchData();
     }, [qnaId]);
 
+    //Qna 목록 버튼 핸들러
+    const handleGoToList = () => {
+        navigate("/qna");
+
+    };
+
+    //Qna 수정 취소 버튼 핸들러
+    const handleGoToQna = () => {
+        navigate(`/qna/#${qnaId}`);
+    };
+
+    //Qna 수정 버튼 핸들러
+    const handleEditButtonClick = () => {
+        setIsEditMode(true); // '수정' 버튼을 누르면 수정 모드로 변경
+    };
+
+    //Qna 제목 수정 핸들러
+    const handleTitleChange = (event) => {
+        setQnaTitle(event.target.value);
+    };
+
+    //Qna 내용 수정 핸들러
+    const handleContentChange = (newContent) => {
+        setQnaContent(newContent);
+    };
+
+    //Qna 저장 버튼 핸들러
+    const handleSaveChanges = async () => {
+        try {
+            await saveQna(qnaId, qnaTitle, qnaContent);
+            // 편집 모드 해제
+            setIsEditMode(false);
+            window.location.reload(true);
+        } catch (error) {
+        }
+    };
+    //Qna 댓글 목록 조회
     async function fetchData() {
         const response = await fetchReply(qnaId);
         setQnaReply(response.data);
@@ -55,38 +95,11 @@ export default function QnaDetail() {
         fetchData();
     }, [qnaId]);
 
-    const handleGoToList = () => {
-        navigate("/qna");
-
-    };
+    //Qna 댓글 생성 핸들러
     const handleReplyButtonClick = () => {
         setIsReplyOpen(!isReplyOpen);
     };
 
-    const handleEditButtonClick = () => {
-        setIsEditMode(true); // '수정' 버튼을 누르면 수정 모드로 변경
-    };
-
-    const handleTitleChange = (event) => {
-        setQnaTitle(event.target.value);
-    };
-
-    // const handleDateChange = (event) => {
-    //     setQnaCreateBy(event.target.value);
-    // };
-
-    const handleContentChange = (newContent) => {
-        setQnaContent(newContent); // 글 내용 입력란의 값이 변경되면 상태 업데이트
-    };
-
-    const handleSaveChanges = async () => {
-        try {
-            await saveQna(qnaId, qnaTitle, qnaContent);
-            setIsEditMode(false); // 성공 시 편집 모드 해제
-        } catch (error) {
-            // 오류 처리
-        }
-    };
     return (
         <>
             <QnaSidebar />
@@ -107,16 +120,17 @@ export default function QnaDetail() {
                                                         type="text"
                                                         value={qnaTitle}
                                                         onChange={handleTitleChange}
-                                                        className="border-2 border-gray-300 p-2 rounded-md w-full text-sm"
-                                                    />
+                                                        className="border-2 border-gray-300 p-2 rounded-md w-full text-sm" />
                                                 </td>
                                             </tr>
+
                                             <tr className="border-b">
                                                 <td className="p-2 font-medium text-sm">작성일</td>
                                                 <td className="p-2 text-sm" colSpan="3">
-                                                    {qnaCreatedAt}
+                                                    {formatCreatedAt}
                                                 </td>
                                             </tr>
+
                                             <tr>
                                                 <td className="p-2 font-medium text-sm">작성자</td>
                                                 <td className="p-2 text-sm" colSpan="3">
@@ -126,46 +140,41 @@ export default function QnaDetail() {
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
-
                                             <tr className="border-b">
                                                 <td className="p-2 font-medium text-sm">제목</td>
                                                 <td className="p-2 text-sm" colSpan="3">
                                                     {qnaTitle}
                                                 </td>
                                             </tr>
+
+                                            <tr className="border-b">
+                                                <td className="p-2 font-medium text-sm">작성자</td>
+                                                <td className="p-2 text-sm">{qnaCreateBy}</td>
+                                            </tr>
+
+                                            <tr className="border-b">
+                                                <td className="p-2 font-medium text-sm">작성일</td>
+                                                <td className="p-2 text-sm">
+                                                    {formatCreatedAt}
+                                                </td>
+                                            </tr>
+
                                             {qnaCreatedAt !== qnaUpdatedAt ? (
                                                 <React.Fragment>
                                                     <tr className="border-b">
-                                                        <td className="p-2 font-medium text-sm">작성일</td>
-                                                        <td className="p-2 text-sm">{qnaCreatedAt}</td>
-                                                    </tr>
-                                                    <tr className="border-b">
                                                         <td className="p-2 font-medium text-sm">수정일</td>
-                                                        <td className="p-2 text-sm">{qnaUpdatedAt}</td>
-                                                    </tr>
-                                                    <tr className="border-b">
-                                                        <td className="p-2 font-medium text-sm">작성자</td>
-                                                        <td className="p-2 text-sm">{qnaCreateBy}</td>
+                                                        <td className="p-2 text-sm">
+                                                            {format(parseISO(qnaUpdatedAt), 'yyyy-MM-dd HH:mm')}
+                                                        </td>
                                                     </tr>
                                                 </React.Fragment>
                                             ) : (
-                                                <React.Fragment>
-                                                    <tr className="border-b">
-                                                        <td className="p-2 font-medium text-sm">작성일</td>
-                                                        <td className="p-2 text-sm">{qnaCreatedAt}</td>
-                                                    </tr>
-                                                    <tr className="border-b">
-                                                        <td className="p-2 font-medium text-sm">작성자</td>
-                                                        <td className="p-2 text-sm">{qnaCreateBy}</td>
-                                                    </tr>
-                                                </React.Fragment>)}
-
+                                                <tr><td></td></tr>)}
                                         </React.Fragment>)}
                                 </tbody>
                             </table>
                         </div>
                     </CardHeader>
-
 
                     <CardBody className="px-0">
                         <div className="ml-5 mr-5 sm:col-span-2">
@@ -200,15 +209,15 @@ export default function QnaDetail() {
                     </CardBody>
                 </Card>
             </div >
+
             <div className="ml-56">
                 <div className="flex justify-end mt-4 mr-5 space-x-4">
                     {userId === authData.id ? (
                         <React.Fragment>
-
                             {isEditMode ? (
                                 <React.Fragment>
-                                    < button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
-                                    <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
+                                    <button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
+                                    <button onClick={handleGoToQna} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">취소</button>
                                 </React.Fragment>
                             ) : (
                                 <React.Fragment>
@@ -217,13 +226,11 @@ export default function QnaDetail() {
                                     <button className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
                                 </React.Fragment>
                             )}
-
                         </React.Fragment>
-
                     ) : (
                         <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                            <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">답글 달기</button>
+                            <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button>
                         </React.Fragment>
                     )}
                 </div>
