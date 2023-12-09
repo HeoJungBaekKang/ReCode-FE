@@ -15,13 +15,12 @@ import Withdraw from "./components/Mypage/Withdraw";
 import Identifing from "./components/Mypage/Identifing";
 import ModifyProfile from "./components/Mypage/ModifyProfile";
 import ChangePassword from "./components/Client/ChangePassword";
-import Mypage_Myprofile from "./components/Mypage/Mypage_Myprofile";
+import MypageMyprofile from "./components/Mypage/Mypage_Myprofile";
 import Board from "./components/StudyRoom/StudyRoom_Board";
 import Qna from "./components/Qna/Qna";
 import HelpDesk from "./components/StudyList";
 import QnaDetail from "./components/Qna/QnaDetail";
 import QnaPost from "./components/Qna/QnaPost";
-import Leader_Permission from "./components/Admin/Leader_Permission";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
 import ApplicationStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
@@ -44,9 +43,8 @@ import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
 import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
-import AdjustRight from "./components/Admin/AdjustRight";
 import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
-import ChatList from "./components/Chat/ChatList";
+import UserList from "./components/Admin/Leader_Permission";
 
 function App() {
 
@@ -69,7 +67,7 @@ function App() {
             <Route path="/client/findPassword" element={<FindPasswordForm />} />
             <Route path="/client/findEmail" element={<FindEmailForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
-            <Route path="/mypage/myprofile" element={<Mypage_Myprofile />} />
+            <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
             <Route path="/mypage/myprofile/identifing" element={<Identifing />} />
@@ -95,7 +93,7 @@ function App() {
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/detail" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/leaderPermission/:study_room_id" element={<Leader_Permission />} />
+            <Route path="/admin/leaderPermission/:study_room_id" element={<UserList/>} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
@@ -104,7 +102,6 @@ function App() {
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
-            <Route path="/admin/adjust/:study_room_id" element={<AdjustRight />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/chat/chatList/:user_id" element={<ChatList />} />
           </Routes>
