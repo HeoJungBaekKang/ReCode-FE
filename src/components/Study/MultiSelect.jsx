@@ -10,19 +10,6 @@ function MultiSelect({onChange, selectedPosition}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8081/api/get-skills`, {
-          headers: {
-
-            'Content-Type': 'application/json'
-          }
-        });
-
-        console.log(response.data);
-
-        const code = response.data.code;
-        if (code === 1) {
-          console.log("스택 목록 불러오기 성공");
-          setSkills(response.data.data.skills || []);
         let allSkillNames = [];
   
         if (selectedPosition === "FullStack") {

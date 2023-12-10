@@ -23,31 +23,6 @@ export default function StudyRecruitment() {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
   };
 
-  // 탭 전환
-  // const handleTabClick = async (tabName) => {
-  //   setActiveTab(tabName);
-  //   console.log(tabName);
-  //   // 포지션에 따른 스킬 불러오기
-  //   if (tabName === "FullStack") {
-  //     const frontSkillByPosition = await getSkillNameByPosition("frontend");
-  //     const backSkillByPosition = await getSkillNameByPosition("backend");
-  //     const skillByPosition = [...frontSkillByPosition, ...backSkillByPosition];
-  //     setSkills(skillByPosition);
-  //   } else if (tabName === "Backend") {
-  //     console.log(tabName);
-  //     const skillByPosition = await getSkillNameByPosition("backend");
-  //     console.log("backend skill 불러왔습니다. ", skillByPosition);
-  //     setSkills(skillByPosition);
-  //   } else if (tabName === "Frontend") {
-  //     const skillByPosition = await getSkillNameByPosition("frontend");
-  //     setSkills(skillByPosition);
-  //     console.log("frontend skill 불러왔습니다. ", skillByPosition);
-  //   } // 다른 탭에 대해서도 필요한 포지션에 따른 스킬 불러오기 함수 호출 추가
-
-  //   // 이후 탭에 따라서 스킬 목록이 설정될 것입니다.
-  // };
-
- 
 
   useEffect(()=> {
     const fetchSkillsByPosition = async (position) => {
@@ -66,10 +41,6 @@ export default function StudyRecruitment() {
 
   },[position]);
 
-  // const handlePositionChange = (e) => {
-  //   const selectedPosition = e.target.value;
-  //   setWrite({ ...write, position: selectedPosition });
-  // };
 
   useEffect(() => {
     // 포지션이 변경될 때 스킬 이름 가져오기

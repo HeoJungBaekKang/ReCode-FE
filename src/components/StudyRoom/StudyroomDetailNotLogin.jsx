@@ -10,7 +10,7 @@ const StudyRoomNotLogin = () => {
   console.log(authData);
   const [detail, setDetail] = useState({
     study_id: "",
-    study_name: "",
+    studyName: "",
     title: "",
     description: "",
     startDate: "",

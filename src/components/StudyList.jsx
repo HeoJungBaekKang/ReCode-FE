@@ -1,43 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
   
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
-  const [posts, setPost] = useState([]);
-  const handleGet = async () => {
-    try {
-      const headers = authData.userId
-        ? {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authData.token}`,
-          }
-        : {
-            'Content-Type': 'application/json',
-          };
-      const response = await axios.get(`http://localhost:8081/api/main/list`, { headers });
-      console.log(response.data);
-      setPost(response.data.data || []);
-      const code = response.data.code;
-      if (code === 1) {
-        console.log("스터디 목록 불러오기 성공");
-      } else {
-        console.log("스터디 목록 불러오기 실패");
-      }
-    } catch (error) {
-      console.error("스터디 목록 조회 중 오류 : ", error);
-    }
-  };
-  const handleStudyRoomClick = async (studyRoomId) => {
-      navigate(`/studyroomNotLogin/${studyRoomId}`);
-=======
 
   if (!filteredStudies || !filteredStudies.length) {
     return <div>스터디가 없습니다. </div>;
->>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
   }
 
   const chunkedPosts = chunk(filteredStudies, 9);
@@ -100,10 +70,11 @@ export default function StudyList({ filteredStudies }) {
                       ))}
                     </div>
                     <div className="group relative">
-                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                        <Link to={`/studyroom/${post.id}`}>
+                      <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
+                        <div onClick={() => handleStudyRoomClick(post.id)}>
+                          <span className="absolute inset-0" />
                           {post.title}
-                        </Link>
+                        </div>
                       </h3>
                     </div>
                     <hr className="w-full border-t" />

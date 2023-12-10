@@ -39,19 +39,11 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
-<<<<<<< HEAD
-// import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
-import AdminStudyList from "./components/Admin/AdminStudyList";
-// import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
-import UserList from "./components/Admin/Leader_Permission";
-// import NaverBook from "./components/NaverBook/BookList";
-=======
 import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
 import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 import NaverBook from "./components/NaverBook/BookList";
->>>>>>> ab84633f4ab6e65b3ea6a4d26b3e575da775d73e
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 
 function App() {
@@ -85,7 +77,7 @@ function App() {
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
-            <Route path="/studyroom/participants" element={<Participants />} />
+            <Route path="/studyroom/:study_id/participants" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
             <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
@@ -96,7 +88,7 @@ function App() {
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/leaderPermission/:study_id" element={<UserList/>} />
+            <Route path="/admin/leaderPermission/:study_id" element={<UserList />} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
