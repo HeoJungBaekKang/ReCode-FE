@@ -9,7 +9,9 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { fetchNoticeList } from "../../services/NoticeService.js";
+import { fetchNoticeList, handleSearch } from "../../services/NoticeService.js";
+import { type } from "@testing-library/user-event/dist/type";
+
 
 export default function NoticePage() {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
@@ -18,6 +20,10 @@ export default function NoticePage() {
   const [noticeList, setNoticeList] = useState([]);
   const { authData } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchType, setSearchType] = useState('title');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+  
   const handleRowClick = (noticeId) => {
     navigate(`/notice/${noticeId}`);
   };
@@ -30,6 +36,13 @@ export default function NoticePage() {
     return tmp.textContent || tmp.innerText || "";
   };
 
+const handleSearchTypeChange = (type) => {
+  setSearchType(type);
+}
+
+const handleSearchTermChange = (event) => {
+  setSearchTerm(event.target.value); 
+}
 
   async function fetchData() {
     try {
@@ -167,45 +180,31 @@ export default function NoticePage() {
                 className="py-1 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdownActionButton"
               >
-                <li>
-                  <a
-                    href="#"
+                <li
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     전체
-                  </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
+                <li
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     글 번호
-                  </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
+                <li onClick={()=> handleSearchTypeChange('title')} 
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
+                >
                     제목만
-                  </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
+                <li
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     작성자
-                  </a>
+               
                 </li>
-                <li>
-                  <a
-                    href="#"
+                <li
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
                     작성일
-                  </a>
                 </li>
               </ul>
             </div>
@@ -230,10 +229,15 @@ export default function NoticePage() {
                 </div>
                 <input
                   type="text"
+                  value={searchTerm}
+                  onChange={handleSearchTermChange}
+                  onKeyPress={event => event.key === 'Enter' && handleSearch()}
                   id="table-search-users"
                   className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="검색어를 입력해주세요."
                 />
+                 {/* <button onClick={handleSearch}>검색</button> */}
+                 <button onClick={() => handleSearch(searchType, searchTerm, setResults)}>검색</button>
               </div>
               {authData.isAdmin && (
                 <Link to={"/notice/create"}>

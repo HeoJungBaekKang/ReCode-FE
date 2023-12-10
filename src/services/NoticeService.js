@@ -112,3 +112,12 @@ export async function fetchNoticeList(){
         throw error; 
     }
 };
+
+export const handleSearch = async (searchType, searchTerm, setResults) => {
+  try {
+      const response = await axios.get(`http://localhost:8081/api/notice-search`, { params: { [searchType]: searchTerm } });
+      setResults(response.data);
+  } catch (error) {
+      console.error('Error fetching search results', error);
+  }
+};
