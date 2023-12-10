@@ -39,7 +39,7 @@ export default function NoticePage() {
 
       const notices = response.data.map((notice) => ({
         ...notice,
-        content: stripHtml(notice.content),
+        // content: stripHtml(notice.content),
       }));
       setNoticeList(notices); // 가져온 데이터를 상태에 설정
       
@@ -79,9 +79,7 @@ export default function NoticePage() {
                           <th scope="col" className="px-6 py-4">
                             제목
                           </th>
-                          <th scope="col" className="px-6 py-4">
-                            내용
-                          </th>
+                         
                           <th scope="col" className="px-6 py-4">
                             작성자
                           </th>
@@ -92,21 +90,20 @@ export default function NoticePage() {
                       </thead>
                       <tbody>
                         {noticeList.length > 0 ? (
-                          chunkedPosts[currentPage].map((notice) => (
+                          chunkedPosts[currentPage].map((notice, index) => (
                             <tr
                               onClick={() => handleRowClick(notice.id)}
                               key={notice.id}
                               className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                             >
                               <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                {notice.id}
+                                {/* {notice.id} */}
+                                {index + 1}
                               </td>
                               <td className="whitespace-nowrap px-6 py-4">
                                 {notice.title}
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4">
-                                {notice.content}
-                              </td>
+        
                               <td className="whitespace-nowrap px-6 py-4">
                                 {notice.createdBy}
                               </td>
