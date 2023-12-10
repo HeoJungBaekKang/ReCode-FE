@@ -65,13 +65,13 @@ export default function QnaSidebar() {
                                     <li>
                                         <Link to="/qna" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             {/* Q&A 메뉴 */}
-                                            <span className="flex-1 ml-3 whitespace-nowrap"> > Q&A</span>
+                                            <span className="flex-1 ml-3 whitespace-nowrap"> Q&A</span>
                                         </Link>
                                     </li>
                                     <li>
                                         <Link to="/notice" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                             {/* 공지사항 메뉴 */}
-                                            <span className="flex-1 ml-3 whitespace-nowrap"> > 공지사항</span>
+                                            <span className="flex-1 ml-3 whitespace-nowrap"> 공지사항</span>
                                         </Link>
                                     </li>
                                 </ul> {/* 하위 메뉴 목록 종료 */}

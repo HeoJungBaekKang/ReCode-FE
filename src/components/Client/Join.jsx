@@ -6,6 +6,7 @@ const CheckUsernameDuplicate = async (username) => {
 
   try {
     const response = await fetch(`http://localhost:8081/api/user-name/${username}/exists`);
+    // const response = await fetch(`http://localhost:8081/api/user-name/${username}/exists`);
     console.log(response)
     const result = await response.json();
     console.log(result)

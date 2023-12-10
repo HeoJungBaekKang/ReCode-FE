@@ -196,7 +196,9 @@ export default function NoticeDetailPage() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        <div>{ReactHtmlParser(noticeContent)}</div>
+                        <div>
+                          {ReactHtmlParser(noticeContent)}
+                        </div>
                       </Typography>
                     )}
                   </div>
