@@ -2,13 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./components/Main";
 import FindIdForm from "./components/Client/FindIdForm";
-import FindPasswordForm from "./components/Client/FindPasswordForm";
 import Header from "./components/Fix/Header";
 import Login from "./components/Client/Login";
 import Join from "./components/Client/Join";
 import StudyRecruitment from "./components/Study/StudyRecruitmentForm";
 import MultiSelect from "./components/Study/MultiSelect";
-import FindEmailForm from "./components/Client/FindEmailForm";
 import MypageMain from "./components/Mypage/MypageMain";
 import Essay from "./components/Mypage/Essay";
 import Withdraw from "./components/Mypage/Withdraw";
@@ -23,7 +21,7 @@ import QnaDetail from "./components/Qna/QnaDetail";
 import QnaPost from "./components/Qna/QnaPost";
 import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
-import ApplicationStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
+import ApplyStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
 import ApplicationDetail from "./components/StudyRoom/StudyRoom_ManageApplicationDetail";
 import StudyModify from "./components/StudyRoom/StudyModify";
 import StudyRoomNotLogin from "./components/StudyRoom/StudyroomDetailNotLogin";
@@ -45,6 +43,9 @@ import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
 import AdminStudyList from "./components/Admin/AdminStudyList";
 import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
+import NaverBook from "./components/NaverBook/BookList";
+import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import chatList from "./components/Chat/chatList";
 
 function App() {
 
@@ -60,12 +61,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
-            <Route path="/findPassword" element={<FindPasswordForm />} />
             <Route path="/email" element={<Email />} />
             <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
-            <Route path="/client/findPassword" element={<FindPasswordForm />} />
-            <Route path="/client/findEmail" element={<FindEmailForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
@@ -76,24 +74,22 @@ function App() {
             <Route path="/mypage/multiselect" element={<MultiSelect />} />
             <Route path="/mypage/helpDesk" element={<HelpDesk />} />
             <Route path="/studyroom/:study_id" element={<Detail />} />
-            <Route path="/studyroomNotLogin/:study_room_id" element={<StudyRoomNotLogin />} />
+            <Route path="/studyroomNotLogin/:study_id" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board/:study_id" element={<Board />} />
-            <Route path="/AdminstudyroomDetail/:study_room_id" element={<AdminStudyRoomDetail />} />
-            <Route path="/studyroom/post" element={<Post />} />
+            <Route path="/studyroom/post/:study_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
             <Route path="/studyroom/participants" element={<Participants />} />
-            <Route path="/studyroom/manage" element={<Manage />} />
-            <Route path="/studyroom/application" exact element={<ApplicationStatus />} />
-            <Route path="/studyroom/applicationdetail/:id" element={<ApplicationDetail />} />
+            <Route path="/studyroom/:study_id/manage" element={<Manage />} />
+            <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
+            <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
             <Route path="/studyroom/quiz/:study_id" element={<Quiz />} />
-            <Route path="/studyroom/post" exact element={Post} />
-            <Route path="/studyroom/postdetail/:postId" element={<PostDetail />} />
-            <Route path="/studyroom/manage" element={<Manage />} />
-            <Route path="/studyroom/manage/modify" element={<StudyModify />} />
+            <Route path="/studyroom/:study_id/post/:post_id" element={<PostDetail />} />
+            <Route path="/studyroom/:study_id/manage/modify" element={<StudyModify />} />
+            <Route path="/AdminstudyroomDetail/:study_id" element={<AdminStudyRoomDetail />} />
             <Route path="/qna" element={<Qna />} />
-            <Route path="/qna/detail" element={<QnaDetail />} />
+            <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/leaderPermission/:study_room_id" element={<UserList/>} />
+            <Route path="/admin/leaderPermission/:study_id" element={<UserList/>} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
@@ -101,9 +97,11 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
+            <Route path="/studyroom/:study_id/post/edit/:post_id" element={<EditPost />} />
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
-            <Route path="/chat/chatList/:user_id" element={<ChatList />} />
+            <Route path="/naverbook" element={<NaverBook />} />
+            <Route path="/chat" element={<chatList />} />
           </Routes>
         </div>
       </AuthProvider>

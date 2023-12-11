@@ -5,10 +5,10 @@ import axios from "axios";
 
 const AdminStudyRoomDetail = () => {
   const navigate = useNavigate();
-  const { study_room_id } = useParams();
+  const { study_id } = useParams();
 
   const [detail, setDetail] = useState({
-    study_room_id: "",
+    study_id: "",
     study_name: "",
     title: "",
     description: "",
@@ -27,7 +27,7 @@ const AdminStudyRoomDetail = () => {
   const handleGet = async () => {
     try {
       await axios
-        .get(`http://localhost:8081/api/study/${study_room_id}`, {
+        .get(`http://localhost:8081/api/study/${study_id}`, {
           headers: {
             "Content-Type": "application/json",
           },

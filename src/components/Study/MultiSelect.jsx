@@ -50,7 +50,7 @@ function MultiSelect({onChange, selectedPosition}) {
 
 
     console.log('selectedSkillNames 선택된 정보 확인 ! : ',selectedSkillNames);
-   
+
     // 선택한 스킬 이름 목록을 상위 컴포넌트로 전달
     onChange(selectedSkillNames);
   };

@@ -28,7 +28,6 @@ const Main = () => {
 
         navigate('/');
     };
-
     // 탭이 닫힐 때 자동 로그아웃이 되도록
     useEffect(() => {
         let timer;
@@ -49,12 +48,13 @@ const Main = () => {
         };
     }, []);
 
+
     return (
         <header>
             <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <a href="/" className="flex items-center">
-                        <img src="https://i.ibb.co/b5QpxVy/Recode-logo.png" alt="Recode-logo" border="0" className="mr-3 h-6 sm:h-9" />
+                        <img src="/Recode-logo.png" alt="Recode-logo" border="0" className="mr-3 h-6 sm:h-9" />
                         <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Recode</span>
                     </a>
                     <div className="flex items-center lg:order-2">

@@ -9,9 +9,10 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import Search from "../Fix/Search";
+import { useParams } from "react-router";
 
 export default function UserList() {
-    const [studyRoomId, setStudyRoomId] = useState(1);
+    const { study_id } = useParams();
     const [studyMembers, setStudyMembers] = useState([]);
     const [currentPage, setCurrentPage] = useState(0)
     const { authData } = useContext(AuthContext);
@@ -30,9 +31,9 @@ export default function UserList() {
         member.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const getStudyMembers = async (studyRoomId) => {
+    const getStudyMembers = async (study_id) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/v1/study/${studyRoomId}/memberlistandstatus`, {
+            const response = await fetch(`http://localhost:8081/api/v1/study/${study_id}/memberlistandstatus`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -43,6 +44,7 @@ export default function UserList() {
                 console.error("Error response:", response);
                 return [];
             }
+            console.log("리스트 호출 :", study_id);
             const data = await response.json();
             return data.data;
         } catch (error) {
@@ -52,10 +54,10 @@ export default function UserList() {
     };
 
 
-    const updateRole = async (studyId, userId) => {
+    const updateRole = async (study_id, userId) => {
         try {
             // studyMembers array에서 멤버 찾기
-            const member = studyMembers.find((member) => member.user_id === userId);
+            const member = studyMembers.find((member) => member.userId === userId);
 
             if (!member) {
                 console.error("Member not found:", userId);
@@ -63,10 +65,10 @@ export default function UserList() {
             }
 
             // Determine the new role based on the current role
-            const newRole = member.created_by === member.user_id ? "group_member" : "group_leader";
+            const newRole = member.createdBy === member.userId ? "group_member" : "group_leader";
 
             // Send PUT request to update role
-            await fetch(`http://localhost:8081/api/admin/v1/study-member/${studyId}/${userId}`, {
+            await fetch(`http://localhost:8081/api/admin/v1/study-member/${study_id}/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,7 +80,7 @@ export default function UserList() {
             });
 
             // Fetch updated study members after role update
-            const members = await getStudyMembers(studyRoomId);
+            const members = await getStudyMembers(study_id);
             setStudyMembers(members);
         } catch (error) {
             console.error("Error updating role:", error);
@@ -87,12 +89,12 @@ export default function UserList() {
 
     useEffect(() => {
         const fetchStudyMembers = async () => {
-            const members = await getStudyMembers(studyRoomId);
+            const members = await getStudyMembers(study_id);
             setStudyMembers(members);
         };
 
         fetchStudyMembers();
-    }, [studyRoomId]);
+    }, [study_id]);
 
     const chunkedMembers = chunk(filteredMembers, 10)
 
@@ -142,22 +144,22 @@ export default function UserList() {
                                             <tbody>
                                                 {chunkedMembers[currentPage] ? (
                                                     chunkedMembers[currentPage].map((member, index) => (
-                                                        <tr key={member.user_id} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
+                                                        <tr key={member.userId} className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 pt-10">
                                                             <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                                 {index + 1 + currentPage * 10}
                                                             </td>
                                                             <td className="whitespace-nowrap px-6 py-4">
                                                                 {member.username}
                                                             </td>
-                                                            <td className="whitespace-nowrap px-6 py-4">{member.created_by === member.user_id ? "팀장" : "팀원"}</td>
+                                                            <td className="whitespace-nowrap px-6 py-4">{member.createdBy === member.userId ? "팀장" : "팀원"}</td>
                                                             <td>
-                                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.study_room_id, member.user_id)}>
+                                                                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs w-20 rounded" onClick={() => updateRole(member.studyId, member.userId)}>
                                                                     역할변경
                                                                 </button>
                                                             </td>
                                                         </tr>
                                                     ))
-                                                ):(
+                                                ) : (
                                                     <tr>
                                                         <td colSpan="4" className="text-center py-4">
                                                             해당 스터디에 가입된 멤버가 존재하지 않습니다.

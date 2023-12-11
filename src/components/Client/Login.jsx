@@ -59,7 +59,7 @@ export default function Login() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            src="/Recode-logo.png"
             alt="Recode-logo"
             border="0"
           />
