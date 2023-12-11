@@ -56,7 +56,7 @@ const ApplyStatus = () => {
             });
             setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
             console.log("유저정보", application);
-            console.log("에세이 조회 성공", response.data)
+            console.log("에세이 조회 성공", response.data);
 
         } catch (error) {
             console.error("에세이를 가져오는 중 오류 발생:", error);
