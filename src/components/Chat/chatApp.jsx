@@ -1,31 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const ChatApp = () => {
-  const [username, setUsername] = useState(prompt("아이디를 입력하세요"));
-  const [roomNum, setRoomNum] = useState(prompt("채팅 방 번호를 입력하세요"));
-  const [messages, setMessages] = useState([]);
+  const {nickname,chatRoomId} = useParams();
+  const [messages, setMessages] = useState([]); // messages 변수를 빈 배열로 초기화
 
   useEffect(() => {
-    const eventSource = new EventSource(`http://localhost:8080/chat/roomNum/${roomNum}`);
+    const eventSource = new EventSource(`http://localhost:8080/chat/roomNum/${chatRoomId}`);
+    
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setMessages(prevMessages => [...prevMessages, data]);
     };
-
+    
     return () => {
-      eventSource.close();
+      eventSource.close(); // WebFlux 연결 해제
     };
-  }, [roomNum]);
+  }, [chatRoomId]);
 
   const addMessage = async () => {
     const msgInput = document.querySelector("#chat-outgoing-msg");
     const chat = {
-      sender: username,
-      roomNum: roomNum,
+      sender: nickname,
+      roomNum: chatRoomId,
       msg: msgInput.value
     };
 
-    await fetch("http://localhost:8080/chat", {
+    await axios.post("http://localhost:8080/chat", {
       method: "post",
       body: JSON.stringify(chat),
       headers: {
@@ -38,7 +40,7 @@ const ChatApp = () => {
 
   return (
     <div>
-      <MessageList messages={messages} username={username} />
+      <MessageList messages={messages} username={nickname} />
       <MessageInput onSendMessage={addMessage} />
     </div>
   );
