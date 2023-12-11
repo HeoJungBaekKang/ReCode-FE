@@ -12,7 +12,6 @@ import { AuthContext } from "../../context/AuthContext";
 export default function Participants() {
 
     const { study_id, member_id } = useParams();
-    const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
 
@@ -40,11 +39,10 @@ export default function Participants() {
     }, [study_id]);
 
     // 멤버 내보내기
-    const handleLeaveStudy = async (userId) => {
+    const handleLeaveStudy = async (member_id) => {
         try {
-            const response = await axios.post(
+            const response = await axios.delete(
                 `http://localhost:8081/api/v1/${study_id}/member/${member_id}`,
-                { userId },
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,10 +50,10 @@ export default function Participants() {
                     }
                 }
             );
-    
+
             // 탈퇴 성공 시 사용자 목록 업데이트
-            setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
-    
+            setUsers(prevUsers => prevUsers.filter(user => user.id !== member_id));
+
             console.log("탈퇴 성공:", response.data);
         } catch (error) {
             console.error("탈퇴 중 오류 발생:", error);
