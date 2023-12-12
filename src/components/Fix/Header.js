@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { Typography } from "@material-tailwind/react";
 
 const Main = () => {
 
@@ -18,7 +19,6 @@ const Main = () => {
     ];
 
     const { authData, setAuthData } = useContext(AuthContext);
-    console.log(authData);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -28,26 +28,46 @@ const Main = () => {
 
         navigate('/');
     };
-    // 탭이 닫힐 때 자동 로그아웃이 되도록
+
+    const [timeLeft, setTimeLeft] = useState(60 * 60);
+
+    // 타이머 업데이트 함수
+    const updateTimer = () => {
+        setTimeLeft((prevTime) => {
+            if (prevTime <= 0) {
+                handleLogout(); // 시간이 다 되면 로그아웃
+                return 0;
+            }
+            return prevTime - 1;
+        });
+    };
+
+    // 타이머 설정
     useEffect(() => {
-        let timer;
-        const resetTimer = () => {
-            clearTimeout(timer);
-            timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
-        };
+        const timer = setInterval(updateTimer, 1000);
 
-        window.addEventListener('load', resetTimer);
-        document.addEventListener('mousemove', resetTimer);
-        document.addEventListener('keypress', resetTimer);
-
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener('load', resetTimer);
-            document.removeEventListener('mousemove', resetTimer);
-            document.removeEventListener('keypress', resetTimer);
-        };
+        return () => clearInterval(timer);
     }, []);
 
+    // 시간 포맷팅 함수
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    useEffect(() => {
+        const handleUnload = (event) => {
+            // 탭이 닫힐 때만 로그아웃 처리
+            handleLogout();
+        };
+    
+        window.addEventListener('unload', handleUnload);
+    
+        return () => {
+            window.removeEventListener('unload', handleUnload);
+        };
+    }, []);
 
     return (
         <>
@@ -63,7 +83,10 @@ const Main = () => {
                                 authData.token != null ? (
                                     <>
                                         <div className="flex items-center mr-5 whitespace-nowrap w-auto">
-                                            {authData.nickname} 님 환영합니다.
+                                            <span className="flex items-center mr-2 whitespace-nowrap w-auto text-green-500 font-bold">
+                                            ({formatTime(timeLeft)} 남음) {authData.nickname}
+                                            </span>{" "}
+                                            <span className="text-black-500 font-bold">님 환영합니다.</span>
                                         </div>
                                         <button onClick={handleLogout} className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ml- 5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
                                             Log out
