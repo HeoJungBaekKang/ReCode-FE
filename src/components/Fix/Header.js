@@ -11,7 +11,7 @@ const Main = () => {
     };
 
     const menuItems = [
-        { label: "알림", path: "#" },
+        { label: "알림", path: "/notification" },
         { label: "채팅", path: "#" },
         { label: "QnA", path: "/qna" },
         { label: "스터디 목록", path: "/" }
@@ -54,8 +54,8 @@ const Main = () => {
             <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
                 <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <a href="/" className="flex items-center">
-                        <img src="/Recode-logo.png" alt="Recode-logo" border="0" className="mr-3 h-6 sm:h-9" />
-                        <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Recode</span>
+                        <img src="/Recode-logo.png" alt="Recode-logo" border="0" className="mr-3 h-6 h-9" />
+                        <img src="/Recode-logo1.png" alt="Recode-logo1" border="0" className="mr-3 h-6 h-9" />
                     </a>
                     <div className="flex items-center lg:order-2">
                         {

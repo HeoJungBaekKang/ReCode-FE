@@ -137,12 +137,10 @@ const Main = () => {
             studies={studies} // 스터디 데이터 전달
             setFilteredStudies={setFilteredStudies}
           />
-
           <StudyList
             filteredStudies={filteredStudies.length > 0 ? filteredStudies : studies}
             selectedSkills={selectedSkills}
           />
-
         </Layout>
       </div>
       <Footer />
