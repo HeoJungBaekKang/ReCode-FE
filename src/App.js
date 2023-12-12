@@ -45,6 +45,7 @@ import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/naverbook" element={<NaverBook />} />
+            <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
           </Routes>
         </div>

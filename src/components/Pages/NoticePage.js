@@ -33,23 +33,24 @@ export default function NoticePage() {
     try {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
       setDisplayList(response.data); // 가져온 데이터를 상태에 설정
-      console.log(" 훈호님 바보 : ", response.data);
-
+      
+      console.log(response.data);
     } catch (error) {
       console.log("목록 불러오기 실패", error);
     }
   }
 
-
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchType, searchTerm) => {
-
     console.log("허찬 바보 : ", searchType, searchTerm);
-      const response = await handleSearchKeyword(searchType, searchTerm, setResults);  
-      console.log(" response 백승주 바보 : ", response.data);
-      setDisplayList(response.data);
-      console.log("강민희 바보 :", displayList);
-
+    const response = await handleSearchKeyword(
+      searchType,
+      searchTerm,
+      setResults
+    );
+    console.log(" response 백승주 바보 : ", response.data);
+    setDisplayList(response.data);
+    console.log("강민희 바보 :", displayList);
   };
 
   useEffect(() => {
@@ -81,27 +82,25 @@ export default function NoticePage() {
                     <table className="min-w-full text-left text-sm font-light">
                       <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
-                          <th scope="col" className="px-6 py-4">
+                          <th className="whitespace-nowrap px-6 py-4 font-medium">
                             글번호
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th className="whitespace-nowrap px-6 py-4 font-medium">
                             제목
                           </th>
-
-                          <th scope="col" className="px-6 py-4">
+                          <th className="whitespace-nowrap px-6 py-4">
                             작성자
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th className="whitespace-nowrap px-6 py-4">
                             작성일
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {displayList.length > 0 ? (
-                        chunkedPosts &&
+                          chunkedPosts &&
                           chunkedPosts[currentPage] &&
                           chunkedPosts[currentPage].map((notice, index) => (
-                          
                             <tr
                               onClick={() => handleRowClick(notice.id)}
                               key={notice.id}
@@ -123,12 +122,11 @@ export default function NoticePage() {
                               </td>
                             </tr>
                           ))
-                        ):(
+                        ) : (
                           <tr>
                             <td colSpan="4">목록이 없습니다.</td>
                           </tr>
                         )}
-                      
                       </tbody>
                     </table>
                   </div>
@@ -205,7 +203,6 @@ export default function NoticePage() {
 }
 
 function chunk(array, size) {
-
   const chunked_arr = [];
   let copied = [...array];
   while (copied.length > 0) {
@@ -213,4 +210,3 @@ function chunk(array, size) {
   }
   return chunked_arr;
 }
-
