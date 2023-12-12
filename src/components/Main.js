@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { useNavigate, useHistory } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Slider from "react-slick";
 import "./Main.css";
@@ -12,6 +12,7 @@ import SkillFilter from "./Main/SkillFilter";
 import { getStudies, handleSearchKeyword } from "../services/FilterService";
 
 const Main = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { authData } = useContext(AuthContext);
   const [studies, setStudies] = useState([]); // 전체 스터디 목록
   const [filteredStudies, setFilteredStudies] = useState([]); // 필터링된 스터디 목록
@@ -60,17 +61,18 @@ const Main = () => {
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
 
-    // // 스터디 생성 버튼을 눌렀을 때 처리
-    // const handleCreateStudy = () => {
-    //   if (isLoggedIn) {
-    //     // 로그인 상태인 경우 페이지로 이동
-    //     history.push("/client/recruitment");
-    //   } else {
-    //     // 로그인 상태가 아닌 경우 로그인 페이지로 이동 또는 모달 표시 등의 작업 수행
-    //     alert("로그인이 필요합니다.");
-    //     // 또는 로그인 페이지로 이동: history.push("/login");
-    //   }
-    // };
+    // 스터디 생성 버튼을 눌렀을 때 처리
+    const handleCreateStudy = () => {
+      if (isLoggedIn) {
+        // 로그인 상태인 경우 페이지로 이동
+       navigate("/client/recruitment");
+      } else {
+        // 로그인 상태가 아닌 경우 로그인 페이지로 이동 또는 모달 표시 등의 작업 수행
+        alert("로그인이 필요합니다.");
+        navigate("/login");
+        // 또는 로그인 페이지로 이동: history.push("/login");
+      }
+    };
   
 
   const handleNaverBookClick = () => {
@@ -142,7 +144,8 @@ const Main = () => {
               {/* 스터디 생성 버튼 */}
               <div className="col-start-6">
                 <button
-                  onClick={() => navigate("/client/recruitment")}
+                  // onClick={() => navigate("/client/recruitment")}
+                  onClick={handleCreateStudy}
                   className="col-start-6 mt-4 p-2 bg-blue-500 text-white rounded-md"
                 >
                   <h1>스터디 생성</h1>
