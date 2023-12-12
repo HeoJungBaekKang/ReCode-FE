@@ -132,3 +132,16 @@ export async function getPosition() {
   }
 }
 
+// 검색
+export const handleSearchKeyword = async (searchTerm) => {
+  try {
+      const response = await axios.get(`http://localhost:8081/api/main/list`, { params: { keyword: searchTerm } });
+      // setResults(response.data);
+      console.log("제발 오세요 ",searchTerm);
+      console.log("response.data 이건 서비스에 도착  :" , response.data);
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching search results', error);
+  }
+};
+

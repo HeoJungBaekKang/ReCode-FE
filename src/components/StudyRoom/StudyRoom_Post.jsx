@@ -79,13 +79,14 @@ export default function Post() {
                         </label>
                         <select
                             id="category"
-                            value={newPost.category || ''}
+                            value={newPost.category}
                             onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
                             className="w-13 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                         >
-                            <option value="1">Java</option>
-                            <option value="2">SpringBoot</option>
-                            <option value="3">Python</option>
+                            <option value="">선택하세요</option>
+                            <option value="1">공지사항</option>
+                            <option value="2">회고록</option>
+                            <option value="3">자료 공유</option>
                             {/* 다른 카테고리 옵션들 추가 */}
                         </select>
                     </div>
