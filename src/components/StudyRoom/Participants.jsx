@@ -1,26 +1,71 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from "../../context/AuthContext";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
 import { UserMinusIcon } from "@heroicons/react/24/outline";
-import { useParams, Link } from "react-router-dom";
 import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
-import axios from "axios";
+import axios from 'axios';
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Participants() {
 
     const navigate = useNavigate();
 
+    const { study_id, member_id } = useParams();
     const { authData } = useContext(AuthContext);
-    const { study_id } = useParams();
+    const [users, setUsers] = useState([]);
 
     const [info, setInfo] = useState({
         username: "",
         masterNickname: ""
     })
+
+    // 사용자 데이터 가져오기
+    useEffect(() => {
+
+        const fetchData = async () => {
+            console.log("유저정보", users);
+            try {
+                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/memberlist`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                });
+                console.log("스터디룸 인원 목록을 가져오는데 성공:", response.data);
+                setUsers(response.data.data);
+
+            } catch (error) {
+                console.error("신청 정보를 가져오는 중 오류 발생:", error);
+            }
+        };
+
+        fetchData();
+    }, [study_id]);
+
+    // 멤버 내보내기
+    const handleLeaveStudy = async (member_id) => {
+        try {
+            const response = await axios.delete(
+                `http://localhost:8081/api/v1/${study_id}/member/${member_id}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                }
+            );
+
+            // 탈퇴 성공 시 사용자 목록 업데이트
+            setUsers(prevUsers => prevUsers.filter(user => user.id !== member_id));
+
+            console.log("탈퇴 성공:", response.data);
+        } catch (error) {
+            console.error("탈퇴 중 오류 발생:", error);
+        }
+    };
 
     const checkMaster = async () => {
         try {
@@ -47,10 +92,6 @@ export default function Participants() {
         }
     };
 
-    const handleUserClick = () => {
-        navigate("/studyroom/estimate");
-    }
-
     useEffect(() => {
         if (study_id) {
             console.log("Study Room ID: ", study_id);
@@ -59,6 +100,7 @@ export default function Participants() {
             console.log("Study Room ID Not found");
         }
     }, [study_id])
+
 
     return (
         <>
@@ -91,24 +133,23 @@ export default function Participants() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr
-                                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                            <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                            <button onClick={handleUserClick}
-                                                className="whitespace-nowrap px-6 py-6"
+                                        {users.map((user, index) => (
+                                            <tr
+                                                key={user.id}
+                                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                             >
-                                                Jacob
-                                            </button>
-                                            <td className="whitespace-nowrap px-6 py-4">
-                                                {authData.username === info.username && (
-                                                    <Tooltip content="Out User">
-                                                        <IconButton variant="text">
+                                                <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                                                <td
+                                                    className="whitespace-nowrap px-6 py-4">{user.nickname}</td>
+                                                <td className="whitespace-nowrap px-6 py-4">
+                                                    <Tooltip content="내보내기">
+                                                        <IconButton variant="text" onClick={() => handleLeaveStudy(user.id)}>
                                                             <UserMinusIcon className="h-4 w-4 " />
                                                         </IconButton>
                                                     </Tooltip>
-                                                )}
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>

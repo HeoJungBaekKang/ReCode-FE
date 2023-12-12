@@ -78,7 +78,7 @@ function App() {
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
-            <Route path="/studyroom/participants/:study_id" element={<Participants />} />
+            <Route path="/studyroom/:study_id/participants" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
             <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
@@ -89,7 +89,7 @@ function App() {
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />
             <Route path="/qna/post" element={<QnaPost />} />
-            <Route path="/admin/leaderPermission/:study_id" element={<UserList/>} />
+            <Route path="/admin/leaderPermission/:study_id" element={<UserList />} />
             <Route path="/admin/modifyskill" element={<ModifySkill />} />
             <Route path="/notice" element={<NoticePage />} />
             <Route path="/notice/create" element={<NoticeForm />} />
@@ -101,7 +101,7 @@ function App() {
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/naverbook" element={<NaverBook />} />
-            <Route path="/studyroom/estimate" element={<Estimate />} />
+            <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
           </Routes>
         </div>
       </AuthProvider>
