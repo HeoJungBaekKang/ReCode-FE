@@ -45,6 +45,7 @@ import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import Estimate from "./components/StudyRoom/EstimateMember";
 
 function App() {
 
@@ -77,7 +78,7 @@ function App() {
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
             <Route path="/studyroom/attendance" element={<Attendance />} />
-            <Route path="/studyroom/participants" element={<Participants />} />
+            <Route path="/studyroom/participants/:study_id" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
             <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
@@ -100,6 +101,7 @@ function App() {
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/naverbook" element={<NaverBook />} />
+            <Route path="/studyroom/estimate" element={<Estimate />} />
           </Routes>
         </div>
       </AuthProvider>

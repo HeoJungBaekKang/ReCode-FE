@@ -24,6 +24,12 @@ const StudyRoomNotLogin = () => {
     attendanceDay: [],
     createdAt: "",
     updatedAt: "",
+    userId: "",
+  });
+
+  const [badge, setBadge] = useState({
+    userId: detail.userId,
+    name: ""
   });
   const handleGet = async () => {
     try {
@@ -120,9 +126,40 @@ const StudyRoomNotLogin = () => {
     }
   };
 
+  const handleGetBadge = async () => {
+    const userId = detail.userId;
+    if (!userId) {
+      console.log("작성자 아이디 안 불러와졌다.");
+      return;
+    }
+    
+    try {
+      const response = await axios.get(`http://localhost:8081/api/get-badge/${userId}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Badge information fetched successfully: ", response.data);
+      if (response.data && response.data.code === 1) {
+        setBadge(response.data.data);
+      } else {
+        console.log("Failed to fetch badge information: ", response.data.msg);
+      }
+    } catch (error) {
+      console.error("Error fetching badge information: ", error);
+    }
+  };
+  
+
   useEffect(() => {
     handleGet();
   }, []);
+
+  useEffect(() => {
+    if (detail.userId) {
+      handleGetBadge();
+    }
+  }, [detail.userId]);
 
   return (
     <>
@@ -146,7 +183,7 @@ const StudyRoomNotLogin = () => {
               </div>
             </div>
             <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-              <span className="mr-4">{detail.master}</span>
+              <span className="mr-4">{badge.name}{detail.master}</span>
               <span className="mr-4">{detail.createdAt}</span>
             </div>
             <hr className="my-10 h-1 border-t-0 bg-neutral-200 opacity-100 dark:opacity-50" />

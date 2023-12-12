@@ -1,15 +1,64 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../context/AuthContext";
 import { UserMinusIcon } from "@heroicons/react/24/outline";
+import { useParams, Link } from "react-router-dom";
 import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
+import axios from "axios";
 
 export default function Participants() {
 
     const navigate = useNavigate();
+
+    const { authData } = useContext(AuthContext);
+    const { study_id } = useParams();
+
+    const [info, setInfo] = useState({
+        username: "",
+        masterNickname: ""
+    })
+
+    const checkMaster = async () => {
+        try {
+            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/check-master`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("해당 스터디의 조장입니다 : ", response.data.data);
+                        setInfo({ ...info, username: response.data.data.username });
+                    } else {
+                        console.log("해당 스터디의 조장이 아닙니다 :", response.data);
+                    }
+                });
+        } catch (error) {
+            console.log("스터디 조장인지 체크 중 오류 발생 :", error.response);
+        }
+    };
+
+    const handleUserClick = () => {
+        navigate("/studyroom/estimate");
+    }
+
+    useEffect(() => {
+        if (study_id) {
+            console.log("Study Room ID: ", study_id);
+            checkMaster();
+        } else {
+            console.log("Study Room ID Not found");
+        }
+    }, [study_id])
 
     return (
         <>
@@ -44,38 +93,20 @@ export default function Participants() {
                                     <tbody>
                                         <tr
                                             className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                            <td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-                                            <td className="whitespace-nowrap px-6 py-4">Mark</td>
-                                            <td className="whitespace-nowrap px-6 py-4">
-                                                <Tooltip content="Out User">
-                                                    <IconButton variant="text">
-                                                        <UserMinusIcon className="h-4 w-4 " />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </td>
-                                        </tr>
-                                        <tr
-                                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
                                             <td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-                                            <td className="whitespace-nowrap px-6 py-4">Jacob</td>
+                                            <button onClick={handleUserClick}
+                                                className="whitespace-nowrap px-6 py-6"
+                                            >
+                                                Jacob
+                                            </button>
                                             <td className="whitespace-nowrap px-6 py-4">
-                                                <Tooltip content="Out User">
-                                                    <IconButton variant="text">
-                                                        <UserMinusIcon className="h-4 w-4 " />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </td>
-                                        </tr>
-                                        <tr
-                                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                            <td className="whitespace-nowrap px-6 py-4 font-medium">3</td>
-                                            <td className="whitespace-nowrap px-6 py-4">Larry</td>
-                                            <td className="whitespace-nowrap px-6 py-4">
-                                                <Tooltip content="Out User">
-                                                    <IconButton variant="text">
-                                                        <UserMinusIcon className="h-4 w-4 " />
-                                                    </IconButton>
-                                                </Tooltip>
+                                                {authData.username === info.username && (
+                                                    <Tooltip content="Out User">
+                                                        <IconButton variant="text">
+                                                            <UserMinusIcon className="h-4 w-4 " />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                )}
                                             </td>
                                         </tr>
                                     </tbody>
