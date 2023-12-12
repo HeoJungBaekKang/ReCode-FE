@@ -161,11 +161,14 @@ const PostDetail = () => {
 
     // 댓글 수정
     const [editingComment, setEditingComment] = useState(null);
+    // 댓글 수정 중인지 여부를 나타내는 상태 추가
+    const [isEditing, setIsEditing] = useState(false);
 
 
     const handleEditComment = (comment) => {
         // 댓글의 id만을 editingComment 상태에 저장
         setEditingComment(comment.id);
+        setIsEditing(true);
     };
 
     const handleEditingCommentChange = (e, comment) => {
@@ -244,6 +247,22 @@ const PostDetail = () => {
         }
     };
 
+    const handleCancelEdit = (comment) => {
+        console.log("취소 전 상태", comments);
+
+        setComments((prevComments) =>
+            prevComments.map((c) =>
+                c.id === comment.id ? { ...c, content: comment.content } : c
+            )
+        );
+
+        console.log("취소 후 상태", comments);
+
+        // 수정 상태를 초기화합니다.
+        setEditingComment(null);
+        setIsEditing(false);
+    };
+
 
     return (
         <div>
@@ -311,8 +330,9 @@ const PostDetail = () => {
                                                     rows="2"
                                                     style={{ resize: "none" }}
                                                 ></textarea>
-                                                <div className="ml-4">
-                                                    <button onClick={() => handleUpdateComment(comment)} className="mt-2 px-0 py-0 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">저장</button>
+                                                <div className="flex items-right ml-auto">
+                                                    <button onClick={() => handleUpdateComment(comment)} className="ml-2 px-0 py-0 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">저장</button>
+                                                    <button onClick={() => handleCancelEdit(comment)} className="ml-2 mx-2 px-0 py-0 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">취소</button>
                                                 </div>
                                             </div>
                                         )}

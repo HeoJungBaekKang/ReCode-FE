@@ -3,7 +3,6 @@ import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
-import Essay from "../Mypage/Essay";
 
 const ApplyStatus = () => {
 
@@ -11,7 +10,12 @@ const ApplyStatus = () => {
     const { authData } = useContext(AuthContext);
     const [applications, setApplications] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState("");
+    const [selectedUser, setSelectedUser] = useState({
+        userId: "",
+        username: "",
+        email: "",
+        essay: ""
+    });
 
     useEffect(() => {
 
@@ -23,7 +27,7 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("API 응답:", response.data);
+                console.log("신청 정보를 가져오는데 성공:", response.data);
                 setApplications(response.data.data);
 
             } catch (error) {
@@ -35,19 +39,24 @@ const ApplyStatus = () => {
     }, [study_id]);
 
 
-    const handleUserNameClick = async (user) => {
-        console.log("user_id", user.user_id);
-        setSelectedUser(user);
+    const handleUserNameClick = async (application) => {
+        setSelectedUser({
+            userId: application.userId,
+            username: application.username,
+            email: application.email,
+        });
         setModalOpen(true);
 
         try {
-            const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${user.user_id}`, {
+            const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${application.userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
                 }
             });
-            setSelectedUser(response.data.data);
+            setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
+            console.log("유저정보", application);
+            console.log("에세이 조회 성공", response.data);
 
         } catch (error) {
             console.error("에세이를 가져오는 중 오류 발생:", error);
@@ -59,27 +68,83 @@ const ApplyStatus = () => {
         setSelectedUser("");
     };
 
-    // 승인 / 거절 버튼
-    const handleApproval = async (user, isApproved) => {
+    // 승인
+    const handleApproval = async () => {
+
+        console.log("버튼 클릭", selectedUser);
         try {
-            
-            const response = await axios.post(
-                `http://localhost:8081/api/v1/study-member/${study_id}/${user.user_id}`,
-                { isApproved },
+
+            const response = await axios.post(`http://localhost:8081/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
+                status: "Approved"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+            setSelectedUser(response.data.data);
+            console.log("승인 성공", response.data);
+            handleCloseModal();
+
+            // 승인 후에 신청 목록 다시 불러오기
+            try {
+                const fetchResponse = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                });
+                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
+                setApplications(fetchResponse.data.data);
+
+            } catch (error) {
+                console.error("신청 정보를 가져오는 중 오류 발생:", error);
+            }
+
+        } catch (error) {
+            console.error("가입 승인 또는 거절 중 오류 발생:", error);
+        }
+    };
+
+    // 거절
+    const handleRejection = async () => {
+        try {
+            const response = await axios.post(`http://localhost:8081/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
+                status: "Rejected"
+            },
                 {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
                     }
-                }
-            );
-    
-            console.log(response.data);
+                });
+            setSelectedUser(response.data.data);
+            console.log("거절 성공", response.data);
             handleCloseModal();
+
+            // 거절된 사용자를 신청 목록에서 제거
+            setApplications(applications.filter(app => app.userId !== selectedUser.userId));
+
+            // 거절 후에 신청 목록 다시 불러오기
+            try {
+                const fetchResponse = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`
+                    }
+                });
+                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
+                setApplications(fetchResponse.data.data);
+
+            } catch (error) {
+                console.error("신청 정보를 가져오는 중 오류 발생:", error);
+            }
+
         } catch (error) {
-            console.error("가입 승인 또는 거절 중 오류 발생:", error);
+            console.error("가입 거절 중 오류 발생:", error);
         }
     };
+
 
     return (
         <>
@@ -168,7 +233,7 @@ const ApplyStatus = () => {
                 </div>
             </div >
 
-            {/* 모달 폼 */}
+            {/* Modal Form */}
             {modalOpen && selectedUser && (
                 <div className="modal-overlay ml-80 mr-80">
                     <div className="modal-content">
@@ -181,13 +246,13 @@ const ApplyStatus = () => {
                         <div className="mt-4">
                             <button
                                 className="bg-green-500 text-white px-4 py-2 mr-2"
-                                onClick={() => handleApproval(selectedUser.user_id, true)}
+                                onClick={() => handleApproval(selectedUser)}
                             >
                                 승인
                             </button>
                             <button
                                 className="bg-red-500 text-white px-4 py-2"
-                                onClick={() => handleApproval(selectedUser.user_id, false)}
+                                onClick={() => handleRejection(selectedUser)}
                             >
                                 거절
                             </button>
