@@ -9,7 +9,7 @@ import {
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchQnaList } from "../../services/QnaService";
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 
 export default function Qna() {
@@ -17,23 +17,21 @@ export default function Qna() {
     const [qnaList, setQnaList] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
 
+    //Qna 목록 조회
     async function fetchData() {
-
         try {
             const response = await fetchQnaList();
-            // console.log("data안에는 무엇이 있나요", response.data);
-            setQnaList(response.data); // 가져온 데이터를 상태에 설정
-
-
+            // console.log(response.data);
+            setQnaList(response.data);
+            console.log(response.data);
         } catch (error) {
-            console.log("목록 불러오기 실패", error);
-
         }
     }
     useEffect(() => {
         fetchData();
     }, []);
 
+    //Qna 단일 조회 핸들러
     const handleRowClick = (qnaId) => {
         navigate(`/qna/${qnaId}`);
     }
@@ -67,25 +65,27 @@ export default function Qna() {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {qnaList.map((qna) => (<tr
-                                                        onClick={() => handleRowClick(qna.id)}
-                                                        key={[qna.id, qna.userId]}
-                                                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                                                    >
-                                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                            {qna.id}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.title}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.userId.nickname}
-                                                            {/* {console.log(qna.userId.nickname)} */}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
-                                                        </td>
-                                                    </tr>
+                                                    {qnaList.map((qna, index) => (
+                                                        <tr
+                                                            onClick={() => handleRowClick(qna.id)}
+                                                            key={[qna.id, index]}
+                                                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                                                        >
+                                                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                                {index+1}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {qna.title}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {qna.nickname}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {/* {qna.createdAt} */}
+                                                                {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
+                                                                {/* {format(parseISO(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
@@ -138,11 +138,13 @@ export default function Qna() {
                                     </div>
                                     <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="검색어를 입력해주세요." />
                                 </div>
+
                                 <Link to={"/qna/post"}>
                                     <button className="text-gray-900 bg-white border border-gray-300 border-5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm w-20 px-3 py-2.5 me-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                                         글 작성
                                     </button>
                                 </Link>
+
                             </div>
                         </div>
                     </div>
