@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MultiSelect from "../Study/MultiSelect";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function StudyModify() {
+
+    const { study_id } = useParams();
 
     const navigate = useNavigate();
 
