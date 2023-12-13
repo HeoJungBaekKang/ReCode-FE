@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
@@ -27,7 +27,6 @@ export default function Login() {
         const { id, username, nickname, role, createdAt } = data; // role 추가 : minhee 
         const token = response.headers.authorization;
         const newAuthData = { id, username, nickname, role, createdAt, token };
-        console.log(newAuthData);
         setAuthData(newAuthData);
         localStorage.setItem("token", token);
         localStorage.setItem("authData", JSON.stringify(newAuthData)); // authData를 로컬 스토리지에 저장

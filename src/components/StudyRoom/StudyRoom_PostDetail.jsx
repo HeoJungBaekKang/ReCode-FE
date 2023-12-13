@@ -24,14 +24,12 @@ const PostDetail = () => {
 
     // 수정 버튼 클릭 시의 동작
     const handleEdit = () => {
-        // 수정 버튼을 눌렀을 때의 동작 추가
-        console.log("수정 버튼 클릭:", postId);
+
     };
 
     // 삭제 버튼 클릭 시의 동작
     const handleDelete = () => {
-        // 삭제 버튼을 눌렀을 때의 동작 추가
-        console.log("삭제 버튼 클릭:", postId);
+
     };
 
 
@@ -127,7 +125,7 @@ const PostDetail = () => {
                     </div>
 
 
-                  
+
                 </div>
             </div>
         </div>

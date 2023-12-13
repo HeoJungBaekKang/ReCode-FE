@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import AdminSidebar from "./AdminSidebar";
-import Pagination from "../Fix/Pagination";
 import { AuthContext } from "../../context/AuthContext";
 import {
     Card,
@@ -157,7 +156,7 @@ export default function UserList() {
                                                             </td>
                                                         </tr>
                                                     ))
-                                                ):(
+                                                ) : (
                                                     <tr>
                                                         <td colSpan="4" className="text-center py-4">
                                                             해당 스터디에 가입된 멤버가 존재하지 않습니다.

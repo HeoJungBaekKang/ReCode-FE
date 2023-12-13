@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -47,7 +47,6 @@ const modalPosition = {
 export default function Withdraw() {
     const navigate = useNavigate();
     const { authData, setAuthData } = useContext(AuthContext);
-    console.log(authData);
 
     const handleWithdraw = async (event) => {
         try {
@@ -58,7 +57,6 @@ export default function Withdraw() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 

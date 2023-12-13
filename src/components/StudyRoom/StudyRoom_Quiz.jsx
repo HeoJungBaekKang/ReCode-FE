@@ -42,7 +42,6 @@ const Quiz = () => {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 
@@ -60,7 +59,6 @@ const Quiz = () => {
     }
 
     useEffect(() => {
-        console.log("Study Room ID:", study_id);
         handleGet();
     }, [study_id, authData, keyword])
 
@@ -83,17 +81,14 @@ const Quiz = () => {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
-                    console.log(response.data.quiz);
-
                     const code = response.data.code;
 
-                    console.log("퀴즈 전송 중 : ", quiz);
+                    console.log("퀴즈 전송 중");
 
                     setQuiz({ quiz: response.data.data.quiz || '' });
 
                     if (code === 1) {
-                        console.log("퀴즈 등록 성공", response.data);
+                        console.log("퀴즈 등록 성공");
 
                         closeModal();
                         handleGet();
@@ -102,7 +97,7 @@ const Quiz = () => {
                     }
                 });
         } catch (error) {
-            console.log("퀴즈 등록 중 오류 발생 : ", error.response || error);
+            console.log("퀴즈 등록 중 오류 발생 : " + error);
         }
     };
 
@@ -123,15 +118,14 @@ const Quiz = () => {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("퀴즈 상세보기 성공 : ", response.data.data);
+                        console.log("퀴즈 상세보기 성공");
                         setQuiz(response.data.data);
                     } else {
-                        console.log("퀴즈 상세보기 실패 :", response);
+                        console.log("퀴즈 상세보기 실패");
                     }
                 });
         } catch (error) {
@@ -158,17 +152,15 @@ const Quiz = () => {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
-
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("퀴즈 수정 성공 : ", quiz);
+                        console.log("퀴즈 수정 성공");
 
                         closeDetailModal();
                         handleGet();
                     } else {
-                        console.log("퀴즈 수정 실패 :", response);
+                        console.log("퀴즈 수정 실패");
                     }
                 });
         } catch (error) {
@@ -196,7 +188,7 @@ const Quiz = () => {
 
                         closeDetailModal();
                     } else {
-                        console.log("퀴즈 삭제 실패 :", response);
+                        console.log("퀴즈 삭제 실패");
                     }
                 });
         } catch (error) {
@@ -221,7 +213,7 @@ const Quiz = () => {
                     <button onClick={openModal} className="bg-transparent text-black w-20 p-2 rounded hover:bg-transparent">
                         글 작성
                     </button>
-                <SearchBox keyword={keyword} setKeyword={setKeyword} />
+                    <SearchBox keyword={keyword} setKeyword={setKeyword} />
                 </div>
                 <div className='ml-5 mt-5'>
                     <div className="relative flex-grow overflow-x-auto shadow-md sm:rounded-lg ml-5 mr-5">

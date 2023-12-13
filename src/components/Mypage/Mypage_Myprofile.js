@@ -40,7 +40,6 @@ export default function Mypage_Myprofile() {
 
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    console.log(authData);
 
     const [info, setInfo] = useState({
         username: "",
@@ -57,7 +56,6 @@ export default function Mypage_Myprofile() {
                 }
             })
                 .then(response => {
-                    console.log(response.data); // code, msg, data
 
                     const code = response.data.code;
 

@@ -36,7 +36,7 @@ export default function Dropdowns() {
                     'block px-4 py-2 text-sm'
                   )}
                 >
-                 최신순
+                  최신순
                 </a>
               )}
             </Menu.Item>

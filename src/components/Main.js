@@ -20,11 +20,11 @@ const Main = () => {
   useEffect(() => {
     // 초기에 전체 스터디 목록을 로드
     const getSkillNameByPosition = async () => {
-      console.log(authData);
+  
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
-    
+
     };
     getSkillNameByPosition();
   }, []);
@@ -44,7 +44,7 @@ const Main = () => {
     infinite: true,
     autoplay: true,
     speed: 1000,
-    autoplaySpeed:5000,
+    autoplaySpeed: 5000,
     slidesToShow: 1,
     slidesToScroll: 1,
     className: "theClass",
@@ -125,10 +125,10 @@ const Main = () => {
           />
 
           <StudyList
-            filteredStudies={filteredStudies.length >  0 ? filteredStudies : studies}
+            filteredStudies={filteredStudies.length > 0 ? filteredStudies : studies}
             selectedSkills={selectedSkills}
           />
-         
+
         </Layout>
       </div>
       <Footer />

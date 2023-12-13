@@ -35,7 +35,6 @@ export default function Board() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setPost(response.data.data || []);
 
@@ -49,10 +48,9 @@ export default function Board() {
                 });
         } catch (error) {
             console.error("게시글 목록 조회 중 오류 발생 : ", error);
-            console.log(error.response);
         }
     }
-    
+
     const handleCategoryChange = (category) => {
         setCurrentCategory(category || '카테고리');
         let categoryNumber;

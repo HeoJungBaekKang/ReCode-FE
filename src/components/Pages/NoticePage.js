@@ -33,8 +33,7 @@ export default function NoticePage() {
   async function fetchData() {
     try {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
-      // const responseData = await response.json();
-      console.log("data안에는 무엇이 있나요", response.data);
+
       const notices = response.data.map((notice) => ({
         ...notice,
         content: stripHtml(notice.content),
@@ -159,9 +158,8 @@ export default function NoticePage() {
             </button>
             <div
               id="dropdownAction"
-              className={`absolute z-15 ${
-                isOpen ? "block" : "hidden"
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+              className={`absolute z-15 ${isOpen ? "block" : "hidden"
+                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
               style={{ marginTop: "55px" }}
             >
               <ul
@@ -253,9 +251,8 @@ export default function NoticePage() {
                 <button
                   disabled={currentPage === 0}
                   onClick={() => setCurrentPage(currentPage - 1)}
-                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                    currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
-                  } transition-all duration-300 dark:text-neutral-400`}
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
+                    } transition-all duration-300 dark:text-neutral-400`}
                 >
                   Previous
                 </button>
@@ -264,11 +261,10 @@ export default function NoticePage() {
                 <li key={`page-button-${index}`}>
                   <button
                     onClick={() => setCurrentPage(index)}
-                    className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${
-                      index === currentPage
+                    className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${index === currentPage
                         ? "bg-gray-300 text-neutral-600"
                         : "bg-gray-100 text-neutral-600"
-                    } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
+                      } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
                   >
                     {index + 1}
                   </button>
@@ -278,11 +274,10 @@ export default function NoticePage() {
                 <button
                   disabled={currentPage === chunkedPosts.length - 1}
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                    currentPage === chunkedPosts.length - 1
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
                       ? "text-neutral-600"
                       : "text-neutral-600"
-                  } transition-all duration-300 dark:text-neutral-400`}
+                    } transition-all duration-300 dark:text-neutral-400`}
                 >
                   Next
                 </button>

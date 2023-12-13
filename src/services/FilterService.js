@@ -11,7 +11,7 @@ export async function getSkills() {
 
     const code = response.data.code;
     if (code === 1) {
-      console.log(response.data, "스택 목록 불러오기 성공");
+      console.log("스택 목록 불러오기 성공");
 
       const skillNames = response.data.data.map(skill => skill.skillName);
       return skillNames || [];
@@ -54,17 +54,17 @@ export async function fetchStudyList(authData) {
   try {
     const headers = authData.userId
       ? {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authData.token}`,
-        }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authData.token}`,
+      }
       : {
-          "Content-Type": "application/json",
-        };
+        "Content-Type": "application/json",
+      };
 
     const response = await axios.get(`http://localhost:8081/api/main/list`, {
       headers,
     });
-    console.log("나 호출 됐어요! ", response);
+
     return response.data;
   } catch (error) {
     console.error("스터디 목록 조회 중 오류 : ", error);
@@ -81,10 +81,9 @@ export async function getSkillNameByPosition(position) {
         "Content-Type": "application/json",
       },
     });
-    console.log("왜 안오냐구",response);
     const code = response.data.code;
     if (code === 1) {
-      console.log(response.data, "position에 따른 스택 목록 불러오기 성공");
+      console.log("position에 따른 스택 목록 불러오기 성공");
 
       const skillNames = response.data.data.map(skill => skill.skillName);
       return skillNames || [];
@@ -95,7 +94,7 @@ export async function getSkillNameByPosition(position) {
     }
   } catch (error) {
     console.error("position에 따른 스택 목록 불러오기 중 오류 : ", error);
-    console.log(error.response);
+
     return [];
   }
 }

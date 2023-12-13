@@ -18,7 +18,6 @@ const Main = () => {
     ];
 
     const { authData, setAuthData } = useContext(AuthContext);
-    console.log(authData);
     const navigate = useNavigate();
 
     const handleLogout = () => {

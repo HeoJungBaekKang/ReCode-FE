@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { CreateNotice } from "../../services/NoticeService";
 import MyEditor from "../Editor/MyEditor";
-import { data } from "autoprefixer";
 
 export const NoticeForm = () => {
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ export const NoticeForm = () => {
   const handleEditorDataChange = (newContent) => {
     // 자식 컴포넌트로 부터 받은 값을 상태에 따라 저장하거나 원하는 작업을 수행
     setContent(newContent);
-    console.log("newContent in form : ", newContent);
   };
 
   // 사용자의 권한 확인
@@ -37,7 +35,6 @@ export const NoticeForm = () => {
     try {
       const noticeData = { title, content };
       const createNotice = await CreateNotice(noticeData);
-      console.log("생성된 공지사항 : ", createNotice);
 
       // 성공 후 페이지 리디렉션
       navigate("/notice");

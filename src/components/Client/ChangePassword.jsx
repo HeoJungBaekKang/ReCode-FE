@@ -15,7 +15,6 @@ export default function ChangePassword() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(authData);
 
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
@@ -64,8 +63,6 @@ export default function ChangePassword() {
             payload.emailCheckToken = token;
         }
 
-        console.log("페이로드가 전송됨: ", payload);
-
         // 엔드포인트 설정
         let url = `http://52.79.108.89:8080/api/${authData && authData.token ? 'v1/' : ''}change-password`;
 
@@ -74,9 +71,6 @@ export default function ChangePassword() {
         if (authData && authData.token) {
             headers.Authorization = `Bearer ${authData.token}`;
         }
-        console.log("URL: ", url);
-        console.log("Headers: ", headers);
-        console.log("Payload: ", payload);
 
         // api 호출
         try {
@@ -91,7 +85,7 @@ export default function ChangePassword() {
 
                 navigate('/login'); // 비밀번호 변경이 성공되면 로그인 창으로 이동
             } else {
-                console.log("비밀번호 변경 실패: ", response.data.msg);
+                console.log("비밀번호 변경 실패");
             }
         } catch (error) {
             // 배포할 때는 에러 출력 부분 수정 필요!

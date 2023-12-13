@@ -5,7 +5,6 @@ import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 
 import {
-  getPosition,
   getSkillNameByPosition,
 } from "../../services/FilterService";
 
@@ -24,22 +23,21 @@ export default function StudyRecruitment() {
   };
 
 
-  useEffect(()=> {
+  useEffect(() => {
     const fetchSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log('${position} skill을  불러왔습니다. ',skillByPosition);
       } catch (error) {
         console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
-      
+
       }
     };
-    if(position){
+    if (position) {
       fetchSkillsByPosition(position);
     }
 
-  },[position]);
+  }, [position]);
 
 
   useEffect(() => {
@@ -121,7 +119,6 @@ export default function StudyRecruitment() {
   });
 
   const handleCustomSelectChange = (selectedOptions) => {
-    console.log("selectedOptions 확인 @@ : ", selectedOptions);
     setSelectedSkills(selectedOptions);
   };
 
@@ -137,7 +134,7 @@ export default function StudyRecruitment() {
     try {
       const formattedStartTime = convertToHHMM(
         parseInt(startTime.split(":")[0]) * 60 +
-          parseInt(startTime.split(":")[1])
+        parseInt(startTime.split(":")[1])
       );
       const formattedEndTime = convertToHHMM(
         parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
@@ -156,12 +153,10 @@ export default function StudyRecruitment() {
         // 다른 필드들도 추가해야 함
       };
 
-      console.log("studyRecruitmentData : ", studyRecruitmentData);
-
       const response = await createStudyRecruitment(studyRecruitmentData);
 
       // 성공 처리: response를 이용하여 처리
-      console.log("스터디 모집 글 작성 완료", response);
+      console.log("스터디 모집 글 작성 완료");
 
       navigate("/"); // 목록 페이지 경로로 변경
       // 필요한 리디렉션 또는 다른 동작 수행
@@ -347,7 +342,7 @@ export default function StudyRecruitment() {
             요청바립니다. )
           </div>
         </div>
-        <MultiSelect name="skillNames" onChange={handleCustomSelectChange} selectedPosition={selectedPosition} /> 
+        <MultiSelect name="skillNames" onChange={handleCustomSelectChange} selectedPosition={selectedPosition} />
       </div>
       <div className="sm:col-span-2 mt-2.5">
         <label

@@ -315,10 +315,10 @@ Recode(이하 '회사'라고 함)는 회사가 제공하고자 하는 서비스(
 
     const formattedTerms = termsText.split('\n').map((line, index) => (
         <span key={index}>
-          {line}
-          <br />
+            {line}
+            <br />
         </span>
-      ));
+    ));
 
     const formatteTerms2 = termsTextForNotification.split('\n').map((line, index) => (
         <span key={index}>

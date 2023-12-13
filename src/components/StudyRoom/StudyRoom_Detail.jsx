@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import axios from "axios";
@@ -47,7 +47,6 @@ export default function Detail() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setDetail(response.data.data || {});
 

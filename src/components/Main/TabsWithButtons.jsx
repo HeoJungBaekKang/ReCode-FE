@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
 export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
-  // const [selectedSkills, setSelectedSkills] = useState([]);
   const [skills, setSkills] = useState([]);
 
   // tab -> 전체보기, 백엔드, 프론트 엔드 전달받는 함수
@@ -11,7 +10,6 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
   // 탭 전환
   const handleTabClick = async (tabName) => {
     setActiveTab(tabName);
-    console.log(tabName);
 
     // 포지션에 따른 스킬 불러오기
     if (tabName === "FullStack") {
@@ -21,14 +19,12 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       setSkills(skillByPosition);
 
     } else if (tabName === "Backend") {
-      console.log(tabName);
+
       const skillByPosition = await getSkillNameByPosition("backend");
-      console.log("backend skill 불러왔습니다. ", skillByPosition);
       setSkills(skillByPosition);
     } else if (tabName === "Frontend") {
       const skillByPosition = await getSkillNameByPosition("frontend");
       setSkills(skillByPosition);
-      console.log("frontend skill 불러왔습니다. ", skillByPosition);
     } // 다른 탭에 대해서도 필요한 포지션에 따른 스킬 불러오기 함수 호출 추가
 
     // 이후 탭에 따라서 스킬 목록이 설정될 것입니다.
@@ -38,7 +34,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
     const loadSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
-        console.log("skillByPosition : 출력되나요?", skillByPosition);
+
         setSkills(skillByPosition);
       } catch (error) {
         console.log("position 별 스킬 목록 가져오기 중 오류 : ", error);
@@ -66,31 +62,28 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
         <button
-          className={`px-1 py-1 text-xs ${
-            activeTab === "fullStack"
+          className={`px-1 py-1 text-xs ${activeTab === "fullStack"
               ? "font-bold text-black"
               : "text-black font-normal"
-          } bg-white rounded focus:outline-none hover:bg-gray-200`}
+            } bg-white rounded focus:outline-none hover:bg-gray-200`}
           onClick={() => handleTabClick("FullStack")}
         >
           FullStack
         </button>
         <button
-          className={`px-1 py-1 text-xs ${
-            activeTab === "backend"
+          className={`px-1 py-1 text-xs ${activeTab === "backend"
               ? "font-bold text-black"
               : "text-black font-normal"
-          } bg-white rounded focus:outline-none hover:bg-gray-200`}
+            } bg-white rounded focus:outline-none hover:bg-gray-200`}
           onClick={() => handleTabClick("Backend")}
         >
           Backend
         </button>
         <button
-          className={`px-1 py-1 text-xs ${
-            activeTab === "frontend"
+          className={`px-1 py-1 text-xs ${activeTab === "frontend"
               ? "font-bold text-black"
               : "text-black font-normal"
-          } bg-white rounded focus:outline-none hover:bg-gray-200`}
+            } bg-white rounded focus:outline-none hover:bg-gray-200`}
           onClick={() => handleTabClick("Frontend")}
         >
           Frontend
@@ -109,11 +102,10 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
                   <button
                     key={index}
                     onClick={() => handleSkillClick(skill)}
-                    className={`text-xs px-2 py-1 ${
-                      isSkillSelected(skill)
+                    className={`text-xs px-2 py-1 ${isSkillSelected(skill)
                         ? "bg-blue-50 text-blue-600 border-solid border-2 border-blue-100"
                         : "bg-white text-gray-800"
-                    } rounded shadow-md focus:outline-none hover:bg-blue-50`}
+                      } rounded shadow-md focus:outline-none hover:bg-blue-50`}
                   >
                     {skill}
                   </button>

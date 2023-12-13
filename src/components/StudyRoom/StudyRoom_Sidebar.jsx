@@ -25,15 +25,13 @@ function Sidebar() {
         }
       })
         .then(response => {
-          console.log(response.data);
-
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("해당 스터디의 조장입니다 : ", response.data.data);
+            console.log("해당 스터디의 조장입니다");
             setInfo({ ...info, username: response.data.data.username });
           } else {
-            console.log("해당 스터디의 조장이 아닙니다 :", response.data);
+            console.log("해당 스터디의 조장이 아닙니다");
           }
         });
     } catch (error) {
@@ -43,7 +41,7 @@ function Sidebar() {
 
   useEffect(() => {
     if (study_id) {
-      console.log("Study Room ID: ", study_id);
+
       checkMaster();
     } else {
       console.log("Study Room ID Not found");

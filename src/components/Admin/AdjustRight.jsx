@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import {
@@ -19,8 +19,6 @@ export default function AdjustRight() {
 
     const handleGet = async () => {
 
-        console.log("Get Method 시작 :", members);
-
         try {
             let url = `http://52.79.108.89:8080/api/v1/study/${study_room_id}/memberlist`;
 
@@ -31,7 +29,6 @@ export default function AdjustRight() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 
@@ -39,7 +36,7 @@ export default function AdjustRight() {
 
                     if (code === 1) {
                         console.log("스터디 멤버 불러오기 성공");
-                        console.log("응답값 :", response.data.data);
+
                     } else {
                         console.log("스터디 멤버 불러오기 실패");
                     }
@@ -73,9 +70,9 @@ export default function AdjustRight() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("권한 조정 성공 :", response.data);
+                        console.log("권한 조정 성공");
                     } else {
-                        console.log("권한 조정 실패 :", response);
+                        console.log("권한 조정 실패");
                     }
                 });
         } catch (error) {
@@ -86,7 +83,6 @@ export default function AdjustRight() {
 
     const handleAdjust = async () => {
 
-        console.log("Put Mapping 시작 :",)
     }
 
     return (

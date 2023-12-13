@@ -49,7 +49,7 @@ export async function fetchQnaDetail(qnaId) {
         if (!token) {
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
-        const response = await axios.get(`http://localhost:8081/api/v1/qna/${qnaId}`,{
+        const response = await axios.get(`http://localhost:8081/api/v1/qna/${qnaId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -64,15 +64,15 @@ export async function fetchQnaDetail(qnaId) {
 };
 
 // Qna 수정
-export const saveQna = async (qnaId,qnaModifyData ) => {
-    console.log("userId"+qnaModifyData.loginUser)
+export const saveQna = async (qnaId, qnaModifyData) => {
+
     try {
         const token = localStorage.getItem("token");
         if (!token) {
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
-        
+
         const response = await axios.put(
             `http://localhost:8081/api/v1/qna/${qnaId}`,
             {
@@ -87,19 +87,19 @@ export const saveQna = async (qnaId,qnaModifyData ) => {
                 },
             }
 
-        
+
         );
         return response.data;
 
     } catch (error) {
         console.error('변경사항 저장 중 오류 발생:', error);
-        console.log("userId"+qnaModifyData.loginUser)
+
         throw error;
     }
 };
 
 //Qna 삭제
-export async function deleteQna(qnaId){
+export async function deleteQna(qnaId) {
     const token = localStorage.getItem("token");
     await axios.delete(`http://localhost:8081/api/v1/qna/${qnaId}`, {
         headers: {

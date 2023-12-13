@@ -9,7 +9,6 @@ import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function Participants() {
 
-    const navigate = useNavigate();
 
     return (
         <>

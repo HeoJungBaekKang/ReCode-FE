@@ -6,7 +6,6 @@ import axios from 'axios';
 export default function Essay() {
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    console.log(authData);
 
     const [essay, setEssay] = useState({
         essay: "",
@@ -22,12 +21,11 @@ export default function Essay() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
-                    console.log(response.data.essay);
+
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log(essay);
+        
                         console.log("자기 소개서 등록 성공");
                         navigate("/mypage/myprofile/modifyProfile");
                     } else {
@@ -49,7 +47,6 @@ export default function Essay() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setEssay({ essay: response.data.data.essay || '' }); // 가져온 데이터로 essay 상태를 업데이트
 

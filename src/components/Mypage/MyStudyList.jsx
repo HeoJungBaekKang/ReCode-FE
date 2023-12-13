@@ -29,7 +29,6 @@ export default function MyStudyList() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setPost(response.data.data || []);
 
@@ -43,7 +42,6 @@ export default function MyStudyList() {
                 });
         } catch (error) {
             console.error("참가 중인 스터디 목록 조회 중 오류 : ", error);
-            console.log(error.response);
         }
     }
 

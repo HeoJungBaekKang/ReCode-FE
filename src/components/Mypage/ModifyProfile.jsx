@@ -6,7 +6,6 @@ import axios from 'axios';
 export default function ModifyProfile() {
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
-  console.log(authData);
 
   const [user, setUser] = useState({
     email: "",
@@ -23,7 +22,6 @@ export default function ModifyProfile() {
       }
     })
       .then(res => {
-        console.log(res.data);
         navigate('/mypage/myprofile');
       });
   }

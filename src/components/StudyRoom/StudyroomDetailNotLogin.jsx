@@ -7,7 +7,6 @@ const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
   const { study_room_id } = useParams();
   const { authData } = useContext(AuthContext);
-  console.log(authData);
 
   const [detail, setDetail] = useState({
     study_room_id: "",
@@ -35,7 +34,6 @@ const StudyRoomNotLogin = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           setDetail(response.data.data || {});
 
@@ -44,7 +42,7 @@ const StudyRoomNotLogin = () => {
           if (code === 1) {
             console.log("스터디 상세보기 조회 성공");
             checkStudyRoomMembership();
-            console.log("isInstudyRoom: ", isInStudyRoom)
+
           } else {
             console.log("스터디 상세보기 조회 실패");
           }
@@ -98,7 +96,7 @@ const StudyRoomNotLogin = () => {
       });
 
       setIsInStudyRoom(response.data.isInStudyRoom);
-      console.log("스터디 룸 가입여부 확인", isInStudyRoom);
+
     } catch (error) {
       console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }

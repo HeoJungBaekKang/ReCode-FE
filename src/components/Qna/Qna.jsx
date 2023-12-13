@@ -9,7 +9,7 @@ import {
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchQnaList } from "../../services/QnaService";
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 
 export default function Qna() {
@@ -21,9 +21,7 @@ export default function Qna() {
     async function fetchData() {
         try {
             const response = await fetchQnaList();
-            // console.log(response.data);
             setQnaList(response.data);
-            console.log(response.data);
         } catch (error) {
         }
     }
@@ -72,7 +70,7 @@ export default function Qna() {
                                                             className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                                         >
                                                             <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                                {index+1}
+                                                                {index + 1}
                                                             </td>
                                                             <td className="whitespace-nowrap px-6 py-4">
                                                                 {qna.title}
