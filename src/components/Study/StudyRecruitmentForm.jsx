@@ -17,6 +17,47 @@ export default function StudyRecruitment() {
   const navigate = useNavigate();
 
   const [selectedSkills, setSelectedSkills] = useState([]);
+  const [position, setPosition] = useState(""); // 포지션 상태
+  const [skillNames, setSkillNames] = useState([]); // skillName 목록 상태
+  const [selectedPosition, setSelectedPosition] = useState("");  // 컴포넌트의 상태 
+  const [description, setDescription] = useState("");
+  const plainTextContent = removeFormatting(description);
+
+  const handlePositionChange = (e) => {
+    setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
+  };
+
+
+  useEffect(() => {
+    const fetchSkillsByPosition = async (position) => {
+      try {
+        const skillByPosition = await getSkillNameByPosition(position);
+        setSkillNames(skillByPosition);
+        console.log('${position} skill을  불러왔습니다. ', skillByPosition);
+      } catch (error) {
+        console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
+
+      }
+    };
+    if (position) {
+      fetchSkillsByPosition(position);
+    }
+
+  }, [position]);
+
+
+  useEffect(() => {
+    // 포지션이 변경될 때 스킬 이름 가져오기
+    if (position) {
+      getSkillNameByPosition(position)
+        .then((skillNames) => {
+          setWrite({ ...write, skillNames });
+        })
+        .catch((error) => {
+          console.error("스킬 이름을 가져오는 중 오류 발생: ", error);
+        });
+    }
+  }, [position]);
 
   // 요일 목록
   const daysOfWeek = [
@@ -88,6 +129,7 @@ export default function StudyRecruitment() {
     setSelectedSkills(selectedOptions);
   };
 
+
   const submitWrite = async (e) => {
     e.preventDefault();
 
@@ -99,7 +141,8 @@ export default function StudyRecruitment() {
 
     try {
       const formattedStartTime = convertToHHMM(
-        parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1])
+        parseInt(startTime.split(":")[0]) * 60 +
+        parseInt(startTime.split(":")[1])
       );
       const formattedEndTime = convertToHHMM(
         parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
@@ -298,6 +341,34 @@ export default function StudyRecruitment() {
         >
           모집 구분
         </label>
+
+        <select
+          id="position"
+          name="position"
+          value={write.position}
+          // onChange={(e) =>
+          //   setWrite({ ...write, skillNamespostion: e.target.value })
+          // }
+          onChange={handlePositionChange}
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        >
+          {/* 범위 선택 방식으로 변경하기  */}
+          <option value="">선택</option>
+          <option value="FullStack">풀스택</option>
+          <option value="Frontend">프론트엔드</option>
+          <option value="Backend">백엔드</option>
+        </select>
+      </div>
+
+      <div className="sm:col-span-2">
+        <div>
+          기술스택 목록 선택
+          <div>
+            (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
+            요청바랍니다. )
+          </div>
+        </div>
+        <MultiSelect name="skillNames" onChange={handleCustomSelectChange} selectedPosition={selectedPosition} />
       </div>
       <div className="sm:col-span-2 mt-2.5">
         <label

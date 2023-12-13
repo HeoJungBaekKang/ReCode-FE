@@ -28,7 +28,7 @@ const Main = () => {
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
     };
-    getSkillNameByPosition();
+    // getSkillNameByPosition();
   }, []);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const Main = () => {
           <section>
             <div
               id="slider-container"
-              class="w-full max-w-screen-xl mx-auto mt-12"
+              className="w-full max-w-screen-xl mx-auto mt-12"
             >
               <Slider {...settings}>
                 <article

@@ -93,9 +93,6 @@ export default function AdminStudyList({ filteredStudies }) {
                 </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
   );
 }
 

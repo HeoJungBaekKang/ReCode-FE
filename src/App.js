@@ -39,7 +39,14 @@ import NoticeDetailPage from "./components/Pages/NoticeDetailPage";
 import FaqPage from "./components/Pages/FaqPage";
 import MainPageFilter from "./components/Pages/MainPageFilter";
 import TermsAndConditions from "./components/Client/Agreement";
-
+import AdminStudyRoomDetail from "./components/StudyRoom/AdminStudyRoomDetail";
+import AdminStudyList from "./components/Admin/AdminStudyList";
+import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
+import UserList from "./components/Admin/Leader_Permission";
+import NaverBook from "./components/NaverBook/BookList";
+import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import NotificationPage from "./components/Notification/NotificationPage";
+import Estimate from "./components/StudyRoom/EstimateMember";
 
 function App() {
 
@@ -91,6 +98,12 @@ function App() {
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/filter" element={<MainPageFilter />} />
             <Route path="/termsOfCondtions" element={<TermsAndConditions />} />
+            <Route path="/studyroom/:study_id/post/edit/:post_id" element={<EditPost />} />
+            <Route path="/admin/studyList" element={<AdminStudyList />} />
+            <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
+            <Route path="/naverbook" element={<NaverBook />} />
+            <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
           </Routes>
         </div>
       </AuthProvider>
