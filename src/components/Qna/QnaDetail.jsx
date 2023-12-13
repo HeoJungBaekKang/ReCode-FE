@@ -45,7 +45,6 @@ export default function QnaDetail() {
         const fetchData = async () => {
             const response = await fetchQnaDetail(qnaId);
             const data = response.data;
-            console.log(data)
 
             setQnaTitle(data.title);
             setQnaCreatedAt(data.createdAt);
@@ -362,7 +361,7 @@ export default function QnaDetail() {
                                             {reply.comment}
                                             </span>
                                             <button onClick={() => replyDelete(reply.id)} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
-                                            {/* {console.log(reply.id)} */}
+                                       
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-400">
 
