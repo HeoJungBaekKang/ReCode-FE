@@ -9,7 +9,7 @@ import {
 import Layout from "../Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchQnaList } from "../../services/QnaService";
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 
 export default function Qna() {
@@ -21,7 +21,9 @@ export default function Qna() {
     async function fetchData() {
         try {
             const response = await fetchQnaList();
+            // console.log(response.data);
             setQnaList(response.data);
+            console.log(response.data);
         } catch (error) {
         }
     }
@@ -64,24 +66,26 @@ export default function Qna() {
                                                 </thead>
                                                 <tbody>
                                                     {qnaList.map((qna) => (
-                                                    <tr
-                                                        onClick={() => handleRowClick(qna.id)}
-                                                        key={[qna.id, qna.userId]}
-                                                        className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                                                    >
-                                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                            {qna.id}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.title}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {qna.userId.nickname}
-                                                        </td>
-                                                        <td className="whitespace-nowrap px-6 py-4">
-                                                            {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
-                                                        </td>
-                                                    </tr>
+                                                        <tr
+                                                            onClick={() => handleRowClick(qna.id)}
+                                                            key={[qna.id]}
+                                                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                                                        >
+                                                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                                {qna.id}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {qna.title}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {qna.nickname}
+                                                            </td>
+                                                            <td className="whitespace-nowrap px-6 py-4">
+                                                                {qna.createdAt}
+                                                                {/* {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
+                                                                {/* {format(parseISO(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
+                                                            </td>
+                                                        </tr>
                                                     ))}
                                                 </tbody>
                                             </table>
@@ -140,7 +144,7 @@ export default function Qna() {
                                         글 작성
                                     </button>
                                 </Link>
-                                
+
                             </div>
                         </div>
                     </div>
