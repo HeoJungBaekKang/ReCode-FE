@@ -5,11 +5,12 @@ import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 
 import {
-  getPosition,
   getSkillNameByPosition,
 } from "../../services/FilterService";
+import DateRangePicker from "../DateRangePicker";
 
 export default function StudyRecruitment() {
+
   const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -19,17 +20,22 @@ export default function StudyRecruitment() {
   const [skillNames, setSkillNames] = useState([]); // skillName 목록 상태
   const [selectedPosition, setSelectedPosition] = useState("");  // 컴포넌트의 상태 
 
+
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
   };
 
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 실행되는 로직
+    console.log('StudyRecruitment 컴포넌트가 마운트됨');
+  }, []);
 
   useEffect(()=> {
     const fetchSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log('${position} skill을  불러왔습니다. ',skillByPosition);
+        console.log('${position} skill을  불러왔습니다. ', skillByPosition);
       } catch (error) {
         console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
       
@@ -121,7 +127,6 @@ export default function StudyRecruitment() {
   });
 
   const handleCustomSelectChange = (selectedOptions) => {
-    console.log("selectedOptions 확인 @@ : ", selectedOptions);
     setSelectedSkills(selectedOptions);
   };
 
@@ -259,6 +264,7 @@ export default function StudyRecruitment() {
           </div>
         </div>
 
+<DateRangePicker></DateRangePicker>
         <div>
           <label
             htmlFor="endTime"
@@ -382,7 +388,6 @@ export default function StudyRecruitment() {
             id="description"
             rows={11}
             className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            defaultValue={""}
           />
         </div>
       </div>
