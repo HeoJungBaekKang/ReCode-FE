@@ -22,4 +22,4 @@ root.render(
 
 reportWebVitals();
 
-export { default as MyEditor } from './components/Editor/MyEditor';
+export {default as MyEditor} from './components/Editor/MyEditor';

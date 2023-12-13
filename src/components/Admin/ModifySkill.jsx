@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -46,6 +46,7 @@ export default function ModifySkill() {
                 }
             })
                 .then(response => {
+                    console.log(response.data);
 
                     setPosition({ position: response.data.data.position || '' });
                     setSkill({ skill: response.data.data.skill || '' }); // 가져온 데이터로 essay 상태를 업데이트

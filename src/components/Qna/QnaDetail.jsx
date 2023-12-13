@@ -116,7 +116,7 @@ export default function QnaDetail() {
 
     //Qna 삭제 버튼 핸들러
     const handleDelete = async () => {
-        if (window.confirm("댓글을 삭제하시겠습니까?")) {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
                 await deleteQna(qnaId);
                 // 삭제 후 목록 페이지로 이동
