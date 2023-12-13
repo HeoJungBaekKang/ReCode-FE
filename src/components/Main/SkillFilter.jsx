@@ -49,7 +49,7 @@ export default function SkillFilter({
       </TERipple>
 
       {show && (
-        <div className="rounded-lg bg-amber-50 p-7 dark:bg-neutral-700 dark:text-neutral-50 ease-in-out">
+        <div className="absolute w-full rounded-lg bg-amber-50 p-7 dark:bg-neutral-700 dark:text-neutral-50 ease-in-out mt-1">
           <TabsWithButtons
             selectedSkills={selectedSkills}
             setSelectedSkills={setSelectedSkills}
