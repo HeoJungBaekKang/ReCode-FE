@@ -46,7 +46,7 @@ const modalPosition = {
 
 export default function Withdraw() {
     const navigate = useNavigate();
-    const { authData } = useContext(AuthContext);
+    const { authData, setAuthData } = useContext(AuthContext);
     console.log(authData);
 
     const handleWithdraw = async (event) => {
@@ -63,7 +63,10 @@ export default function Withdraw() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        navigate("/");
+                        setAuthData({});
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("authData");  // authData를 로컬 스토리지에서 삭제
+                        navigate("/login");
                     } else {
                         console.log("계정 탈퇴 실패");
                     }

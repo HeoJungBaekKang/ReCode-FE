@@ -3,7 +3,7 @@ import axios from "axios";
 // 스킬을 불러오는 서비스 함수
 export async function getSkills() {
   try {
-    const response = await axios.get(`http://52.79.108.89:8080/api/get-skills`, {
+    const response = await axios.get(`http://localhost:8081/api/get-skills`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,7 +30,7 @@ export async function getSkills() {
 // 스터디 목록을 불러오는 함수
 export async function getStudies() {
   try {
-    const response = await axios.get("http://52.79.108.89:8080/api/main/list", {
+    const response = await axios.get("http://localhost:8081/api/main/list", {
       headers: {
         "Content-Type": "applicaion/json",
       },
@@ -61,7 +61,7 @@ export async function fetchStudyList(authData) {
           "Content-Type": "application/json",
         };
 
-    const response = await axios.get(`http://52.79.108.89:8080/api/main/list`, {
+    const response = await axios.get(`http://localhost:8081/api/main/list`, {
       headers,
     });
     console.log("나 호출 됐어요! ", response);
@@ -76,7 +76,7 @@ export async function fetchStudyList(authData) {
 // 선택된 포지션에 따라서 스킬 이름 불러오는 메서드 
 export async function getSkillNameByPosition(position) {
   try {
-    const response = await axios.get(`http://52.79.108.89:8080/api/skills/get-skillName?position=${position}`, {
+    const response = await axios.get(`http://localhost:8081/api/skills/get-skillName?position=${position}`, {
       headers: {
         "Content-Type": "application/json",
       },
