@@ -95,7 +95,7 @@ export default function Estimate() {
         const fetchData = async () => {
             console.log("유저정보", users);
             try {
-                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/memberlist`, {
+                const response = await axios.get(`/api/v1/study/${study_id}/memberlist`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -154,7 +154,7 @@ export default function Estimate() {
                 // 점수가 선택되었는지 확인
                 // if (scoreValue) {
                 try {
-                    const response = await axios.post(`http://localhost:8081/api/v1/study/${study_id}/estimate/${user.userId}`, {
+                    const response = await axios.post(`/api/v1/study/${study_id}/estimate/${user.userId}`, {
                         studyId: study_id,
                         userId: user.userId,
                         point: userTotalScore // 정수로 변환

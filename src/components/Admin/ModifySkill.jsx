@@ -39,7 +39,7 @@ export default function ModifySkill() {
         };
 
         try {
-            await axios.post(`http://localhost:8081/api/admin/v1/addskill`, payload, {
+            await axios.post(`/api/admin/v1/addskill`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -66,7 +66,7 @@ export default function ModifySkill() {
 
     const handleGetSkills = async () => {
         try {
-            let url = `http://localhost:8081/api/get-skills`;
+            let url = `/api/get-skills`;
 
             await axios.get(url, {
                 headers: {

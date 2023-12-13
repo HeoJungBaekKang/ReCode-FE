@@ -23,7 +23,7 @@ function Sidebar() {
 
   const checkMaster = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/v1/study/${study_id}/check-master`, {
+      await axios.get(`/api/v1/study/${study_id}/check-master`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -48,7 +48,7 @@ function Sidebar() {
 
   const checkDate = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/v1/study/${study_id}/check-date`, {
+      await axios.get(`/api/v1/study/${study_id}/check-date`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
