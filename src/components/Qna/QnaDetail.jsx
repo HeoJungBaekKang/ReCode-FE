@@ -6,8 +6,8 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchQnaDetail, saveQna, deleteQna, fetchReply } from "../../services/QnaService";
-import { createQnaReply } from "../../services/QnaReplyService";
+import { fetchQnaDetail, saveQna, deleteQna } from "../../services/QnaService";
+import { createQnaReply, deleteQnaReply } from "../../services/QnaReplyService";
 import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
 import ReactHtmlParser from "react-html-parser";
@@ -19,6 +19,7 @@ export default function QnaDetail() {
     const [userId, setUserId] = useState("");
     const navigate = useNavigate();
 
+
     const [qnaTitle, setQnaTitle] = useState("");
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
     const [formatCreatedAt, setFormatCreatedAt] = useState("");
@@ -28,12 +29,14 @@ export default function QnaDetail() {
 
 
     const [qnaReplies, setQnaReplies] = useState([]);
+    // const[qnaReplyId, setQnaReplyId]= useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
-    const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
+    // const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
     const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
-    const replyUserId = authData.userId
+    const replyUserId = authData.id
     const replyUserNickname = authData.nickname
+// const loginUserId = authData.id
 
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -75,6 +78,7 @@ export default function QnaDetail() {
 
     //Qna 수정 버튼 핸들러
     const handleEditButtonClick = () => {
+      
         setIsEditMode(true);
     };
 
@@ -85,18 +89,30 @@ export default function QnaDetail() {
 
     //Qna 내용 수정 핸들러
     const handleContentChange = (newContent) => {
+       
         setQnaContent(newContent);
     };
-
-    //Qna 수정 저장 버튼 핸들러
+    const loginUser = authData.id;
+    console.log("외부"+loginUser);
+    //Qna 수정 저장 버튼
     const handleSaveChanges = async () => {
+        
+       
         try {
-            await saveQna(qnaId, qnaTitle, authData.userId, qnaContent);
-            console.log(authData)
+            // const loginUser = authData.id;
+            const qnaModifyData = {qnaTitle, loginUser, qnaContent };
+            await saveQna(qnaId, qnaModifyData);
+            console.log("1234"+authData)
+            console.log("awqsedf"+loginUser)
+            console.log("id :"+authData.id)
             // 편집 모드 해제
             setIsEditMode(false);
-            window.location.reload(true);
+            // window.location.reload(true);
         } catch (error) {
+            console.log("1234"+authData.nickname)
+            console.log("awqsedf"+loginUser)
+            console.log("id :"+authData.id)
+          
         }
     };
 
@@ -104,7 +120,7 @@ export default function QnaDetail() {
     const handleDelete = async () => {
         if (window.confirm("진짜루 삭제할고야...?")) {
             try {
-                await deleteQna(qnaId);
+                await deleteQna(qnaId );
                 // 삭제 후 목록 페이지로 이동
                 navigate("/qna");
             } catch (error) {
@@ -113,32 +129,21 @@ export default function QnaDetail() {
         }
     };
 
+        //Qna 댓글 생성
+        const handlerSubmitReply = async (event) => {
+            event.preventDefault();
+    
+            try {
+    
+                const qnaReplyData = { comment, replyCreatedAt, replyUpdatedAt, replyUserId, replyUserNickname };
+                await createQnaReply(qnaId, qnaReplyData);
+    
+                window.location.reload(true);
+    
+            } catch (error) {
+            }
+        };
 
-    // //Qna 댓글 목록 조회
-    // async function fetchData() {
-    //     try {
-    //         const response = await fetchQnaReply(qnaId);
-    //         setQnaReply(response.data);
-
-    //         console.log(qnaId)
-    //     } catch (error) {
-    //     }
-    // }
-    // useEffect(() => {
-    //     fetchData();
-    // }, [qnaId]);
-
-
-
-    // const handlerSubmit = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         const replyData = { qnaId, userId,replyComment };
-    //         await createQnaReply(replyData); 
-
-    //     } catch (error) {
-    //     }
-    // };
 
     // Qna 댓글 생성 핸들러
     const newReply = (newQnaReply) => {
@@ -146,17 +151,17 @@ export default function QnaDetail() {
 
     };
 
-    const handlerSubmitReply = async (event) => {
-        event.preventDefault();
 
-        try {
-
-            const qnaReplyData = { comment, replyCreatedAt, replyUpdatedAt, replyUserId, replyUserNickname };
-            await createQnaReply(qnaId, qnaReplyData);
-
-            window.location.reload(true);
-
-        } catch (error) {
+//Qna 댓글 삭제 핸들러
+    const replyDelete = async (replyId) => {
+        if (window.confirm("진짜루 댓글 삭제할고야...?")) {
+            try {
+                await deleteQnaReply(qnaId, replyId);
+               console.log("댓글 번호"+replyId)
+            } catch (error) {
+                console.log("댓글 번호"+replyId)
+                console.error("삭제 중 오류 발생", error);
+            }
         }
     };
 
@@ -281,6 +286,8 @@ export default function QnaDetail() {
                         <React.Fragment>
                             {isEditMode ? (
                                 <React.Fragment>
+                                    {console.log("btn: "+userId)}
+                                    {console.log("id: "+authData.id)}
                                     <button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
                                     <button onClick={handleGoToQna} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">취소</button>
                                 </React.Fragment>
@@ -347,14 +354,24 @@ export default function QnaDetail() {
                                     <tr
                                         key={[reply.id, reply.qnaId]}
                                         className=" w-full border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium flex justify-between">
+                                            <span className="text-gray-400">
                                             {reply.nickname}
+                                            </span>
+                                            <span className="mr-20">
                                             {reply.comment}
+                                            </span>
+                                            <button onClick={() => replyDelete(reply.id)} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                            {/* {console.log(reply.id)} */}
                                         </td>
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-400">
 
                                             {format(parseISO(reply.createdAt), 'MM-dd HH:mm')}
+                                            
                                         </td>
+                                      
+                                       
+                                       
 
 
                                     </tr>

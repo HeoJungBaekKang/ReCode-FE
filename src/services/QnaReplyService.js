@@ -21,3 +21,12 @@ export const createQnaReply = async (qnaId, replyData) => {
         console.error('qna error', error);
     }
 };
+
+export async function deleteQnaReply(qnaId, qnaReplyId){
+    const token = localStorage.getItem("token");
+    await axios.delete(`http://localhost:8081/api/v1/qna-reply/${qnaId}/${qnaReplyId}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+};
