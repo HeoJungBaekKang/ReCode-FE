@@ -1,9 +1,38 @@
 #slider-container article {
-  display: grid !important;
-  width: 1350px;
-  background-color: #eaf72e53;
+  display: grid;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   margin: auto;
-  height: 200px;
+  height: 280px;
+}
+
+#slider-container article.book-search {
+  display: grid;
+  background-image: url('/public/img/book.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#slider-container article.book-search div {
+  background-color: rgba(255,255,255,0.5);
+}
+
+#slider-container article.notice {
+  display: grid;
+  background-image: url('/public/img/notice-delivery.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#slider-container article.notice div {
+  background-color: rgba(255,255,255,0.5);
+}
+
+#slider-container article div {
+  background-color: rgba(255,255,255,0.5);
 }
 
 .slick-slider .slick-arrow:before {

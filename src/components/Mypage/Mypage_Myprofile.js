@@ -36,7 +36,7 @@ const TABLE_ROWS4 = [
 ];
 
 
-export default function Mypage_Myprofile() {
+export default function MypageMyprofile() {
 
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
@@ -49,7 +49,7 @@ export default function Mypage_Myprofile() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://52.79.108.89:8080/api/v1/users/${authData.id}/getuser`, {
+            await axios.get(`/api/v1/users/${authData.id}/getuser`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

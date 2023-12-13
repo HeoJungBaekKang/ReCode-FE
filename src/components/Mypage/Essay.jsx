@@ -14,7 +14,7 @@ export default function Essay() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/mypage/${authData.id}/essay`, essay, {
+            await axios.post(`/api/v1/mypage/${authData.id}/essay`, essay, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -40,7 +40,7 @@ export default function Essay() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`http://52.79.108.89:8080/api/v1/mypage/${authData.id}/getessay`, {
+            await axios.get(`/api/v1/mypage/${authData.id}/getessay`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -67,6 +67,10 @@ export default function Essay() {
         handleGet(); // 페이지가 처음 렌더링될 때 handleGet함수를 실행
     }, []);
 
+    const handleCancel = () => {
+        navigate('/mypage/myprofile');
+    }
+
     return (
         <>
             <div className="flex justify-center items-center h-screen mt-[-5rem]">
@@ -84,6 +88,7 @@ export default function Essay() {
                     <div className="flex justify-end space-x-4">
                         <button
                             type="button"
+                            onClick={handleCancel}
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             취소

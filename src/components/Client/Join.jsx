@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 const CheckUsernameDuplicate = async (username) => {
 
   try {
-    const response = await fetch(`http://localhost:8081/api/user-name/${username}/exists`);
+    const response = await fetch(`/api/user-name/${username}/exists`);
+    // const response = await fetch(`/api/user-name/${username}/exists`);
+    console.log(response)
     const result = await response.json();
 
     return result;
@@ -19,7 +21,8 @@ const CheckUsernameDuplicate = async (username) => {
 const CheckEmailDuplicate = async (email) => {
 
   try {
-    const response = await fetch(`http:///localhost:8081/api/user-email/${email}/exists`);
+    const response = await fetch(`http://15.164.85.184/api/user-email/${email}/exists`);
+    console.log(response)
     const result = await response.json();
 
     return result;
@@ -141,8 +144,8 @@ export default function Join() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
+            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            alt="Recode logo"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account

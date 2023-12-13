@@ -17,11 +17,13 @@ export default function SkillFilter({
     const filteredStudies = studies.filter((study) =>
       selectedSkills.some((skill) => study.skillNames.includes(skill))
     );
-
     // 필터링된 스터디 목록을 상태로 설정
     setFilteredStudies(filteredStudies);
 
   }, [selectedSkills, studies, setFilteredStudies]);
+
+
+
 
   // 선택된 스킬을 토글하는 함수
   const handleSkillToggle = (skill) => {
@@ -47,7 +49,7 @@ export default function SkillFilter({
       </TERipple>
 
       {show && (
-        <div className="block rounded-lg bg-white p-2 shadow-lg dark:bg-neutral-700 dark:text-neutral-50 ease-in-out">
+        <div className="rounded-lg bg-amber-50 p-7 dark:bg-neutral-700 dark:text-neutral-50 ease-in-out">
           <TabsWithButtons
             selectedSkills={selectedSkills}
             setSelectedSkills={setSelectedSkills}

@@ -12,6 +12,7 @@ import { fetchQnaList } from "../../services/QnaService";
 import { format } from 'date-fns';
 
 
+
 export default function Qna() {
     const navigate = useNavigate();
     const [qnaList, setQnaList] = useState([]);
@@ -21,7 +22,10 @@ export default function Qna() {
     async function fetchData() {
         try {
             const response = await fetchQnaList();
-            setQnaList(response.data);
+            console.log("data안에는 무엇이 있나요", response.data);
+            setQnaList(response.data); // 가져온 데이터를 상태에 설정
+
+
         } catch (error) {
         }
     }

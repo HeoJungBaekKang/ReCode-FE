@@ -10,7 +10,7 @@ import { fetchQnaDetail, saveQna, deleteQna } from "../../services/QnaService";
 import { createQnaReply, deleteQnaReply } from "../../services/QnaReplyService";
 import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
-import ReactHtmlParser from "react-html-parser";
+import ReactHtmlParser from "html-react-parser"
 import MyEditor from "../Editor/MyEditor";
 
 export default function QnaDetail() {
@@ -29,11 +29,13 @@ export default function QnaDetail() {
 
 
     const [qnaReplies, setQnaReplies] = useState([]);
+    const [qnaReplyId, setQnaReplyId] = useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
     const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
     const replyUserId = authData.id
     const replyUserNickname = authData.nickname
+    // const loginUserId = authData.id
 
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -89,7 +91,7 @@ export default function QnaDetail() {
         setQnaContent(newContent);
     };
     const loginUser = authData.id;
-
+    console.log("외부" + loginUser);
     //Qna 수정 저장 버튼
     const handleSaveChanges = async () => {
 
@@ -98,12 +100,16 @@ export default function QnaDetail() {
             // const loginUser = authData.id;
             const qnaModifyData = { qnaTitle, loginUser, qnaContent };
             await saveQna(qnaId, qnaModifyData);
-
+            console.log("1234" + authData)
+            console.log("awqsedf" + loginUser)
+            console.log("id :" + authData.id)
             // 편집 모드 해제
             setIsEditMode(false);
             window.location.reload(true);
         } catch (error) {
-
+            console.log("1234" + authData.nickname)
+            console.log("awqsedf" + loginUser)
+            console.log("id :" + authData.id)
 
         }
     };
@@ -151,6 +157,7 @@ export default function QnaDetail() {
                 await deleteQnaReply(qnaId, currentReplyId);
                 window.location.reload(true);
             } catch (error) {
+                console.log("댓글 번호" + currentReplyId)
                 console.error("삭제 중 오류 발생", error);
             }
         }
@@ -277,6 +284,8 @@ export default function QnaDetail() {
                         <React.Fragment>
                             {isEditMode ? (
                                 <React.Fragment>
+                                    {console.log("btn: " + userId)}
+                                    {console.log("id: " + authData.id)}
                                     <button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
                                     <button onClick={handleGoToQna} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">취소</button>
                                 </React.Fragment>
@@ -350,11 +359,13 @@ export default function QnaDetail() {
                                                     <span className="mr-20">
                                                         {reply.comment}
                                                     </span>
-
-                                                    <button onClick={() => {
-                                                        const currentReplyId = reply.id;
-                                                        replyDelete(currentReplyId);
-                                                    }} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                                    {userId === authData.id || authData.role === "ADMIN" ? (
+                                                        <React.Fragment>
+                                                            <button onClick={() => {
+                                                                const currentReplyId = reply.id;
+                                                                replyDelete(currentReplyId);
+                                                            }} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                                        </React.Fragment>) : (<tr><td></td></tr>)}
 
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-400">

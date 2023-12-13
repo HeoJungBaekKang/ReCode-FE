@@ -46,11 +46,12 @@ const modalPosition = {
 
 export default function Withdraw() {
     const navigate = useNavigate();
+
     const { authData, setAuthData } = useContext(AuthContext);
 
     const handleWithdraw = async (event) => {
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/users/${authData.id}/withdraw`, {}, {
+            await axios.post(`/api/v1/users/${authData.id}/withdraw`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -162,14 +163,14 @@ export default function Withdraw() {
                             </h5>
                         </TEModalHeader>
                         <div className="mt-10 mb-10">
-                        <TEModalBody>그동안 Recode 서비스를 이용해주셔서 감사드립니다.</TEModalBody>
+                            <TEModalBody>그동안 Recode 서비스를 이용해주셔서 감사드립니다.</TEModalBody>
                         </div>
                         <TEModalFooter style={{ display: 'flex', justifyContent: 'center' }}>
                             <TERipple rippleColor="light">
                                 <button
                                     type="button"
                                     className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                                    onClick={() => {setShowModal(false); handleWithdraw();}}
+                                    onClick={() => { setShowModal(false); handleWithdraw(); }}
                                 >
                                     확인
                                 </button>

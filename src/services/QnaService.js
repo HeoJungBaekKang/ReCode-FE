@@ -15,6 +15,7 @@ export const createQna = async (qnaData) => {
 
     } catch (error) {
         console.error('qna error', error);
+        console.error('qna error', error);
     }
 };
 
