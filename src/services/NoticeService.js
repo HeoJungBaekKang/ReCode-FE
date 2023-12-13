@@ -5,7 +5,7 @@ import { Result } from 'postcss';
 // 공지사항 삭제 
 export async function deleteNotice(noticeId){
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+    await axios.delete(`/api/admin/v1/notice/${noticeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
@@ -20,7 +20,7 @@ export const CreateNotice = async(noticeData) => {
   
       console.log(token);
   
-      const response = await axios.post('http://localhost:8081/api/admin/v1/notice', noticeData, {
+      const response = await axios.post('/api/admin/v1/notice', noticeData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization' : `Bearer ${token}`,
@@ -39,7 +39,7 @@ export const CreateNotice = async(noticeData) => {
   export async function fetchNoticeDetail(noticeId) {
 
     try {
-    const response = await axios.get(`http://localhost:8081/api/notice-detail/${noticeId}`, {
+    const response = await axios.get(`/api/notice-detail/${noticeId}`, {
       headers: {
         'Content-Type': 'application/json',
       }
@@ -65,7 +65,7 @@ export const CreateNotice = async(noticeData) => {
           throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.post(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+        const response = await axios.post(`/api/admin/v1/notice/${noticeId}`, {
             title: noticeTitle,
             content: noticeContent,
         }, {
@@ -88,7 +88,7 @@ export const CreateNotice = async(noticeData) => {
 export async function fetchNoticeList(){
 
     try {
-        const response = await axios.get('http://localhost:8081/api/notice-list',{
+        const response = await axios.get('/api/notice-list',{
             headers: {
                 'Content-Type': 'application/json',
               }
@@ -104,7 +104,7 @@ export async function fetchNoticeList(){
 // 키워드 검색 
 export const handleSearchKeyword = async (searchType, searchTerm, setResults) => {
   try {
-      const response = await axios.get(`http://localhost:8081/api/notice-search`, { params: { [searchType]: searchTerm } });
+      const response = await axios.get(`/api/notice-search`, { params: { [searchType]: searchTerm } });
       // setResults(response.data);
       console.log("제발 오세요 ",searchTerm);
       console.log("response.data 이건 서비스에 도착  :" , response.data)

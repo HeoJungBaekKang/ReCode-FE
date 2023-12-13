@@ -48,6 +48,8 @@ import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 import ChatList from "./components/Chat/chatList";
 import ChatApp from "./components/Chat/chatApp";
 import ChatCreate from "./components/Chat/chatCreate";
+import NotificationPage from "./components/Notification/NotificationPage";
+import Estimate from "./components/StudyRoom/EstimateMember";
 
 function App() {
 
@@ -106,6 +108,8 @@ function App() {
             <Route path="/chat" element={<ChatList />} />
             <Route path="/chat/create" element={<ChatCreate />} />
             <Route path="/chat/chatApp/:chatRoomId/:nickname" element={<ChatApp />} />
+            <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
           </Routes>
         </div>
       </AuthProvider>

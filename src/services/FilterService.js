@@ -3,7 +3,7 @@ import axios from "axios";
 // 스킬을 불러오는 서비스 함수
 export async function getSkills() {
   try {
-    const response = await axios.get(`http://localhost:8081/api/get-skills`, {
+    const response = await axios.get(`/api/get-skills`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -30,7 +30,7 @@ export async function getSkills() {
 // 스터디 목록을 불러오는 함수
 export async function getStudies() {
   try {
-    const response = await axios.get("http://localhost:8081/api/main/list", {
+    const response = await axios.get("/api/main/list", {
       headers: {
         "Content-Type": "applicaion/json",
       },
@@ -61,7 +61,7 @@ export async function fetchStudyList(authData) {
           "Content-Type": "application/json",
         };
 
-    const response = await axios.get(`http://localhost:8081/api/main/list`, {
+    const response = await axios.get(`/api/main/list`, {
       headers,
     });
     console.log("나 호출 됐어요! ", response);
@@ -76,7 +76,7 @@ export async function fetchStudyList(authData) {
 export async function getSkillNameByPosition(position) {
   try {
     const response = await axios.get(
-      `http://localhost:8081/api/skills/get-skillName?position=${position}`,
+      `/api/skills/get-skillName?position=${position}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export async function getSkillNameByPosition(position) {
 export async function getPosition() {
   try {
     const response = await axios.get(
-      `http://localhost:8081/api/skills/get-positions}`,
+      `/api/skills/get-positions}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export async function getPosition() {
 // 검색
 export const handleSearchKeyword = async (searchTerm) => {
   try {
-      const response = await axios.get(`http://localhost:8081/api/main/list`, { params: { keyword: searchTerm } });
+      const response = await axios.get(`/api/main/list`, { params: { keyword: searchTerm } });
       // setResults(response.data);
       console.log("제발 오세요 ",searchTerm);
       console.log("response.data 이건 서비스에 도착  :" , response.data);

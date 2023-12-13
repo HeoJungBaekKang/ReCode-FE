@@ -23,7 +23,7 @@ export default function StudyList({ filteredStudies }) {
   };
 
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-24 sm:py-3">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -34,7 +34,7 @@ export default function StudyList({ filteredStudies }) {
           </p>
         </div>
         <div class="justify-items-stretch">
-          <div className="bg-white py-24 sm:py-5">
+          <div className="bg-white py-10 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
               <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (

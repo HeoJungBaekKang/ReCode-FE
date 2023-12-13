@@ -31,7 +31,7 @@ const Quiz = () => {
         }
 
         try {
-            let url = `http://localhost:8081/api/v1/study/${study_id}/quiz-list`;
+            let url = `/api/v1/study/${study_id}/quiz-list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -77,7 +77,7 @@ const Quiz = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz`, quiz, {
+            await axios.post(`/api/v1/study/${study_id}/quiz`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -117,7 +117,7 @@ const Quiz = () => {
 
     const handleDetail = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -152,7 +152,7 @@ const Quiz = () => {
 
     const handleModify = async (event) => {
         try {
-            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+            await axios.post(`/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -180,7 +180,7 @@ const Quiz = () => {
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:8081/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
+            await axios.post(`/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -485,7 +485,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://localhost:8081/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
