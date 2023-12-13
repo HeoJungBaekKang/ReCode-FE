@@ -42,6 +42,7 @@ export default function StudyList({ filteredStudies }) {
                     key={post.id}
                     className="flex max-w-3xl flex-col items-start justify-between border-4 border-gray-200 p-4 rounded-3xl hover:bg-gray-100 hover:shadow-lg transition-all bg-white"
                     style={{ height: '300px' }}
+                    onClick={() => handleStudyRoomClick(post.id)}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
                       <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>
