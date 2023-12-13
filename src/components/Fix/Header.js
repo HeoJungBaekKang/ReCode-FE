@@ -43,34 +43,6 @@ const Main = () => {
         });
     };
 
-    // 타이머 설정
-    useEffect(() => {
-        const timer = setInterval(updateTimer, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
-    // 시간 포맷팅 함수
-    const formatTime = (time) => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    };
-
-    // useEffect(() => {
-    //     const handleUnload = (event) => {
-    //         // 탭이 닫힐 때만 로그아웃 처리
-    //         handleLogout();
-    //     };
-    
-    //     window.addEventListener('unload', handleUnload);
-    
-    //     return () => {
-    //         window.removeEventListener('unload', handleUnload);
-    //     };
-    // }, []);
-
-    // 탭이 닫힐 때 자동 로그아웃이 되도록
     useEffect(() => {
         let timer;
         const resetTimer = () => {
@@ -92,7 +64,7 @@ const Main = () => {
 
     return (
         <>
-            <header>
+            <header style={{ borderBottom: "1px solid #ccc" }}>
                 <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
                     <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                         <a href="/" className="flex items-center">
@@ -105,16 +77,22 @@ const Main = () => {
                                     <>
                                         <div className="flex items-center mr-5 whitespace-nowrap w-auto">
                                             <span className="flex items-center mr-2 whitespace-nowrap w-auto text-green-500 font-bold">
-                                            ({formatTime(timeLeft)} 남음) {authData.nickname}
+                                                {authData.nickname}
                                             </span>{" "}
                                             <span className="text-black-500 font-bold">님 환영합니다.</span>
                                         </div>
-                                        <button onClick={handleLogout} className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 ml- 5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">
-                                            Log out
+                                        <button onClick={handleLogout} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                            <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                                Log out
+                                            </span>
                                         </button>
                                     </>
                                 ) : (
-                                    <a href="/login" className="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800">Log in</a>
+                                    <a href="/login" className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                        <span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                            Log in
+                                        </span>
+                                    </a>
                                 )
                             }
                             <button data-collapse-toggle="mobile-menu-2"
