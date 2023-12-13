@@ -27,17 +27,7 @@ export default function QnaDetail() {
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
 
-
-    const [qnaReplies, setQnaReplies] = useState([]);
-    const[qnaReplyId, setQnaReplyId]= useState("");
-    const [comment, setComment] = useState("");
-    const [replyCreatedAt, setReplyCreatedAt] = useState("");
-    // const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
-    const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
-    const replyUserId = authData.id
-    const replyUserNickname = authData.nickname
-// const loginUserId = authData.id
-
+    const [isReplyOpen, setIsReplyOpen] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
 
     //Qna 단일 조회
@@ -62,17 +52,8 @@ export default function QnaDetail() {
         fetchData();
     }, [qnaId]);
 
-
-
-    //Qna 목록 버튼 핸들러
-    const handleGoToList = () => {
-        navigate("/qna");
-
-    };
-
-    //Qna 수정 취소 버튼 핸들러
-    const handleGoToQna = () => {
-        navigate(`/qna/#${qnaId}`);
+    const handleReplyButtonClick = () => {
+        setIsReplyOpen(!isReplyOpen);
     };
 
     //Qna 수정 버튼 핸들러

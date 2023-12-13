@@ -14,9 +14,10 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoginError("");
 
     try {
-      const response = await axios.post("http:///localhost:8081/api/login", {
+      const response = await axios.post("/api/login", {
         username,
         password,
       });
@@ -49,13 +50,15 @@ export default function Login() {
     ? "block w-full rounded-md border-2 border-red-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
     : "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
 
+
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            src="/Recode-logo.png"
             alt="Recode-logo"
             border="0"
           />
@@ -125,6 +128,9 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   className={inputClass}
                 />
+                {loginError && (
+                  <p className="text-sm text-red-500">{loginError}</p>
+                )}
               </div>
             </div>
 

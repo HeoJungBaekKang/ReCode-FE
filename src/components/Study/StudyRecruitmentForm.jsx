@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
+import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
+import ReactHtmlParser from "html-react-parser";
 
 import {
   getPosition,
@@ -15,45 +17,6 @@ export default function StudyRecruitment() {
   const navigate = useNavigate();
 
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [position, setPosition] = useState(""); // 포지션 상태
-  const [skillNames, setSkillNames] = useState([]); // skillName 목록 상태
-  const [selectedPosition, setSelectedPosition] = useState("");  // 컴포넌트의 상태 
-
-  const handlePositionChange = (e) => {
-    setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
-  };
-
-
-  useEffect(()=> {
-    const fetchSkillsByPosition = async (position) => {
-      try {
-        const skillByPosition = await getSkillNameByPosition(position);
-        setSkillNames(skillByPosition);
-        console.log('${position} skill을  불러왔습니다. ',skillByPosition);
-      } catch (error) {
-        console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
-      
-      }
-    };
-    if(position){
-      fetchSkillsByPosition(position);
-    }
-
-  },[position]);
-
-
-  useEffect(() => {
-    // 포지션이 변경될 때 스킬 이름 가져오기
-    if (position) {
-      getSkillNameByPosition(position)
-        .then((skillNames) => {
-          setWrite({ ...write, skillNames });
-        })
-        .catch((error) => {
-          console.error("스킬 이름을 가져오는 중 오류 발생: ", error);
-        });
-    }
-  }, [position]);
 
   // 요일 목록
   const daysOfWeek = [
@@ -136,8 +99,7 @@ export default function StudyRecruitment() {
 
     try {
       const formattedStartTime = convertToHHMM(
-        parseInt(startTime.split(":")[0]) * 60 +
-          parseInt(startTime.split(":")[1])
+        parseInt(startTime.split(":")[0]) * 60 + parseInt(startTime.split(":")[1])
       );
       const formattedEndTime = convertToHHMM(
         parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
@@ -152,7 +114,7 @@ export default function StudyRecruitment() {
         startTime: formattedStartTime,
         endTime: formattedEndTime,
         attendanceDay: selectedDays,
-
+        description: description
         // 다른 필드들도 추가해야 함
       };
 
@@ -170,6 +132,19 @@ export default function StudyRecruitment() {
       console.error("스터디 모집 글 작성 중 오류 발생", error);
     }
   };
+
+  // StudyRecruitEditor 에서 전달한 값을 처리하는 함수
+  const handleEditorDataChange = (newContent) => {
+    // 자식 컴포넌트로 부터 받은 값을 상태에 따라 저장하거나 원하는 작업을 수행
+    setDescription(newContent);
+    console.log("newContent in form : ", newContent);
+  };
+
+  function removeFormatting(discription) {
+    // CKEditor에서 사용하는 서식 태그를 정규 표현식으로 제거
+    const formattedText = discription.replace(/<[^>]*>/g, "");
+    return formattedText;
+  }
 
   return (
     <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-xl sm:mt-20">
@@ -323,31 +298,6 @@ export default function StudyRecruitment() {
         >
           모집 구분
         </label>
-
-        <select
-          id="position"
-          name="position"
-          value={write.position}
-          onChange={handlePositionChange}
-          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        >
-          {/* 범위 선택 방식으로 변경하기  */}
-          <option value="">선택</option>
-          <option value="FullStack">풀스택</option>
-          <option value="Frontend">프론트엔드</option>
-          <option value="Backend">백엔드</option>
-        </select>
-      </div>
-
-      <div className="sm:col-span-2">
-        <div>
-          기술스택 목록 선택
-          <div>
-            (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
-            요청바립니다. )
-          </div>
-        </div>
-        <MultiSelect name="skillNames" onChange={handleCustomSelectChange} selectedPosition={selectedPosition} /> 
       </div>
       <div className="sm:col-span-2 mt-2.5">
         <label
@@ -370,17 +320,12 @@ export default function StudyRecruitment() {
       </div>
       <div className="sm:col-span-2">
         <div className="mt-2.5">
-          <textarea
-            value={write.description}
-            onChange={(e) =>
-              setWrite({ ...write, description: e.target.value })
-            }
-            name="description"
-            id="description"
-            rows={11}
-            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            defaultValue={""}
-          />
+          <div>
+            <StudyRecruitEditor
+              onContentChange={handleEditorDataChange}
+              dangerouslySetInnerHTML={{ __html: plainTextContent }}
+            />
+          </div>
         </div>
       </div>
 

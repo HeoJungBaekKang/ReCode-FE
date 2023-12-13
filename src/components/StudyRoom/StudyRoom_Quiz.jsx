@@ -20,7 +20,8 @@ const Quiz = () => {
         difficulty: "",
         quiz_link: "",
         studyRoomId: study_id,
-        userId: authData.id
+        userId: authData.id,
+        updatedAt: ""
     })
 
     const handleGet = async () => {
@@ -30,7 +31,7 @@ const Quiz = () => {
         }
 
         try {
-            let url = `http://52.79.108.89:8080/api/v1/study/${study_id}/quiz-list`;
+            let url = `/api/v1/study/${study_id}/quiz-list`;
             if (keyword) {
                 url += `?keyword=${keyword}`;
             }
@@ -76,7 +77,7 @@ const Quiz = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz`, quiz, {
+            await axios.post(`/api/v1/study/${study_id}/quiz`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -116,7 +117,7 @@ const Quiz = () => {
 
     const handleDetail = async () => {
         try {
-            await axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -151,7 +152,7 @@ const Quiz = () => {
 
     const handleModify = async (event) => {
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
+            await axios.post(`/api/v1/study/${study_id}/quiz/${quiz.id}/quiz-modify`, quiz, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -179,7 +180,7 @@ const Quiz = () => {
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
-            await axios.post(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
+            await axios.post(`/api/v1/study/${study_id}/quiz/${quiz.id}/delete`, {}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -286,7 +287,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="pl-2 p-4">
                                             <div className="flex items-center ml-4">
-                                                {quiz.updated_At}
+                                                {quiz.updatedAt}
                                             </div>
                                         </td>
                                     </tr>
@@ -484,7 +485,7 @@ function SearchBox({ keyword, setKeyword }) {
 
     useEffect(() => {
         if (keyword) {
-            axios.get(`http://52.79.108.89:8080/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
+            axios.get(`/api/v1/study/${study_id}/quiz-list?keyword=${keyword}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

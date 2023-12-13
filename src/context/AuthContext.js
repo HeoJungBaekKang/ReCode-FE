@@ -17,16 +17,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     // 관리자 여부 확인 
-    initialAuthData = {
+    initialAuthData = { 
       ...initialAuthData,
       isAdmin: initialAuthData.role === 'ADMIN',
     }
     return initialAuthData;
   
   });
-
-  
-
 
   return (
     <AuthContext.Provider value={{ authData, setAuthData }}>
