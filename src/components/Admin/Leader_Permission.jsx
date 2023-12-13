@@ -33,7 +33,7 @@ export default function UserList() {
 
     const getStudyMembers = async (study_id) => {
         try {
-            const response = await fetch(`http://localhost:8081/api/v1/study/${study_id}/memberlistandstatus`, {
+            const response = await fetch(`/api/v1/study/${study_id}/memberlistandstatus`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export default function UserList() {
             const newRole = member.createdBy === member.userId ? "group_member" : "group_leader";
 
             // Send PUT request to update role
-            await fetch(`http://localhost:8081/api/admin/v1/study-member/${study_id}/${userId}`, {
+            await fetch(`/api/admin/v1/study-member/${study_id}/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

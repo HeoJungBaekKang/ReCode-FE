@@ -27,7 +27,7 @@ const AdminStudyRoomDetail = () => {
   const handleGet = async () => {
     try {
       await axios
-        .get(`http://localhost:8081/api/study/${study_id}`, {
+        .get(`/api/study/${study_id}`, {
           headers: {
             "Content-Type": "application/json",
           },

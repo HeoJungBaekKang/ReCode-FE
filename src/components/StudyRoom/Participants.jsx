@@ -28,7 +28,7 @@ export default function Participants() {
         const fetchData = async () => {
             console.log("유저정보", users);
             try {
-                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/memberlist`, {
+                const response = await axios.get(`/api/v1/study/${study_id}/memberlist`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -49,7 +49,7 @@ export default function Participants() {
     const handleLeaveStudy = async (member_id) => {
         try {
             const response = await axios.delete(
-                `http://localhost:8081/api/v1/${study_id}/member/${member_id}`,
+                `/api/v1/${study_id}/member/${member_id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export default function Participants() {
 
     const checkMaster = async () => {
         try {
-            await axios.get(`http://localhost:8081/api/v1/study/${study_id}/check-master`, {
+            await axios.get(`/api/v1/study/${study_id}/check-master`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

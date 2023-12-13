@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactHtmlParser from "html-react-parser";
 import axios from "axios";
 
 const StudyRoomNotLogin = () => {
@@ -34,7 +35,7 @@ const StudyRoomNotLogin = () => {
   const handleGet = async () => {
     try {
       await axios
-        .get(`http://localhost:8081/api/study/${study_id}`, {
+        .get(`/api/study/${study_id}`, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -60,7 +61,7 @@ const StudyRoomNotLogin = () => {
   const [isInStudyRoom, setIsInStudyRoom] = useState(false);
   const handlePost = async () => {
     try {
-      await axios.post(`http://localhost:8081/api/v1/study/${study_id}/apply`, {}, {
+      await axios.post(`/api/v1/study/${study_id}/apply`, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -87,7 +88,7 @@ const StudyRoomNotLogin = () => {
       return;
     }
     try {
-      const response = await axios.get(`http://localhost:8081/api/v1/users/${authData.id}/studyrooms/${study_id}/isInStudyRoom`, {
+      const response = await axios.get(`/api/v1/users/${authData.id}/studyrooms/${study_id}/isInStudyRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -134,7 +135,7 @@ const StudyRoomNotLogin = () => {
     }
     
     try {
-      const response = await axios.get(`http://localhost:8081/api/get-badge/${userId}`, {
+      const response = await axios.get(`/api/get-badge/${userId}`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -240,7 +241,7 @@ const StudyRoomNotLogin = () => {
             <div className="text-2xl">소개</div>
             <div className="mt-10 mb-10">
               <p className="text-gray-800 dark:text-gray-200">
-                {detail.description}
+                {ReactHtmlParser(detail.description)}
               </p>
             </div>
           </div>
