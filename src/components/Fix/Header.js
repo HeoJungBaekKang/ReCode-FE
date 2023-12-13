@@ -19,7 +19,6 @@ const Main = () => {
     ];
 
     const { authData, setAuthData } = useContext(AuthContext);
-    console.log(authData);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -43,8 +42,8 @@ const Main = () => {
         });
     };
 
+    let timer;
     useEffect(() => {
-        let timer;
         const resetTimer = () => {
             clearTimeout(timer);
             timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
