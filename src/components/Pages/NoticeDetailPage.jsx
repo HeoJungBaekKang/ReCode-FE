@@ -12,6 +12,7 @@ import {
   fetchNoticeDetail,
   saveNotice,
   deleteNotice,
+  
 } from "../../services/NoticeService.js";
 import ReactHtmlParser from "react-html-parser";
 import MyEditor from "../Editor/MyEditor";
@@ -29,6 +30,7 @@ export default function NoticeDetailPage() {
   const [noticeContent, setNoticeContent] = useState(""); // 상세 공지사항 내용 상태
   const [editedContent, setEditedContent] = useState(""); // 수정한 내용 상태
   const [noticeCreatedBy, setNoticeCreatedBy] = useState("");
+  const [noticeUpdatedAt, setNoticeUpdatedAt] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // fetchNoticeDetail 함수를 사용하여 데이터를 가져오는 부분
@@ -41,6 +43,7 @@ export default function NoticeDetailPage() {
         setNoticeCreatedAt(data.createdAt);
         setNoticeContent(data.content);
         setNoticeCreatedBy(data.createdBy);
+        setNoticeUpdatedAt(data.updatedAt);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -144,9 +147,23 @@ export default function NoticeDetailPage() {
                           {noticeTitle}
                         </td>
                       </tr>
-                      <tr className="border-b">
+                      {/* <tr className="border-b">
                         <td className="p-2 font-medium text-sm">작성일</td>
                         <td className="p-2 text-sm">{noticeCreatedAt}</td>
+                      </tr> */}
+                      <tr className="border-b">
+                        <td className="p-2 font-medium text-sm">
+                          {noticeUpdatedAt &&
+                          noticeCreatedAt !== noticeUpdatedAt
+                            ? "수정일"
+                            : "작성일"}
+                        </td>
+                        <td className="p-2 text-sm">
+                          {noticeUpdatedAt &&
+                          noticeCreatedAt !== noticeUpdatedAt
+                            ? noticeUpdatedAt
+                            : noticeCreatedAt}
+                        </td>
                       </tr>
                       <tr className="border-b">
                         <td className="p-2 font-medium text-sm">작성자</td>
@@ -172,7 +189,6 @@ export default function NoticeDetailPage() {
                         rows={11}
                         className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         initialContent={noticeContent}
-
                         onContentChange={handleContentChange}
                       />
                     ) : (
@@ -233,10 +249,3 @@ export default function NoticeDetailPage() {
     </>
   );
 }
-
-
-
-
-
-
-

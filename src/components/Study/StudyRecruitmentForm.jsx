@@ -347,7 +347,7 @@ export default function StudyRecruitment() {
           기술스택 목록 선택
           <div>
             (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
-            요청바립니다. )
+            요청바랍니다. )
           </div>
         </div>
         <MultiSelect name="skillNames" onChange={handleCustomSelectChange} selectedPosition={selectedPosition} /> 

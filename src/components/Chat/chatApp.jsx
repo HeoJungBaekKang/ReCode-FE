@@ -39,13 +39,13 @@ const ChatApp = () => {
         msg: msgInput.value
       };
   
-      await axios.post("http://localhost:8080/chat", {
-        method: "post",
-        body: JSON.stringify(chat),
-        headers: {
-          "Content-Type": "application/json;charset=utf8"
+      fetch("http://localhost:8080/chat",{
+        method:"post", //Http post 메소드
+        body:JSON.stringify(chat), //JS Object -> JSON
+        headers:{
+            "Content-Type":"application/json;charset=utf8"
         }
-      });
+    });
   
       msgInput.value = "";
     };

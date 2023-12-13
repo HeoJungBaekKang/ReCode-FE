@@ -18,7 +18,8 @@ export default function ChatList() {
     
       const response = await axios.get('http://localhost:8081/api/v1/chat/chat-list', {
         headers: {
-          Authorization: `Bearer ${authData.token}`
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
         },
       });
 
@@ -33,6 +34,28 @@ export default function ChatList() {
     navigate(`./chatApp/${chatRoomId}/${nickname}`);
   };
 
+  const handleDeleteChatRoom = async (chatRoomId) => {
+    try {
+      await axios.delete(`http://localhost:8081/api/v1/chat/${chatRoomId}/delete-chatRoom`,{
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authData.token}`
+      });
+    } catch (error) {
+      console.error('Error deleting chat room:', error);
+    }
+  };
+
+  const handleLeaveChatRoom = async (chatRoomId) => {
+    try {
+      await axios.delete(`http://localhost:8081/api/v1/chat/${chatRoomId}/leave-chatRoom`,{
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authData.token}`
+      });
+    } catch (error) {
+      console.error('Error leaving chat room:', error);
+    }
+  };
+
 
   return (
     <>
@@ -44,14 +67,14 @@ export default function ChatList() {
                 <h2 className="text-2xl font-bold">Chat Rooms</h2>
               </CardHeader>
               <CardBody>
-                <ul>
+              <ul>
                   {chatRooms.map((room) => (
                     <li
                       key={room.chatRoomId}
                       className="p-4 hover:bg-gray-100 cursor-pointer"
                       onClick={() => handleChatRoomClick(room.chatRoomId, authData.nickname)}
-                    >                      
-                    <div className="flex items-center gap-3">
+                    >
+                      <div className="flex items-center gap-3">
                         <div className="grid gap-0.5 text-sm">
                           <div className="font-medium">{room.title}</div>
                           <div className="text-gray-500 dark:text-gray-400">{room.lastMessage}</div>
@@ -62,6 +85,20 @@ export default function ChatList() {
                           <span>{room.usernameList.join(', ')}</span>
                         </p>
                       </div>
+                      <div className="flex justify-end mt-2">
+                        <button
+                          className="text-red-600 hover:text-red-800"
+                          onClick={() => handleDeleteChatRoom(room.chatRoomId)}
+                        >
+                          삭제
+                        </button>
+                        <button
+                          className="text-blue-600 hover:text-blue-800 ml-2"
+                          onClick={() => handleLeaveChatRoom(room.chatRoomId)}
+                        >
+                          나가기
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -70,7 +107,7 @@ export default function ChatList() {
             <div className="p-4">
               <button
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => { navigate('/chatCreate'); }} // 버튼 클릭 시 navigateToCreateChatRoom 함수 호출
+                onClick={() => { navigate('./create'); }} // 버튼 클릭 시 navigateToCreateChatRoom 함수 호출
               >
                 Create Chat Room
               </button>
