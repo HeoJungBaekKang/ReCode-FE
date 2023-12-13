@@ -22,7 +22,7 @@ export default function AdjustRight() {
         console.log("Get Method 시작 :", members);
 
         try {
-            let url = `http://localhost:8081/api/v1/study/${study_room_id}/memberlist`;
+            let url = `/api/v1/study/${study_room_id}/memberlist`;
 
             await axios.get(url, {
                 headers: {
@@ -62,7 +62,7 @@ export default function AdjustRight() {
     const handlePut = async (event) => {
 
         try {
-            await axios.put(`http://localhost:8081/api/admin/v1/study-member/${study_id}/${user_id}`, rignt, {
+            await axios.put(`/api/admin/v1/study-member/${study_id}/${user_id}`, rignt, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

@@ -152,7 +152,7 @@ const Main = () => {
             <br />
           </section>
 
-          <div className="relative flex justify-between items-center mt-4">
+          <div className="relative flex justify-between mt-4">
             {/* 스킬 필터 버튼*/}
             <SkillFilter
               selectedSkills={selectedSkills}
@@ -174,7 +174,7 @@ const Main = () => {
               {/* 검색창 */}
               <MainSearch
                 onSearch={handleSearch}
-                className="mt-4 p-2 bg-blue-500 text-white rounded-md w-"
+                className="mt-4 bg-blue-500 text-white rounded-md"
               />
             </div>
           </div>
