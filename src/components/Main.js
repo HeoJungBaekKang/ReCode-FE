@@ -28,7 +28,7 @@ const Main = () => {
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
     };
-    getSkillNameByPosition();
+    // getSkillNameByPosition();
   }, []);
 
   useEffect(() => {

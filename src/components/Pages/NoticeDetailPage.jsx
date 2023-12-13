@@ -249,3 +249,10 @@ export default function NoticeDetailPage() {
     </>
   );
 }
+
+
+
+
+
+
+

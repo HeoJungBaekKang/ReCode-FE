@@ -36,7 +36,7 @@ export default function StudyList({ filteredStudies }) {
         <div class="justify-items-stretch">
           <div className="py-10 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
-              <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+            <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}
@@ -99,10 +99,7 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0
-                          ? "text-neutral-500"
-                          : "text-neutral-600"
-                          } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -111,10 +108,7 @@ export default function StudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage
-                            ? "text-neutral-50 bg-blue-200"
-                            : "text-neutral-600"
-                            } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage ? 'text-neutral-50 bg-blue-200' : 'text-neutral-600'} transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -124,10 +118,7 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
-                          ? "text-neutral-500"
-                          : "text-neutral-600"
-                          } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>

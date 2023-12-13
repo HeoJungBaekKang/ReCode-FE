@@ -1,6 +1,5 @@
 // services/noticeService.js
 import axios from 'axios';
-import { Result } from 'postcss';
 
 // 공지사항 삭제 
 export async function deleteNotice(noticeId){
