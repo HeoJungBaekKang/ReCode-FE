@@ -56,16 +56,36 @@ const Main = () => {
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
+    // useEffect(() => {
+    //     const handleUnload = (event) => {
+    //         // 탭이 닫힐 때만 로그아웃 처리
+    //         handleLogout();
+    //     };
+    
+    //     window.addEventListener('unload', handleUnload);
+    
+    //     return () => {
+    //         window.removeEventListener('unload', handleUnload);
+    //     };
+    // }, []);
+
+    // 탭이 닫힐 때 자동 로그아웃이 되도록
     useEffect(() => {
-        const handleUnload = (event) => {
-            // 탭이 닫힐 때만 로그아웃 처리
-            handleLogout();
+        let timer;
+        const resetTimer = () => {
+            clearTimeout(timer);
+            timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
         };
-    
-        window.addEventListener('unload', handleUnload);
-    
+
+        window.addEventListener('load', resetTimer);
+        document.addEventListener('mousemove', resetTimer);
+        document.addEventListener('keypress', resetTimer);
+
         return () => {
-            window.removeEventListener('unload', handleUnload);
+            clearTimeout(timer);
+            window.removeEventListener('load', resetTimer);
+            document.removeEventListener('mousemove', resetTimer);
+            document.removeEventListener('keypress', resetTimer);
         };
     }, []);
 
