@@ -81,8 +81,8 @@ export default function Qna() {
                                                                 {qna.nickname}
                                                             </td>
                                                             <td className="whitespace-nowrap px-6 py-4">
-                                                                {qna.createdAt}
-                                                                {/* {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
+                                                                {/* {qna.createdAt} */}
+                                                                {format(new Date(qna.createdAt), 'yyyy-MM-dd HH:mm')}
                                                                 {/* {format(parseISO(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
                                                             </td>
                                                         </tr>

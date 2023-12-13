@@ -22,9 +22,10 @@ export const createQnaReply = async (qnaId, replyData) => {
     }
 };
 
-export async function deleteQnaReply(qnaId, qnaReplyId){
+//Qna 댓글 삭제
+export async function deleteQnaReply(qnaId, replyId){
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/v1/qna-reply/${qnaId}/${qnaReplyId}`, {
+    await axios.delete(`http://localhost:8081/api/v1/qna-reply/${qnaId}/${replyId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }

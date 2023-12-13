@@ -29,7 +29,7 @@ export default function QnaDetail() {
 
 
     const [qnaReplies, setQnaReplies] = useState([]);
-    // const[qnaReplyId, setQnaReplyId]= useState("");
+    const[qnaReplyId, setQnaReplyId]= useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
     // const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
@@ -106,7 +106,7 @@ export default function QnaDetail() {
             console.log("id :"+authData.id)
             // 편집 모드 해제
             setIsEditMode(false);
-            // window.location.reload(true);
+            window.location.reload(true);
         } catch (error) {
             console.log("1234"+authData.nickname)
             console.log("awqsedf"+loginUser)
@@ -152,13 +152,14 @@ export default function QnaDetail() {
 
 
 //Qna 댓글 삭제 핸들러
-    const replyDelete = async (replyId) => {
+    const replyDelete = async (currentReplyId) => {
+        console.log("replyDelete 함수 실행됨");
         if (window.confirm("진짜루 댓글 삭제할고야...?")) {
             try {
-                await deleteQnaReply(qnaId, replyId);
-               console.log("댓글 번호"+replyId)
+                await deleteQnaReply(qnaId, currentReplyId);
+                window.location.reload(true);
             } catch (error) {
-                console.log("댓글 번호"+replyId)
+                console.log("댓글 번호"+currentReplyId)
                 console.error("삭제 중 오류 발생", error);
             }
         }
@@ -314,10 +315,10 @@ export default function QnaDetail() {
 
 
 
-
-
-                <Card className="h-full w-auto mx-4">
-                    <CardHeader floated={false} shadow={false} className="rounded-none">
+<div>
+{isEditMode===false?( 
+<React.Fragment>
+<CardHeader floated={false} shadow={false} className="rounded-none">
                         <div className="mb-8 flex items-center justify-between gap-8">
                             <div>
 
@@ -360,8 +361,10 @@ export default function QnaDetail() {
                                             <span className="mr-20">
                                             {reply.comment}
                                             </span>
-                                            <button onClick={() => replyDelete(reply.id)} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
-                                       
+                                           
+                                            <button onClick={()=>{  const currentReplyId = reply.id;
+        replyDelete(currentReplyId);}} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
+                                  
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-400">
 
@@ -381,8 +384,12 @@ export default function QnaDetail() {
                         </table>
 
                     </CardBody>
+                    </React.Fragment>
+                    ):(<tr><td></td></tr>)}
+                <Card className="h-full w-auto mx-4">
+                   
                 </Card>
-
+                </div> 
             </div>
         </>
     );
