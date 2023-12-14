@@ -21,17 +21,18 @@ function MyEditor({ initialContent, onContentChange }) {
         data={initialContent} // 초기내용 설정
         config={{
           placeholder: "내용을 입력하세요.",
-          toolbar: {
-            items: [
-                'undo', 'redo',
-                '|', 'heading',
-                '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-                '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-                '|', 'link', 'uploadImage', 'blockQuote', 'codeBlock',
-                '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
-            ],
-            shouldNotGroupWhenFull: false
-        },
+          toolbar: [
+            "heading",
+            "undo",
+            "redo",
+            "bold",
+            "italic",
+            "numberedList",
+            "bulletedList",
+            "uploadImage",
+            "|",
+            "codeBlock",
+          ],
           codeBlock: {
             // 여기에 코드 블록 관련 설정 추가 가능
             languages: [
