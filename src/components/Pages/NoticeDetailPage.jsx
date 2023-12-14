@@ -14,7 +14,7 @@ import {
   deleteNotice,
   
 } from "../../services/NoticeService.js";
-import ReactHtmlParser from "react-html-parser";
+import ReactHtmlParser from "html-react-parser";
 import MyEditor from "../Editor/MyEditor";
 export default function NoticeDetailPage() {
   const { authData } = useContext(AuthContext);
