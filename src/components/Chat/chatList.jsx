@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../../context/AuthContext";
 import { CardHeader, CardBody, Card } from "@material-tailwind/react";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // react-router-dom에서 useHistory import
+import { useNavigate } from 'react-router-dom'; 
 
 export default function ChatList() {
   const navigate = useNavigate();
@@ -73,9 +73,9 @@ export default function ChatList() {
             <div className="border-2 border-black rounded-lg w-3/4">
                 <div className="w-full bg-white rounded-md shadow-md mr-10">
                     <Card className="divide-y divide-gray-200">
-                        <CardHeader className="p-5 border-b border-gray-200">
-                            <h2 className="text-2xl font-bold">Chat Rooms</h2>
-                        </CardHeader>
+                      <div class="flex-col space-y-1.5 p-5 border-b border-gray-200 flex justify-start">
+                        <h2 class="text-2xl font-bold">Chat Rooms</h2>
+                      </div>
                         <CardBody>
                             <ul>
                                 {chatRooms.map((room) => (
@@ -110,7 +110,7 @@ export default function ChatList() {
                         </CardBody>
                     </Card>
                     <div className="p-4">
-                        <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=> { navigate('./create'); }} // 버튼 클릭 시 navigateToCreateChatRoom 함수 호출
+                        <button className="w-full bg-blue-300 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=> { navigate('./create'); }}
                             >
                             Create Chat Room
                         </button>
