@@ -145,10 +145,11 @@ function Sidebar() {
           ></path>
         </svg>
       </button>
-        
+
       <aside
         id="studyRoom-sidebar"
-        className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        className={`${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } fixed top-35 left-0 z-40 w-56 h-screen transition-transform sm:translate-x-0`}
         aria-label="Sidebar"
       >

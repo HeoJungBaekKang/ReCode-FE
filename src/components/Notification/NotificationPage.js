@@ -78,6 +78,8 @@ export default function NotificationPage({ notification }) {
                   {authData.nickname}
                 </span>{" "}
                 <span className="text-black-500 font-bold">님의 알림 목록</span>
+                <br></br>
+                <span className="text-black-500 text-sm">미확인 버튼을 누르면 알림이 읽음 처리 됩니다. </span>
               </Typography>
             </div>
           </div>
