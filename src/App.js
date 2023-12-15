@@ -47,6 +47,9 @@ import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
+import RequireAuth from "./components/RequireAuth";
+import PrivateRoute from "./components/PrivateRoute";
+
 
 function App() {
 
@@ -63,7 +66,6 @@ function App() {
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
             <Route path="/email" element={<Email />} />
-            <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
@@ -104,7 +106,9 @@ function App() {
             <Route path="/naverbook" element={<NaverBook />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
-          </Routes>
+            <Route path="/client/recruitment" element={<RequireAuth><StudyRecruitment/></RequireAuth>}/>
+        </Routes>
+
         </div>
       </AuthProvider>
     </Router >

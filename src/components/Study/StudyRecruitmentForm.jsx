@@ -10,6 +10,9 @@ import { format, addDays } from "date-fns";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
 export default function StudyRecruitment() {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
   const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -25,6 +28,11 @@ export default function StudyRecruitment() {
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
   };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 실행되는 로직
+    console.log("StudyRecruitment 컴포넌트가 마운트됨");
+  }, []);
 
   useEffect(() => {
     const fetchSkillsByPosition = async (position) => {
@@ -98,6 +106,7 @@ export default function StudyRecruitment() {
 
   const handleStartTimeChange = (e) => {
     setStartTime(e.target.value);
+    // 마지막 날짜와 비교하여 조건을 설정
   };
 
   const handleEndTimeChange = (e) => {
@@ -120,7 +129,6 @@ export default function StudyRecruitment() {
   });
 
   const handleCustomSelectChange = (selectedOptions) => {
-    console.log("selectedOptions 확인 @@ : ", selectedOptions);
     setSelectedSkills(selectedOptions);
   };
 
@@ -272,6 +280,8 @@ export default function StudyRecruitment() {
                 // 입력값을 가져옴
                 const inputValue = parseInt(e.target.value, 10);
                 const newValue = inputValue >= 0 ? inputValue : 0;
+                // const newValue = inputValue >= 25 ? 25 : inputValue;
+
                 // 상태 업데이트
                 setWrite({ ...write, maxNum: newValue });
               }}
@@ -430,6 +440,11 @@ export default function StudyRecruitment() {
             </span>
           </div>
         </div>
+        <MultiSelect
+          name="skillNames"
+          onChange={handleCustomSelectChange}
+          selectedPosition={selectedPosition}
+        />
       </div>
 
       <div className="sm:col-span-2 mt-2.5">

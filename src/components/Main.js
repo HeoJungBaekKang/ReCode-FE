@@ -59,14 +59,15 @@ const Main = () => {
     // 공지사항 페이지로 이동
     navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
   };
+  
 
   const handleNaverBookClick = () => {
-    navigate("/naverbook")
-  }
+    navigate("/naverbook");
+  };
 
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchTerm) => {
-    try {
+    try{
       console.log("허찬 바보 : ", searchTerm);
       const response = await handleSearchKeyword(searchTerm);
       console.log(" response 백승주 바보 : ", response.data);
@@ -78,8 +79,17 @@ const Main = () => {
     }
   };
 
-  const displayStudies = results.length > 0 ? results : (filteredStudies.length > 0 ? filteredStudies : studies);
+  const displayStudies =
+    results.length > 0
+      ? results
+      : filteredStudies.length > 0
+      ? filteredStudies
+      : studies;
   console.log("Display studies: ", displayStudies);
+
+  const handleCreateStudy = () => {
+    navigate('/client/recruitment');
+  };
 
   return (
     <>
@@ -109,7 +119,7 @@ const Main = () => {
                   onClick={handleNoticeClick} // 클릭 시 이동 함수 호출
                   className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto notice"
                 >
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                  <div style={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
                     <h2 className="text-2xl font-bold">공지사항</h2>
                     <p className="text-gray-800">이번 주 공지사항입니다. </p>
                   </div>
@@ -125,7 +135,7 @@ const Main = () => {
                   onClick={handleNaverBookClick}
                   className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto book-search"
                 >
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
+                  <div style={{ backgroundColor: "rgba(255,255,255,0.5)" }}>
                     <h2 className="text-2xl font-bold">도서 검색</h2>
                     <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
                   </div>
