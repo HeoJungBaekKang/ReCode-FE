@@ -29,7 +29,7 @@ export default function AdminStudyList({ filteredStudies }) {
           </h2>
 
         </div>
-        <div class="justify-items-stretch">
+        <div className="justify-items-stretch">
           <div className="bg-white py-24 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
               <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
