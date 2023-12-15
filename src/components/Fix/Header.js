@@ -13,7 +13,7 @@ const Main = () => {
 
     const menuItems = [
         { label: "알림", path: "/notification" },
-        { label: "채팅", path: "#" },
+        { label: "채팅", path: "/chat" },
         { label: "QnA", path: "/qna" },
         { label: "스터디 목록", path: "/" }
     ];
