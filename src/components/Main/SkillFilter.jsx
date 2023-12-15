@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TERipple } from "tw-elements-react";
 import TabsWithButtons from "./TabsWithButtons";
 
-// 시작 
+// 시작
 export default function SkillFilter({
   selectedSkills,
   setSelectedSkills,
@@ -19,11 +19,7 @@ export default function SkillFilter({
     );
     // 필터링된 스터디 목록을 상태로 설정
     setFilteredStudies(filteredStudies);
-
   }, [selectedSkills, studies, setFilteredStudies]);
-
-
-
 
   // 선택된 스킬을 토글하는 함수
   const handleSkillToggle = (skill) => {
@@ -38,18 +34,17 @@ export default function SkillFilter({
 
   return (
     <>
-      <TERipple rippleColor="light">
-        <a
-          className="inline-block rounded bg-primary mr-2 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-          role="button"
+      <TERipple>
+        <button
+          type="button"
           onClick={toggleShow}
+          className="inline-block border-4 border-slate-300  border-indigo-500/100 ring-4 rrounded-xl hover:border-t-4  text-blue-600  px-6 pb-[6px] pt-2 font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-blue-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10 "
         >
-          STACK 선택하기
-        </a>
+          STACK 선택
+        </button>
       </TERipple>
-
       {show && (
-        <div className="absolute z-30 w-full rounded-lg bg-amber-50 p-7 dark:bg-neutral-700 dark:text-neutral-50 ease-in-out mt-11">
+        <div className="absolute z-30 w-100 rounded-2xl ring-2 bg-white p-7 dark:bg-gray-700 dark:text-gray-50 ease-in-out mt-11">
           <TabsWithButtons
             selectedSkills={selectedSkills}
             setSelectedSkills={setSelectedSkills}
