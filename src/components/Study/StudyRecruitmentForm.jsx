@@ -6,6 +6,8 @@ import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
 import ReactHtmlParser from "html-react-parser";
 
+import { format, addDays, addMinutes } from "date-fns";
+
 import {
   getPosition,
   getSkillNameByPosition,
@@ -22,6 +24,7 @@ export default function StudyRecruitment() {
   const [selectedPosition, setSelectedPosition] = useState(""); // 컴포넌트의 상태
   const [description, setDescription] = useState("");
   const plainTextContent = removeFormatting(description);
+  const [endTimeOptions, setEndTimeOptions] = useState([]);
 
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
@@ -184,6 +187,52 @@ export default function StudyRecruitment() {
     return formattedText;
   }
 
+  const handleStartDateChange = (e) => {
+    const newStartDate = e.target.value;
+
+    // 현재 날짜와 비교하여 이후의 날짜만 허용
+    const currentDate = new Date();
+    if (new Date(newStartDate) >= currentDate) {
+      setWrite({ ...write, startDate: newStartDate, endDate: "" });
+    } else {
+      alert("스터디 시작 날짜는 현재 날짜 이후여야 합니다.");
+      // 혹은 다른 처리를 수행할 수 있습니다.
+    }
+    setWrite({ ...write, startDate: newStartDate });
+  };
+
+  const handleEndDateChange = (e) => {
+    const newEndDate = e.target.value;
+
+    if (write.startDate <= newEndDate) {
+      setWrite({ ...write, endDate: newEndDate });
+    } else {
+      // 종료 날짜가 시작 날짜보다 이전일 경우 예외 처리
+      alert("종료 날짜는 시작 날짜보다 이후이어야 합니다.");
+    }
+  };
+
+  const [endDateOptions, setEndDateOptions] = useState([]);
+
+  useEffect(() => {
+    // 시작 날짜가 변경될 때마다 종료 날짜 선택 옵션을 업데이트
+    if (write.startDate) {
+      const startDate = new Date(write.startDate);
+      const options = [];
+
+      // 예제로 7일 후까지의 날짜를 보여줍니다. 필요에 따라 조절 가능합니다.
+      for (let i = 0; i < 7; i++) {
+        const newEndDate = addDays(startDate, i);
+        options.push({
+          value: format(newEndDate, "yyyy-MM-dd"),
+          label: format(newEndDate, "yyyy-MM-dd"),
+        });
+      }
+
+      setEndDateOptions(options);
+    }
+  }, [write.startDate]);
+
   return (
     <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-2xl sm:mt-20">
       <div className="gird grid-cols-3 gap-4">
@@ -249,10 +298,11 @@ export default function StudyRecruitment() {
           </label>
           <input
             value={write.startDate}
-            onChange={(e) => setWrite({ ...write, startDate: e.target.value })}
+            onChange={handleStartDateChange}
             type="date"
             name="startDate"
             id="startDate"
+            min={format(new Date(), "yyyy-MM-dd")} // 현재 날짜 이후만 선택 가능
             className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
@@ -265,10 +315,11 @@ export default function StudyRecruitment() {
           </label>
           <input
             value={write.endDate}
-            onChange={(e) => setWrite({ ...write, endDate: e.target.value })}
+            onChange={handleEndDateChange}
             type="date"
             name="endDate"
             id="endDate"
+            min={write.startDate} // 시작 날짜 이후만 선택 가능
             className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
         </div>
@@ -338,7 +389,7 @@ export default function StudyRecruitment() {
       </div>
 
       <div className="grid grid-cols-5 gap-2">
-      <div className="mt-2.5 mb-4">
+        <div className="mt-2.5 mb-4">
           <label
             htmlFor="position"
             className="block text-sm font-semibold leading-6 text-gray-900"
@@ -363,27 +414,26 @@ export default function StudyRecruitment() {
           </select>
         </div>
         <div className="sm:col-span-4">
-        <div className="mt-2.5 mb-4">
-          <label
-            htmlFor="skillNames"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            기술스택 목록 선택
-          </label>
-          <MultiSelect
-            name="skillNames"
-            onChange={handleCustomSelectChange}
-            selectedPosition={selectedPosition}
-          />
-      
+          <div className="mt-2.5 mb-4">
+            <label
+              htmlFor="skillNames"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              기술스택 목록 선택
+            </label>
+            <MultiSelect
+              name="skillNames"
+              onChange={handleCustomSelectChange}
+              selectedPosition={selectedPosition}
+            />
+          </div>
+          <div className="sm:col-span-4">
+            <span className="font-thin text-sm">
+              (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
+              요청바랍니다. )
+            </span>
+          </div>
         </div>
-        <div className="sm:col-span-4">
-          <span className="font-thin text-sm">
-            (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
-            요청바랍니다. )
-          </span>
-        </div>
-    </div>
       </div>
 
       <div className="sm:col-span-2 mt-2.5">
