@@ -16,7 +16,7 @@ export default function ChatList() {
   const fetchChatRooms = async () => {
     try {
     
-      const response = await axios.get('http://localhost:8081/api/v1/chat/chat-list', {
+      const response = await axios.get('http://52.79.108.89:8081/api/v1/chat/chat-list', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -36,7 +36,7 @@ export default function ChatList() {
 
   const handleDeleteChatRoom = async (chatRoomId) => {
     try {
-      await axios.delete(`http://localhost:8081/api/v1/chat/${chatRoomId}/delete-chatRoom`, {
+      await axios.delete(`http://52.79.108.89:8081/api/v1/chat/${chatRoomId}/delete-chatRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
@@ -52,7 +52,7 @@ export default function ChatList() {
   
   const handleLeaveChatRoom = async (chatRoomId) => {
     try {
-      await axios.delete(`http://localhost:8081/api/v1/chat/${chatRoomId}/leave-chatRoom`, {
+      await axios.delete(`http://52.79.108.89:8081/api/v1/chat/${chatRoomId}/leave-chatRoom`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`
