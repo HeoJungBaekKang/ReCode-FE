@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css";
+import { useNavigate } from 'react-router-dom'; 
 
 
 const ChatApp = () => {
+  const navigate = useNavigate();
   const { nickname, chatRoomId } = useParams();
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const ChatApp = () => {
         msg: msgInput.value
       };
 
-      fetch("http://localhost:8080/chat", {
+      fetch("http://52.79.108.89:8080/chat", {
         method: "post", //Http post 메소드
         body: JSON.stringify(chat), //JS Object -> JSON
         headers: {
@@ -85,7 +87,7 @@ const ChatApp = () => {
     });
 
     //=====
-    const eventSource = new EventSource(`http://localhost:8080/chat/roomNum/${chatRoomId}`);
+    const eventSource = new EventSource(`http://52.79.108.89:8080/chat/roomNum/${chatRoomId}`);
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -112,8 +114,8 @@ const ChatApp = () => {
           <div className="col-sm-12">
             <div id="user_chat_data" className="user_chat_data">
               <div className="profile_name">
-
-                <span id="nickname">{nickname}</span>
+              <button onClick={() => navigate('/chat')} className="flex justify-start w-20 text-xs back_button">뒤로 가기</button>
+              <span id="nickname">{nickname}</span>
               </div>
               <div className="container-fluid chat_section" id="chat-box"></div>
               <div className="type_msg">
