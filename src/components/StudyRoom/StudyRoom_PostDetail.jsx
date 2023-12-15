@@ -28,7 +28,6 @@ const PostDetail = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("API 응답:", response.data);
                 setPostData({ data: response.data.data });
 
             } catch (error) {
@@ -41,7 +40,6 @@ const PostDetail = () => {
 
     // 전체 postData 객체를 로그로 출력
     useEffect(() => {
-        console.log("게시글 데이터:", postData);
     }, [postData]);
 
 
@@ -49,7 +47,6 @@ const PostDetail = () => {
     const handleEdit = () => {
 
         navigate(`/studyroom/${study_id}/post/edit/${post_id}`);
-        console.log("수정 버튼 클릭:", post_id);
     };
 
     // 삭제 버튼 클릭 시의 동작
@@ -66,10 +63,8 @@ const PostDetail = () => {
             );
 
             if (response.data.code === 1) {
-                console.log("글 삭제 성공 : ", response.data);
                 navigate(`/studyroom/board/${study_id}`);
             } else {
-                console.log("글 삭제 실패 :", response);
             }
         } catch (error) {
             console.log("글 삭제 중 오류 발생 :", error);
@@ -118,7 +113,6 @@ const PostDetail = () => {
                 }
             )
                 .then(response => {
-                    console.log(response);
                     // 서버 응답이 성공적일 경우, 댓글 목록에 새 댓글 추가
                     const newComment = {
                         id: response.data.data.id,
@@ -144,7 +138,6 @@ const PostDetail = () => {
                 }
             }
             );
-            console.log("댓글 응답:", postReplyResponse.data);
             setComments(postReplyResponse.data.data);
 
         } catch (error) { // 훈호님 바보
@@ -181,7 +174,6 @@ const PostDetail = () => {
     };
 
     const handleUpdateComment = async (comment) => {
-        console.log("postReply_Id", postReply_id);
         try {
             const response = await axios.put(
                 `/api/v1/study/${study_id}/post/${post_id}/postReply/edit/${comment.id}`,
@@ -197,15 +189,12 @@ const PostDetail = () => {
             );
 
             if (response.data.code === 1) {
-                console.log("댓글 수정 성공 : ", response.data);
                 // 서버 응답이 성공적일 경우, 수정 상태를 초기화
                 setEditingComment(null);
             } else {
-                console.log("댓글 수정 실패 :", response);
             }
         } catch (error) {
             console.log("댓글 수정 중 오류 발생 :", error);
-            console.log("서버 응답:", error.response); // 서버 응답 기록
         }
     };
 
@@ -224,7 +213,6 @@ const PostDetail = () => {
 
             if (response.status === 200) {
                 // 댓글 삭제가 성공하면, 댓글 목록을 다시 불러옵니다.
-                console.log("댓글 삭제 성공 : ", response.data);
                 loadComments();
             }
         } catch (error) {
@@ -248,15 +236,12 @@ const PostDetail = () => {
     };
 
     const handleCancelEdit = (comment) => {
-        console.log("취소 전 상태", comments);
 
         setComments((prevComments) =>
             prevComments.map((c) =>
                 c.id === comment.id ? { ...c, content: comment.content } : c
             )
         );
-
-        console.log("취소 후 상태", comments);
 
         // 수정 상태를 초기화합니다.
         setEditingComment(null);
