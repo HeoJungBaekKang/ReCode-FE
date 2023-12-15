@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
-import  axios  from "axios";
 
 const CheckUsernameDuplicate = async (username) => {
 
   try {
-    const response = await axios.get(`/api/user-name/${username}/exists`);
-    const result = await response.data;
-
+    const response = await fetch(`/api/user-name/${username}/exists`);
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
     return result;
 
   }
@@ -20,10 +20,10 @@ const CheckUsernameDuplicate = async (username) => {
 const CheckEmailDuplicate = async (email) => {
 
   try {
-    const response = await axios.get(`/api/user-email/${email}/exists`);
-  
-    const result = await response.data;
-
+    const response = await fetch(`http://15.164.85.184/api/user-email/${email}/exists`);
+    console.log(response)
+    const result = await response.json();
+    console.log(result)
     return result;
 
   }
@@ -51,6 +51,7 @@ export default function Join() {
       ...formData,
       username: e.target.value,
     })
+    console.log(username)
   };
 
   const [isUsernameValidated, setIsUsernameValidated] = useState(false);
@@ -59,7 +60,7 @@ export default function Join() {
   const handlename = async () => {
     const currentName = username
     const result = await CheckUsernameDuplicate(currentName);
-
+    console.log(result.code)
     if (result.code === 1) {
       // 사용 가능한 아이디
       alert("사용 가능한 아이디입니다.");
@@ -77,12 +78,13 @@ export default function Join() {
       ...formData,
       email: e.target.value,
     })
+    console.log(email)
   };
 
   const handleEmail = async () => {
     const currentEmail = email
     const result = await CheckEmailDuplicate(currentEmail);
-
+    console.log(result.code)
     if (result.code === 1) {
       // 사용 가능한 이메일
       alert("사용 가능한 이메일입니다.");
@@ -117,7 +119,7 @@ export default function Join() {
       return;
     }
 
-    if (!isEmailValidated) {
+    if(!isEmailValidated) {
       alert("이메일 중복확인 후 진행해주시기 바랍니다.");
       return;
     }
@@ -130,10 +132,11 @@ export default function Join() {
         navigate("/login");
       } else {
         alert("회원가입 실패");
-        console.log("회원가입 실패");
+        console.log("회원가입 실패 :", formData);
       }
     } catch (error) {
       console.error("오류 발생:", error);
+      console.log(formData);
     }
   };
 
