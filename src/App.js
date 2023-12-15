@@ -45,8 +45,12 @@ import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import ChatList from "./components/Chat/chatList";
+import ChatApp from "./components/Chat/chatApp";
+import ChatCreate from "./components/Chat/chatCreate";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
+import Message from "./components/Client/Message";
 
 function App() {
 
@@ -102,8 +106,12 @@ function App() {
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/naverbook" element={<NaverBook />} />
+            <Route path="/chat" element={<ChatList />} />
+            <Route path="/chat/create" element={<ChatCreate />} />
+            <Route path="/chat/chatApp/:chatRoomId/:nickname" element={<ChatApp />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
+            <Route path="/message" element={<Message />} />
           </Routes>
         </div>
       </AuthProvider>

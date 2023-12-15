@@ -88,15 +88,6 @@ const Main = () => {
           className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[3rem]"
           aria-hidden="true"
         >
-          <div
-            className="relative left-1/2 -z-10 aspect-[1600/1100] w-[110rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#6dd5ed] to-[#ff758c] shadow-lg border border-gray-300 opacity-50 sm:left-[calc(50%-55rem)] sm:w-[95rem]"
-            style={{
-              clipPath: "polygon(45% 5%, 100% 45%, 90% 15%, 85% 0%, 75% 5%, 65% 20%, 55% 50%, 45% 60%, 35% 45%, 25% 25%, 40% 65%, 10% 55%, 20% 90%, 30% 70%, 75% 85%, 70% 30%)",
-              transform: 'translate(10px, 10px)', // Adjust the translate values as needed
-              transition: 'all 0.3s ease-in-out',
-              animation: 'pulse 2s infinite'
-            }}
-          />
         </div>
         <Layout>
           <section>
