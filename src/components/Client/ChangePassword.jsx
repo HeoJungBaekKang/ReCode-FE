@@ -113,8 +113,8 @@ export default function ChangePassword() {
         if (tokenFromUrl && email) {
             // 유저 로그인 여부 엔드포인드 설정
             const url = authData && authData.token ?
-                `http://52.79.108.89:8080/api/v1/check-mail-token` :
-                `http://52.79.108.89:8080/api/check-mail-token`;
+                `/api/v1/check-mail-token` :
+                `/api/check-mail-token`;
 
             // 헤더 설정
             const headers = {};

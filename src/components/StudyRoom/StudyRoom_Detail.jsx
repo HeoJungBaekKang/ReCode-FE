@@ -41,7 +41,7 @@ export default function Detail() {
     const handleGet = async () => {
 
         try {
-            await axios.get(`http://52.79.108.89:8080/api/study/${study_id}`, {
+            await axios.get(`/api/study/${study_id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
