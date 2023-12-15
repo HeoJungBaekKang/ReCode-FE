@@ -171,7 +171,7 @@ const StudyRoomNotLogin = () => {
 
   return (
     <>
-      <div className="flex">
+    
         <div className="max-w-screen-md max-h-screen mx-auto p-4">
           <div className="px-4 sm:px-0">
             <h2 className="text-2xl font-bold leading-7 text-gray-900">
@@ -301,7 +301,7 @@ const StudyRoomNotLogin = () => {
             </dl>
           </div>
         </div>
-      </div>
+ 
     </>
   );
 };
