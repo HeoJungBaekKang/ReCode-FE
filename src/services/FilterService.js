@@ -144,4 +144,3 @@ export const handleSearchKeyword = async (searchTerm) => {
       console.error('Error fetching search results', error);
   }
 };
-

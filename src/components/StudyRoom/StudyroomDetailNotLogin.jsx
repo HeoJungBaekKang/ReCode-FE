@@ -168,21 +168,7 @@ const StudyRoomNotLogin = () => {
         <div className="max-w-screen-md mx-auto p-4">
           {/* 글 상세 내용 */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <div className="flex justify-between">
-              <h1 className="text-3xl font-bold mb-4">{detail.title}</h1>
-              <div className="flex justify-end text-xs p-1">
-                <div className={`text-xs px-2 font-style: italic; py-2.5 rounded-full ${detail.maxNum - detail.currentNum <= 2 && detail.maxNum !== detail.currentNum ? 'bg-red-400 text-white' :
-                  detail.maxNum > detail.currentNum ? 'bg-green-400 text-white' :
-                    'bg-gray-400 text-white'
-                  }`}>
-                  {
-                    detail.maxNum - detail.currentNum <= 2 && detail.maxNum !== detail.currentNum ? '마감 임박' :
-                      detail.maxNum > detail.currentNum ? '모집중' :
-                        '모집 완료'
-                  }
-                </div>
-              </div>
-            </div>
+            <h1 className="text-3xl font-bold mb-4">{detail.title}</h1>
             <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
               <span className="mr-4">{badge.name}{detail.master}</span>
               <span className="mr-4">{detail.createdAt}</span>
@@ -249,10 +235,9 @@ const StudyRoomNotLogin = () => {
             <button
               type="submit"
               onClick={handleStudyRoomClick}
-              disabled={detail.currentNum === detail.maxNum} // Disable the button if current_num equals max_num
-              className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
-      ${detail.currentNum === detail.maxNum ? 'opacity-50 cursor-not-allowed' : ''}`}> {/* Conditional styling for disabled state */}
-              {detail.currentNum === detail.maxNum ? '마감' : '신청'}
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              신청
             </button>
           </div>
         </div>

@@ -21,7 +21,7 @@ const CheckUsernameDuplicate = async (username) => {
 const CheckEmailDuplicate = async (email) => {
 
   try {
-    const response = await fetch(`/api/user-email/${email}/exists`);
+    const response = await fetch(`http://15.164.85.184/api/user-email/${email}/exists`);
     console.log(response)
     const result = await response.json();
     console.log(result)
