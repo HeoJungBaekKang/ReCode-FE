@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CheckUsernameDuplicate = async (username) => {
 
   try {
-    const response = await get(`/api/user-name/${username}/exists`);
+    const response = await axios.get(`/api/user-name/${username}/exists`);
     const result = await response.data;
 
     return result;
@@ -19,7 +19,7 @@ const CheckUsernameDuplicate = async (username) => {
 const CheckEmailDuplicate = async (email) => {
 
   try {
-    const response = await get(`/api/user-email/${email}/exists`);
+    const response = await axios.get(`/api/user-email/${email}/exists`);
   
     const result = await response.data;
 
