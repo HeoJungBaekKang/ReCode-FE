@@ -8,6 +8,7 @@ import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
 import { format, addDays } from "date-fns";
 
 import { getSkillNameByPosition } from "../../services/FilterService";
+import Detail from "../StudyRoom/StudyRoom_Detail";
 
 export default function StudyRecruitment() {
   const [startDate, setStartDate] = useState(null);
@@ -23,7 +24,8 @@ export default function StudyRecruitment() {
   const [selectedPosition, setSelectedPosition] = useState(""); // 컴포넌트의 상태
   const [description, setDescription] = useState("");
   const plainTextContent = removeFormatting(description);
-  const [endTimeOptions, setEndTimeOptions] = useState([]);
+
+  const [time, setTime] = useState(""); // 시간 상태
 
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
@@ -39,7 +41,7 @@ export default function StudyRecruitment() {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log("${position} skill을  불러왔습니다. ", skillByPosition);
+        console.log("${position} skill을  불러왔습니다.", skillByPosition);
       } catch (error) {
         console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
       }
@@ -199,7 +201,6 @@ export default function StudyRecruitment() {
     if (new Date(newStartDate) >= currentDate) {
       setWrite({ ...write, startDate: newStartDate, endDate: "" });
     } else {
-      alert("스터디 시작 날짜는 현재 날짜 이후여야 합니다.");
       // 혹은 다른 처리를 수행할 수 있습니다.
     }
     setWrite({ ...write, startDate: newStartDate });
@@ -216,284 +217,260 @@ export default function StudyRecruitment() {
     }
   };
 
-  const [endDateOptions, setEndDateOptions] = useState([]);
-
-  useEffect(() => {
-    // 시작 날짜가 변경될 때마다 종료 날짜 선택 옵션을 업데이트
-    if (write.startDate) {
-      const startDate = new Date(write.startDate);
-      const options = [];
-
-      // 예제로 7일 후까지의 날짜를 보여줍니다. 필요에 따라 조절 가능합니다.
-      for (let i = 0; i < 7; i++) {
-        const newEndDate = addDays(startDate, i);
-        options.push({
-          value: format(newEndDate, "yyyy-MM-dd"),
-          label: format(newEndDate, "yyyy-MM-dd"),
-        });
-      }
-
-      setEndDateOptions(options);
-    }
-  }, [write.startDate]);
-
   return (
-    <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-2xl sm:mt-20">
-      <div className="gird grid-cols-3 gap-4">
-        <div className="col-span-2">
-          <label
-            htmlFor="studyName"
-            className="block text-sm font-semibold leading-2 text-gray-900"
-          >
-            스터디 이름
-          </label>
-          <div className="mt-2.5 mb-4">
-            <input
-              value={write.studyName}
-              onChange={(e) =>
-                setWrite({ ...write, studyName: e.target.value })
-              }
-              type="text"
-              name="studyName"
-              id="studyName"
-              autoComplete="studyName"
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div className="col-span-2">
-          <div className="mt-2.5 mb-4 w-1/2">
+    <div>
+      <form onSubmit={submitWrite} className="mx-auto mt-16 max-w-3xl sm:mt-20">
+        <div className="gird grid-cols-3 gap-4">
+          <div className="col-span-2">
             <label
-              htmlFor="maxNum"
-              className="block text-sm font-semibold leading-6 text-gray-900"
+              htmlFor="studyName"
+              className="block text-sm font-semibold leading-2 text-gray-900"
             >
-              모집인원
+              스터디 이름
             </label>
-
-            <input
-              type="number"
-              id="maxNum"
-              name="maxNum"
-              value={write.maxNum}
-              onChange={(e) => {
-                // 입력값을 가져옴
-                const inputValue = parseInt(e.target.value, 10);
-                const newValue = inputValue >= 0 ? inputValue : 0;
-                // const newValue = inputValue >= 25 ? 25 : inputValue;
-
-                // 상태 업데이트
-                setWrite({ ...write, maxNum: newValue });
-              }}
-              min={0} // 최소 값 설정
-              max={25} // 최대 값 설정
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              placeholder="최대 인원 수 25명"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="justify-self-auto">
-          <label
-            htmlFor="startDate"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            스터디 시작 날짜
-          </label>
-          <input
-            value={write.startDate}
-            onChange={handleStartDateChange}
-            type="date"
-            name="startDate"
-            id="startDate"
-            min={format(new Date(), "yyyy-MM-dd")} // 현재 날짜 이후만 선택 가능
-            className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-        <div className="justify-self-auto">
-          <label
-            htmlFor="endDate"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            스터디 종료 날짜
-          </label>
-          <input
-            value={write.endDate}
-            onChange={handleEndDateChange}
-            type="date"
-            name="endDate"
-            id="endDate"
-            min={write.startDate} // 시작 날짜 이후만 선택 가능
-            className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="mt-2.5 mb-4">
-          <label
-            htmlFor="startTime"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            출석 인정 시작 시간
-          </label>
-          <div className="mt-2.5 mb-4 relative rounded-md shadow-sm">
-            <input
-              type="time"
-              value={startTime}
-              onChange={handleStartTimeChange}
-              className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div className="mt-2.5 mb-4">
-          <label
-            htmlFor="endTime"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            출석 인정 마지막 시간
-          </label>
-          <div className="mt-2.5 mb-4 w-full relative rounded-md shadow-sm">
-            <input
-              className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              type="time"
-              value={endTime}
-              onChange={handleEndTimeChange}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-2.5 mb-4">
-        <label
-          htmlFor="AttendanceDay"
-          className="block text-sm font-semibold leading-6 text-gray-900"
-        >
-          스터디 진행 요일
-        </label>
-        <div className="grid grid-cols-7 gap-1">
-          {daysOfWeek.map((day) => (
-            <label
-              key={day.id}
-              className="block rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
+            <div className="mt-2.5 mb-4">
               <input
-                type="checkbox"
-                id={day.id}
-                name="attendanceDay"
-                value={write.studyDay}
-                checked={selectedDays.includes(day.id)}
-                onChange={handleCheckboxChange}
+                value={write.studyName}
+                onChange={(e) =>
+                  setWrite({ ...write, studyName: e.target.value })
+                }
+                type="text"
+                name="studyName"
+                id="studyName"
+                autoComplete="studyName"
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
-              {day.label}
-            </label>
-          ))}
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div className="grid grid-cols-5 gap-2">
-        <div className="mt-2.5 mb-4">
-          <label
-            htmlFor="position"
-            className="block text-sm font-semibold leading-6 text-gray-900"
-          >
-            모집 구분
-          </label>
-          <select
-            id="position"
-            name="position"
-            value={write.position}
-            // onChange={(e) =>
-            //   setWrite({ ...write, skillNamespostion: e.target.value })
-            // }
-            onChange={handlePositionChange}
-            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          >
-            {/* 범위 선택 방식으로 변경하기  */}
-            <option value="">선택</option>
-            <option value="FullStack">풀스택</option>
-            <option value="Frontend">프론트엔드</option>
-            <option value="Backend">백엔드</option>
-          </select>
+          <div className="col-span-2">
+            <div className="mt-2.5 mb-4 w-1/2">
+              <label
+                htmlFor="maxNum"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                모집인원
+              </label>
+
+              <input
+                type="number"
+                id="maxNum"
+                name="maxNum"
+                value={write.maxNum}
+                onChange={(e) => {
+                  // 입력값을 가져옴
+                  const inputValue = parseInt(e.target.value, 10);
+                  const newValue = inputValue >= 0 ? inputValue : 0;
+                  // const newValue = inputValue >= 25 ? 25 : inputValue;
+
+                  // 상태 업데이트
+                  setWrite({ ...write, maxNum: newValue });
+                }}
+                min={0} // 최소 값 설정
+                max={25} // 최대 값 설정
+                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                placeholder="최대 인원 수 25명"
+              />
+            </div>
+          </div>
         </div>
-        <div className="sm:col-span-4">
-          <div className="mt-2.5 mb-4">
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="justify-self-auto">
             <label
-              htmlFor="skillNames"
+              htmlFor="startDate"
               className="block text-sm font-semibold leading-6 text-gray-900"
             >
-              기술스택 목록 선택
+              스터디 시작 날짜
             </label>
-            <MultiSelect
-              name="skillNames"
-              onChange={handleCustomSelectChange}
-              selectedPosition={selectedPosition}
+            <input
+              value={write.startDate}
+              onChange={handleStartDateChange}
+              type="date"
+              name="startDate"
+              id="startDate"
+              min={format(new Date(), "yyyy-MM-dd")} // 현재 날짜 이후만 선택 가능
+              className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
+          </div>
+          <div className="justify-self-auto">
+            <label
+              htmlFor="endDate"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              스터디 종료 날짜
+            </label>
+            <input
+              value={write.endDate}
+              onChange={handleEndDateChange}
+              type="date"
+              name="endDate"
+              id="endDate"
+              min={write.startDate} // 시작 날짜 이후만 선택 가능
+              className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="mt-2.5 mb-4">
+            <label
+              htmlFor="startTime"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              출석 인정 시작 시간
+            </label>
+            <div className="mt-2.5 mb-4 relative rounded-md shadow-sm">
+              <input
+                type="time"
+                value={startTime}
+                onChange={handleStartTimeChange}
+                className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          <div className="mt-2.5 mb-4">
+            <label
+              htmlFor="endTime"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              출석 인정 마지막 시간
+            </label>
+            <div className="mt-2.5 mb-4 w-full relative rounded-md shadow-sm">
+              <input
+                className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                type="time"
+                value={endTime}
+                onChange={handleEndTimeChange}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-2.5 mb-4">
+          <label
+            htmlFor="AttendanceDay"
+            className="block text-sm font-semibold leading-6 text-gray-900"
+          >
+            스터디 진행 요일
+          </label>
+          <div className="grid grid-cols-7 gap-1">
+            {daysOfWeek.map((day) => (
+              <label
+                key={day.id}
+                className="block rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              >
+                <input
+                  type="checkbox"
+                  id={day.id}
+                  name="attendanceDay"
+                  value={write.studyDay}
+                  checked={selectedDays.includes(day.id)}
+                  onChange={handleCheckboxChange}
+                />
+                {day.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-5 gap-2">
+          <div className="mt-2.5 mb-4">
+            <label
+              htmlFor="position"
+              className="block text-sm font-semibold leading-6 text-gray-900"
+            >
+              모집 구분
+            </label>
+            <select
+              id="position"
+              name="position"
+              value={write.position}
+              // onChange={(e) =>
+              //   setWrite({ ...write, skillNamespostion: e.target.value })
+              // }
+              onChange={handlePositionChange}
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            >
+              {/* 범위 선택 방식으로 변경하기  */}
+              <option value="">선택</option>
+              <option value="FullStack">풀스택</option>
+              <option value="Frontend">프론트엔드</option>
+              <option value="Backend">백엔드</option>
+            </select>
           </div>
           <div className="sm:col-span-4">
-            <span className="font-thin text-sm">
-              (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
-              요청바랍니다. )
-            </span>
+            <div className="mt-2.5 mb-4">
+              <label
+                htmlFor="skillNames"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                기술스택 목록 선택
+              </label>
+              <MultiSelect
+                name="skillNames"
+                onChange={handleCustomSelectChange}
+                selectedPosition={selectedPosition}
+              />
+            </div>
+            <div className="sm:col-span-4">
+              <span className="font-thin text-sm">
+                (기술 스택에 없는 경우 고객센터의 Q&A 를 통해서 관리자에게
+                요청바랍니다. )
+              </span>
+            </div>
           </div>
         </div>
-        <MultiSelect
-          name="skillNames"
-          onChange={handleCustomSelectChange}
-          selectedPosition={selectedPosition}
-        />
-      </div>
 
-      <div className="sm:col-span-2 mt-2.5">
-        <label
-          htmlFor="title"
-          className="block text-sm font-semibold leading-3 text-gray-900"
-        >
-          제목
-        </label>
-        <div className="mt-2.5 mb-4">
-          <input
-            value={write.title}
-            onChange={(e) => setWrite({ ...write, title: e.target.value })}
-            type="text"
-            name="title"
-            id="title"
-            autoComplete="title"
-            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          />
-        </div>
-      </div>
-      <div className="sm:col-span-2">
-        <div className="mt-2.5">
-          <div>
-            <StudyRecruitEditor
-              onContentChange={handleEditorDataChange}
-              dangerouslySetInnerHTML={{ __html: plainTextContent }}
+        <div className="sm:col-span-2 mt-2.5">
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold leading-3 text-gray-900"
+          >
+            제목
+          </label>
+          <div className="mt-2.5 mb-4">
+            <input
+              value={write.title}
+              onChange={(e) => setWrite({ ...write, title: e.target.value })}
+              type="text"
+              name="title"
+              id="title"
+              autoComplete="title"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
-      </div>
-
-      <div className="mt-10">
-        <div className="flex gap-x-3">
-          <button
-            type="reset"
-            onClick={() => navigate("/")}
-            className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-          >
-            취소
-          </button>
-          <button
-            type="submit"
-            className="flex-1 rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            작성완료
-          </button>
+        <div className="sm:col-span-2">
+          <div className="mt-2.5">
+            <div>
+              <StudyRecruitEditor
+                onContentChange={handleEditorDataChange}
+                dangerouslySetInnerHTML={{ __html: plainTextContent }}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-    </form>
+
+        <div className="mt-10">
+          <div className="flex gap-x-3">
+            <button
+              type="reset"
+              onClick={() => navigate("/")}
+              className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              className="flex-1 rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              작성완료
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 }

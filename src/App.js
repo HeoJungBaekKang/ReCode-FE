@@ -58,7 +58,7 @@ function App() {
         <Header /> {/* 모든 페이지 상단에 헤더를 렌더링합니다 */}
         <div className="main-content">
           {" "}
-          {/* 이 div가 헤더와 나머지 컨텐츠 사이의 간격을 조정합니다 */}
+      
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
