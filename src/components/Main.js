@@ -88,7 +88,15 @@ const Main = () => {
   console.log("Display studies: ", displayStudies);
 
   const handleCreateStudy = () => {
-    navigate('/client/recruitment');
+        // 사용자가 로그인되어 있는지 확인합니다.
+        if (!authData.token) {
+          // 로그인되어 있지 않다면, 로그인 페이지로 이동합니다.
+          alert("로그인을 진행해주세요.");
+          navigate("/login"); // 실제 로그인 페이지 경로에 맞게 수정하세요.
+        } else {
+          // 로그인되어 있다면, "/client/recruitment" 페이지로 이동합니다.
+          navigate("/client/recruitment");
+        }
   };
 
   return (
@@ -160,7 +168,8 @@ const Main = () => {
             <div className="flex items-center space-x-4">
               {/* 스터디 생성 버튼 */}
               <button
-                onClick={() => navigate("/client/recruitment")}
+                // onClick={() => navigate("/client/recruitment")}
+                onClick={handleCreateStudy}
                 className="p-2 bg-blue-500 text-white rounded-md"
               >
                 스터디 생성

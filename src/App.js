@@ -47,8 +47,7 @@ import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
-import RequireAuth from "./components/RequireAuth";
-import PrivateRoute from "./components/PrivateRoute";
+
 
 
 function App() {
@@ -106,7 +105,7 @@ function App() {
             <Route path="/naverbook" element={<NaverBook />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
-            <Route path="/client/recruitment" element={<RequireAuth><StudyRecruitment/></RequireAuth>}/>
+            <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
         </Routes>
 
         </div>
