@@ -4,14 +4,10 @@ import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
-import ReactHtmlParser from "html-react-parser";
 
-import { format, addDays, addMinutes } from "date-fns";
+import { format, addDays } from "date-fns";
 
-import {
-  getPosition,
-  getSkillNameByPosition,
-} from "../../services/FilterService";
+import { getSkillNameByPosition } from "../../services/FilterService";
 
 export default function StudyRecruitment() {
   const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
