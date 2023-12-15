@@ -41,7 +41,7 @@ export default function StudyModify() {
                 >
                     <div className="flex gap-x-3">
                         <div className="sm:col-span-2">
-                            <div className="w-48">
+                            <div class="w-48">
                                 <label
                                     htmlFor="max-num"
                                     className="block text-sm font-semibold leading-6 text-gray-900"

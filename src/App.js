@@ -23,7 +23,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Participants from "./components/StudyRoom/Participants";
 import ApplyStatus from "./components/StudyRoom/StudyRoom_ManageApplicationStatus";
 import ApplicationDetail from "./components/StudyRoom/StudyRoom_ManageApplicationDetail";
-import StudyModify from "./components/StudyRoom/StudyModify";
+import StudyModify2 from "./components/StudyRoom/StudyModify2";
 import StudyRoomNotLogin from "./components/StudyRoom/StudyroomDetailNotLogin";
 import PostDetail from "./components/StudyRoom/StudyRoom_PostDetail";
 import Quiz from "./components/StudyRoom/StudyRoom_Quiz";
@@ -86,7 +86,7 @@ function App() {
             <Route path="/studyroom/:study_id/manage/applicationdetail/:id" element={<ApplicationDetail />} />
             <Route path="/studyroom/quiz/:study_id" element={<Quiz />} />
             <Route path="/studyroom/:study_id/post/:post_id" element={<PostDetail />} />
-            <Route path="/studyroom/:study_id/manage/modify" element={<StudyModify />} />
+            <Route path="/studyroom/:study_id/manage/modify" element={<StudyModify2 />} />
             <Route path="/AdminstudyroomDetail/:study_id" element={<AdminStudyRoomDetail />} />
             <Route path="/qna" element={<Qna />} />
             <Route path="/qna/:qnaId" element={<QnaDetail />} />

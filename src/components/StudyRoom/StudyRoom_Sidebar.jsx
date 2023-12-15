@@ -158,8 +158,6 @@ function Sidebar() {
               </li>
             )}
 
-
-
             {/* 관리자만 볼 수 있는 메뉴 */}
             {authData.username === info.username && (
               <li className="bg-gray-100">

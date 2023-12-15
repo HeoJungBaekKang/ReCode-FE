@@ -42,15 +42,14 @@ export default function NoticePage() {
 
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchType, searchTerm) => {
-    console.log("허찬 바보 : ", searchType, searchTerm);
+ 
     const response = await handleSearchKeyword(
       searchType,
       searchTerm,
       setResults
     );
-    console.log(" response 백승주 바보 : ", response.data);
+
     setDisplayList(response.data);
-    console.log("강민희 바보 :", displayList);
   };
 
   useEffect(() => {

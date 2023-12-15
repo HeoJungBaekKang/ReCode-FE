@@ -88,9 +88,6 @@ export default function NoticeDetailPage() {
   const handleContentChange = (newContent) => {
     setNoticeContent(newContent); // 글 내용 입력란의 값이 변경되면 상태 업데이트
   };
-  // const userRole = 'admin';
-  // const postOwnerId = '';
-  // const createdBy = '';
   return (
     <>
       <QnaSidebar />
