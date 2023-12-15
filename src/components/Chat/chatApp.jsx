@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css";
+import { useNavigate } from 'react-router-dom'; 
 
 
 const ChatApp = () => {
+  const navigate = useNavigate();
   const { nickname, chatRoomId } = useParams();
 
   useEffect(() => {
@@ -112,8 +114,8 @@ const ChatApp = () => {
           <div className="col-sm-12">
             <div id="user_chat_data" className="user_chat_data">
               <div className="profile_name">
-
-                <span id="nickname">{nickname}</span>
+              <button onClick={() => navigate('/chat')} className="flex justify-start w-20 text-xs back_button">뒤로 가기</button>
+              <span id="nickname">{nickname}</span>
               </div>
               <div className="container-fluid chat_section" id="chat-box"></div>
               <div className="type_msg">
