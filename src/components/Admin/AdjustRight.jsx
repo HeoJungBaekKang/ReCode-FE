@@ -20,7 +20,7 @@ export default function AdjustRight() {
     const handleGet = async () => {
 
         try {
-            let url = `http://52.79.108.89:8080/api/v1/study/${study_room_id}/memberlist`;
+            let url = `/api/v1/study/${study_room_id}/memberlist`;
 
             await axios.get(url, {
                 headers: {
@@ -59,7 +59,7 @@ export default function AdjustRight() {
     const handlePut = async (event) => {
 
         try {
-            await axios.put(`http://52.79.108.89:8080/api/admin/v1/study-member/${study_id}/${user_id}`, rignt, {
+            await axios.put(`/api/admin/v1/study-member/${study_id}/${user_id}`, rignt, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

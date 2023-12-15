@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { UserMinusIcon } from "@heroicons/react/24/outline";
 import {
     IconButton,
@@ -25,7 +25,6 @@ export default function Participants() {
     useEffect(() => {
 
         const fetchData = async () => {
-            console.log("유저정보", users);
             try {
                 const response = await axios.get(`/api/v1/study/${study_id}/memberlist`, {
                     headers: {
@@ -33,7 +32,6 @@ export default function Participants() {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("스터디룸 인원 목록을 가져오는데 성공:", response.data);
                 setUsers(response.data.data);
 
             } catch (error) {
@@ -60,7 +58,7 @@ export default function Participants() {
             // 탈퇴 성공 시 사용자 목록 업데이트
             setUsers(prevUsers => prevUsers.filter(user => user.id !== member_id));
 
-            console.log("탈퇴 성공:", response.data);
+            console.log("탈퇴 성공");
         } catch (error) {
             console.error("탈퇴 중 오류 발생:", error);
         }
@@ -75,15 +73,12 @@ export default function Participants() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("해당 스터디의 조장입니다 : ", response.data.data);
                         setInfo({ ...info, username: response.data.data.username });
                     } else {
-                        console.log("해당 스터디의 조장이 아닙니다 :", response.data);
                     }
                 });
         } catch (error) {
@@ -93,7 +88,6 @@ export default function Participants() {
 
     useEffect(() => {
         if (study_id) {
-            console.log("Study Room ID: ", study_id);
             checkMaster();
         } else {
             console.log("Study Room ID Not found");

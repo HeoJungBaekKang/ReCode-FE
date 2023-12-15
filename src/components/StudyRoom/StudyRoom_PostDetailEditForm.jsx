@@ -47,10 +47,8 @@ const EditPost = () => {
             );
 
             if (response.data.code === 1) {
-                console.log("글 수정 성공 : ", response.data);
                 navigate(`/studyroom/${study_id}/post/${post_id}`);
             } else {
-                console.log("글 수정 실패 :", response);
             }
         } catch (error) {
             console.log("글 수정 중 오류 발생 :", error);

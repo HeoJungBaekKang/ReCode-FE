@@ -17,16 +17,15 @@ function MultiSelect({onChange, selectedPosition}) {
           const backSkillNames = await getSkillNameByPosition("Backend");
           allSkillNames = [...frontSkillNames, ...backSkillNames];
           setSkillNames(allSkillNames);
-          console.log("FullStakc을 선택하였습니다. : ", skillNames);
+
         } else {
           // 그 외 포지션에 대한 스킬 목록 불러오기
           allSkillNames = await getSkillNameByPosition(selectedPosition);
         }
   
-        console.log(`${selectedPosition} 스킬 목록 불러오기 성공`);
         setSkillNames(allSkillNames);
       } catch (error) {
-        console.error(`${selectedPosition} 스킬 목록 불러오기 중 오류:`, error);
+        console.error("스킬 목록 불러오기 중 오류:", error);
       }
     };
   
@@ -39,7 +38,6 @@ function MultiSelect({onChange, selectedPosition}) {
   
   const options = skillNames.map(skillName => ({ value: skillName, label: skillName}));
 
-  console.log('options 확인 ' , options);
 
   const handleChange = (selectedOptions) => {
 

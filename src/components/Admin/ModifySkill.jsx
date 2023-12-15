@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import AdminSidebar from "./AdminSidebar";
-// import SkillFilter from "../Main/SkillFilter";
+
 import {
     Card,
     CardHeader,
@@ -46,7 +46,6 @@ export default function ModifySkill() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setPosition({ position: response.data.data.position || '' });
                     setSkill({ skill: response.data.data.skill || '' }); // 가져온 데이터로 essay 상태를 업데이트
@@ -75,7 +74,6 @@ export default function ModifySkill() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setList(response.data.data || []);
 
@@ -89,7 +87,6 @@ export default function ModifySkill() {
                 });
         } catch (error) {
             console.error("스킬 목록 조회 중 오류 발생 : ", error);
-            console.log(error.response);
         }
     }
 

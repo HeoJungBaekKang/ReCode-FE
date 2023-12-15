@@ -91,7 +91,7 @@ export default function QnaDetail() {
         setQnaContent(newContent);
     };
     const loginUser = authData.id;
-    console.log("외부" + loginUser);
+
     //Qna 수정 저장 버튼
     const handleSaveChanges = async () => {
 
@@ -100,17 +100,12 @@ export default function QnaDetail() {
             // const loginUser = authData.id;
             const qnaModifyData = { qnaTitle, loginUser, qnaContent };
             await saveQna(qnaId, qnaModifyData);
-            console.log("1234" + authData)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
+
             // 편집 모드 해제
             setIsEditMode(false);
             window.location.reload(true);
         } catch (error) {
-            console.log("1234" + authData.nickname)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
-
+            console.error(error);
         }
     };
 
@@ -157,7 +152,7 @@ export default function QnaDetail() {
                 await deleteQnaReply(qnaId, currentReplyId);
                 window.location.reload(true);
             } catch (error) {
-                console.log("댓글 번호" + currentReplyId)
+
                 console.error("삭제 중 오류 발생", error);
             }
         }
@@ -284,8 +279,6 @@ export default function QnaDetail() {
                         <React.Fragment>
                             {isEditMode ? (
                                 <React.Fragment>
-                                    {console.log("btn: " + userId)}
-                                    {console.log("id: " + authData.id)}
                                     <button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
                                     <button onClick={handleGoToQna} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">취소</button>
                                 </React.Fragment>

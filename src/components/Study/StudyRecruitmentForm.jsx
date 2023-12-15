@@ -4,7 +4,6 @@ import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
-import ReactHtmlParser from "html-react-parser";
 
 import {
   getSkillNameByPosition,
@@ -32,7 +31,6 @@ export default function StudyRecruitment() {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log('${position} skill을  불러왔습니다. ', skillByPosition);
       } catch (error) {
         console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
 
@@ -176,7 +174,7 @@ export default function StudyRecruitment() {
   const handleEditorDataChange = (newContent) => {
     // 자식 컴포넌트로 부터 받은 값을 상태에 따라 저장하거나 원하는 작업을 수행
     setDescription(newContent);
-    console.log("newContent in form : ", newContent);
+
   };
 
   function removeFormatting(discription) {

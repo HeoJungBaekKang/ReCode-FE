@@ -27,8 +27,6 @@ export default function Post() {
     // 글 작성 완료 버튼을 클릭했을 때 실행되는 함수
     const handlePostSubmit = async () => {
         try {
-            // 작성된 글을 서버로 전송
-            console.log("전송 전 newPost:", newPost); // 디버깅용
 
             // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
             const response = await axios.post(
@@ -45,24 +43,22 @@ export default function Post() {
             const code = response.data.code;
 
             if (code === 1) {
-                console.log("글 작성 성공 : ", response.data);
+                console.log("글 작성 성공");
                 setNewPost(response.data.data.newPost || {});
 
                 // 게시판 목록 페이지로 이동
                 navigate(`/studyroom/board/${study_id}`);
 
             } else {
-                console.log("글 작성 실패 :", response);
+                console.log("글 작성 실패");
             }
         } catch (error) {
             console.log("글 작성 중 오류 발생 :", error.config);
-            console.log(newPost);
-            console.log(newPost.id);
+
         }
     };
 
     useEffect(() => {
-        console.log("Study Room ID:", study_id);
     }, [study_id, authData]);
 
     return (

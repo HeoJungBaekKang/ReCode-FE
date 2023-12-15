@@ -5,7 +5,7 @@ export const createQna = async (qnaData) => {
 
     try {
         const token = localStorage.getItem("token");
-        const response = await axios.post('http://localhost:8081/api/v1/qna', qnaData, {
+        const response = await axios.post('/api/v1/qna', qnaData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -28,7 +28,7 @@ export async function fetchQnaList() {
             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
-        const response = await axios.get('http://localhost:8081/api/v1/qna', {
+        const response = await axios.get('/api/v1/qna', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -50,7 +50,7 @@ export async function fetchQnaDetail(qnaId) {
         if (!token) {
             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
-        const response = await axios.get(`http://localhost:8081/api/v1/qna/${qnaId}`, {
+        const response = await axios.get(`/api/v1/qna/${qnaId}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -75,7 +75,7 @@ export const saveQna = async (qnaId, qnaModifyData) => {
         }
 
         const response = await axios.put(
-            `http://localhost:8081/api/v1/qna/${qnaId}`,
+            `/api/v1/qna/${qnaId}`,
             {
                 userId: qnaModifyData.loginUser,
                 title: qnaModifyData.qnaTitle,
@@ -102,7 +102,7 @@ export const saveQna = async (qnaId, qnaModifyData) => {
 //Qna 삭제
 export async function deleteQna(qnaId) {
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/v1/qna/${qnaId}`, {
+    await axios.delete(`/api/v1/qna/${qnaId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
@@ -118,7 +118,7 @@ export async function deleteQna(qnaId) {
 //             // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
 //             throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
 //         }
-//         const response = await axios.get(`http://localhost:8081/api/v1/qna-reply/${qnaId}`, {
+//         const response = await axios.get(`/api/v1/qna-reply/${qnaId}`, {
 //             headers: {
 //                 'Content-Type': 'application/json',
 //                 'Authorization': `Bearer ${token}`,

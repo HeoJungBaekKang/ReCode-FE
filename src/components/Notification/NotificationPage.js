@@ -20,7 +20,7 @@ export default function NotificationPage({ notification }) {
       try {
         const response = await getUserNotifications();
         setNotifications(response.data);
-        console.log(response.data);
+
       } catch (error) {
         console.log("알림 목록 불러오기 실패", error);
       }
@@ -33,11 +33,11 @@ export default function NotificationPage({ notification }) {
     try {
       const confirmed = window.confirm(
         "정말로 이 알림을 읽음으로 표시하시겠습니까?"
-        );
+      );
       if (confirmed) {
-          await changeReadStatus(notificationId, true);
-          setIsRead(true);
-        console.log(`알림 ${notificationId}를 읽음으로 표시했습니다.`);
+        await changeReadStatus(notificationId, true);
+        setIsRead(true);
+
         window.location.reload();
       } else {
         console.log("취소되었습니다.");

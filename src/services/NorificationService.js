@@ -5,8 +5,6 @@ export const getUserNotifications = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    console.log(token);
-
     const response = await axios.get(
       `/api/v1/notification/user`,
       {
@@ -17,7 +15,6 @@ export const getUserNotifications = async () => {
       }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log("알림 불러오기 중 오류 발생", error);
@@ -30,7 +27,6 @@ export const changeReadStatus = async (id, readStatus) => {
   try {
     const token = localStorage.getItem("token");
 
-    console.log(token);
 
     const response = await axios.post(
       `/api/v1/notification/mark-as-read`,
@@ -42,7 +38,7 @@ export const changeReadStatus = async (id, readStatus) => {
         },
       }
     );
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     console.log("알림 불러오기 중 오류 발생", error);
@@ -54,7 +50,7 @@ export const changeReadStatus = async (id, readStatus) => {
 export const deleteNotification = async (notificationId) => {
   try {
     const token = localStorage.getItem("token");
-    console.log(token);
+
     await axios.delete(
       `/api/v1/notification/${notificationId}`,
       {

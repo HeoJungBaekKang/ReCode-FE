@@ -43,7 +43,7 @@ export default function UserList() {
                 console.error("Error response:", response);
                 return [];
             }
-            console.log("리스트 호출 :", study_id);
+
             const data = await response.json();
             return data.data;
         } catch (error) {

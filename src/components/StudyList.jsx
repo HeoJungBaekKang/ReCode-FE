@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
-  
+
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export default function StudyList({ filteredStudies }) {
   };
 
   return (
-    <div className="bg-white py-24 sm:py-3">
+    <div className="bg-transparent py-24 sm:py-3">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -34,14 +34,15 @@ export default function StudyList({ filteredStudies }) {
           </p>
         </div>
         <div class="justify-items-stretch">
-          <div className="bg-white py-10 sm:py-5">
+          <div className="py-10 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
-            <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+              <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}
-                    className="flex max-w-3xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-3xl"
+                    className="flex max-w-3xl flex-col items-start justify-between border-4 border-gray-200 p-4 rounded-3xl hover:bg-gray-100 hover:shadow-lg transition-all bg-white"
                     style={{ height: '300px' }}
+                    onClick={() => handleStudyRoomClick(post.id)}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
                       <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>

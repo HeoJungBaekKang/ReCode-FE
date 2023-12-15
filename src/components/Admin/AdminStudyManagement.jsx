@@ -18,11 +18,11 @@ export default function AdminStudyManagement() {
 
   return (
     <>
-    <AdminSidebar />
-    <div className="ml-56">
+      <AdminSidebar />
+      <div className="ml-56">
         <div className="ml-6 text-7xl">스터디 관리</div>
         <AdminStudyList filteredStudies={studies} selectedSkills={selectedSkills} />
-    </div>
-</>
+      </div>
+    </>
   );
 }

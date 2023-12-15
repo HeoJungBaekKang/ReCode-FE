@@ -54,7 +54,6 @@ export default function Detail() {
 
                     if (code === 1) {
                         console.log("스터디 상세보기 조회 성공");
-                        console.log(response.data);
                     } else {
                         console.log("스터디 상세보기 조회 실패");
                     }

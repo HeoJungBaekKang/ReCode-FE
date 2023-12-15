@@ -1,7 +1,7 @@
 import React from "react";
 import "./ChatList.css";
 
-export default function ChatList () {
+export default function ChatList() {
   return (
     <div className="screen">
       <div className="div">

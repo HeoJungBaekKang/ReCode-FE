@@ -53,15 +53,12 @@ function Sidebar() {
         }
       })
         .then(response => {
-          console.log(response.data);
 
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("현재날짜와 스터디의 endDate 비교 성공 : ", response.data.data);
             setCheck({ ...check, endDateToday: response.data.data.endDateToday });
           } else {
-            console.log("현재날짜와 스터디의 endDate 비교 실패 :", response.data);
           }
         });
     } catch (error) {

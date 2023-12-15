@@ -1,5 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -33,7 +32,6 @@ const AdminStudyRoomDetail = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           setDetail(response.data.data || {});
 

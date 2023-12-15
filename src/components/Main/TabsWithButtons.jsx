@@ -46,7 +46,6 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
     const loadSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
-        console.log("skillByPosition 출력 : ", skillByPosition);
         setSkills(skillByPosition);
       } catch (error) {
         console.log("position 별 스킬 목록 가져오기 중 오류 : ", error);

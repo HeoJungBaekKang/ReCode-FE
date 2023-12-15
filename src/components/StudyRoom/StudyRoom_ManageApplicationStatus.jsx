@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
 
@@ -27,7 +27,7 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", response.data);
+                console.log("신청 정보를 가져오는데 성공");
                 setApplications(response.data.data);
 
             } catch (error) {
@@ -55,8 +55,7 @@ const ApplyStatus = () => {
                 }
             });
             setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
-            console.log("유저정보", application);
-            console.log("에세이 조회 성공", response.data);
+            console.log("에세이 조회 성공");
 
         } catch (error) {
             console.error("에세이를 가져오는 중 오류 발생:", error);
@@ -71,7 +70,6 @@ const ApplyStatus = () => {
     // 승인
     const handleApproval = async () => {
 
-        console.log("버튼 클릭", selectedUser);
         try {
 
             const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
@@ -83,7 +81,7 @@ const ApplyStatus = () => {
                 }
             });
             setSelectedUser(response.data.data);
-            console.log("승인 성공", response.data);
+            console.log("승인 성공");
             handleCloseModal();
 
             // 승인 후에 신청 목록 다시 불러오기
@@ -94,7 +92,7 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
+                console.log("신청 정보를 가져오는데 성공");
                 setApplications(fetchResponse.data.data);
 
             } catch (error) {
@@ -119,7 +117,7 @@ const ApplyStatus = () => {
                     }
                 });
             setSelectedUser(response.data.data);
-            console.log("거절 성공", response.data);
+            console.log("거절 성공");
             handleCloseModal();
 
             // 거절된 사용자를 신청 목록에서 제거
@@ -133,7 +131,7 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
+                console.log("신청 정보를 가져오는데 성공");
                 setApplications(fetchResponse.data.data);
 
             } catch (error) {
