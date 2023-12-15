@@ -57,7 +57,8 @@ function MultiSelect({onChange, selectedPosition}) {
 
   return (
     <div>
-        <Select options={options} isMulti onChange={handleChange} />
+        <Select
+         options={options} isMulti onChange={handleChange} />
     </div>
 
   );

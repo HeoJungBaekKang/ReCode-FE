@@ -1,7 +1,5 @@
 // 필요한 모듈 가져오기
-
 import React, { useEffect, useState } from "react";
-
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import "./MyEditor.css";
@@ -21,13 +19,12 @@ function MyEditor({ initialContent, onContentChange }) {
   return (
     <div>
       <CKEditor
-  
         editor={ClassicEditor}
         data={initialContent}  // 초기내용 설정 
 
         config={{
           placeholder: "내용을 입력하세요.",
-          toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList']
+          toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'imageUpload']
         }}
         onChange={handleEditorDataChange}
 
