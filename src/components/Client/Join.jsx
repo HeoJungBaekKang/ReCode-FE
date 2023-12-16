@@ -21,7 +21,7 @@ const CheckUsernameDuplicate = async (username) => {
 const CheckEmailDuplicate = async (email) => {
 
   try {
-    const response = await fetch(`http://15.164.85.184/api/user-email/${email}/exists`);
+    const response = await fetch(`/api/user-email/${email}/exists`);
     console.log(response)
     const result = await response.json();
     console.log(result)
@@ -120,7 +120,7 @@ export default function Join() {
       return;
     }
 
-    if(!isEmailValidated) {
+    if (!isEmailValidated) {
       alert("이메일 중복확인 후 진행해주시기 바랍니다.");
       return;
     }
@@ -147,11 +147,12 @@ export default function Join() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
-            alt="Recode logo"
+            src="/Recode-logo.png"
+            alt="Recode-logo"
+            border="0"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign in to your account
+            회원가입
           </h2>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -172,15 +173,15 @@ export default function Join() {
                   required
                   value={formData.username}
                   onChange={usernameHandler}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
                   name="idCheck"
                   onClick={handlename}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
-                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
-                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                          border-gray-300 bg-blue-700 px-4 py-2 text-xs font-medium text-white-700 
+                    hover:bg-blue-600 focus:z-10 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-white"
                 >
                   중복확인
                 </button>
@@ -205,7 +206,7 @@ export default function Join() {
                   onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    focus:ring-blue-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -228,15 +229,15 @@ export default function Join() {
                   onChange={userEmailHandler}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    focus:ring-blue-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
                   name="emailCheck"
                   onClick={handleEmail}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
-                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
-                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                          border-gray-300 bg-blue-700 px-4 py-2 text-xs font-medium text-white-700 
+                    hover:bg-blue-600 focus:z-10 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-white"
                 >
                   중복확인
                 </button>
@@ -263,17 +264,18 @@ export default function Join() {
                   onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
                      ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                     focus:ring-blue-600 sm:text-sm sm:leading-6"
                 />
               </div>
-
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Confirm Password
-                </label>
+              <div>
+                <div className="flex items-center justify-between mt-4">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Password 확인
+                  </label>
+                </div>
               </div>
               <div className="mt-2">
                 <input
@@ -284,7 +286,7 @@ export default function Join() {
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    focus:ring-blue-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -292,9 +294,9 @@ export default function Join() {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm 
-                  font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline 
-                  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm 
+                  font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline 
+                  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
                 Sign in
               </button>
