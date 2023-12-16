@@ -5,7 +5,7 @@ export const createQnaReply = async (qnaId, replyData) => {
 
     try {
         const token = localStorage.getItem("token");
-        const response = await axios.post(`http://localhost:8081/api/v1/qna-reply/${qnaId}`, replyData, {
+        const response = await axios.post(`/api/v1/qna-reply/${qnaId}`, replyData, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -25,7 +25,7 @@ export const createQnaReply = async (qnaId, replyData) => {
 //Qna 댓글 삭제
 export async function deleteQnaReply(qnaId, replyId){
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/v1/qna-reply/${qnaId}/${replyId}`, {
+    await axios.delete(`/api/v1/qna-reply/${qnaId}/${replyId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }

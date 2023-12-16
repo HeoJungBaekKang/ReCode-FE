@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
+
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
-  
+
   if (!filteredStudies || !filteredStudies.length) {
     return <div>스터디가 없습니다. </div>;
   }
@@ -22,7 +23,7 @@ export default function StudyList({ filteredStudies }) {
   };
 
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-transparent py-24 sm:py-3">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -32,15 +33,16 @@ export default function StudyList({ filteredStudies }) {
             함께 배우고 성장해봐요!
           </p>
         </div>
-        <div class="justify-items-stretch">
-          <div className="bg-white py-24 sm:py-5">
+        <div className="justify-items-stretch">
+          <div className="py-10 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
-            <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+              <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}
-                    className="flex max-w-3xl flex-col items-start justify-between border-2 border-gray-200 p-4 rounded-3xl"
+                    className="flex max-w-3xl flex-col items-start justify-between border-4 border-gray-200 p-4 rounded-3xl hover:bg-gray-100 hover:shadow-lg transition-all bg-white"
                     style={{ height: '300px' }}
+                    onClick={() => handleStudyRoomClick(post.id)}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
                       <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>
@@ -81,7 +83,7 @@ export default function StudyList({ filteredStudies }) {
                       <div className="text-sm mb-5 leading-6">
                         <p className="font-semibold text-gray-900">
                           <div className="flex items-center">
-                            <img src="/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
+                            <img src="/img/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
                             <span className="ml-2">{post.masterNickname}</span>
                           </div>
                         </p>
@@ -98,11 +100,7 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === 0
-                            ? "text-neutral-500"
-                            : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -111,11 +109,7 @@ export default function StudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${
-                            index === currentPage
-                              ? "text-neutral-50 bg-blue-200"
-                              : "text-neutral-600"
-                          } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage ? 'text-neutral-50 bg-blue-200' : 'text-neutral-600'} transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -125,11 +119,7 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                          currentPage === chunkedPosts.length - 1
-                            ? "text-neutral-500"
-                            : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>

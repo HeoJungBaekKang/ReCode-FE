@@ -4,7 +4,7 @@ const AuthService = {
   signup: async (formData) => {
     try {
       const response = await axios.post(
-        "http:///localhost:8081/api/join",
+        "/api/join",
         formData,
         {
           headers: {

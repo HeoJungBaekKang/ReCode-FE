@@ -10,7 +10,7 @@ import { fetchQnaDetail, saveQna, deleteQna } from "../../services/QnaService";
 import { createQnaReply, deleteQnaReply } from "../../services/QnaReplyService";
 import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
-import ReactHtmlParser from "react-html-parser";
+import ReactHtmlParser from "html-react-parser"
 import MyEditor from "../Editor/MyEditor";
 
 export default function QnaDetail() {

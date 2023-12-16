@@ -6,12 +6,23 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
   const [skills, setSkills] = useState([]);
 
   // tab -> 전체보기, 백엔드, 프론트 엔드 전달받는 함수
-  const [activeTab, setActiveTab] = useState("fullStack");
+  const [activeTab, setActiveTab] = useState('FullStack');
+
+
+  useEffect(() => {
+    async function loadInitialSkills() {
+      const frontSkillByPosition = await getSkillNameByPosition("frontend");
+      const backSkillByPosition = await getSkillNameByPosition("backend");
+      const initialSkills = [...frontSkillByPosition, ...backSkillByPosition];
+      setSkills(initialSkills);
+    }
+  
+    loadInitialSkills();
+  }, []);
 
   // 탭 전환
   const handleTabClick = async (tabName) => {
     setActiveTab(tabName);
-    console.log(tabName);
 
     // 포지션에 따른 스킬 불러오기
     if (tabName === "FullStack") {
@@ -38,7 +49,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
     const loadSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
-        console.log("skillByPosition : 출력되나요?", skillByPosition);
+        console.log("skillByPosition 출력 : ", skillByPosition);
         setSkills(skillByPosition);
       } catch (error) {
         console.log("position 별 스킬 목록 가져오기 중 오류 : ", error);
