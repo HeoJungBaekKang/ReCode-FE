@@ -328,7 +328,7 @@ Recode(이하 '회사'라고 함)는 회사가 제공하고자 하는 서비스(
     ));
 
     return (
-        <div className="p-5 mt-20">
+        <div className="p-5 mt-20 ml-56 mr-56">
             <h1 className="text-xl font-bold mb-4">이용자 약관동의</h1>
             <div className="h-64 overflow-y-auto border border-gray-200 p-3 mb-4">
                 {formattedTerms}

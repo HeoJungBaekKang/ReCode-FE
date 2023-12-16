@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
+import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function Estimate() {
 
@@ -175,6 +176,7 @@ export default function Estimate() {
 
     return (
         <>
+            <StudyRoom_Sidebar />
             {users.filter(user => user.nickname !== authData.nickname).map((user, userIndex) => (
                 <div key={user.id} className="ml-56 mr-56 mt-20">
                     <div className="flex items-center mr-5 whitespace-nowrap w-auto">
