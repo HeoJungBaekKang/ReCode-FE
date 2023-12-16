@@ -113,7 +113,6 @@ function App() {
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
             <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
         </Routes>
-
         </div>
       </AuthProvider>
     </Router >
