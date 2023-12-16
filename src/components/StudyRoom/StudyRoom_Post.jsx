@@ -111,16 +111,6 @@ export default function Post() {
                         <label htmlFor="content" className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                             본문
                         </label>
-                        {/* <textarea
-                            id="content"
-                            value={newPost.content || ''}
-                            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                            rows="8"
-                            placeholder="게시글 내용을 입력하세요..."
-                            style={{ resize: "none" }}
-                        ></textarea> */}
-
                         <CKEditor
                             editor={ClassicEditor}
                             data={newPost.content}

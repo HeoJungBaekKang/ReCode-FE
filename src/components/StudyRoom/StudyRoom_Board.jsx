@@ -132,7 +132,7 @@ export default function Board() {
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="w-20 p-4">
+                                    <th scope="col" className="px-10 py-3 whitespace-nowrap">
                                         글 번호
                                     </th>
                                     <th scope="col" className="px-6 py-3">
