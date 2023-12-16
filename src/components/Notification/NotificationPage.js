@@ -85,6 +85,13 @@ export default function NotificationPage({ notification }) {
           </div>
         </CardHeader>
 
+        {notifications.length === 0 ? (
+          <Typography className="px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            아직 알림이 존재하지 않습니다. 
+          </Typography>
+        ) : (
+
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -129,7 +136,7 @@ export default function NotificationPage({ notification }) {
                     {notifications.createdAt}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a
+                    <a                  
                       className={
                         notifications.readStatus
                           ? "font-medium text-center text-black-600 dark:text-blue-500 hover:underline"
@@ -153,6 +160,7 @@ export default function NotificationPage({ notification }) {
             </tbody>
           </table>
         </div>
+        )}
       </Card>
     </div>
   );
