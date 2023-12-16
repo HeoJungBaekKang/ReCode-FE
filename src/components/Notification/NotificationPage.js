@@ -136,7 +136,7 @@ export default function NotificationPage({ notification }) {
                     {notifications.createdAt}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a                  
+                    <span                  
                       className={
                         notifications.readStatus
                           ? "font-medium text-center text-black-600 dark:text-blue-500 hover:underline"
@@ -145,15 +145,15 @@ export default function NotificationPage({ notification }) {
                       onClick={() => handleMarkAsRead(notifications.id)}
                     >
                       {notifications.readStatus ? "확인" : "미확인"}
-                    </a>
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a
+                    <span
                       onClick={() => handleDelete(notifications.id)}
                       className="font-medium text-red-600 dark:text-blue-500 hover:underline"
                     >
                       삭제
-                    </a>
+                    </span>
                   </td>
                 </tr>
               ))}

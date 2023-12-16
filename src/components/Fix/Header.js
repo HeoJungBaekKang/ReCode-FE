@@ -39,14 +39,41 @@ const Main = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const menuItems = [
-    { label: "채팅", path: "#" },
-    { label: "QnA", path: "/qna" },
-    { label: "스터디 목록", path: "/" },
-  ];
-
   const { authData, setAuthData } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [timeLeft, setTimeLeft] = useState(60 * 60);
+
+  // const menuItems = [
+  //   {
+  //     label: "알림",
+  //     path: "/notification",
+  //     handleClick: () => navigate("/notification"),
+  //   },
+  //   { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
+  //   { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
+  //   { label: "스터디 목록", path: "/", handleClick: () => navigate("/") },
+  // ];
+
+  // authData.isAuthenticated이 사용자의 로그인 여부를 나타내는 것으로 가정합니다.
+
+  const menuItems = [
+    // 다른 메뉴 아이템들...
+
+    { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
+    { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
+
+    // 다른 메뉴 아이템들...
+  ].filter((item) => item !== null);
+
+  // 비로그인 상태에서 채팅을 눌렀을 때 로그인창으로 이동되도록
+  const navigateToChat = () => {
+    if (authData.token) {
+      navigate("/chat");
+    } else {
+      navigate("/login");
+    }
+  };
 
   const handleLogout = () => {
     setAuthData({});
@@ -55,8 +82,6 @@ const Main = () => {
 
     navigate("/");
   };
-
-  const [timeLeft, setTimeLeft] = useState(60 * 60);
 
   // 타이머 업데이트 함수
   const updateTimer = () => {
@@ -69,20 +94,28 @@ const Main = () => {
     });
   };
 
-  let timer;
   useEffect(() => {
+    let timer;
     const resetTimer = () => {
       clearTimeout(timer);
       timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
     };
 
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false);
+      }
+    };
+
     window.addEventListener("load", resetTimer);
+    window.addEventListener("resize", handleResize);
     document.addEventListener("mousemove", resetTimer);
     document.addEventListener("keypress", resetTimer);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("load", resetTimer);
+      window.removeEventListener("resize", handleResize);
       document.removeEventListener("mousemove", resetTimer);
       document.removeEventListener("keypress", resetTimer);
     };
@@ -91,7 +124,7 @@ const Main = () => {
   return (
     <>
       <header style={{ borderBottom: "1px solid #ccc" }}>
-        <nav className="bg-white border-gray-200 px-4 lg:px-6 py-4 dark:bg-gray-800">
+        <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a href="/" className="flex items-center">
               <img
@@ -102,7 +135,7 @@ const Main = () => {
               />
               <img
                 src="/Recode-logo1.png"
-                alt="Recode-logo"
+                alt="Recode-logo1"
                 border="0"
                 className="mr-3 h-6 sm:h-9"
               />
@@ -176,18 +209,18 @@ const Main = () => {
             <div
               className={`${
                 isMenuOpen
-                  ? "flex flex-col absolute right-0 w-1/4 top-[3.5rem]"
+                  ? "flex flex-col absolute right-0 w-1/4 top-[4.0rem]"
                   : "hidden"
-              } lg:flex lg:flex-row left-10 lg:items-center lg:w-auto lg:relative z-10 ml-10`}
+              } lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`}
               id="mobile-menu-2"
             >
-              <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+              <ul className="flex flex-col font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 {authData.token != null && ( // 추가된 부분: 사용자가 로그인 중일 때만 알림 버튼 표시
-                  <span className="flex-1 text-gray-700 ms-3 whitespace-nowrap">
+                  <span className="flex-1 text-gray-600 ms-3 whitespace-nowrap">
                     <Link to="/notification">
                       알림
                       {notificationCount > 0 && (
-                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 mt-1.5 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                           {notificationCount}
                         </span>
                       )}
@@ -200,7 +233,8 @@ const Main = () => {
                     className={`${isMenuOpen ? "bg-gray-200" : ""}`}
                   >
                     <a
-                      href={item.path}
+                      href="#"
+                      onClick={item.handleClick}
                       className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                     >
                       {item.label}
