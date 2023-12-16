@@ -134,8 +134,8 @@ const Main = () => {
                 className="mr-3 h-6 sm:h-9"
               />
               <img
-                src="/Recode-logo1.png"
-                alt="Recode-logo1"
+                src="Recode-name.png"
+                alt="Recode-name"
                 border="0"
                 className="mr-3 h-6 sm:h-9"
               />
