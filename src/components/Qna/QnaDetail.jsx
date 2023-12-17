@@ -361,7 +361,9 @@ export default function QnaDetail() {
                                                     <span className="mr-20">
                                                         {reply.comment}
                                                     </span>
-                                                    {userId === authData.id || authData.role === "ADMIN" ? (
+                                                    {/* {console.log("userId : ",[reply])} */}
+                                                    {/* {console.log("authdata : ",authData.id)} */}
+                                                    {reply.userId === authData.id || authData.role === "ADMIN" ? (
                                                         <React.Fragment>
                                                             <button onClick={() => {
                                                                 const currentReplyId = reply.id;
