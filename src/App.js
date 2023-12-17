@@ -45,6 +45,13 @@ import AdminStudyManagement from "./components/Admin/AdminStudyManagement";
 import UserList from "./components/Admin/Leader_Permission";
 import NaverBook from "./components/NaverBook/BookList";
 import EditPost from "./components/StudyRoom/StudyRoom_PostDetailEditForm";
+import ChatList from "./components/Chat/chatList";
+import ChatApp from "./components/Chat/chatApp";
+import ChatCreate from "./components/Chat/chatCreate";
+import NotificationPage from "./components/Notification/NotificationPage";
+import Estimate from "./components/StudyRoom/EstimateMember";
+
+
 
 function App() {
 
@@ -54,14 +61,13 @@ function App() {
         <Header /> {/* 모든 페이지 상단에 헤더를 렌더링합니다 */}
         <div className="main-content">
           {" "}
-          {/* 이 div가 헤더와 나머지 컨텐츠 사이의 간격을 조정합니다 */}
+      
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
             <Route path="/email" element={<Email />} />
-            <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
@@ -76,7 +82,7 @@ function App() {
             <Route path="/studyroomNotLogin/:study_id" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
-            <Route path="/studyroom/attendance" element={<Attendance />} />
+            <Route path="/studyroom/:study_id/attendance" element={<Attendance />} />
             <Route path="/studyroom/:study_id/participants" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
@@ -100,7 +106,14 @@ function App() {
             <Route path="/admin/studyList" element={<AdminStudyList />} />
             <Route path="/admin/studymanagement" element={<AdminStudyManagement />} />
             <Route path="/naverbook" element={<NaverBook />} />
-          </Routes>
+            <Route path="/chat" element={<ChatList />} />
+            <Route path="/chat/create" element={<ChatCreate />} />
+            <Route path="/chat/chatApp/:chatRoomId/:nickname" element={<ChatApp />} />
+            <Route path="/notification" element={<NotificationPage />} />
+            <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
+            <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
+        </Routes>
+
         </div>
       </AuthProvider>
     </Router >

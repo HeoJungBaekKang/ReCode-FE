@@ -39,7 +39,7 @@ export default function ModifySkill() {
         };
 
         try {
-            await axios.post(`http://localhost:8081/api/admin/v1/addskill`, payload, {
+            await axios.post(`/api/admin/v1/addskill`, payload, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -66,7 +66,7 @@ export default function ModifySkill() {
 
     const handleGetSkills = async () => {
         try {
-            let url = `http://localhost:8081/api/get-skills`;
+            let url = `/api/get-skills`;
 
             await axios.get(url, {
                 headers: {
@@ -102,7 +102,7 @@ export default function ModifySkill() {
             <AdminSidebar />
             <div className="ml-56 mt-12">
                 <div className="flex gap-4 mx-4">
-                    <div className="w-1/2">
+                    <div className="w-1/4">
                         <Card className="h-full w-auto mx-4">
                             <CardHeader floated={false} shadow={false} className="rounded-none">
                                 <div className="mb-8 flex items-center justify-between gap-8">
@@ -149,19 +149,18 @@ export default function ModifySkill() {
                                                     >
                                                         기술 스택 입력
                                                     </Typography>
-                                                    <textarea
+                                                    <input
                                                         id="skill"
-                                                        rows="3"
                                                         className="block p-2.5 max-w-[400px] mt-3 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-4 mr-4"
                                                         value={skill.skillNames || ''}
                                                         onChange={(e) => setSkill({ ...skill, skillNames: e.target.value })}
-                                                    ></textarea>
+                                                    />
                                                 </div>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div className="flex justify-end mt-4">
+                                <div className="flex justify-center mt-10 p-20">
                                     <button
                                         type="submit"
                                         onClick={handlePost}

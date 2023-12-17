@@ -11,9 +11,16 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Participants() {
 
+    const navigate = useNavigate();
+
     const { study_id, member_id } = useParams();
     const { authData } = useContext(AuthContext);
     const [users, setUsers] = useState([]);
+
+    const [info, setInfo] = useState({
+        username: "",
+        masterNickname: ""
+    })
 
     // 사용자 데이터 가져오기
     useEffect(() => {
@@ -21,7 +28,7 @@ export default function Participants() {
         const fetchData = async () => {
             console.log("유저정보", users);
             try {
-                const response = await axios.get(`http://localhost:8081/api/v1/study/${study_id}/memberlist`, {
+                const response = await axios.get(`/api/v1/study/${study_id}/memberlist`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -42,7 +49,7 @@ export default function Participants() {
     const handleLeaveStudy = async (member_id) => {
         try {
             const response = await axios.delete(
-                `http://localhost:8081/api/v1/${study_id}/member/${member_id}`,
+                `/api/v1/${study_id}/member/${member_id}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -60,6 +67,40 @@ export default function Participants() {
         }
     };
 
+    const checkMaster = async () => {
+        try {
+            await axios.get(`/api/v1/study/${study_id}/check-master`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            })
+                .then(response => {
+                    console.log(response.data);
+
+                    const code = response.data.code;
+
+                    if (code === 1) {
+                        console.log("해당 스터디의 조장입니다 : ", response.data.data);
+                        setInfo({ ...info, username: response.data.data.username });
+                    } else {
+                        console.log("해당 스터디의 조장이 아닙니다 :", response.data);
+                    }
+                });
+        } catch (error) {
+            console.log("스터디 조장인지 체크 중 오류 발생 :", error.response);
+        }
+    };
+
+    useEffect(() => {
+        if (study_id) {
+            console.log("Study Room ID: ", study_id);
+            checkMaster();
+        } else {
+            console.log("Study Room ID Not found");
+        }
+    }, [study_id])
+
 
     return (
         <>
@@ -72,7 +113,7 @@ export default function Participants() {
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
                             <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="참가 인원 찾기" />
@@ -98,7 +139,8 @@ export default function Participants() {
                                                 className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
                                             >
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                                                <td className="whitespace-nowrap px-6 py-4">{user.nickname}</td>
+                                                <td
+                                                    className="whitespace-nowrap px-6 py-4">{user.nickname}</td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <Tooltip content="내보내기">
                                                         <IconButton variant="text" onClick={() => handleLeaveStudy(user.id)}>

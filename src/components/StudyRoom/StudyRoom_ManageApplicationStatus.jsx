@@ -21,7 +21,7 @@ const ApplyStatus = () => {
 
         const fetchapplications = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+                const response = await axios.get(`/api/v1/study-groups/${study_id}/applications`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -48,7 +48,7 @@ const ApplyStatus = () => {
         setModalOpen(true);
 
         try {
-            const response = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications/${application.userId}`, {
+            const response = await axios.get(`/api/v1/study-groups/${study_id}/applications/${application.userId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -74,7 +74,7 @@ const ApplyStatus = () => {
         console.log("버튼 클릭", selectedUser);
         try {
 
-            const response = await axios.post(`http://localhost:8081/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
+            const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
                 status: "Approved"
             }, {
                 headers: {
@@ -88,7 +88,7 @@ const ApplyStatus = () => {
 
             // 승인 후에 신청 목록 다시 불러오기
             try {
-                const fetchResponse = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+                const fetchResponse = await axios.get(`/api/v1/study-groups/${study_id}/applications`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -109,7 +109,7 @@ const ApplyStatus = () => {
     // 거절
     const handleRejection = async () => {
         try {
-            const response = await axios.post(`http://localhost:8081/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
+            const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
                 status: "Rejected"
             },
                 {
@@ -127,7 +127,7 @@ const ApplyStatus = () => {
 
             // 거절 후에 신청 목록 다시 불러오기
             try {
-                const fetchResponse = await axios.get(`http://localhost:8081/api/v1/study-groups/${study_id}/applications`, {
+                const fetchResponse = await axios.get(`/api/v1/study-groups/${study_id}/applications`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authData.token}`
@@ -225,7 +225,8 @@ const ApplyStatus = () => {
                                     class="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
                                     href="#"
                                     aria-label="Next"
-                                ><span aria-hidden="true">&raquo;</span>
+                                >
+                                    <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
                         </ul>

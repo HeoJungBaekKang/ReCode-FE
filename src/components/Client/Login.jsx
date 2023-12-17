@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { Alert } from "@material-tailwind/react";
 
 export default function Login() {
 
@@ -17,7 +18,7 @@ export default function Login() {
     setLoginError("");
 
     try {
-      const response = await axios.post("http://localhost:8081/api/login", {
+      const response = await axios.post("/api/login", {
         username,
         password,
       });

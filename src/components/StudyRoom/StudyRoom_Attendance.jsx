@@ -1,36 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
-
+import { useParams } from "react-router-dom";
 
 const Attendance = () => {
 
-    // test
-    const date = {
-        StudyDate: '2023-11-10 ~ 2023-11-13',
-        StudySchedule: '2023-11-10(금)  14:00 ~ 15:00',
-    };
+    const { study_id } = useParams();
+    const { authData } = useContext(AuthContext);
+    const [isAttended, setIsAttended] = useState(false);     // 출석체크 상태
+    const [attendedUsers, setAttendedUsers] = useState([]);  // 출석 완료된 아이디 목록
+    const [studyInfo, setStudyInfo] = useState({
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        attendanceDay: ""
+    });
 
-    // 출석체크 상태
-    const [isAttended, setIsAttended] = useState(false);
+    useEffect(() => {
+        const fetchStudyInfo = async () => {
+            try {
+                const response = await axios.get(`/api/study/${study_id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`,
+                    },
+                });
+                console.log("Response.Data", response.data);
+                if (response.data) {
+                    setStudyInfo({
+                        startDate: response.data.data.startDate,
+                        endDate: response.data.data.endDate,
+                        startTime: response.data.data.startTime,
+                        endTime: response.data.data.endTime,
+                        attendanceDay: Array.isArray(response.data.data.attendanceDay) ? response.data.data.attendanceDay.join(", ") : ""
+                    });
+                } else {
+                    console.error("Unexpected response data structure");
+                }
+            } catch (error) {
+                console.error("Error Fetching Study Info: ", error);
+            }
+        };
+        fetchStudyInfo();
+    }, [study_id, authData.token]);
 
-    // 출석 완료된 아이디 목록
-    const [attendedUsers, setAttendedUsers] = useState([]);
+    const handleAttendanceCheck = async () => {
+        try {
+            console.log(study_id);
+            console.log(authData.user_id);
+            const response = await axios.post(`/api/v1/study/${study_id}/attendance`, {
+                studyId: study_id,
+                userId: authData.user_id,  // 현재 로그인한 사용자의 ID
+                status: 'Checked'  // 출석 상태를 출석으로 설정
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
+    
+            if (response.status === 200) {  // HTTP Status Code가 200이면 성공
+                setIsAttended(true);  // 출석체크 상태를 변경
+            }
+        } catch (error) {
+            console.error("Error on Attendance Check: ", error);
+        }
+    }
 
-
-    // 출석체크 버튼을 클릭할 때 실행되는 함수
-    const handleAttendanceCheck = () => {
-
-        // 여기에 출석체크 확인 로직을 구현
-        // 예를 들어, API 호출 또는 로컬 상태 업데이트 등이 포함될 수 있음
-
-        // 출석체크가 완료되면 isAttended 상태를 업데이트
-        setIsAttended(true);
-
-        // 출석 완료된 사용자 아이디 추가
-        // 예를 들어, 현재 로그인된 사용자의 아이디를 사용하거나 다른 사용자 정보를 가져와야 함
-        const userId = "huno";
-        setAttendedUsers([...attendedUsers, userId]);
-    };
 
     return (
         <div>
@@ -41,11 +79,11 @@ const Attendance = () => {
 
                     <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                         <span className="text-sm mr-12 font-semibold">스터디 기간</span>
-                        <span className="text-sm">{date.StudyDate}</span>
+                        <span className="text-sm">{studyInfo.startDate} ~ {studyInfo.endDate}, [{studyInfo.attendanceDay}]</span>
                     </div>
                     <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                        <span className="text-sm mr-4 font-semibold">금일 스터디 시간</span>
-                        <span className="text-sm">{date.StudySchedule}</span>
+                        <span className="text-sm mr-4 font-semibold">출석 인정 시간</span>
+                        <span className="text-sm">{studyInfo.startTime} ~ {studyInfo.endTime}</span>
                     </div>
                 </div>
 
@@ -57,7 +95,7 @@ const Attendance = () => {
                                 onClick={handleAttendanceCheck}
                                 className="px-4 py-2 w-auto ml-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                             >
-                                출석체크
+                                출석
                             </button>
 
 

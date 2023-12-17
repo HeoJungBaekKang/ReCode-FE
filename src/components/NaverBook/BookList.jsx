@@ -116,7 +116,7 @@ function SearchBox({ query, setQuery, setResults }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/api/book/${query}`, {
+                const response = await axios.get(`/api/book/${query}`, {
                     headers: {
                         'Content-Type': 'application/json',
                     }

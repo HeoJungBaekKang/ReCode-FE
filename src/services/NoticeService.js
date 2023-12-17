@@ -4,7 +4,7 @@ import axios from 'axios';
 // 공지사항 삭제 
 export async function deleteNotice(noticeId){
     const token = localStorage.getItem("token");
-    await axios.delete(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+    await axios.delete(`/api/admin/v1/notice/${noticeId}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
@@ -19,7 +19,7 @@ export const CreateNotice = async(noticeData) => {
   
       console.log(token);
   
-      const response = await axios.post('http://localhost:8081/api/admin/v1/notice', noticeData, {
+      const response = await axios.post('/api/admin/v1/notice', noticeData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization' : `Bearer ${token}`,
@@ -38,17 +38,9 @@ export const CreateNotice = async(noticeData) => {
   export async function fetchNoticeDetail(noticeId) {
 
     try {
-      const token = localStorage.getItem("token");
-  
-      if (!token) {
-        // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
-        throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
-      }
-  
-    const response = await axios.get(`http://localhost:8081/api/v1/notice-detail/${noticeId}`, {
+    const response = await axios.get(`/api/notice-detail/${noticeId}`, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization' : `Bearer ${token}`,
       }
     });
       console.log('data 잘 넘어오는 지 확인', response.data);
@@ -64,6 +56,7 @@ export const CreateNotice = async(noticeData) => {
   // 공지사항 수정 후 저장 버튼 
   export const saveNotice = async (noticeId, noticeTitle, noticeContent) => {
     try {
+
         const token = localStorage.getItem("token");
 
         if (!token) {
@@ -71,7 +64,7 @@ export const CreateNotice = async(noticeData) => {
           throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
         }
 
-        const response = await axios.post(`http://localhost:8081/api/admin/v1/notice/${noticeId}`, {
+        const response = await axios.post(`/api/admin/v1/notice/${noticeId}`, {
             title: noticeTitle,
             content: noticeContent,
         }, {
@@ -94,15 +87,9 @@ export const CreateNotice = async(noticeData) => {
 export async function fetchNoticeList(){
 
     try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            // 토큰이 없는 경우에 대한 처리 (예: 로그인 페이지로 리디렉션)
-            throw new Error("토큰이 없습니다. 로그인이 필요합니다.");
-          }
-        const response = await axios.get('http://localhost:8081/api/v1/notice-list',{
+        const response = await axios.get('/api/notice-list',{
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization' : `Bearer ${token}`,
               }
         }); 
         // 성공적인 응답의 데이터를 반환
@@ -111,4 +98,17 @@ export async function fetchNoticeList(){
         console.error('API 요청 중 오류 발생', error);
         throw error; 
     }
+};
+
+// 키워드 검색 
+export const handleSearchKeyword = async (searchType, searchTerm, setResults) => {
+  try {
+      const response = await axios.get(`/api/notice-search`, { params: { [searchType]: searchTerm } });
+      // setResults(response.data);
+      console.log("제발 오세요 ",searchTerm);
+      console.log("response.data 이건 서비스에 도착  :" , response.data)
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching search results', error);
+  }
 };

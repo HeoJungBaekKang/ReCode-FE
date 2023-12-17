@@ -30,9 +30,9 @@ export default function Post() {
             // 작성된 글을 서버로 전송
             console.log("전송 전 newPost:", newPost); // 디버깅용
 
-            // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
+            // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달
             const response = await axios.post(
-                `http://localhost:8081/api/v1/study/${study_id}/posts`,
+                `/api/v1/study/${study_id}/posts`,
                 newPost,
                 {
                     headers: {
