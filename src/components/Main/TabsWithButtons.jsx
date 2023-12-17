@@ -75,35 +75,35 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
 
   return (
     <div className="">
-      <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
-        <ul class="flex flex-wrap -mb-px">
-          <li class="me-2">
+      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul className="flex flex-wrap -mb-px">
+          <li className="me-2">
             <a
               href="#"
               onClick={() => handleTabClick("FullStack")}
-              class={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
                 activeTab === "FullStack" ? "text-blue-600 border-blue-600" : ""
               }`}
             >
               FullStack
             </a>
           </li>
-          <li class="me-2">
+          <li className="me-2">
             <a
               href="#"
               onClick={() => handleTabClick("Backend")}
-              class={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
                 activeTab === "Backend" ? "text-blue-600 border-blue-600" : ""
               }`}
             >
               Backend
             </a>
           </li>
-          <li class="me-2">
+          <li className="me-2">
             <a
               href="#"
               onClick={() => handleTabClick("Frontend")}
-              class={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
                 activeTab === "Frontend" ? "text-blue-600 border-blue-600" : ""
               }`}
             >

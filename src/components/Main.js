@@ -22,7 +22,7 @@ const Main = () => {
   useEffect(() => {
     // 초기에 전체 스터디 목록을 로드
     const getSkillNameByPosition = async () => {
-      console.log(authData);
+      // console.log(authData);
       // 스터디 목록을 로드하는 API 호출
       const loadStudies = await getStudies(); // 왜 있는지 모르겠는 코드
       setStudies(loadStudies);
@@ -81,7 +81,7 @@ const Main = () => {
       : filteredStudies.length > 0
       ? filteredStudies
       : studies;
-  console.log("Display studies: ", displayStudies);
+  // console.log("Display studies: ", displayStudies);
 
   const handleCreateStudy = () => {
     // 사용자가 로그인되어 있는지 확인합니다.

@@ -73,8 +73,8 @@ export default function ChatList() {
             <div className="border-2 border-black rounded-lg w-3/4">
                 <div className="w-full bg-white rounded-md shadow-md mr-10">
                     <Card className="divide-y divide-gray-200">
-                      <div class="flex-col space-y-1.5 p-5 border-b border-gray-200 flex justify-start">
-                        <h2 class="text-2xl font-bold">Chat Rooms</h2>
+                      <div className="flex-col space-y-1.5 p-5 border-b border-gray-200 flex justify-start">
+                        <h2 className="text-2xl font-bold">Chat Rooms</h2>
                       </div>
                         <CardBody>
                             <ul>

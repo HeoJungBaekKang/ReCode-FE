@@ -10,52 +10,40 @@ const Main = () => {
 
   const [notifications, setNotifications] = useState(0);
   const [notificationCount, setNotificationCount] = useState();
+  const { authData, setAuthData } = useContext(AuthContext);
+  const navigate = useNavigate();
+
 
   // 알림 불러오기
-  useEffect(() => {
-    async function getUserNotificationList() {
-      try {
-        const response = await getUserNotifications();
+useEffect(() => {
+  async function getUserNotificationList() {
+    try {
+      const response = await getUserNotifications();
+      
+      if (response) {
         setNotifications(response.data);
-        console.log(response.data);
-
         setNotificationCount(response.data.length);
-        console.log("notificationCount", response.data.length);
         // status가 0인 알림 개수 세기
         const unreadNotificationCount = response.data.filter(
           (notification) => notification.readStatus == 0
         ).length;
-
-        console.log("unreadNotificationCount : ", unreadNotificationCount);
         setNotificationCount(unreadNotificationCount);
-      } catch (error) {
-        console.log("알림 목록 불러오기 실패", error);
       }
+    } catch (error) {
+      console.log("알림 목록 불러오기 실패", error);
     }
-    getUserNotificationList();
-  }, []);
+  }
+  getUserNotificationList();
+}, []);
+
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const { authData, setAuthData } = useContext(AuthContext);
-  const navigate = useNavigate();
+
 
   const [timeLeft, setTimeLeft] = useState(60 * 60);
-
-  // const menuItems = [
-  //   {
-  //     label: "알림",
-  //     path: "/notification",
-  //     handleClick: () => navigate("/notification"),
-  //   },
-  //   { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
-  //   { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
-  //   { label: "스터디 목록", path: "/", handleClick: () => navigate("/") },
-  // ];
-
-  // authData.isAuthenticated이 사용자의 로그인 여부를 나타내는 것으로 가정합니다.
 
   const menuItems = [
     // 다른 메뉴 아이템들...
