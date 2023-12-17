@@ -175,7 +175,7 @@ const StudyModify = () => {
   const handleFinishEdit = () => {
     handleUpdateStudy(); // 서버로 스터디 업데이트 요청
     setIsEditing(false); // 수정 완료 후 수정 모드 종료
-    window.location.reload();
+    alert("수정하시겠습니까?"); 
   };
 
   // skill 의 목록을 불러오는 함수
@@ -365,7 +365,7 @@ const StudyModify = () => {
           </h2>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
             {" "}
-            {detail.createdAt}{" "}
+            {detail.createdAt}
           </p>
           <dt className="text-sm font-medium -leading-6 text-gray-600">
             {" "}
@@ -546,8 +546,9 @@ const StudyModify = () => {
                   기술 스택
                 </dt>
                 <div>
-          
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <span className="text-sm text-thin">
+                        (삭제를 원하실 경우 토글을 선택해주세요)</span> 
                     <div className="flex flex-wrap">
                       {Array.isArray(detail.skillNames) &&
                         detail.skillNames.map(
@@ -560,7 +561,7 @@ const StudyModify = () => {
                               onClick={() => handleRemoveSkill(index)}
                               className="px-2 py-1 mt-1 ml-1 mb-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
                             >
-                              {skill}
+                              {skill}  x
                             </span>
                           )
                         )}
