@@ -27,7 +27,7 @@ export default function Join() {
 
   const CheckUsernameDuplicate = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/user-name/${formData.username}/exists`
+      await axios.get(`/api/user-name/${formData.username}/exists`
       )
      
         .then(response => {
