@@ -113,7 +113,7 @@ function App() {
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
             <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
-            <Route path="/studyroom/:study_id/get-recommend" element={<StudyRoomRecommend />} />
+            <Route path="/studyroom/:studyId/get-recommend" element={<StudyRoomRecommend />} />
         </Routes>
         </div>
       </AuthProvider>

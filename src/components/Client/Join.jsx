@@ -17,6 +17,7 @@ export default function Join() {
 
   const [isUsernameValidated, setIsUsernameValidated] = useState(false);
   const [isEmailValidated, setIsEmailValidated] = useState(false);
+  const [isNicknameValidated, setIsNicknameValidated] = useState(false);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -41,6 +42,29 @@ export default function Join() {
             setIsUsernameValidated(true);
           } else if (code === -1){
             alert("이미 사용 중인 아이디 입니다.");
+          }
+        });
+    } catch (error) {
+      console.error("중복 확인 중 오류 발생 : ", error.data.code);
+    }
+  };
+
+  const CheckNicknameDuplicate = async () => {
+    try {
+      await axios.get(`http://localhost:8081/api/nickname/${formData.nickname}/exists`
+      )
+     
+        .then(response => {
+          const code = response.data.code;
+
+          console.log(response)
+
+          if (code === 1) {
+            console.log("닉네임 중복 확인 성공");
+            alert("사용 가능한 닉네임입니다.");
+            setIsNicknameValidated(true);
+          } else if (code === -1){
+            alert("이미 사용 중인 닉네임 입니다.");
           }
         });
     } catch (error) {
@@ -147,7 +171,7 @@ export default function Join() {
               >
                 Nickname
               </label>
-              <div className="mt-2">
+              <div className="mt-2 flex items-center">
                 <input
                   id="nickname"
                   name="nickname"
@@ -156,10 +180,18 @@ export default function Join() {
                   required
                   value={formData.nickname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
-                    ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  name="idCheck"
+                  onClick={CheckNicknameDuplicate}
+                  className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
+                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
+                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                >
+                  중복확인
+                </button>
               </div>
             </div>
 
