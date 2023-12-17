@@ -50,6 +50,7 @@ import ChatApp from "./components/Chat/chatApp";
 import ChatCreate from "./components/Chat/chatCreate";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
+import StudyRoomRecommend from "./components/StudyRoom/StudyRoom_Recommend";
 
 
 
@@ -112,6 +113,7 @@ function App() {
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
             <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
+            <Route path="/studyroom/:studyId/get-recommend" element={<StudyRoomRecommend />} />
         </Routes>
         </div>
       </AuthProvider>
