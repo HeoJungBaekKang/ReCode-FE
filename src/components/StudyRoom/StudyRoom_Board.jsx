@@ -132,7 +132,7 @@ export default function Board() {
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="w-20 p-4">
+                                    <th scope="col" className="px-10 py-3 whitespace-nowrap">
                                         글 번호
                                     </th>
                                     <th scope="col" className="px-6 py-3">
@@ -261,7 +261,7 @@ function SearchBox({ keyword, setKeyword }) {
             type="text"
             id="table-search-users"
             className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="검색어를 입력해주세요."
+            placeholder="      검색어를 입력해주세요."
             value={keyword}
             onChange={handleInputChange}
         />
