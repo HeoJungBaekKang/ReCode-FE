@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
-  
+
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
 
@@ -33,10 +33,10 @@ export default function StudyList({ filteredStudies }) {
             함께 배우고 성장해봐요!
           </p>
         </div>
-        <div class="justify-items-stretch">
+        <div className="justify-items-stretch">
           <div className="py-10 sm:py-5">
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
-            <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
+              <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
                   <article
                     key={post.id}

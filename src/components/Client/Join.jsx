@@ -28,7 +28,7 @@ export default function Join() {
 
   const CheckUsernameDuplicate = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/user-name/${formData.username}/exists`
+      await axios.get(`/api/user-name/${formData.username}/exists`
       )
      
         .then(response => {
@@ -124,7 +124,7 @@ export default function Join() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            src="/Recode=logo.png"
             alt="Recode logo"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -284,7 +284,7 @@ export default function Join() {
                   font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline 
                   focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                
               </button>
             </div>
           </form>
