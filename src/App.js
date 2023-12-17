@@ -52,6 +52,8 @@ import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
 import StudyRoomRecommend from "./components/StudyRoom/StudyRoom_Recommend";
 
+
+
 function App() {
 
   return (
@@ -60,14 +62,13 @@ function App() {
         <Header /> {/* 모든 페이지 상단에 헤더를 렌더링합니다 */}
         <div className="main-content">
           {" "}
-          {/* 이 div가 헤더와 나머지 컨텐츠 사이의 간격을 조정합니다 */}
+      
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/findId" element={<FindIdForm />} />
             <Route path="/email" element={<Email />} />
-            <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/client/findId" element={<FindIdForm />} />
             <Route path="/mypage/:id" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
@@ -111,8 +112,9 @@ function App() {
             <Route path="/chat/chatApp/:chatRoomId/:nickname" element={<ChatApp />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
+            <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
             <Route path="/studyroom/:study_id/get-recommend" element={<StudyRoomRecommend />} />
-          </Routes>
+        </Routes>
         </div>
       </AuthProvider>
     </Router >

@@ -1,42 +1,10 @@
 import React, { useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-const CheckUsernameDuplicate = async (username) => {
-
-  try {
-    const response = await fetch(`/api/user-name/${username}/exists`);
-    // const response = await fetch(`/api/user-name/${username}/exists`);
-    console.log(response)
-    const result = await response.json();
-    console.log(result)
-    return result;
-
-  }
-  catch (error) {
-    return "err"
-  }
-}
-
-const CheckEmailDuplicate = async (email) => {
-
-  try {
-    const response = await fetch(`http://15.164.85.184/api/user-email/${email}/exists`);
-    console.log(response)
-    const result = await response.json();
-    console.log(result)
-    return result;
-
-  }
-  catch (error) {
-    return "err"
-  }
-}
 
 export default function Join() {
-  const [username, setUsername] = useState(""); // 아이디 상태 변수
-  const [email, setEmail] = useState("");
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -44,59 +12,11 @@ export default function Join() {
     password: "",
     email: "",
     nickname: "",
+    confirmPassword: ""
   });
-
-  const usernameHandler = (e) => {
-    setUsername(e.target.value);
-    setFormData({
-      ...formData,
-      username: e.target.value,
-    })
-    console.log(username)
-  };
 
   const [isUsernameValidated, setIsUsernameValidated] = useState(false);
   const [isEmailValidated, setIsEmailValidated] = useState(false);
-
-  const handlename = async () => {
-    const currentName = username
-    const result = await CheckUsernameDuplicate(currentName);
-    console.log(result.code)
-    if (result.code === 1) {
-      // 사용 가능한 아이디
-      alert("사용 가능한 아이디입니다.");
-      setIsUsernameValidated(true);
-    } else if (result.code === -1) {
-      // 이미 사용 중인 아이디
-      alert("이미 사용 중인 아이디입니다.");
-      setIsUsernameValidated(false);
-    }
-  }
-
-  const userEmailHandler = (e) => {
-    setEmail(e.target.value);
-    setFormData({
-      ...formData,
-      email: e.target.value,
-    })
-    console.log(email)
-  };
-
-  const handleEmail = async () => {
-    const currentEmail = email
-    const result = await CheckEmailDuplicate(currentEmail);
-    console.log(result.code)
-    if (result.code === 1) {
-      // 사용 가능한 이메일
-      alert("사용 가능한 이메일입니다.");
-      setIsEmailValidated(true);
-
-    } else if (result.code === -1) {
-      // 이미 사용 중인 이메일
-      alert("이미 사용 중인 이메일입니다.");
-      setIsEmailValidated(false);
-    }
-  }
 
   const handleInputChange = (event) => {
     setFormData({
@@ -105,39 +25,72 @@ export default function Join() {
     });
   };
 
+  const CheckUsernameDuplicate = async () => {
+    try {
+      await axios.get(`http://localhost:8081/api/user-name/${formData.username}/exists`
+      )
+     
+        .then(response => {
+          const code = response.data.code;
+
+          console.log(response)
+
+          if (code === 1) {
+            console.log("아이디 중복 확인 성공");
+            alert("사용 가능한 아이디입니다.");
+            setIsUsernameValidated(true);
+          } else if (code === -1){
+            alert("이미 사용 중인 아이디 입니다.");
+          }
+        });
+    } catch (error) {
+      console.error("중복 확인 중 오류 발생 : ", error.data.code);
+    }
+  };
+
+  const CheckEmailDuplicate = async () => {
+    try {
+      const response = await axios.get(`/api/user-email/${formData.email}/exists`);
+      if (response.data.code === 1) {
+        alert("사용 가능한 이메일입니다.");
+        setIsEmailValidated(true);
+      } else {
+        alert(response.data.msg);
+        setIsEmailValidated(false);
+      }
+    } catch (error) {
+      alert("중복 확인 중 오류 발생");
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 필수 필드 검증
     if (!formData.username || !formData.password || !formData.email || !formData.nickname) {
       alert("모든 필드를 입력해주세요.");
       return;
     }
 
-    if (!isUsernameValidated) {
-      alert("아이디 중복확인 후 진행해주시기 바랍니다.");
+    if (!isUsernameValidated || !isEmailValidated) {
+      alert("아이디 및 이메일 중복확인 후 진행해주시기 바랍니다.");
       return;
     }
 
-    if(!isEmailValidated) {
-      alert("이메일 중복확인 후 진행해주시기 바랍니다.");
+    if (formData.password !== formData.confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     try {
       const response = await AuthService.signup(formData);
-
       if (response.data.code === 1) {
         alert("회원가입 성공");
         navigate("/login");
       } else {
         alert("회원가입 실패");
-        console.log("회원가입 실패 :", formData);
       }
     } catch (error) {
-      console.error("오류 발생:", error);
-      console.log(formData);
+      alert("회원가입 중 오류 발생");
     }
   };
 
@@ -171,13 +124,13 @@ export default function Join() {
                   autoComplete="username"
                   required
                   value={formData.username}
-                  onChange={usernameHandler}
+                  onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
                   name="idCheck"
-                  onClick={handlename}
+                  onClick={CheckUsernameDuplicate}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
                     hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
@@ -225,7 +178,7 @@ export default function Join() {
                   autoComplete="email"
                   required
                   value={formData.email}
-                  onChange={userEmailHandler}
+                  onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -233,7 +186,7 @@ export default function Join() {
                 <button
                   type="button"
                   name="emailCheck"
-                  onClick={handleEmail}
+                  onClick={CheckEmailDuplicate}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
                     hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
@@ -262,14 +215,14 @@ export default function Join() {
                   value={formData.password}
                   onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1
-                     ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                     focus:ring-indigo-600 sm:text-sm sm:leading-6"
+         ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
+         focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <label
-                  htmlFor="password"
+                  htmlFor="confirmPassword"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   Confirm Password
@@ -277,17 +230,20 @@ export default function Join() {
               </div>
               <div className="mt-2">
                 <input
-                  id="password"
+                  id="confirmPassword"
                   name="confirmPassword"
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={formData.confirmPassword}
+                  onChange={handleInputChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
-                    ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
+        focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
+
 
             <div>
               <button
