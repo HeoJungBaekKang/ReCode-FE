@@ -30,7 +30,7 @@ export default function Post() {
             // 작성된 글을 서버로 전송
             console.log("전송 전 newPost:", newPost); // 디버깅용
 
-            // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달
+            // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
             const response = await axios.post(
                 `/api/v1/study/${study_id}/posts`,
                 newPost,
@@ -111,16 +111,7 @@ export default function Post() {
                         <label htmlFor="content" className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                             본문
                         </label>
-                        {/* <textarea
-                            id="content"
-                            value={newPost.content || ''}
-                            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                            rows="8"
-                            placeholder="게시글 내용을 입력하세요..."
-                            style={{ resize: "none" }}
-                        ></textarea> */}
-
+                    
                         <CKEditor
                             editor={ClassicEditor}
                             data={newPost.content}

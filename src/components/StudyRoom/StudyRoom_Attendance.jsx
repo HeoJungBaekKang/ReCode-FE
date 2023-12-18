@@ -9,7 +9,6 @@ const Attendance = () => {
     const { study_id } = useParams();
     const { authData } = useContext(AuthContext);
     const [isAttended, setIsAttended] = useState(false);     // 출석체크 상태
-    const [attendedUsers, setAttendedUsers] = useState([]);  // 출석 완료된 아이디 목록
     const [studyInfo, setStudyInfo] = useState({
         startDate: "",
         endDate: "",
@@ -48,27 +47,43 @@ const Attendance = () => {
 
     const handleAttendanceCheck = async () => {
         try {
-            console.log(study_id);
-            console.log(authData.user_id);
             const response = await axios.post(`/api/v1/study/${study_id}/attendance`, {
                 studyId: study_id,
-                userId: authData.user_id,  // 현재 로그인한 사용자의 ID
-                status: 'Checked'  // 출석 상태를 출석으로 설정
+                userId: authData.id,  // 현재 로그인한 사용자의 ID
+                status: 'Checked'
             }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
                 }
             });
-    
-            if (response.status === 200) {  // HTTP Status Code가 200이면 성공
+
+            console.log("HTTP status: ", response.status);
+            if (response.status === 201) {  // HTTP Status Code가 201이면 성공
+
+                console.log("Response data status: ", response.data.status);
+
                 setIsAttended(true);  // 출석체크 상태를 변경
+                console.log(response.data);  // 응답 데이터 출력
+
+                if (response.data.data.status === '출석') {
+                    console.log("11111111", response.data.data.status);
+                    alert("출석하였습니다.");
+                } else if (response.data.data.status === '지각') {
+                    console.log("22222222", response.data.data.status);
+                    alert("지각입니다.");
+                }
             }
+
         } catch (error) {
             console.error("Error on Attendance Check: ", error);
+            console.log(error.response.data);  // 에러 데이터 출력
+
+            if (error.response && error.response.data.message.includes("이미 출석되었습니다.")) {
+                alert("이미 출석되었습니다.");
+            }
         }
     }
-
 
     return (
         <div>
@@ -89,47 +104,15 @@ const Attendance = () => {
 
                 <div className="max-w-screen-md mx-auto p-4">
                     {/* 출석체크 버튼 */}
-                    {!isAttended && (
-                        <div className="relative mt-1 flex">
-                            <button
-                                onClick={handleAttendanceCheck}
-                                className="px-4 py-2 w-auto ml-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                            >
-                                출석
-                            </button>
-
-
-                            {/* 출석체크 상태에 따라 메시지 표시 */}
-                            {isAttended && (
-                                <div className="text-green-500 mt-4 font-semibold">
-                                    출석체크 완료
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-
-                    {/* 출석체크 상태에 따라 메시지 표시 */}
-                    {isAttended && (
-                        <div>
-                            <div className="text-green-500 mt-4 font-semibold">
-                                출석체크 완료
-                            </div>
-
-                            {/* 출석 완료된 사용자 목록 표시 */}
-                            <div className="mt-4">
-                                <h3 className="text-xl font-semibold mb-2">출석 완료</h3>
-                                <ul>
-                                    {attendedUsers.map((user, index) => (
-                                        <li key={index}>{user}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    )}
-
+                    <div className="relative mt-1 flex">
+                        <button
+                            onClick={handleAttendanceCheck}
+                            className="px-4 py-2 w-auto ml-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                        >
+                            출석
+                        </button>
+                    </div>
                 </div>
-
             </div>
         </div>
     );

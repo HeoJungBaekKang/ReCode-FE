@@ -270,7 +270,7 @@ const PostDetail = () => {
             <StudyRoom_Sidebar />
             <div className="max-w-screen-md mx-auto p-4">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
-                    <label className="block text-xl font-semibold mb-8">{postData.data && postData.data.title}</label>
+                    <label className="block text-xl font-semibold mb-8">[{postData.data.category}]{postData.data && postData.data.title}</label>
 
                     <div className="mb-4">
                         {postData && (
