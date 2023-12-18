@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
-
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
 
@@ -41,34 +40,39 @@ export default function StudyList({ filteredStudies }) {
                   <article
                     key={post.id}
                     className="flex max-w-3xl flex-col items-start justify-between border-4 border-gray-200 p-4 rounded-3xl hover:bg-gray-100 hover:shadow-lg transition-all bg-white"
-                    style={{ height: '300px' }}
+                    style={{ height: "300px" }}
                     onClick={() => handleStudyRoomClick(post.id)}
                   >
                     <div className="flex items-center gap-x-4 text-xs">
-                      <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">{post.studyName}</div>
+                      <div className="text-white text-sm px-2 py-1 rounded-full bg-gray-400">
+                        {post.studyName}
+                      </div>
                       <div
-                        className={`text-sm px-2 py-1 rounded-full ${post.maxNum - post.currentNum <= 2 &&
+                        className={`text-sm px-2 py-1 rounded-full ${
+                          post.maxNum - post.currentNum <= 2 &&
                           post.maxNum !== post.currentNum
-                          ? "bg-red-400 text-white"
-                          : post.maxNum > post.currentNum
+                            ? "bg-red-400 text-white"
+                            : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
-                          }`}
+                        }`}
                       >
                         {post.maxNum - post.currentNum <= 2 &&
-                          post.max_num !== post.current_num
+                        post.max_num !== post.current_num
                           ? "마감 임박"
                           : post.maxNum > post.currentNum
-                            ? "모집중"
-                            : "모집 완료"}
+                          ? "모집중"
+                          : "모집 완료"}
                       </div>
                     </div>
                     <div className="flex items-start text-sm">
-                      {post.skillNames.map((skill, index) => (
-                        <span key={index} style={{ marginRight: "10px" }}>
-                          {skill}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap row-reverse">
+                        {post.skillNames.map((skill, index) => (
+                          <span key={index} style={{ marginRight: "10px" }}>
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
@@ -83,7 +87,11 @@ export default function StudyList({ filteredStudies }) {
                       <div className="text-sm mb-5 leading-6">
                         <p className="font-semibold text-gray-900">
                           <div className="flex items-center">
-                            <img src="/img/master_logo.png" alt="master image" style={{ width: "40px", height: "40px" }} />
+                            <img
+                              src="/img/master_logo.png"
+                              alt="master image"
+                              style={{ width: "40px", height: "40px" }}
+                            />
                             <span className="ml-2">{post.masterNickname}</span>
                           </div>
                         </p>
@@ -100,7 +108,11 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
+                          currentPage === 0
+                            ? "text-neutral-500"
+                            : "text-neutral-600"
+                        } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -109,7 +121,11 @@ export default function StudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage ? 'text-neutral-50 bg-blue-200' : 'text-neutral-600'} transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                          className={`relative block rounded px-3 py-1.5 text-sm ${
+                            index === currentPage
+                              ? "text-neutral-50 bg-blue-200"
+                              : "text-neutral-600"
+                          } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -119,7 +135,11 @@ export default function StudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1 ? 'text-neutral-500' : 'text-neutral-600'} transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
+                          currentPage === chunkedPosts.length - 1
+                            ? "text-neutral-500"
+                            : "text-neutral-600"
+                        } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>

@@ -13,6 +13,7 @@ export default function MypageSidebar() {
 
   return (
     <>
+    {/* <div className="flex h-screen"> */}
       <button
         onClick={toggleSidebar}
         data-drawer-target="default-sidebar"
@@ -50,6 +51,7 @@ export default function MypageSidebar() {
           </ul>
         </div>
       </aside>
+      {/* </div> */}
     </>
   );
 }

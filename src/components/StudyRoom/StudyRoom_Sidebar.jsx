@@ -132,7 +132,7 @@ function Sidebar() {
         } fixed top-35 left-0 z-40 w-76 h-screen transition-transform lg:translate-x-0`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-white-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
           <ul className="font-medium">
             <li className="bg-gray-100">
               <a
