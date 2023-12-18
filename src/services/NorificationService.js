@@ -5,8 +5,11 @@ export const getUserNotifications = async () => {
   try {
     const token = localStorage.getItem("token");
 
-    console.log(token);
-
+    // 로그인 되어 있지 않으면 null 반환
+    if (!token) {
+      console.log("사용자 로그인되어 있지 않음");
+      return null;
+    }
     const response = await axios.get(
       `/api/v1/notification/user`,
       {
@@ -29,8 +32,6 @@ export const getUserNotifications = async () => {
 export const changeReadStatus = async (id, readStatus) => {
   try {
     const token = localStorage.getItem("token");
-
-    console.log(token);
 
     const response = await axios.post(
       `/api/v1/notification/mark-as-read`,
@@ -55,15 +56,12 @@ export const deleteNotification = async (notificationId) => {
   try {
     const token = localStorage.getItem("token");
     console.log(token);
-    await axios.delete(
-      `/api/v1/notification/${notificationId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.delete(`/api/v1/notification/${notificationId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     console.error("알림 삭제에 실패했습니다.", error);
     throw error;

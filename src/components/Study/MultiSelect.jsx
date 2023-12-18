@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
-function MultiSelect({onChange, selectedPosition}) {
+function MultiSelect({onChange, selectedPosition, placeholder}) {
   const { authData } = useContext(AuthContext);
   const [skillNames, setSkillNames] = useState([]);
 
@@ -22,8 +22,8 @@ function MultiSelect({onChange, selectedPosition}) {
           // 그 외 포지션에 대한 스킬 목록 불러오기
           allSkillNames = await getSkillNameByPosition(selectedPosition);
         }
-  
         console.log(`${selectedPosition} 스킬 목록 불러오기 성공`);
+
         setSkillNames(allSkillNames);
       } catch (error) {
         console.error(`${selectedPosition} 스킬 목록 불러오기 중 오류:`, error);
@@ -39,7 +39,7 @@ function MultiSelect({onChange, selectedPosition}) {
   
   const options = skillNames.map(skillName => ({ value: skillName, label: skillName}));
 
-  console.log('options 확인 ' , options);
+  // console.log('options 확인 ' , options);
 
   const handleChange = (selectedOptions) => {
 

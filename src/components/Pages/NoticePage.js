@@ -33,7 +33,7 @@ export default function NoticePage() {
     try {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
       setDisplayList(response.data); // 가져온 데이터를 상태에 설정
-      
+
       console.log(response.data);
     } catch (error) {
       console.log("목록 불러오기 실패", error);
@@ -42,15 +42,13 @@ export default function NoticePage() {
 
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchType, searchTerm) => {
-    console.log("허찬 바보 : ", searchType, searchTerm);
     const response = await handleSearchKeyword(
       searchType,
       searchTerm,
       setResults
     );
-    console.log(" response 백승주 바보 : ", response.data);
+
     setDisplayList(response.data);
-    console.log("강민희 바보 :", displayList);
   };
 
   useEffect(() => {

@@ -78,10 +78,19 @@ export default function NotificationPage({ notification }) {
                   {authData.nickname}
                 </span>{" "}
                 <span className="text-black-500 font-bold">님의 알림 목록</span>
+                <br></br>
+                <span className="text-black-500 text-sm">미확인 버튼을 누르면 알림이 읽음 처리 됩니다. </span>
               </Typography>
             </div>
           </div>
         </CardHeader>
+
+        {notifications.length === 0 ? (
+          <Typography className="px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            아직 알림이 존재하지 않습니다. 
+          </Typography>
+        ) : (
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -127,7 +136,7 @@ export default function NotificationPage({ notification }) {
                     {notifications.createdAt}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a
+                    <span                  
                       className={
                         notifications.readStatus
                           ? "font-medium text-center text-black-600 dark:text-blue-500 hover:underline"
@@ -136,21 +145,22 @@ export default function NotificationPage({ notification }) {
                       onClick={() => handleMarkAsRead(notifications.id)}
                     >
                       {notifications.readStatus ? "확인" : "미확인"}
-                    </a>
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <a
+                    <span
                       onClick={() => handleDelete(notifications.id)}
                       className="font-medium text-red-600 dark:text-blue-500 hover:underline"
                     >
                       삭제
-                    </a>
+                    </span>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        )}
       </Card>
     </div>
   );

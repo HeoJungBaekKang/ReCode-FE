@@ -65,7 +65,7 @@ export default function StudyRecruitment() {
   }, [position]);
 
   // 요일 목록
-  const daysOfWeek = [
+  const   daysOfWeek = [
     { id: "월요일", label: "월요일" },
     { id: "화요일", label: "화요일" },
     { id: "수요일", label: "수요일" },

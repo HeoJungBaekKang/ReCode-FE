@@ -33,6 +33,7 @@ export default function NoticeDetailPage() {
   const [noticeUpdatedAt, setNoticeUpdatedAt] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
   // fetchNoticeDetail 함수를 사용하여 데이터를 가져오는 부분
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +53,7 @@ export default function NoticeDetailPage() {
     };
     fetchData();
   }, [noticeId]); // noticeId가 변경될 때마다 데이터를 다시 가져오도록 설정
+
   const handleDelete = async () => {
     if (window.confirm("이 공지사항을 삭제하시겠습니까?")) {
       try {
@@ -88,9 +90,6 @@ export default function NoticeDetailPage() {
   const handleContentChange = (newContent) => {
     setNoticeContent(newContent); // 글 내용 입력란의 값이 변경되면 상태 업데이트
   };
-  // const userRole = 'admin';
-  // const postOwnerId = '';
-  // const createdBy = '';
   return (
     <>
       <QnaSidebar />
