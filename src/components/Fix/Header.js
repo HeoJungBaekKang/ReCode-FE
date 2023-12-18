@@ -86,7 +86,9 @@ const Main = () => {
                     <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                         <a href="/" className="flex items-center">
                             <img src="/Recode-logo.png" alt="Recode-logo" border="0" className="mr-3 h-6 sm:h-9" />
-                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Recode</span>
+                            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                                <img src="/Recode-logo1.png" alt="Recode-logo" border="0" className="h-6 sm:h-9" />
+                            </span>
                         </a>
                         <div className="flex items-center lg:order-2">
                             {
