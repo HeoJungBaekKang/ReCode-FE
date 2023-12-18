@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,8 +15,7 @@ import { data } from "autoprefixer";
 const StudyModify = () => {
   const navigate = useNavigate();
   const [selectedSkills, setSelectedSkills] = useState([]);
-  const [editedSkillName, setEditedSkillName] = useState({}); // 수정모드에서 새롭게 저장된 스킬 이름 
-
+  const [editedSkillName, setEditedSkillName] = useState([]); // 수정모드에서 새롭게 저장된 스킬 이름
   const [selectedPosition, setSelectedPosition] = useState("");
   const [position, setPosition] = useState(""); // 포지션 상태
   const [skillNames, setSkillNames] = useState([]); // skillName 목록 상태
@@ -23,71 +23,75 @@ const StudyModify = () => {
   const [selectedDays, setSelectedDays] = useState([]);
   const [description, setDescription] = useState("");
   const [attendanceDay, setAttendanceDay] = useState([]);
-  const plainTextContent = removeFormatting(description);
   const [initialSelectedDays, setInitialSelectedDays] = useState([]);
-  // 출석인정 시간
+  const [startDate, setStartDate] = useState([]);
+  const [endDate, setEndDate] = useState([]);
+  const [createdAt, setCreatedAt] = useState("");
+  const [updatedAt, setUpdatedAt] = useState("");
   const [startTime, setStartTime] = useState(""); // 출석 인정 시작 시간
   const [endTime, setEndTime] = useState(""); // 출석 인정 종료 시간
-
-  // 실험적으로 추가된 부분 입니다.
-  const [originalSkills, setOriginalSkills] = useState([]);
-  const [modifiedSkills, setModifiedSkills] = useState([]);
-
+  const [maxNum, setMaxNum] = useState("");
+  // const plainTextContent = removeFormatting(description);
   const { study_id } = useParams();
   const { authData } = useContext(AuthContext);
+  const [studyName, setStudyName] = useState("");
+  const [master, setMaster] = useState("");
+  const [title, setTitle] = useState("");
+  const [currentNum, setCurrentNum] = useState("");
 
-  const [detail, setDetail] = useState({
-    study_id: "",
-    studyName: "",
-    title: "",
-    description: "",
-    startDate: "",
-    endDate: "",
-    startTime: "",
-    endTime: "",
-    currentNum: "",
-    maxNum: "",
-    master: "",
-    skillNames: [],
-    attendanceDay: [],
-    createdAt: "",
-    updatedAt: "",
-    userId: "",
-  });
+  // 분 단위의 시간을 HH:MM 형식의 문자열로 변환하는 함수
+  const convertToHHMM = (timeInMinutes) => {
+    const hours = Math.floor(timeInMinutes / 60)
+      .toString()
+      .padStart(2, "0");
+    const minutes = (timeInMinutes % 60).toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
 
-  // 상세보기 내용을 불러오는 함수
   const handleGet = async () => {
     try {
-      const response = await axios
-        .get(`/api/study/${study_id}`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((response) => {
-          setDetail(response.data.data || {});
-          const code = response.data.code;
-          if (code === 1) {
-            console.log("스터디 상세보기 조회 성공");
-          } else {
-            console.log("스터디 상세보기 조회 실패");
-          }
-          // 꺼내온 값을 변수에 저장
-          setSkillNames(response.data.data.skillNames);
-          setDescription(response.data.data.description);
-          setPosition(response.data.data.position);
-          setInitialSelectedDays(response.data.data.attendanceDay);
-          setStartTime(response.data.data.setStartTime);
-          setEndTime(response.data.data.endDate);
-          console.log(
-            "상세내용으로 불러온 skillname : ",
-            response.data.data.skillNames
-          );
-        });
+      const response = await axios.get(`/api/study/${study_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = response.data.data;
+      console.log("날 화나게 하지마 : ", data);
+
+      // setDetail(data || {});
+
+      const code = response.data.code;
+      console.log("code", code);
+      if (code === 1) {
+        console.log("스터디 상세보기 조회 성공");
+        console.log("화가난다.", data.title);
+        console.log(data.currentNum);
+        setTitle(data.title);
+        setMaxNum(data.maxNum);
+        setCurrentNum(data.currentNum);
+        setMaster(data.master);
+        setStudyName(data.studyName);
+        setSkillNames(data.skillNames);
+        setDescription(data.description);
+        console.log(data.description);
+        setAttendanceDay(data.attendanceDay);
+        setStartTime(data.startTime || "");
+        setEndTime(data.endTime || "");
+        setStartDate(data.startDate);
+        setEndDate(data.endDate);
+        setCreatedAt(data.createdAt);
+        setUpdatedAt(data.updatedAt);
+      } else {
+        console.log("스터디 상세보기 조회 실패");
+      }
     } catch (error) {
       console.error("스터디 상세보기 조회 중 오류 발생 : ", error.response);
     }
   };
+
+  useEffect(() => {
+    handleGet();
+  }, []);
 
   // StudyRecruitEditor 에서 전달한 값을 처리하는 함수
   const handleEditorDataChange = (newContent) => {
@@ -109,51 +113,52 @@ const StudyModify = () => {
     setEditedSkillName(selectedOptions);
   };
 
-
   const handleRemoveSkill = (index) => {
     // 기존의 기술 스택 배열을 복사
-    const updatedSkills = [...detail.skillNames];
-    
+    const updatedSkills = [...skillNames];
+
     // 선택한 인덱스의 기술 스택을 배열에서 제거
     updatedSkills.splice(index, 1);
-  
-    // 상태를 업데이트
-    setDetail({
-      ...detail,
-      skillNames: updatedSkills,
-    });
+
+    setSkillNames(updatedSkills);
   };
-  
 
   // 스터디 업데이트를 위한 서비스 함수
   const handleUpdateStudy = async () => {
     try {
+      const formattedStartTime = convertToHHMM(
+        parseInt(startTime.split(":")[0]) * 60 +
+          parseInt(startTime.split(":")[1])
+      );
+      const formattedEndTime = convertToHHMM(
+        parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
+      );
 
-        // editSkillName이 배열인 경우에만 실행
-    if (Array.isArray(editedSkillName)) {
-      const mergedSkills = Array.from(new Set([...detail.skillNames, ...editedSkillName]));
+      const mergedSkills = Array.from(
+        new Set([...skillNames, ...editedSkillName])
+      );
+      console.log("mergedSkills", mergedSkills);
 
-      const updatedStudy = await updateStudy(study_id, {
-        title: detail.title,
-        maxNum: detail.maxNum,
-        startDate: detail.startDate,
-        endDate: detail.endDate,
-        startTime: detail.startTime,
-        endTime: detail.endTime,
-        attendanceDay: detail.attendanceDay,
-        description: detail.description,
-        skillNames: mergedSkills,
-
-      });
+      const updatedStudy = await updateStudy(
+        title,
+        maxNum,
+        study_id,
+        mergedSkills,
+        description,
+        attendanceDay,
+        formattedStartTime,
+        formattedEndTime,
+        startDate,
+        endDate
+      );
+      console.log("수정한 인원입니다. : ", maxNum);
+      setEditedSkillName(mergedSkills);
       setIsEditing(false);
-      setEditedSkillName({});
       console.log("Study updated successfully", updatedStudy);
-    }
     } catch (error) {
       console.error("Error updating study:", error);
     }
   };
-
 
   const getInitialOptions = (selectedSkillNames) => {
     // skillNames을 기반으로 선택된 옵션들을 생성
@@ -170,12 +175,12 @@ const StudyModify = () => {
     setIsEditing(true); // 수정 버튼 클릭 시 수정 모드로 전환
   };
 
-
   // 수정 완료 버튼 클릭 시 호출되는 함수
-  const handleFinishEdit = () => {
+  const handleFinishEdit = (study_id) => {
+    alert("수정하시겠습니까?");
     handleUpdateStudy(); // 서버로 스터디 업데이트 요청
     setIsEditing(false); // 수정 완료 후 수정 모드 종료
-    alert("수정하시겠습니까?"); 
+    window.location.reload();
   };
 
   // skill 의 목록을 불러오는 함수
@@ -200,7 +205,7 @@ const StudyModify = () => {
     if (position) {
       getSkillNameByPosition(position)
         .then((skillNames) => {
-          setDetail({ ...detail, skillNames });
+          setSkillNames(skillNames);
         })
         .catch((error) => {
           console.error("스킬 이름을 가져오는 중 오류 발생: ", error);
@@ -219,31 +224,23 @@ const StudyModify = () => {
     { id: "일요일", label: "일요일" },
   ];
 
-  // 요일 변경 함수
+
+
   const handleCheckboxChange = (e) => {
     const selectedDayId = e.target.id;
-    setDetail((prevDetail) => {
-      if (prevDetail.attendanceDay.includes(selectedDayId)) {
-        return {
-          ...prevDetail,
-          attendanceDay: prevDetail.attendanceDay.filter(
-            (day) => day !== selectedDayId
-          ),
-        };
+  
+    setAttendanceDay((prevDetail) => {
+      const currentAttendanceDay = Array.isArray(prevDetail)
+        ? prevDetail
+        : [];
+  
+      if (currentAttendanceDay.includes(selectedDayId)) {
+        return currentAttendanceDay.filter((day) => day !== selectedDayId);
       } else {
-        return {
-          ...prevDetail,
-          attendanceDay: [...prevDetail.attendanceDay, selectedDayId],
-        };
+        return [...currentAttendanceDay, selectedDayId];
       }
     });
   };
-
-  // // 배지 불러오는 함수
-  const [badge, setBadge] = useState({
-    userId: detail.userId,
-    name: "",
-  });
 
   const [isInStudyRoom, setIsInStudyRoom] = useState(false);
 
@@ -272,79 +269,36 @@ const StudyModify = () => {
   };
 
   const handleStartTimeChange = (e) => {
-    setDetail((prevDetail) => ({
-      ...prevDetail,
-      startTime: e.target.value,
-    }));
+    setStartTime(e.target.value);
   };
 
   const handleEndTimeChange = (e) => {
-    setDetail((prevDetail) => ({
-      ...prevDetail,
-      endTime: e.target.value,
-    }));
+    setEndTime(e.target.value);
   };
 
-  const handleGetBadge = async () => {
-    const userId = detail.userId;
-    if (!userId) {
-      // console.log("작성자 아이디 안 불러와졌다.");
-      return;
-    }
-
-    try {
-      const response = await axios.get(`/api/get-badge/${userId}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("Badge information fetched successfully: ", response.data);
-      if (response.data && response.data.code === 1) {
-        setBadge(response.data.data);
-      } else {
-        console.log("Failed to fetch badge information: ", response.data.msg);
-      }
-    } catch (error) {
-      console.error("Error fetching badge information: ", error);
-    }
-  };
-
-  // 날짜 변경 함수
   const handleStartDateChange = (e) => {
     const newStartDate = e.target.value;
 
     // 현재 날짜와 비교하여 이후의 날짜만 허용
     const currentDate = new Date();
     if (new Date(newStartDate) >= currentDate) {
-      setDetail({ ...detail, startDate: newStartDate, endDate: "" });
+      setStartDate(newStartDate);
+      setEndDate(""); // 시작 날짜 변경 시 종료 날짜 초기화
     } else {
       // 혹은 다른 처리를 수행할 수 있습니다.
     }
-    setDetail({ ...detail, startDate: newStartDate });
   };
 
   // 날짜 변경 함수
   const handleEndDateChange = (e) => {
     const newEndDate = e.target.value;
-
-    if (detail.startDate <= newEndDate) {
-      setDetail({ ...detail, endDate: newEndDate });
+    if (startDate <= newEndDate) {
+      setEndDate(newEndDate);
     } else {
       // 종료 날짜가 시작 날짜보다 이전일 경우 예외 처리
       alert("종료 날짜는 시작 날짜보다 이후이어야 합니다.");
     }
   };
-
-  useEffect(() => {
-    handleGet();
-  }, []);
-
-  useEffect(() => {
-    if (detail.userId) {
-      handleGetBadge();
-    }
-  }, [detail.userId]);
-
   function calculateDefaultPosition(skillNames) {
     if (Array.isArray(skillNames) && skillNames.length > 0) {
       // 만약에 skillNames에 "Frontend"이나 "Backend"이 있다면 해당 포지션 반환
@@ -361,33 +315,29 @@ const StudyModify = () => {
       <div className="max-w-screen-md max-h-screen mx-auto p-4">
         <div className="px-4 sm:px-0">
           <h2 className="text-2xl font-bold leading-7 text-gray-900">
-            {detail.title}
+            {title}
           </h2>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-            {" "}
-            {detail.createdAt}
+            {createdAt}
           </p>
           <dt className="text-sm font-medium -leading-6 text-gray-600">
             {" "}
-            작성자 | {badge.name}
-            {detail.master}
+            작성자 | {master}
           </dt>
         </div>
 
         <div
           className={`text-sm px-2 py-1 w-20 rounded-full ${
-            detail.maxNum - detail.currentNum <= 2 &&
-            detail.maxNum !== detail.currentNum
+            maxNum - currentNum <= 2 && maxNum !== currentNum
               ? "bg-red-400 text-white"
-              : detail.maxNum > detail.currentNum
+              : maxNum > currentNum
               ? "inline-block bg-green-400 text-white"
               : "bg-gray-400 text-white"
           }`}
         >
-          {detail.maxNum - detail.currentNum <= 2 &&
-          detail.maxNum !== detail.currentNum
+          {maxNum - currentNum <= 2 && maxNum !== currentNum
             ? "마감 임박"
-            : detail.maxNum > detail.currentNum
+            : maxNum > currentNum
             ? "모집중"
             : "모집 완료"}
         </div>
@@ -399,7 +349,7 @@ const StudyModify = () => {
                 스터디 이름
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {detail.studyName}
+                {studyName}
               </dd>
             </div>
             <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -411,15 +361,14 @@ const StudyModify = () => {
                   type="number"
                   id="maxNum"
                   name="maxNum"
-                  value={detail.maxNum}
+                  value={maxNum}
                   onChange={(e) => {
                     // 입력값을 가져옴
                     const inputValue = parseInt(e.target.value, 10);
                     const newValue = inputValue >= 0 ? inputValue : 0;
-                    // const newValue = inputValue >= 25 ? 25 : inputValue;
-
                     // 상태 업데이트
-                    setDetail({ ...detail, maxNum: newValue });
+                    // s({ ...detail, maxNum: newValue });
+                    setMaxNum(newValue);
                   }}
                   min={0}
                   max={25}
@@ -428,7 +377,7 @@ const StudyModify = () => {
                 />
               ) : (
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {detail.maxNum} 명{" "}
+                  {maxNum} 명
                 </dd>
               )}
             </div>
@@ -440,7 +389,7 @@ const StudyModify = () => {
                 <div className="grid grid-cols-1 gap-4">
                   <div className="justify-self-auto">
                     <input
-                      value={detail.startDate}
+                      value={startDate}
                       onChange={handleStartDateChange}
                       type="date"
                       name="startDate"
@@ -449,19 +398,19 @@ const StudyModify = () => {
                       className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     <input
-                      value={detail.endDate}
+                      value={endDate}
                       onChange={handleEndDateChange}
                       type="date"
                       name="endDate"
                       id="endDate"
-                      min={detail.startDate} // 시작 날짜 이후만 선택 가능
+                      min={startDate} // 시작 날짜 이후만 선택 가능
                       className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
               ) : (
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {detail.startDate} ~ {detail.endDate}
+                  {startDate} ~ {endDate}
                 </dd>
               )}
             </div>
@@ -473,7 +422,7 @@ const StudyModify = () => {
                 <div className="mt-2.5 mb-4 relative rounded-md shadow-sm">
                   <input
                     type="time"
-                    value={detail.startTime}
+                    value={startTime}
                     onChange={handleStartTimeChange}
                     id="startTime"
                     className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -482,13 +431,13 @@ const StudyModify = () => {
                     className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     type="time"
                     id="endTime"
-                    value={detail.endTime}
+                    value={endTime}
                     onChange={handleEndTimeChange}
                   />
                 </div>
               ) : (
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {detail.startTime} ~ {detail.endTime}{" "}
+                  {startTime} ~ {endTime}{" "}
                 </dd>
               )}
             </div>
@@ -508,7 +457,7 @@ const StudyModify = () => {
                         id={day.id}
                         name="attendanceDay"
                         value={day.id} // 수정된 부분
-                        checked={detail.attendanceDay.includes(day.id)} // 수정된 부분
+                        checked={attendanceDay.includes(day.id)}
                         onChange={handleCheckboxChange}
                       />
                       {day.label}
@@ -522,17 +471,17 @@ const StudyModify = () => {
                   출석 요일
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {Array.isArray(detail.attendanceDay) &&
-                    detail.attendanceDay.map(
+                  {Array.isArray(attendanceDay) &&
+                    attendanceDay.map(
                       (
-                        attendanceDay,
+                        selectedDay,
                         index // 배열인지 확인
                       ) => (
                         <span
                           key={index}
                           className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
                         >
-                          {attendanceDay}
+                          {selectedDay}
                         </span>
                       )
                     )}
@@ -547,11 +496,12 @@ const StudyModify = () => {
                 </dt>
                 <div>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <span className="text-sm text-thin">
-                        (삭제를 원하실 경우 토글을 선택해주세요)</span> 
+                    <span className="text-sm text-thin">
+                      (삭제를 원하실 경우 토글을 선택해주세요)
+                    </span>
                     <div className="flex flex-wrap">
-                      {Array.isArray(detail.skillNames) &&
-                        detail.skillNames.map(
+                      {Array.isArray(skillNames) &&
+                        skillNames.map(
                           (
                             skill,
                             index // 배열인지 확인
@@ -561,7 +511,7 @@ const StudyModify = () => {
                               onClick={() => handleRemoveSkill(index)}
                               className="px-2 py-1 mt-1 ml-1 mb-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
                             >
-                              {skill}  x
+                              {skill} x
                             </span>
                           )
                         )}
@@ -582,7 +532,7 @@ const StudyModify = () => {
                   </select>
                   <MultiSelect
                     name="skillNames"
-                    value={getInitialOptions(detail.skillNames)}
+                    value={getInitialOptions(skillNames)}
                     onChange={handleCustomSelectChange}
                     selectedPosition={selectedPosition}
                     placeholder={selectedPosition}
@@ -598,8 +548,8 @@ const StudyModify = () => {
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                       <div className="flex flex-wrap">
-                        {Array.isArray(detail.skillNames) &&
-                          detail.skillNames.map(
+                        {Array.isArray(skillNames) &&
+                          skillNames.map(
                             (
                               skill,
                               index // 배열인지 확인
@@ -625,15 +575,15 @@ const StudyModify = () => {
               </dt>
               {isEditing ? (
                 <StudyRecruitEditor
-                  onContentChange={handleEditorDataChange}
-                  dangerouslySetInnerHTML={{ __html: plainTextContent }}
-                  placeholder={detail.description}
-                  data={detail.description}
+                  // dangerouslySetInnerHTML={{ __html: plainTextContent }}
+                  placeholder={description}
+                  data={description}
                   initialContent={description}
+                  onContentChange={handleEditorDataChange}
                 />
               ) : (
                 <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {ReactHtmlParser(detail.description)}
+                  {ReactHtmlParser(description)}
                 </div>
               )}
             </div>
@@ -641,7 +591,7 @@ const StudyModify = () => {
               <div className="flex gap-x-3">
                 <button
                   type="reset"
-                  onClick={() => navigate("/studyroom/manage")}
+                  onClick={() => navigate(`/studyroom/${study_id}/manage`)}
                   className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                 >
                   취소

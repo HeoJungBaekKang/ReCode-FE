@@ -49,7 +49,7 @@ useEffect(() => {
     // 다른 메뉴 아이템들...
 
     { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
-    { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
+    { label: "고객센터", path: "/faq", handleClick: () => navigate("/faq") },
 
     // 다른 메뉴 아이템들...
   ].filter((item) => item !== null);
@@ -122,7 +122,7 @@ useEffect(() => {
                 className="mr-3 h-6 sm:h-9"
               />
               <img
-                src="Recode-name.png"
+                src="/Recode-name.png"
                 alt="Recode-name"
                 border="0"
                 className="mr-3 h-6 sm:h-9"
@@ -204,7 +204,7 @@ useEffect(() => {
             >
               <ul className="flex flex-col font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                 {authData.token != null && ( // 추가된 부분: 사용자가 로그인 중일 때만 알림 버튼 표시
-                  <span className="flex-1 text-gray-600 ms-3 whitespace-nowrap">
+                  <span className="flex-1 mt-2.5 text-gray-600 ms-3 whitespace-nowrap">
                     <Link to="/notification">
                       알림
                       {notificationCount > 0 && (
