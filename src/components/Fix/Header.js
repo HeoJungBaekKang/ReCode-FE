@@ -14,7 +14,7 @@ const Main = () => {
     const menuItems = [
         { label: "알림", path: "/notification", handleClick: () => navigate("/notification") },
         { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
-        { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
+        { label: "고객센터", path: "/faq", handleClick: () => navigate("/faq") },
         { label: "스터디 목록", path: "/", handleClick: () => navigate("/") },
     ];
 

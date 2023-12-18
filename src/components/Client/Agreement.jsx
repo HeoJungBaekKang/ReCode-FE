@@ -17,7 +17,7 @@ const TermsAndConditions = ({ onAgree }) => {
     };
 
     const handleSubmit = () => {
-        if (isAgreed) {
+        if (isAgreed && isAgreedNotification) {
             naviage('/join');
         } else {
             alert('이용약관에 동의해주시기 바랍니다.');
@@ -336,7 +336,7 @@ Recode(이하 '회사'라고 함)는 회사가 제공하고자 하는 서비스(
             <div className="mb-4">
                 <input
                     type="checkbox"
-                    id="agree"
+                    id="agreeTerms"
                     className="mr-2"
                     checked={isAgreed}
                     onChange={handleAgreementChange}
@@ -350,7 +350,7 @@ Recode(이하 '회사'라고 함)는 회사가 제공하고자 하는 서비스(
             <div className="mb-4">
                 <input
                     type="checkbox"
-                    id="agree"
+                    id="agreeNotification"
                     className="mr-2"
                     checked={isAgreedNotification}
                     onChange={handleAgreementChangeForNotification}
