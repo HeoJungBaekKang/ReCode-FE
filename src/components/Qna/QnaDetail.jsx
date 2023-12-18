@@ -13,12 +13,13 @@ import { format, parseISO } from 'date-fns';
 import ReactHtmlParser from "html-react-parser"
 import MyEditor from "../Editor/MyEditor";
 
+
 export default function QnaDetail() {
     const { authData } = useContext(AuthContext);
     const { qnaId } = useParams();
     const [userId, setUserId] = useState("");
     const navigate = useNavigate();
-
+    const [isEditMode, setIsEditMode] = useState(false);
 
     const [qnaTitle, setQnaTitle] = useState("");
     const [qnaCreatedAt, setQnaCreatedAt] = useState("");
@@ -27,18 +28,13 @@ export default function QnaDetail() {
     const [qnaContent, setQnaContent] = useState("");
     const [qnaCreateBy, setQnaCreateBy] = useState("");
 
-
     const [qnaReplies, setQnaReplies] = useState([]);
-    const [qnaReplyId, setQnaReplyId] = useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
-    // const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
     const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
     const replyUserId = authData.id
     const replyUserNickname = authData.nickname
-    // const loginUserId = authData.id
 
-    const [isEditMode, setIsEditMode] = useState(false);
 
     //Qna 단일 조회
     useEffect(() => {
@@ -64,20 +60,18 @@ export default function QnaDetail() {
 
 
 
-    //Qna 목록 버튼 핸들러
+    //Qna 목록 버튼
     const handleGoToList = () => {
         navigate("/qna");
-
     };
 
-    //Qna 수정 취소 버튼 핸들러
+    //Qna 수정 취소 버튼
     const handleGoToQna = () => {
         navigate(`/qna/#${qnaId}`);
     };
 
-    //Qna 수정 버튼 핸들러
+    //Qna 수정 버튼
     const handleEditButtonClick = () => {
-
         setIsEditMode(true);
     };
 
@@ -88,55 +82,48 @@ export default function QnaDetail() {
 
     //Qna 내용 수정 핸들러
     const handleContentChange = (newContent) => {
-
         setQnaContent(newContent);
     };
     const loginUser = authData.id;
-    console.log("외부" + loginUser);
+
+
     //Qna 수정 저장 버튼
     const handleSaveChanges = async () => {
-
-
         try {
-            // const loginUser = authData.id;
             const qnaModifyData = { qnaTitle, loginUser, qnaContent };
             await saveQna(qnaId, qnaModifyData);
-            console.log("1234" + authData)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
+
             // 편집 모드 해제
             setIsEditMode(false);
+            //페이지 새로고침
             window.location.reload(true);
-        } catch (error) {
-            console.log("1234" + authData.nickname)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
 
+        } catch (error) {
         }
     };
 
-    //Qna 삭제 버튼 핸들러
+
+    //Qna 삭제 버튼
     const handleDelete = async () => {
-        if (window.confirm("진짜루 삭제할고야...?")) {
+        if (window.confirm("삭제하시겠습니까?")) {
             try {
                 await deleteQna(qnaId);
                 // 삭제 후 목록 페이지로 이동
                 navigate("/qna");
+
             } catch (error) {
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
 
+
     //Qna 댓글 생성
     const handlerSubmitReply = async (event) => {
         event.preventDefault();
-
         try {
-
             const qnaReplyData = { comment, replyCreatedAt, replyUpdatedAt, replyUserId, replyUserNickname };
             await createQnaReply(qnaId, qnaReplyData);
-
+            //페이지 새로고침
             window.location.reload(true);
 
         } catch (error) {
@@ -151,16 +138,15 @@ export default function QnaDetail() {
     };
 
 
-    //Qna 댓글 삭제 핸들러
+    //Qna 댓글 삭제 버튼
     const replyDelete = async (currentReplyId) => {
-        console.log("replyDelete 함수 실행됨");
-        if (window.confirm("진짜루 댓글 삭제할고야...?")) {
+        if (window.confirm("댓글을 삭제하시겠습니까?")) {
             try {
                 await deleteQnaReply(qnaId, currentReplyId);
+                //페이지 새로고침
                 window.location.reload(true);
+
             } catch (error) {
-                console.log("댓글 번호" + currentReplyId)
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
@@ -308,12 +294,9 @@ export default function QnaDetail() {
                     ) : (
                         <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                            {/* <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button> */}
                         </React.Fragment>
                     )}
                 </div>
-
-
 
                 <div>
                     {isEditMode === false ? (
@@ -321,7 +304,6 @@ export default function QnaDetail() {
                             <CardHeader floated={false} shadow={false} className="rounded-none">
                                 <div className="mb-8 flex items-center justify-between gap-8">
                                     <div>
-
                                         <div color="gray" className="mt-1 font-normal">
                                             댓글
                                         </div>
@@ -331,8 +313,6 @@ export default function QnaDetail() {
                             <CardBody className="px-0 w-full">
                                 <table className="w-full table-auto text-left">
                                     <tbody >
-
-
                                         <tr className="w-full">
                                             <th className="w-full pr-5 mt-4 mr-5 space-x-4">
                                                 <input
@@ -343,11 +323,7 @@ export default function QnaDetail() {
                                                     className="mx-5  border-2 border-gray-300 p-2 rounded-md w-full text-sm" />
                                             </th>
                                             <button onClick={handlerSubmitReply} className=" m-5 px-3 py-1 w-24 bg-blue-500 text-white rounded whitespace-nowrap">등록</button>
-
-
-
                                         </tr>
-
 
                                         {/* replyId 역순 정렬 */}
                                         {qnaReplies.slice().reverse().map((reply) => (
@@ -361,8 +337,6 @@ export default function QnaDetail() {
                                                     <span className="mr-20">
                                                         {reply.comment}
                                                     </span>
-                                                    {/* {console.log("userId : ",[reply])} */}
-                                                    {/* {console.log("authdata : ",authData.id)} */}
                                                     {reply.userId === authData.id || authData.role === "ADMIN" ? (
                                                         <React.Fragment>
                                                             <button onClick={() => {
@@ -370,30 +344,18 @@ export default function QnaDetail() {
                                                                 replyDelete(currentReplyId);
                                                             }} value={reply.id} className="px-3 py-1 my-2 w-20 bg-red-500 text-white rounded">삭제</button>
                                                         </React.Fragment>) : (<tr><td></td></tr>)}
-
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-400">
-
                                                     {format(parseISO(reply.createdAt), 'MM-dd HH:mm')}
-
                                                 </td>
-
-
-
-
-
                                             </tr>
-
                                         ))}
-
                                     </tbody>
                                 </table>
-
                             </CardBody>
                         </React.Fragment>
                     ) : (<tr><td></td></tr>)}
                     <Card className="h-full w-auto mx-4">
-
                     </Card>
                 </div>
             </div>

@@ -6,28 +6,10 @@ import MyEditor from "../Editor/MyEditor";
 
 export const QnaPost = () => {
 
+    // const {qnaId} = useParams();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-
-    //Qna 생성 핸들러
-    const handlerSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            const qnaData = { title, content };
-            await createQna(qnaData);
-            console.log(createQna)
-            // 성공 후 페이지 리디렉션
-            navigate(`/qna`);
-
-        } catch (error) {
-        }
-    };
-
-    //Qna 저장 버튼 핸들러
-    const handleEditorDataChange = (newContent) => {
-        setContent(newContent);
-    };
 
     //MyEditor 포맷 설정
     const plainTextContent = removeFormatting(content);
@@ -37,6 +19,24 @@ export const QnaPost = () => {
         const formattedText = content.replace(/<[^>]*>/g, "");
         return formattedText;
     };
+
+    //Qna 생성 핸들러
+    const handlerSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const qnaData = {title, content };
+            const response = await createQna(qnaData);
+           console.log("qnaId"+ response.data.id)
+            navigate(`/qna/${response.data.id}`);
+        } catch (error) {
+        }
+    };
+
+    //Qna 저장 버튼 핸들러
+    const handleEditorDataChange = (newContent) => {
+        setContent(newContent);
+    };
+
 
     return (
         <>
