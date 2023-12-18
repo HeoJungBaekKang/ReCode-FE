@@ -4,9 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
-
 import { format, addDays } from "date-fns";
-
 import { getSkillNameByPosition } from "../../services/FilterService";
 import Detail from "../StudyRoom/StudyRoom_Detail";
 
@@ -65,7 +63,7 @@ export default function StudyRecruitment() {
   }, [position]);
 
   // 요일 목록
-  const   daysOfWeek = [
+  const daysOfWeek = [
     { id: "월요일", label: "월요일" },
     { id: "화요일", label: "화요일" },
     { id: "수요일", label: "수요일" },
@@ -231,6 +229,7 @@ export default function StudyRecruitment() {
             <div className="mt-2.5 mb-4">
               <input
                 value={write.studyName}
+                required
                 onChange={(e) =>
                   setWrite({ ...write, studyName: e.target.value })
                 }
@@ -255,6 +254,7 @@ export default function StudyRecruitment() {
               <input
                 type="number"
                 id="maxNum"
+                required
                 name="maxNum"
                 value={write.maxNum}
                 onChange={(e) => {
@@ -285,6 +285,7 @@ export default function StudyRecruitment() {
             </label>
             <input
               value={write.startDate}
+              required
               onChange={handleStartDateChange}
               type="date"
               name="startDate"
@@ -301,6 +302,7 @@ export default function StudyRecruitment() {
               스터디 종료 날짜
             </label>
             <input
+              required
               value={write.endDate}
               onChange={handleEndDateChange}
               type="date"
@@ -322,6 +324,7 @@ export default function StudyRecruitment() {
             </label>
             <div className="mt-2.5 mb-4 relative rounded-md shadow-sm">
               <input
+                required
                 type="time"
                 value={startTime}
                 onChange={handleStartTimeChange}
@@ -339,6 +342,7 @@ export default function StudyRecruitment() {
             </label>
             <div className="mt-2.5 mb-4 w-full relative rounded-md shadow-sm">
               <input
+                required
                 className="block w-full rounded-md border-0 px-4 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 type="time"
                 value={endTime}
@@ -386,6 +390,7 @@ export default function StudyRecruitment() {
             <select
               id="position"
               name="position"
+              required
               value={write.position}
               // onChange={(e) =>
               //   setWrite({ ...write, skillNamespostion: e.target.value })
@@ -432,6 +437,7 @@ export default function StudyRecruitment() {
           </label>
           <div className="mt-2.5 mb-4">
             <input
+              required
               value={write.title}
               onChange={(e) => setWrite({ ...write, title: e.target.value })}
               type="text"
@@ -446,6 +452,7 @@ export default function StudyRecruitment() {
           <div className="mt-2.5">
             <div>
               <StudyRecruitEditor
+                required
                 onContentChange={handleEditorDataChange}
                 dangerouslySetInnerHTML={{ __html: plainTextContent }}
               />
