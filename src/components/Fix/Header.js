@@ -12,13 +12,23 @@ const Main = () => {
     };
 
     const menuItems = [
-        { label: "알림", path: "/notification" },
-        { label: "채팅", path: "/chat" },
-        { label: "QnA", path: "/qna" },
-        { label: "스터디 목록", path: "/" }
+        { label: "알림", path: "/notification", handleClick: () => navigate("/notification") },
+        { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
+        { label: "QnA", path: "/qna", handleClick: () => navigate("/qna") },
+        { label: "스터디 목록", path: "/", handleClick: () => navigate("/") },
     ];
 
+    // 비로그인 상태에서 채팅을 눌렀을 때 로그인창으로 이동되도록
+    const navigateToChat = () => {
+        if (authData.token) {
+            navigate("/chat");
+        } else {
+            navigate("/login");
+        }
+    };
+
     const { authData, setAuthData } = useContext(AuthContext);
+    console.log(authData);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -42,20 +52,28 @@ const Main = () => {
         });
     };
 
-    let timer;
     useEffect(() => {
+        let timer;
         const resetTimer = () => {
             clearTimeout(timer);
             timer = setTimeout(handleLogout, 1000 * 60 * 60); // 60 minutes 동안 로그인 유지
         };
 
+        const handleResize = () => {
+            if (window.innerWidth > 768) {
+                setIsMenuOpen(false);
+            }
+        };
+
         window.addEventListener('load', resetTimer);
+        window.addEventListener('resize', handleResize);
         document.addEventListener('mousemove', resetTimer);
         document.addEventListener('keypress', resetTimer);
 
         return () => {
             clearTimeout(timer);
             window.removeEventListener('load', resetTimer);
+            window.removeEventListener('resize', handleResize);
             document.removeEventListener('mousemove', resetTimer);
             document.removeEventListener('keypress', resetTimer);
         };
@@ -105,11 +123,11 @@ const Main = () => {
                             </button>
                         </div>
 
-                        <div className={`${isMenuOpen ? 'flex flex-col absolute right-0 w-1/4 top-[3.5rem]' : 'hidden'} lg:flex lg:flex-row left-10 lg:items-center lg:w-auto lg:relative z-10 ml-10`} id="mobile-menu-2">
-                            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                        <div className={`${isMenuOpen ? 'flex flex-col absolute right-0 w-1/4 top-[4.0rem]' : 'hidden'} lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`} id="mobile-menu-2">
+                            <ul className="flex flex-col font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                                 {menuItems.map((item, index) => (
                                     <li key={index} className={`${isMenuOpen ? 'bg-gray-200' : ''}`}>
-                                        <a href={item.path} className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
+                                        <a href="#" onClick={item.handleClick} className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">
                                             {item.label}
                                         </a>
                                     </li>
