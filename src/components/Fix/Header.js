@@ -118,8 +118,8 @@ const Main = () => {
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 <img
-                  src="/Recode-logo1.png"
-                  alt="Recode-logo"
+                  src="/Recode-name.png"
+                  alt="Recode-name"
                   border="0"
                   className="h-6 sm:h-9"
                 />

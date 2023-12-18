@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -223,7 +224,8 @@ const StudyRoomNotLogin = () => {
   return (
     <>
       <StudyRoom_Sidebar />
-      <div className="max-w-screen-md max-h-screen mx-auto p-4">
+      <div className="ml-56 mt-12">
+      <div className="max-w-screen-lg max-h-screen mx-auto p-4">
         <div className="px-4 sm:px-0">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold leading-7 text-gray-900">
@@ -465,6 +467,7 @@ const StudyRoomNotLogin = () => {
             </TEModalDialog>
           </TEModal>
         </div>
+      </div>
       </div>
     </>
   );
