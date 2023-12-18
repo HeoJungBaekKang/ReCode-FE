@@ -71,6 +71,22 @@ const EditPost = () => {
 
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                            카테고리
+                        </label>
+                        <select
+                            name="category"
+                            value={postData.category || ''}
+                            onChange={handleChange}
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
+                        >
+                            <option value="0">공지사항</option>
+                            <option value="1">회고록</option>
+                            <option value="2">자료 공유</option>
+                        </select>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                             제목
                         </label>
                         <input

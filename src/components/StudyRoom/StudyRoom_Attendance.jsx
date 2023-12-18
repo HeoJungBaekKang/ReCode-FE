@@ -1,36 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
-
+import { useParams } from "react-router-dom";
 
 const Attendance = () => {
 
-    // test
-    const date = {
-        StudyDate: '2023-11-10 ~ 2023-11-13',
-        StudySchedule: '2023-11-10(금)  14:00 ~ 15:00',
-    };
+    const { study_id } = useParams();
+    const { authData } = useContext(AuthContext);
+    const [isAttended, setIsAttended] = useState(false);     // 출석체크 상태
+    const [studyInfo, setStudyInfo] = useState({
+        startDate: "",
+        endDate: "",
+        startTime: "",
+        endTime: "",
+        attendanceDay: ""
+    });
 
-    // 출석체크 상태
-    const [isAttended, setIsAttended] = useState(false);
+    useEffect(() => {
+        const fetchStudyInfo = async () => {
+            try {
+                const response = await axios.get(`/api/study/${study_id}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authData.token}`,
+                    },
+                });
+                console.log("Response.Data", response.data);
+                if (response.data) {
+                    setStudyInfo({
+                        startDate: response.data.data.startDate,
+                        endDate: response.data.data.endDate,
+                        startTime: response.data.data.startTime,
+                        endTime: response.data.data.endTime,
+                        attendanceDay: Array.isArray(response.data.data.attendanceDay) ? response.data.data.attendanceDay.join(", ") : ""
+                    });
+                } else {
+                    console.error("Unexpected response data structure");
+                }
+            } catch (error) {
+                console.error("Error Fetching Study Info: ", error);
+            }
+        };
+        fetchStudyInfo();
+    }, [study_id, authData.token]);
 
-    // 출석 완료된 아이디 목록
-    const [attendedUsers, setAttendedUsers] = useState([]);
+    const handleAttendanceCheck = async () => {
+        try {
+            const response = await axios.post(`/api/v1/study/${study_id}/attendance`, {
+                studyId: study_id,
+                userId: authData.id,  // 현재 로그인한 사용자의 ID
+                status: 'Checked'
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authData.token}`
+                }
+            });
 
+            console.log("HTTP status: ", response.status);
+            if (response.status === 201) {  // HTTP Status Code가 201이면 성공
 
-    // 출석체크 버튼을 클릭할 때 실행되는 함수
-    const handleAttendanceCheck = () => {
+                console.log("Response data status: ", response.data.status);
 
-        // 여기에 출석체크 확인 로직을 구현
-        // 예를 들어, API 호출 또는 로컬 상태 업데이트 등이 포함될 수 있음
+                setIsAttended(true);  // 출석체크 상태를 변경
+                console.log(response.data);  // 응답 데이터 출력
 
-        // 출석체크가 완료되면 isAttended 상태를 업데이트
-        setIsAttended(true);
+                if (response.data.data.status === '출석') {
+                    console.log("11111111", response.data.data.status);
+                    alert("출석하였습니다.");
+                } else if (response.data.data.status === '지각') {
+                    console.log("22222222", response.data.data.status);
+                    alert("지각입니다.");
+                }
+            }
 
-        // 출석 완료된 사용자 아이디 추가
-        // 예를 들어, 현재 로그인된 사용자의 아이디를 사용하거나 다른 사용자 정보를 가져와야 함
-        const userId = "huno";
-        setAttendedUsers([...attendedUsers, userId]);
-    };
+        } catch (error) {
+            console.error("Error on Attendance Check: ", error);
+            console.log(error.response.data);  // 에러 데이터 출력
+
+            if (error.response && error.response.data.message.includes("이미 출석되었습니다.")) {
+                alert("이미 출석되었습니다.");
+            }
+        }
+    }
 
     return (
         <div>
@@ -41,57 +94,25 @@ const Attendance = () => {
 
                     <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
                         <span className="text-sm mr-12 font-semibold">스터디 기간</span>
-                        <span className="text-sm">{date.StudyDate}</span>
+                        <span className="text-sm">{studyInfo.startDate} ~ {studyInfo.endDate}, [{studyInfo.attendanceDay}]</span>
                     </div>
                     <div className="flex items-center text-gray-600 dark:text-gray-400 mb-4">
-                        <span className="text-sm mr-4 font-semibold">금일 스터디 시간</span>
-                        <span className="text-sm">{date.StudySchedule}</span>
+                        <span className="text-sm mr-4 font-semibold">출석 인정 시간</span>
+                        <span className="text-sm">{studyInfo.startTime} ~ {studyInfo.endTime}</span>
                     </div>
                 </div>
 
                 <div className="max-w-screen-md mx-auto p-4">
                     {/* 출석체크 버튼 */}
-                    {!isAttended && (
-                        <div className="relative mt-1 flex">
-                            <button
-                                onClick={handleAttendanceCheck}
-                                className="px-4 py-2 w-auto ml-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                            >
-                                출석체크
-                            </button>
-
-
-                            {/* 출석체크 상태에 따라 메시지 표시 */}
-                            {isAttended && (
-                                <div className="text-green-500 mt-4 font-semibold">
-                                    출석체크 완료
-                                </div>
-                            )}
-                        </div>
-                    )}
-
-
-                    {/* 출석체크 상태에 따라 메시지 표시 */}
-                    {isAttended && (
-                        <div>
-                            <div className="text-green-500 mt-4 font-semibold">
-                                출석체크 완료
-                            </div>
-
-                            {/* 출석 완료된 사용자 목록 표시 */}
-                            <div className="mt-4">
-                                <h3 className="text-xl font-semibold mb-2">출석 완료</h3>
-                                <ul>
-                                    {attendedUsers.map((user, index) => (
-                                        <li key={index}>{user}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    )}
-
+                    <div className="relative mt-1 flex">
+                        <button
+                            onClick={handleAttendanceCheck}
+                            className="px-4 py-2 w-auto ml-auto bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                        >
+                            출석
+                        </button>
+                    </div>
                 </div>
-
             </div>
         </div>
     );

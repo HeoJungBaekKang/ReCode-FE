@@ -272,8 +272,9 @@ const PostDetail = () => {
             prevComments.map((c) =>
                 c.id === comment.id ? { ...c, content: comment.content } : c
             )
-        );
 
+        );
+        window.location.reload(true);
         console.log("취소 후 상태", comments);
 
         // 수정 상태를 초기화합니다.
@@ -287,12 +288,11 @@ const PostDetail = () => {
             <StudyRoom_Sidebar />
             <div className="max-w-screen-md mx-auto p-4">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
-                    <label className="block text-xl font-semibold mb-8">{postData.data && postData.data.title}</label>
+                    <label className="block text-xl font-semibold mb-8">[{postData.data.category}]{postData.data && postData.data.title}</label>
 
                     <div className="mb-4">
                         {postData && (
                             <>
-                                {/* <p className="text-lg font-semibold mb-2">{postData.title}</p> */}
                                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
                                     글 번호: {postData.data && postData.data.id} | 작성자: {postData.data && postData.data.nickName} | 작성일: {postData.data && postData.data.createdAt}
                                 </p>

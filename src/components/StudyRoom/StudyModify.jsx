@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MultiSelect from "../Study/MultiSelect";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function StudyModify() {
+
+    const { study_id } = useParams();
 
     const navigate = useNavigate();
 
@@ -288,7 +290,7 @@ export default function StudyModify() {
                         <div className="flex gap-x-3">
                             <button
                                 type="reset"
-                                onClick={() => navigate('/studyroom/manage')}
+                                onClick={() => navigate(`/studyroom/${study_id}/manage`)}
                                 className="flex-1 rounded-md bg-red-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 취소

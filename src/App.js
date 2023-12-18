@@ -83,7 +83,7 @@ function App() {
             <Route path="/studyroomNotLogin/:study_id" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
-            <Route path="/studyroom/attendance" element={<Attendance />} />
+            <Route path="/studyroom/:study_id/attendance" element={<Attendance />} />
             <Route path="/studyroom/:study_id/participants" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
