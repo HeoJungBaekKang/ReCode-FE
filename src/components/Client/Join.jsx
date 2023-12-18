@@ -17,6 +17,7 @@ export default function Join() {
 
   const [isUsernameValidated, setIsUsernameValidated] = useState(false);
   const [isEmailValidated, setIsEmailValidated] = useState(false);
+  const [isNicknameValidated, setIsNicknameValidated] = useState(false);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -27,7 +28,7 @@ export default function Join() {
 
   const CheckUsernameDuplicate = async () => {
     try {
-      await axios.get(`http://localhost:8081/api/user-name/${formData.username}/exists`
+      await axios.get(`/api/user-name/${formData.username}/exists`
       )
      
         .then(response => {
@@ -48,6 +49,29 @@ export default function Join() {
     }
   };
 
+  const CheckNicknameDuplicate = async () => {
+    try {
+      await axios.get(`/api/nickname/${formData.nickname}/exists`
+      )
+     
+        .then(response => {
+          const code = response.data.code;
+
+          console.log(response)
+
+          if (code === 1) {
+            console.log("닉네임 중복 확인 성공");
+            alert("사용 가능한 닉네임입니다.");
+            setIsNicknameValidated(true);
+          } else if (code === -1){
+            alert("이미 사용 중인 닉네임 입니다.");
+          }
+        });
+    } catch (error) {
+      console.error("중복 확인 중 오류 발생 : ", error.data.code);
+    }
+  };
+
   const CheckEmailDuplicate = async () => {
     try {
       const response = await axios.get(`/api/user-email/${formData.email}/exists`);
@@ -55,6 +79,7 @@ export default function Join() {
         alert("사용 가능한 이메일입니다.");
         setIsEmailValidated(true);
       } else {
+      
         alert(response.data.msg);
         setIsEmailValidated(false);
       }
@@ -100,7 +125,7 @@ export default function Join() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
-            src="https://i.ibb.co/b5QpxVy/Recode-logo.png"
+            src="/Recode-logo.png"
             alt="Recode logo"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -131,9 +156,9 @@ export default function Join() {
                   type="button"
                   name="idCheck"
                   onClick={CheckUsernameDuplicate}
-                  className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
-                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
-                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                  className="h-9 ml-px w-24 inline-flex items-center rounded-r-md border
+                  border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white
+                  hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 whitespace-nowrap"
                 >
                   중복확인
                 </button>
@@ -147,7 +172,7 @@ export default function Join() {
               >
                 Nickname
               </label>
-              <div className="mt-2">
+              <div className="mt-2 flex items-center">
                 <input
                   id="nickname"
                   name="nickname"
@@ -156,10 +181,18 @@ export default function Join() {
                   required
                   value={formData.nickname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 
-                    ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset 
-                    focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <button
+                  type="button"
+                  name="idCheck"
+                  onClick={CheckNicknameDuplicate}
+                  className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
+                          border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
+                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                >
+                  중복확인
+                </button>
               </div>
             </div>
 
@@ -252,7 +285,7 @@ export default function Join() {
                   font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline 
                   focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Sign in
+                회원가입
               </button>
             </div>
           </form>

@@ -71,7 +71,7 @@ const ApplyStatus = () => {
     // 승인
     const handleApproval = async () => {
 
-        console.log("버튼 클릭", selectedUser);
+        console.log("승인 버튼", selectedUser);
         try {
 
             const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
@@ -97,6 +97,7 @@ const ApplyStatus = () => {
                 console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
                 setApplications(fetchResponse.data.data);
 
+
             } catch (error) {
                 console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
@@ -104,10 +105,13 @@ const ApplyStatus = () => {
         } catch (error) {
             console.error("가입 승인 또는 거절 중 오류 발생:", error);
         }
+
+        setTimeout(() => window.location.reload(), 1000);
     };
 
     // 거절
     const handleRejection = async () => {
+        console.log("거절 버튼", selectedUser);
         try {
             const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
                 status: "Rejected"
@@ -143,8 +147,9 @@ const ApplyStatus = () => {
         } catch (error) {
             console.error("가입 거절 중 오류 발생:", error);
         }
-    };
+        setTimeout(() => window.location.reload(), 1000);
 
+    };
 
     return (
         <>

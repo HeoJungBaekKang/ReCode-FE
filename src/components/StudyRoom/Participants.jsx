@@ -116,7 +116,7 @@ export default function Participants() {
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
-                            <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="참가 인원 찾기" />
+                            <input type="text" id="table-search-users" className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="      참가 인원 찾기" />
                         </div>
                     </div>
                 </div>
@@ -133,23 +133,29 @@ export default function Participants() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {users.map((user, index) => (
-                                            <tr
-                                                key={user.id}
-                                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
-                                            >
-                                                <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
-                                                <td
-                                                    className="whitespace-nowrap px-6 py-4">{user.nickname}</td>
-                                                <td className="whitespace-nowrap px-6 py-4">
-                                                    <Tooltip content="내보내기">
-                                                        <IconButton variant="text" onClick={() => handleLeaveStudy(user.id)}>
-                                                            <UserMinusIcon className="h-4 w-4 " />
-                                                        </IconButton>
-                                                    </Tooltip>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        {users.map((user, index) => {
+                                            // 탈퇴한 사용자는 보이지 않도록
+                                            if (user.nickname === '탈퇴한 회원입니다') {
+                                                return null;
+                                            }
+
+                                            return (
+                                                <tr
+                                                    key={user.id}
+                                                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+                                                >
+                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{index + 1}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">{user.nickname}</td>
+                                                    <td className="whitespace-nowrap px-6 py-4">
+                                                        <Tooltip content="내보내기">
+                                                            <IconButton variant="text" onClick={() => handleLeaveStudy(user.id)}>
+                                                                <UserMinusIcon className="h-4 w-4 " />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>

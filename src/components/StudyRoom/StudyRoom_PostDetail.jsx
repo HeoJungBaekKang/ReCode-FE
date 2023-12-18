@@ -8,13 +8,15 @@ const PostDetail = () => {
     const { post_id, study_id, postReply_id } = useParams();
     const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
     const navigate = useNavigate();
+    const [matchingFiles, setMatchingFiles] = useState([]);
     const [postData, setPostData] = useState({
         "data": {
             "id": "",
             "title": "",
             "nickName": "",
             "createdAt": "",
-            "content": ""
+            "content": "",
+            "fileName": ""
         }
     });
 
@@ -38,11 +40,6 @@ const PostDetail = () => {
 
         fetchPostData();
     }, [post_id, study_id]);
-
-    // 전체 postData 객체를 로그로 출력
-    useEffect(() => {
-        console.log("게시글 데이터:", postData);
-    }, [postData]);
 
 
     // 수정 버튼 클릭 시의 동작
@@ -73,6 +70,27 @@ const PostDetail = () => {
             }
         } catch (error) {
             console.log("글 삭제 중 오류 발생 :", error);
+        }
+    };
+
+    const handleDownload = async (fileName) => {
+        try {
+            const response = await axios.get(`/file/download/${fileName}`, {
+                responseType: 'blob',
+            });
+
+            // Create a URL for the blob
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName); // 파일이름 설정
+            document.body.appendChild(link);
+            link.click();
+
+            link.parentNode.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("파일 다운로드 중 에러 발생 :", error);
         }
     };
 
@@ -254,8 +272,9 @@ const PostDetail = () => {
             prevComments.map((c) =>
                 c.id === comment.id ? { ...c, content: comment.content } : c
             )
-        );
 
+        );
+        window.location.reload(true);
         console.log("취소 후 상태", comments);
 
         // 수정 상태를 초기화합니다.
@@ -269,18 +288,37 @@ const PostDetail = () => {
             <StudyRoom_Sidebar />
             <div className="max-w-screen-md mx-auto p-4">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex flex-col">
-                    <label className="block text-xl font-semibold mb-8">{postData.data && postData.data.title}</label>
+                    <label className="block text-xl font-semibold mb-8">[{postData.data.category}]{postData.data && postData.data.title}</label>
 
                     <div className="mb-4">
                         {postData && (
                             <>
-                                {/* <p className="text-lg font-semibold mb-2">{postData.title}</p> */}
                                 <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">
                                     글 번호: {postData.data && postData.data.id} | 작성자: {postData.data && postData.data.nickName} | 작성일: {postData.data && postData.data.createdAt}
                                 </p>
                                 <p className="text-gray-700 dark:text-white">{postData.data && postData.data.content}</p>
                             </>
                         )}
+                        {/* 파일 검색 결과 표시 */}
+                        <div className="file-search-results my-4 flex items-center">
+                            <span
+                                style={{
+                                    border: '1px solid #ccc',
+                                    padding: '8px',
+                                    margin: '5px',
+                                    display: 'inline-block',
+                                    borderRadius: '4px'
+                                }}>
+                                {postData.data.fileName}
+                            </span>
+                            <img
+                                src="/img/download-icon.png"
+                                alt="download-logo"
+                                border="0"
+                                className="h-6 sm:h-6 cursor-pointer hover:opacity-75"
+                                onClick={() => handleDownload(postData.data.fileName)}
+                            />
+                        </div>
                     </div>
 
                     {/* 수정 버튼과 삭제 버튼 */}

@@ -229,7 +229,7 @@ const Quiz = () => {
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="w-20 p-4">
+                                    <th scope="col" className="w-32 p-5 whitespace-nowrap">
                                         글 번호
                                     </th>
                                     <th scope="col" className="px-10 py-3">
@@ -253,7 +253,7 @@ const Quiz = () => {
                             <tbody>
                                 {chunkedQuizzes && chunkedQuizzes[currentPage] && chunkedQuizzes[currentPage].map((quiz, index) => (
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td className="w-20 p-4">
+                                        <td className="w-24 p-4 whitespace-nowrap">
                                             <div className="flex items-center ml-4">
                                                 {quiz.id}
                                             </div>

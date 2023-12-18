@@ -50,6 +50,7 @@ import ChatApp from "./components/Chat/chatApp";
 import ChatCreate from "./components/Chat/chatCreate";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
+import StudyRoomRecommend from "./components/StudyRoom/StudyRoom_Recommend";
 
 
 
@@ -82,7 +83,7 @@ function App() {
             <Route path="/studyroomNotLogin/:study_id" element={<StudyRoomNotLogin />} />
             <Route path="/studyroom/board/:study_id" element={<Board />} />
             <Route path="/studyroom/post/:study_id" element={<Post />} />
-            <Route path="/studyroom/attendance" element={<Attendance />} />
+            <Route path="/studyroom/:study_id/attendance" element={<Attendance />} />
             <Route path="/studyroom/:study_id/participants" element={<Participants />} />
             <Route path="/studyroom/:study_id/manage" element={<Manage />} />
             <Route path="/studyroom/:study_id/manage/apply" exact element={<ApplyStatus />} />
@@ -112,6 +113,7 @@ function App() {
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
             <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
+            <Route path="/studyroom/:studyId/get-recommend" element={<StudyRoomRecommend />} />
         </Routes>
         </div>
       </AuthProvider>

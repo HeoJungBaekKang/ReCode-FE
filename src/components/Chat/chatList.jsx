@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from "../../context/AuthContext";
-import { CardHeader, CardBody, Card } from "@material-tailwind/react";
+import { CardBody, Card } from "@material-tailwind/react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 
@@ -85,6 +85,7 @@ export default function ChatList() {
                                         <div className="flex items-center gap-3">
                                             <div className="grid gap-0.5 text-sm">
                                                 <div className="font-medium">{room.title}</div>
+                                                <div className="text-gray-500 dark:text-gray-400">방장 : {room.createdBy}</div>
                                                 <div className="text-gray-500 dark:text-gray-400">{room.lastMessage}</div>
                                             </div>
                                         </div>
@@ -94,26 +95,26 @@ export default function ChatList() {
                                             </p>
                                         </div>
                                     </li>
-                                    <div className="flex justify-end mt-2">
-                                        <button key={`delete-${room.chatRoomId}`} className="text-red-600 hover:text-red-800" onClick={()=> handleDeleteChatRoom(room.chatRoomId)}
-                                            >
-                                            삭제
-                                        </button>
-                                        <button key={`leave-${room.chatRoomId}`} className="text-blue-600 hover:text-blue-800 ml-2" onClick={()=> handleLeaveChatRoom(room.chatRoomId)}
-                                            >
-                                            나가기
-                                        </button>
-                                    </div>
+                                    <div className="flex justify-center mt-2">
+                                      <button className="p-4 border-none bg-transparent flex items-center justify-center" key={`delete-${room.chatRoomId}`} onClick={() => handleDeleteChatRoom(room.chatRoomId)}>
+                                        <img src="/img/delete.png" alt="삭제" style={{ width: '20px', height: '20px' }} />
+                                      </button>
+                                      <button className="p-4 border-none bg-transparent flex items-center justify-center" key={`leave-${room.chatRoomId}`} onClick={() => handleLeaveChatRoom(room.chatRoomId)}>
+                                        <img src="/img/logout.png" alt="나가기" style={{ width: '20px', height: '20px' }} />
+                                      </button>
+                                </div>
                                   </React.Fragment>
                                 ))}
                             </ul>
                         </CardBody>
                     </Card>
-                    <div className="p-4">
-                        <button className="w-full bg-blue-300 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=> { navigate('./create'); }}
-                            >
-                            Create Chat Room
-                        </button>
+                    <div className="p-4" flex items-center justify-center>
+                      <img
+                        src="/img/add.png"
+                        alt="채팅방 생성"
+                        style={{ width: '50px', height: '50px' }}
+                        onClick={() => { navigate('./create'); }}
+                      />
                     </div>
                 </div>
             </div>

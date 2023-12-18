@@ -13,37 +13,31 @@ const Main = () => {
   const { authData, setAuthData } = useContext(AuthContext);
   const navigate = useNavigate();
 
-
   // 알림 불러오기
-useEffect(() => {
-  async function getUserNotificationList() {
-    try {
-      const response = await getUserNotifications();
-      
-      if (response) {
-        setNotifications(response.data);
-        setNotificationCount(response.data.length);
-        // status가 0인 알림 개수 세기
-        const unreadNotificationCount = response.data.filter(
-          (notification) => notification.readStatus == 0
-        ).length;
-        setNotificationCount(unreadNotificationCount);
-      }
-    } catch (error) {
-      console.log("알림 목록 불러오기 실패", error);
-    }
-  }
-  getUserNotificationList();
-}, []);
+  useEffect(() => {
+    async function getUserNotificationList() {
+      try {
+        const response = await getUserNotifications();
 
+        if (response) {
+          setNotifications(response.data);
+          setNotificationCount(response.data.length);
+          // status가 0인 알림 개수 세기
+          const unreadNotificationCount = response.data.filter(
+            (notification) => notification.readStatus == 0
+          ).length;
+          setNotificationCount(unreadNotificationCount);
+        }
+      } catch (error) {
+        console.log("알림 목록 불러오기 실패", error);
+      }
+    }
+    getUserNotificationList();
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-
-
-  const [timeLeft, setTimeLeft] = useState(60 * 60);
 
   const menuItems = [
     // 다른 메뉴 아이템들...
@@ -71,6 +65,7 @@ useEffect(() => {
     navigate("/");
   };
 
+  const [timeLeft, setTimeLeft] = useState(60 * 60);
   // 타이머 업데이트 함수
   const updateTimer = () => {
     setTimeLeft((prevTime) => {
@@ -121,12 +116,14 @@ useEffect(() => {
                 border="0"
                 className="mr-3 h-6 sm:h-9"
               />
-              <img
-                src="/Recode-name.png"
-                alt="Recode-name"
-                border="0"
-                className="mr-3 h-6 sm:h-9"
-              />
+              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                <img
+                  src="/Recode-logo1.png"
+                  alt="Recode-logo"
+                  border="0"
+                  className="h-6 sm:h-9"
+                />
+              </span>
             </a>
             <div className="flex items-center lg:order-2">
               {authData.token != null ? (
