@@ -7,14 +7,14 @@ import { useParams } from 'react-router-dom';
 export default function StudyRoom_Recommend() {
     const [mentors, setMentors] = useState([]);
     const { authData } = useContext(AuthContext);
-    const {studyId } = useParams();
+    const {study_id } = useParams();
   
     useEffect(() => {
 
         const fetchData = async () => {
             try {
               const response = await axios.get(
-                `http://localhost:8081/api/v1/study/${studyId}/get-recommend`,
+                `http://localhost:8081/api/v1/study/${study_id}/get-recommend`,
                 {
                   headers: {
                     "Content-Type": "application/json",
