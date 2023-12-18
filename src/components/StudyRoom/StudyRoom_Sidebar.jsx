@@ -8,9 +8,11 @@ function Sidebar() {
   const { authData } = useContext(AuthContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { study_id } = useParams();
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
 
   const [info, setInfo] = useState({
     username: "",
@@ -98,10 +100,7 @@ function Sidebar() {
 
   return (
     <div>
-      
-
       <hr className="my-10 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-
       <button
         onClick={toggleSidebar}
         data-drawer-target="default-sidebar"
@@ -130,7 +129,7 @@ function Sidebar() {
         id="studyRoom-sidebar"
         className={`${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-35 left-0 z-40 w-76 h-screen transition-transform sm:translate-x-0`}
+        } fixed top-35 left-0 z-40 w-76 h-screen transition-transform lg:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-white-50 dark:bg-gray-800">
