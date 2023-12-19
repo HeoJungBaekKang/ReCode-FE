@@ -52,13 +52,13 @@ export default function StudyList({ filteredStudies }) {
                           post.maxNum - post.currentNum <= 2 &&
                           post.maxNum !== post.currentNum
                             ? "bg-red-400 text-white"
-                            : post.maxNum > post.cuƒrentNum
+                            : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
                         }`}
                       >
                         {post.maxNum - post.currentNum <= 2 &&
-                        post.max_num !== post.current_num
+                        post.maxNum !== post.currentNum
                           ? "마감 임박"
                           : post.maxNum > post.currentNum
                           ? "모집중"

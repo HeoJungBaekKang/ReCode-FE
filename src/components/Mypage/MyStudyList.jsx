@@ -3,7 +3,17 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { UserMinusIcon } from "@heroicons/react/24/outline";
-import { IconButton, Tooltip } from "@material-tailwind/react";
+import { IconButton, Tooltip, Typography } from "@material-tailwind/react";
+import {
+  TERipple,
+  TEModal,
+  TEModalDialog,
+  TEModalContent,
+  TEModalHeader,
+  TEModalBody,
+  TEModalFooter,
+} from "tw-elements-react";
+
 import axios from "axios";
 
 export default function MyStudyList() {
@@ -44,6 +54,62 @@ export default function MyStudyList() {
     }
   };
 
+  const modalPosition = {
+    width: "70%",
+    maxWidth: "38rem",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+  const [showModal, setShowModal] = useState(false);
+  const TABLE_ROWS = [
+    {
+      name: (
+        <>
+          1. 스터디 탈퇴 시, 해당 스터디 룸에서 제공되는 서비스에 접근하실 수
+          없습니다.
+          <br />
+          2. 탈퇴timers 시, 해당 스터디 룸에서의 모든 권한이 해제됩니다.
+          <br />
+          3. 탈퇴 후 동일한 스터디로 재가입이 가능하나 기존의 데이터와 연동되지
+          않습니다.
+          <br />
+          4. 탈퇴 버튼을 통해 탈퇴가 완료됩니다.
+        </>
+      ),
+    },
+  ];
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleWithdrawStudy = async (post) => {
+    try {
+      const response = await axios.post(
+        `/api/v1/study/${post.id}/withdraw`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authData.token}`,
+          },
+        }
+      );
+      const code = response.data.code;
+      if (code === 1) {
+        setShowModal(false);
+        navigate(`/mypage/${authData.id}`, { replace: true });
+      } else {
+        alert("탈퇴 실패", response);
+      }
+    } catch (error) {
+      console.log("탈퇴중 오류 발생", error);
+    }
+  };
+
   const chunkedPosts = chunk(posts, 9);
 
   useEffect(() => {
@@ -74,13 +140,21 @@ export default function MyStudyList() {
                   >
                     {post.status}
                   </div>
-                  <div className="flex justify-end flex-grow">
-                    <Tooltip content="Remove">
-                      <IconButton variant="text" onClick={() => navigate("/")}>
-                        <UserMinusIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                  {post.status === "거절됨" && (
+                    <div className="flex justify-end flex-grow">
+                      <Tooltip content="Remove">
+                        <IconButton
+                          variant="text"
+                          onClick={() => {
+                            setSelectedPost(post);
+                            setShowModal(true);
+                          }}
+                        >
+                          <UserMinusIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-start text-sm">
                   <div className="flex flex-wrap row-reverse">
@@ -160,6 +234,106 @@ export default function MyStudyList() {
           </nav>
         </div>
       </div>
+      {/* Modal */}
+      <TEModal show={showModal} setShow={setShowModal}>
+        <TEModalDialog style={modalPosition}>
+          <TEModalContent>
+            <TEModalHeader>
+              <div>
+                <Typography variant="h5" color="blue-gray">
+                  탈퇴 안내
+                </Typography>
+                <Typography color="gray" className="mt-2 w-80 font-normal">
+                  스터디 탈퇴에 대한 안내 사항입니다.
+                </Typography>
+              </div>
+              <button
+                type="button"
+                className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                onClick={() => setShowModal(true)}
+                aria-label="Close"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </TEModalHeader>
+            <TEModalBody>
+              <table className="mt-4 w-full min-w-max table-auto text-left">
+                <tbody>
+                  {TABLE_ROWS.map(({ name }, index) => {
+                    const classes =
+                      index === TABLE_ROWS.length - 1
+                        ? "p-4"
+                        : "p-4 border-b border-blue-gray-50";
+                    return (
+                      <tr key={index}>
+                        <td className={classes}>
+                          <div className="flex items-center gap-3">
+                            <div className="flex flex-col">
+                              <div className="flex items-center">
+                                <hr className="flex-grow border-t border-gray-300" />
+                                <span className="px-3 text-gray-500">
+                                  유의 사항
+                                </span>
+                                <hr className="flex-grow border-t border-gray-300" />
+                              </div>
+                              <br />
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {name}
+                              </Typography>
+                              <br />
+                              <div className="flex items-center">
+                                <hr className="flex-grow border-t border-gray-300" />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </TEModalBody>
+            <TEModalFooter>
+              <TERipple
+                rippleColor="light"
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-2"
+                >
+                  취소
+                </button>
+                <button
+                  type="button"
+                  className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                  onClick={() => handleWithdrawStudy(selectedPost)}
+                >
+                  탈퇴
+                </button>
+              </TERipple>
+            </TEModalFooter>
+          </TEModalContent>
+        </TEModalDialog>
+      </TEModal>
     </div>
   );
 }
