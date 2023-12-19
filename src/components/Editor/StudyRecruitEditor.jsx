@@ -19,10 +19,8 @@ function StudyRecruitEditor({ initialContent, onContentChange }) {
   return (
     <div>
       <CKEditor
-
         editor={ClassicEditor}
         data={initialContent}  // 초기내용 설정 
-
         config={{
           placeholder: "내용을 입력하세요.",
           toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList']
@@ -30,10 +28,8 @@ function StudyRecruitEditor({ initialContent, onContentChange }) {
         onChange={handleEditorDataChange}
 
         onBlur={(event, editor) => {
-          console.log("Blur.");
         }}
         onFocus={(event, editor) => {
-          console.log("Focus.");
         }}
       />
 

@@ -14,13 +14,10 @@ export async function getSkills() {
 
       const skillNames = response.data.data.map((skill) => skill.skillName);
       return skillNames || [];
-      // return response.data.data.skills || [];
     } else {
-      console.log("스택 목록 불러오기 실패");
       return [];
     }
   } catch (error) {
-    console.error("스택 목록 불러오기 중 오류 : ", error);
     return [];
   }
 }
@@ -35,14 +32,11 @@ export async function getStudies() {
     });
 
     if (response.data.code === 1) {
-      console.log("스터디 목록 불러오기 성공");
       return response.data.data; // 스터디 목록 반환
     } else {
-      console.log("스터디 목록 불러오기 실패");
       return [];
     }
   } catch (error) {
-    console.error("스터디 목록 불러오기 중 오류 ", error);
     return [];
   }
 }
@@ -64,7 +58,6 @@ export async function fetchStudyList(authData) {
     });
     return response.data;
   } catch (error) {
-    console.error("스터디 목록 조회 중 오류 : ", error);
     return { code: -1, data: [], message: "스터디 목록 불러오기 실패" };
   }
 }
@@ -89,7 +82,6 @@ export async function getSkillNameByPosition(position) {
       return [];
     }
   } catch (error) {
-    console.error("position에 따른 스택 목록 불러오기 중 오류 : ", error);
     return [];
   }
 }
@@ -110,13 +102,10 @@ export async function getPosition() {
 
       const position = response.data.data.map((skill) => skill.position);
       return position || [];
-      // return response.data.data.skills || [];
     } else {
-      console.log("position 중복 없이 불러오기 실패");
       return [];
     }
   } catch (error) {
-    console.error("position 중복 없이 불러오기 중 오류 : ", error);
     return [];
   }
 }
@@ -127,6 +116,5 @@ export const handleSearchKeyword = async (searchTerm) => {
     const response = await axios.get(`/api/main/list`, { params: { keyword: searchTerm } });
     return response.data;
   } catch (error) {
-    console.error('Error fetching search results', error);
   }
 };

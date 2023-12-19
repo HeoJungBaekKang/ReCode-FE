@@ -65,13 +65,10 @@ export default function MypageMyprofile() {
                             nickname: response.data.data.nickname,
                             email: response.data.data.email,
                         });
-                        console.log("개인 정보 조회 성공");
                     } else {
-                        console.log("개인 정보 조회 실패");
                     }
                 });
         } catch (error) {
-            console.error("개인 정보 조회 중 오류 발생 : ", error);
         }
     };
 

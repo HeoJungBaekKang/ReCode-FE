@@ -16,8 +16,6 @@ export const createQnaReply = async (qnaId, replyData) => {
         return response.data;
 
     } catch (error) {
-
-        console.error('qna error', error);
     }
 };
 

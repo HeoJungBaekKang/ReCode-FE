@@ -24,14 +24,51 @@ export default function Post() {
         userId: authData.id
     });
 
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    }
+
+    // 파일 업로드
+    const uploadFile = async (file) => {
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await axios.post(
+                '/file/upload',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     // 글 작성 완료 버튼을 클릭했을 때 실행되는 함수
     const handlePostSubmit = async () => {
         try {
+            // 파일 업로드 먼저 동작
+            const fileName = await uploadFile(selectedFile);
+
+            // 게시글 데이터에 파일 이름 추가
+            const postDataWithFile = {
+                ...newPost,
+                fileName: fileName,
+            };
 
             // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
             const response = await axios.post(
                 `/api/v1/study/${study_id}/posts`,
-                newPost,
+                postDataWithFile,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -43,18 +80,12 @@ export default function Post() {
             const code = response.data.code;
 
             if (code === 1) {
-                console.log("글 작성 성공");
                 setNewPost(response.data.data.newPost || {});
-
-                // 게시판 목록 페이지로 이동
-                navigate(`/studyroom/board/${study_id}`);
-
+                // 작성한 글의 상세보기로 이동
+                navigate(`/studyroom/${study_id}/post/${response.data.data.id}`);
             } else {
-                console.log("글 작성 실패");
             }
         } catch (error) {
-            console.log("글 작성 중 오류 발생 :", error.config);
-
         }
     };
 
@@ -80,9 +111,9 @@ export default function Post() {
                             className="w-13 px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
                         >
                             <option value="">선택하세요</option>
-                            <option value="1">공지사항</option>
-                            <option value="2">회고록</option>
-                            <option value="3">자료 공유</option>
+                            <option value="0">공지사항</option>
+                            <option value="1">회고록</option>
+                            <option value="2">자료 공유</option>
                             {/* 다른 카테고리 옵션들 추가 */}
                         </select>
                     </div>
@@ -101,22 +132,26 @@ export default function Post() {
                             placeholder="제목을 입력하세요..."
                         />
                     </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="formFile"
+                            className="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
+                        >
+                            파일 첨부
+                        </label>
+                        <input
+                            className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-4 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                            type="file"
+                            id="formFile"
+                            onChange={handleFileChange}
+                        />
+                    </div>
 
                     {/* 본문 입력 */}
                     <div className="mb-4 ck-editor__editable">
                         <label htmlFor="content" className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                             본문
                         </label>
-                        {/* <textarea
-                            id="content"
-                            value={newPost.content || ''}
-                            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                            rows="8"
-                            placeholder="게시글 내용을 입력하세요..."
-                            style={{ resize: "none" }}
-                        ></textarea> */}
-
                         <CKEditor
                             editor={ClassicEditor}
                             data={newPost.content}

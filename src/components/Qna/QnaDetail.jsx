@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import QnaSidebar from "./QnaSidebar";
 import {
     Card,
     CardHeader,
@@ -12,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
 import ReactHtmlParser from "html-react-parser"
 import MyEditor from "../Editor/MyEditor";
+import MypageSidebar from "../Mypage/MypageSidebar";
 
 export default function QnaDetail() {
     const { authData } = useContext(AuthContext);
@@ -29,13 +29,11 @@ export default function QnaDetail() {
 
 
     const [qnaReplies, setQnaReplies] = useState([]);
-    const [qnaReplyId, setQnaReplyId] = useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
     const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
     const replyUserId = authData.id
     const replyUserNickname = authData.nickname
-    // const loginUserId = authData.id
 
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -105,7 +103,6 @@ export default function QnaDetail() {
             setIsEditMode(false);
             window.location.reload(true);
         } catch (error) {
-            console.error(error);
         }
     };
 
@@ -117,7 +114,6 @@ export default function QnaDetail() {
                 // 삭제 후 목록 페이지로 이동
                 navigate("/qna");
             } catch (error) {
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
@@ -152,8 +148,6 @@ export default function QnaDetail() {
                 await deleteQnaReply(qnaId, currentReplyId);
                 window.location.reload(true);
             } catch (error) {
-
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
@@ -161,7 +155,7 @@ export default function QnaDetail() {
 
     return (
         <>
-            <QnaSidebar />
+            <MypageSidebar />
             <div className="ml-56">
                 <div className="ml-3 text-7xl">QnA</div>
                 <br />
@@ -299,7 +293,6 @@ export default function QnaDetail() {
                     ) : (
                         <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                            {/* <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button> */}
                         </React.Fragment>
                     )}
                 </div>
@@ -352,7 +345,7 @@ export default function QnaDetail() {
                                                     <span className="mr-20">
                                                         {reply.comment}
                                                     </span>
-                                                    {userId === authData.id || authData.role === "ADMIN" ? (
+                                                    {reply.userId === authData.id || authData.role === "ADMIN" ? (
                                                         <React.Fragment>
                                                             <button onClick={() => {
                                                                 const currentReplyId = reply.id;
@@ -366,13 +359,7 @@ export default function QnaDetail() {
                                                     {format(parseISO(reply.createdAt), 'MM-dd HH:mm')}
 
                                                 </td>
-
-
-
-
-
                                             </tr>
-
                                         ))}
 
                                     </tbody>

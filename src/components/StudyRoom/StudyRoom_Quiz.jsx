@@ -26,7 +26,6 @@ const Quiz = () => {
 
     const handleGet = async () => {
         if (!study_id) {
-            console.error("Study Room ID undefined");
             return;
         }
 
@@ -49,13 +48,10 @@ const Quiz = () => {
                     setQuizzes(response.data.data || []);
 
                     if (code === 1) {
-                        console.log("퀴즈 목록 불러오기 성공");
                     } else {
-                        console.log("퀴즈 목록 불러오기 실패");
                     }
                 });
         } catch (error) {
-            console.error("퀴즈 목록 불러오는 중 오류 발생 : ", error.response);
         }
     }
 
@@ -84,21 +80,16 @@ const Quiz = () => {
                 .then(response => {
                     const code = response.data.code;
 
-                    console.log("퀴즈 전송 중");
-
                     setQuiz({ quiz: response.data.data.quiz || '' });
 
                     if (code === 1) {
-                        console.log("퀴즈 등록 성공");
 
                         closeModal();
                         handleGet();
                     } else {
-                        console.log("퀴즈 등록 실패");
                     }
                 });
         } catch (error) {
-            console.log("퀴즈 등록 중 오류 발생 : " + error);
         }
     };
 
@@ -123,14 +114,11 @@ const Quiz = () => {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("퀴즈 상세보기 성공");
                         setQuiz(response.data.data);
                     } else {
-                        console.log("퀴즈 상세보기 실패");
                     }
                 });
         } catch (error) {
-            console.log("퀴즈 상세보기 중 오류 발생 : ", error);
         }
     };
 
@@ -156,16 +144,12 @@ const Quiz = () => {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("퀴즈 수정 성공");
-
                         closeDetailModal();
                         handleGet();
                     } else {
-                        console.log("퀴즈 수정 실패");
                     }
                 });
         } catch (error) {
-            console.log("퀴즈 수정 중 오류 발생 : ", error);
         }
     };
 
@@ -183,17 +167,14 @@ const Quiz = () => {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("퀴즈 삭제 성공");
 
                         setQuizzes(response.data.data || []); // 리스트 갱신
 
                         closeDetailModal();
                     } else {
-                        console.log("퀴즈 삭제 실패");
                     }
                 });
         } catch (error) {
-            console.log("퀴즈 삭제 중 오류 발생 : ", error);
         }
     };
 
@@ -221,7 +202,7 @@ const Quiz = () => {
                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" className="w-20 p-4">
+                                    <th scope="col" className="w-32 p-5 whitespace-nowrap">
                                         글 번호
                                     </th>
                                     <th scope="col" className="px-10 py-3">
@@ -245,7 +226,7 @@ const Quiz = () => {
                             <tbody>
                                 {chunkedQuizzes && chunkedQuizzes[currentPage] && chunkedQuizzes[currentPage].map((quiz, index) => (
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td className="w-20 p-4">
+                                        <td className="w-24 p-4 whitespace-nowrap">
                                             <div className="flex items-center ml-4">
                                                 {quiz.id}
                                             </div>
@@ -263,8 +244,8 @@ const Quiz = () => {
                                             </div>
                                         </th>
                                         <td className="w-20 p-4">
-                                            <div className="flex items-center mr-5">
-                                                <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" />{quiz.difficulty}
+                                            <div className="flex items-center">
+                                                <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" style={{ width: '20px', height: '20px' }} />{quiz.difficulty}
                                             </div>
                                         </td>
                                         <td className="w-20 p-2">
@@ -274,6 +255,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <a href={quiz.quiz_link} target="_blank" rel="noopener noreferrer">
+
                                                 {quiz.quiz_link}
                                             </a>
                                         </td>
@@ -487,7 +469,6 @@ function SearchBox({ keyword, setKeyword }) {
                     setResults(response.data.data || []);
                 })
                 .catch(error => {
-                    console.error("Error fetching data: ", error.response.data);
                     setResults([]);
                 });
         } else {

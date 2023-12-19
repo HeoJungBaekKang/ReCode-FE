@@ -5,8 +5,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
   const [skills, setSkills] = useState([]);
 
   // tab -> 전체보기, 백엔드, 프론트 엔드 전달받는 함수
-  const [activeTab, setActiveTab] = useState('FullStack');
-
+  const [activeTab, setActiveTab] = useState("FullStack");
 
   useEffect(() => {
     async function loadInitialSkills() {
@@ -15,7 +14,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       const initialSkills = [...frontSkillByPosition, ...backSkillByPosition];
       setSkills(initialSkills);
     }
-  
+
     loadInitialSkills();
   }, []);
 
@@ -29,7 +28,6 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       const backSkillByPosition = await getSkillNameByPosition("backend");
       const skillByPosition = [...frontSkillByPosition, ...backSkillByPosition];
       setSkills(skillByPosition);
-
     } else if (tabName === "Backend") {
 
       const skillByPosition = await getSkillNameByPosition("backend");
@@ -48,7 +46,6 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkills(skillByPosition);
       } catch (error) {
-        console.log("position 별 스킬 목록 가져오기 중 오류 : ", error);
       }
     };
     loadSkillsByPosition(activeTab);
@@ -66,39 +63,46 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       setSelectedSkills([...selectedSkills, skill]);
     }
   };
-
+  const handleClearSelection = () => {
+    setSelectedSkills([]);
+  };
   const isSkillSelected = (skill) => selectedSkills.includes(skill);
 
   return (
     <div className="">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-3">
-        <button
-          className={`px-1 py-1 text-xs ${activeTab === "fullStack"
-              ? "font-bold text-black"
-              : "text-black font-normal"
-            } bg-white rounded focus:outline-none hover:bg-gray-200`}
-          onClick={() => handleTabClick("FullStack")}
-        >
-          FullStack
-        </button>
-        <button
-          className={`px-1 py-1 text-xs ${activeTab === "backend"
-              ? "font-bold text-black"
-              : "text-black font-normal"
-            } bg-white rounded focus:outline-none hover:bg-gray-200`}
-          onClick={() => handleTabClick("Backend")}
-        >
-          Backend
-        </button>
-        <button
-          className={`px-1 py-1 text-xs ${activeTab === "frontend"
-              ? "font-bold text-black"
-              : "text-black font-normal"
-            } bg-white rounded focus:outline-none hover:bg-gray-200`}
-          onClick={() => handleTabClick("Frontend")}
-        >
-          Frontend
-        </button>
+      <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+        <ul className="flex flex-wrap -mb-px">
+          <li className="me-2">
+            <a
+              href="#"
+              onClick={() => handleTabClick("FullStack")}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "FullStack" ? "text-blue-600 border-blue-600" : ""
+                }`}
+            >
+              FullStack
+            </a>
+          </li>
+          <li className="me-2">
+            <a
+              href="#"
+              onClick={() => handleTabClick("Backend")}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "Backend" ? "text-blue-600 border-blue-600" : ""
+                }`}
+            >
+              Backend
+            </a>
+          </li>
+          <li className="me-2">
+            <a
+              href="#"
+              onClick={() => handleTabClick("Frontend")}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "Frontend" ? "text-blue-600 border-blue-600" : ""
+                }`}
+            >
+              Frontend
+            </a>
+          </li>
+        </ul>
       </div>
 
       {/* 데이터베이스에 저장되어있는 skill 불러와서 선택 창에 띄우는 부분  */}
@@ -113,10 +117,10 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
                   <button
                     key={index}
                     onClick={() => handleSkillClick(skill)}
-                    className={`text-xs px-2 py-1 ${isSkillSelected(skill)
+                    className={`text-ms rounded-full px-2 py-1 ${isSkillSelected(skill)
                         ? "bg-blue-50 text-blue-600 border-solid border-2 border-blue-100"
                         : "bg-white text-gray-800"
-                      } rounded shadow-md focus:outline-none hover:bg-blue-50`}
+                      } rounded-full shadow-md focus:outline-none hover:bg-blue-50`}
                   >
                     {skill}
                   </button>
@@ -128,7 +132,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
 
       {/* 사용자가 선택한 목록 보여주는 부분  */}
       <div className="mt-4 flex flex-wrap grid-cols-12">
-        <h3 className="text-sm px-2 py-1 mt-3 mb-3 mr-2">선택한 목록</h3>
+        <h3 className="text-ms px-2 py-1 mt-3 mb-3 mr-2">선택한 목록</h3>
 
         <div className="flex flex-wrap">
           {selectedSkills &&
@@ -136,12 +140,18 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
             selectedSkills.map((selectedSkill, index) => (
               <div
                 key={index}
-                className="text-xs bg-blue-50 px-2 py-1 mt-3 mb-3 mr-2 font-mono  rounded"
+                className="text-ms bg-blue-50 px-2 py-1 mt-3 mb-3 mr-2 rounded-full"
               >
                 #{selectedSkill}
               </div>
             ))}
         </div>
+        <button
+          onClick={handleClearSelection}
+          className="text-ms px-2 py-1 rounded-full"
+        >
+          선택 초기화
+        </button>
       </div>
     </div>
   );

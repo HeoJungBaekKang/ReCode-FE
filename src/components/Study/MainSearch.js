@@ -11,7 +11,6 @@ function SearchMain({ onSearch }) {
             const results = await handleSearchKeyword(searchTerm);
             setResults(results.data);
         } catch (error) {
-            console.error("검색 중 오류 발생", error);
         }
     };
 
@@ -27,7 +26,7 @@ function SearchMain({ onSearch }) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 id="table-search-users"
-                className="relative m-0 -mr-0.5 block w-50 min-w-0 flex-auto rounded-1 border border-solid border-neutral-300 bg-gray-200 bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
+                className="relative m-0 -mr-0.5 block w-30 min-w-0 flex-auto rounded-1 border border-solid border-neutral-300 bg-gray-200 bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
                 placeholder="검색어를 입력해주세요."
                 aria-label="Search"
                 aria-describedby="button-addon1"
@@ -36,7 +35,7 @@ function SearchMain({ onSearch }) {
             <TERipple color="light">
                 <button
                     onClick={handleSearchButtonClick}
-                    className="px-5 py-2 text-xs text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                    className="px-15 py-2 text-xs text-white bg-blue-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                     id="button-addon1"
                 >
                     <svg

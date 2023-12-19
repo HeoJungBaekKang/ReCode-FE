@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import Select from "react-select";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
-function MultiSelect({onChange, selectedPosition}) {
+function MultiSelect({ onChange, selectedPosition, placeholder }) {
   const { authData } = useContext(AuthContext);
   const [skillNames, setSkillNames] = useState([]);
 
@@ -11,7 +11,7 @@ function MultiSelect({onChange, selectedPosition}) {
     const fetchData = async () => {
       try {
         let allSkillNames = [];
-  
+
         if (selectedPosition === "FullStack") {
           const frontSkillNames = await getSkillNameByPosition("Frontend");
           const backSkillNames = await getSkillNameByPosition("Backend");
@@ -22,22 +22,19 @@ function MultiSelect({onChange, selectedPosition}) {
           // 그 외 포지션에 대한 스킬 목록 불러오기
           allSkillNames = await getSkillNameByPosition(selectedPosition);
         }
-  
         setSkillNames(allSkillNames);
       } catch (error) {
-        console.error("스킬 목록 불러오기 중 오류:", error);
       }
     };
-  
+
     if (selectedPosition) {
       fetchData();
     }
   }, [selectedPosition]);
-  
 
-  
-  const options = skillNames.map(skillName => ({ value: skillName, label: skillName}));
 
+
+  const options = skillNames.map(skillName => ({ value: skillName, label: skillName }));
 
   const handleChange = (selectedOptions) => {
 
@@ -51,7 +48,8 @@ function MultiSelect({onChange, selectedPosition}) {
 
   return (
     <div>
-      <Select options={options} isMulti onChange={handleChange} />
+      <Select
+        options={options} isMulti onChange={handleChange} />
     </div>
 
   );

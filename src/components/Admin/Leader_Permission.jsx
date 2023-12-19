@@ -40,14 +40,12 @@ export default function UserList() {
                 }
             });
             if (!response.ok) {
-                console.error("Error response:", response);
                 return [];
             }
 
             const data = await response.json();
             return data.data;
         } catch (error) {
-            console.error("Error fetching study members:", error);
             return [];  // If there's an error, return an empty array
         }
     };
@@ -59,7 +57,6 @@ export default function UserList() {
             const member = studyMembers.find((member) => member.userId === userId);
 
             if (!member) {
-                console.error("Member not found:", userId);
                 return;
             }
 
@@ -82,7 +79,6 @@ export default function UserList() {
             const members = await getStudyMembers(study_id);
             setStudyMembers(members);
         } catch (error) {
-            console.error("Error updating role:", error);
         }
     };
 

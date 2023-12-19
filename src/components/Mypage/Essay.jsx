@@ -25,15 +25,11 @@ export default function Essay() {
                     const code = response.data.code;
 
                     if (code === 1) {
-        
-                        console.log("자기 소개서 등록 성공");
-                        navigate("/mypage/myprofile/modifyProfile");
+                        navigate("/mypage/myprofile");
                     } else {
-                        console.log("자기 소개서 등록 실패");
                     }
                 });
         } catch (error) {
-            console.error("자기 소개서 등록 중 오류 발생 : ", error);
         }
     };
 
@@ -53,13 +49,10 @@ export default function Essay() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("자기 소개서 조회 성공");
                     } else {
-                        console.log("자기 소개서 조회 실패");
                     }
                 });
         } catch (error) {
-            console.error("자기 소개서 조회 중 오류 발생 : ", error);
         }
     };
 

@@ -67,11 +67,9 @@ export default function Withdraw() {
                         localStorage.removeItem("authData");  // authData를 로컬 스토리지에서 삭제
                         navigate("/login");
                     } else {
-                        console.log("계정 탈퇴 실패");
                     }
                 });
         } catch (error) {
-            console.error("계정 탈퇴 중 오류 발생 : ", error);
         }
     }
 

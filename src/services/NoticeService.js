@@ -1,4 +1,3 @@
-// services/noticeService.js
 import axios from 'axios';
 
 // 공지사항 삭제 
@@ -26,7 +25,6 @@ export const CreateNotice = async (noticeData) => {
 
     return response.data;
   } catch (error) {
-    console.error('공지사항 생성 중 오류 발생', error);
   }
 };
 
@@ -45,7 +43,6 @@ export async function fetchNoticeDetail(noticeId) {
 
 
   } catch (error) {
-    console.error("API 요청 중 오류 발생", error);
     throw error;
   }
 };
@@ -75,7 +72,6 @@ export const saveNotice = async (noticeId, noticeTitle, noticeContent) => {
     // response.data에는 API 응답이 포함됩니다.
     return response.data; // 성공적으로 처리된 경우 응답 데이터 반환
   } catch (error) {
-    console.error('변경사항 저장 중 오류 발생:', error);
     throw error; // 오류를 상위 컴포넌트로 전파
   }
 };
@@ -92,7 +88,6 @@ export async function fetchNoticeList() {
     // 성공적인 응답의 데이터를 반환
     return response.data;
   } catch (error) {
-    console.error('API 요청 중 오류 발생', error);
     throw error;
   }
 };
@@ -101,9 +96,7 @@ export async function fetchNoticeList() {
 export const handleSearchKeyword = async (searchType, searchTerm, setResults) => {
   try {
     const response = await axios.get(`/api/notice-search`, { params: { [searchType]: searchTerm } });
-    // setResults(response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching search results', error);
   }
 };

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
+import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function Estimate() {
-
-
-    const navigate = useNavigate();
 
     const { study_id, member_id } = useParams();
     const { authData } = useContext(AuthContext);
@@ -102,7 +100,6 @@ export default function Estimate() {
                 setUsers(response.data.data);
 
             } catch (error) {
-                console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
         };
 
@@ -121,7 +118,7 @@ export default function Estimate() {
             // 각 사용자에 대한 총점 계산
             const userScores = selectedScores[user.userId];
             if (userScores) {
-                userTotalScore = Object.values(userScores).reduce((total, score) => total + score, 0);
+                const userTotalScore = Object.values(userScores).reduce((total, score) => total + parseInt(score, 10) || 0, 0);
 
                 try {
                     const response = await axios.post(`/api/v1/study/${study_id}/estimate/${user.userId}`, {
@@ -135,7 +132,6 @@ export default function Estimate() {
                         }
                     });
                 } catch (error) {
-                    console.log("평가 결과 제출 중 오류 발생: ", error.response || error);
                 }
             }
         }
@@ -144,6 +140,7 @@ export default function Estimate() {
 
     return (
         <>
+            <StudyRoom_Sidebar />
             {users.filter(user => user.nickname !== authData.nickname).map((user, userIndex) => (
                 <div key={user.id} className="ml-56 mr-56 mt-20">
                     <div className="flex items-center mr-5 whitespace-nowrap w-auto">

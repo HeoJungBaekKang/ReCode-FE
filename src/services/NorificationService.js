@@ -5,6 +5,10 @@ export const getUserNotifications = async () => {
   try {
     const token = localStorage.getItem("token");
 
+    // 로그인 되어 있지 않으면 null 반환
+    if (!token) {
+      return null;
+    }
     const response = await axios.get(
       `/api/v1/notification/user`,
       {
@@ -17,7 +21,6 @@ export const getUserNotifications = async () => {
 
     return response.data;
   } catch (error) {
-    console.log("알림 불러오기 중 오류 발생", error);
     throw error;
   }
 };
@@ -26,7 +29,6 @@ export const getUserNotifications = async () => {
 export const changeReadStatus = async (id, readStatus) => {
   try {
     const token = localStorage.getItem("token");
-
 
     const response = await axios.post(
       `/api/v1/notification/mark-as-read`,
@@ -41,7 +43,6 @@ export const changeReadStatus = async (id, readStatus) => {
 
     return response.data;
   } catch (error) {
-    console.log("알림 불러오기 중 오류 발생", error);
     throw error;
   }
 };
@@ -50,18 +51,13 @@ export const changeReadStatus = async (id, readStatus) => {
 export const deleteNotification = async (notificationId) => {
   try {
     const token = localStorage.getItem("token");
-
-    await axios.delete(
-      `/api/v1/notification/${notificationId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.delete(`/api/v1/notification/${notificationId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
-    console.error("알림 삭제에 실패했습니다.", error);
     throw error;
   }
 };

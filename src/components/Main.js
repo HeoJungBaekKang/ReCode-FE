@@ -57,24 +57,41 @@ const Main = () => {
   // 공지사항 클릭 시 이동 함수
   const handleNoticeClick = () => {
     // 공지사항 페이지로 이동
-    navigate("/notice"); // '/notice'는 실제로 이동할 페이지 경로에 맞게 수정해야 합니다.
+    navigate("/notice");
   };
 
   const handleNaverBookClick = () => {
-    navigate("/naverbook")
-  }
+    navigate("/naverbook");
+  };
 
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchTerm) => {
     try {
+
       const response = await handleSearchKeyword(searchTerm);
       setResults(response.data);
     } catch (error) {
-      console.error("검색 중 오류 발생 :", error);
     }
   };
 
-  const displayStudies = results.length > 0 ? results : (filteredStudies.length > 0 ? filteredStudies : studies);
+  const displayStudies =
+    results.length > 0
+      ? results
+      : filteredStudies.length > 0
+        ? filteredStudies
+        : studies;
+
+  const handleCreateStudy = () => {
+    // 사용자가 로그인되어 있는지 확인합니다.
+    if (!authData.token) {
+      // 로그인되어 있지 않다면, 로그인 페이지로 이동합니다.
+      alert("로그인을 진행해주세요.");
+      navigate("/login");
+    } else {
+      // 로그인되어 있다면, "/client/recruitment" 페이지로 이동합니다.
+      navigate("/client/recruitment");
+    }
+  };
 
   return (
     <>
@@ -83,15 +100,6 @@ const Main = () => {
           className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[3rem]"
           aria-hidden="true"
         >
-          <div
-            className="relative left-1/2 -z-10 aspect-[1600/1100] w-[110rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#6dd5ed] to-[#ff758c] shadow-lg border border-gray-300 opacity-50 sm:left-[calc(50%-55rem)] sm:w-[95rem]"
-            style={{
-              clipPath: "polygon(45% 5%, 100% 45%, 90% 15%, 85% 0%, 75% 5%, 65% 20%, 55% 50%, 45% 60%, 35% 45%, 25% 25%, 40% 65%, 10% 55%, 20% 90%, 30% 70%, 75% 85%, 70% 30%)",
-              transform: 'translate(10px, 10px)', // Adjust the translate values as needed
-              transition: 'all 0.3s ease-in-out',
-              animation: 'pulse 2s infinite'
-            }}
-          />
         </div>
         <Layout>
           <section>
@@ -104,26 +112,19 @@ const Main = () => {
                   onClick={handleNoticeClick} // 클릭 시 이동 함수 호출
                   className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto notice"
                 >
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
-                    <h2 className="text-2xl font-bold">공지사항</h2>
-                    <p className="text-gray-800">이번 주 공지사항입니다. </p>
-                  </div>
-                </article>
-                <article
-                  style={{ display: "grid !important" }}
-                  className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto"
-                >
-                  <h2 className="text-2xl font-bold">채용 공고</h2>
-                  <p className="text-gray-800">- 클릭하면 채용 사이트와 연결</p>
+
+                  <h2 className="text-2xl font-bold">공지사항</h2>
+                  <p className="text-gray-800">이번 주 공지사항입니다.</p>
+
                 </article>
                 <article
                   onClick={handleNaverBookClick}
                   className="shadow-2xl drop-shadow-xl w-80 p-3 rounded-lg gap-2 mx-auto book-search"
                 >
-                  <div style={{ backgroundColor: 'rgba(255,255,255,0.5)' }}>
-                    <h2 className="text-2xl font-bold">도서 검색</h2>
-                    <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
-                  </div>
+
+                  <h2 className="text-2xl font-bold">도서 검색</h2>
+                  <p className="text-gray-800">필요한 도서를 검색해보세요!</p>
+
                 </article>
               </Slider>
             </div>
@@ -132,8 +133,8 @@ const Main = () => {
             <br />
           </section>
 
-          <div className="relative flex justify-between mt-4">
-            {/* 스킬 필터 버튼*/}
+          <div className="relative flex justify-between ms-4 mt-4 mr-4">
+
             <SkillFilter
               selectedSkills={selectedSkills}
               setSelectedSkills={setSelectedSkills}
@@ -145,7 +146,7 @@ const Main = () => {
             <div className="flex items-center space-x-4">
               {/* 스터디 생성 버튼 */}
               <button
-                onClick={() => navigate("/client/recruitment")}
+                onClick={handleCreateStudy}
                 className="p-2 bg-blue-500 text-white rounded-md"
               >
                 스터디 생성

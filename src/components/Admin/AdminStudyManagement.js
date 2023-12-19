@@ -19,8 +19,8 @@ export default function AdminStudyManagement() {
   return (
     <>
       <AdminSidebar />
-      <div className="ml-56">
-        <div className="ml-6 text-7xl">스터디 관리</div>
+      <div className="ml-56 mt-12">
+        <div className="ml-12 text-4xl text-bold font-semibold">스터디 관리</div>
         <AdminStudyList filteredStudies={studies} selectedSkills={selectedSkills} />
       </div>
     </>

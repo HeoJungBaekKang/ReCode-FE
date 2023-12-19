@@ -50,7 +50,6 @@ export default function ChangePassword() {
 
         // 비밀번호, 비밀번호 확인의 일치여부 확인
         if (password !== confirmPassword) {
-            console.error("비밀번호가 일치하지 않습니다.");
             return;
         }
 
@@ -64,7 +63,7 @@ export default function ChangePassword() {
         }
 
         // 엔드포인트 설정
-        let url = `http://52.79.108.89:8080/api/${authData && authData.token ? 'v1/' : ''}change-password`;
+        let url = `/api/${authData && authData.token ? 'v1/' : ''}change-password`;
 
         // 헤더 설정, 헤더에 토큰이 필요할 경우 (로그인 유저)
         const headers = {};
@@ -76,7 +75,6 @@ export default function ChangePassword() {
         try {
             const response = await axios.post(url, payload, { headers });
             if (response.data.code === 1) {
-                console.log("비밀번호 변경 성공");
                 alert("비밀번호가 변경되었습니다.");
 
                 // url 에서 토큰 정보 없애기
@@ -85,23 +83,15 @@ export default function ChangePassword() {
 
                 navigate('/login'); // 비밀번호 변경이 성공되면 로그인 창으로 이동
             } else {
-                console.log("비밀번호 변경 실패");
             }
         } catch (error) {
-            // 배포할 때는 에러 출력 부분 수정 필요!
             if (error.response) {
                 // Request 가 존재하고 서버에서의 상태코드 출력
-                console.error("에러 Response: ", error.response.data);
-                console.error("에러 Status: ", error.response.status);
-                console.error("에러 Headers: ", error.response.headers);
             } else if (error.request) {
                 // Request 는 존재하지만 Response 가 없을때
-                console.error("에러 Request: ".error.request);
             } else {
-                console.error("비밀번호 변경 중 오류 발생: ", error.message);
             }
             // 오류의 config 객체 출력, Axios 요청에 상용된 매개변수에 대한 디버깅
-            console.error("에러 Config: ", error.config);
         }
     };
 
@@ -132,14 +122,11 @@ export default function ChangePassword() {
                     headers: headers
                 });
                 if (response.data.code === 1) {
-                    console.log("유효한 이메일 입니다.");
                     // 토큰이 유효하면 비밀번호 변경을 진행
                 } else {
-                    console.log("토큰이 유효하지 않습니다.");
                     alert("토큰이 유효하지 않습니다. 이메일 전송을 다시 진행해주세요.");
                 }
             } catch (error) {
-                console.error("이메일 토큰 유효성 검사중 오류 발생: ", error);
                 alert("이메일 토큰 유효성 검사중 오류 발생: ", error);
             }
         }

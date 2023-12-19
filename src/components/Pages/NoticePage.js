@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import QnaSidebar from "../Qna/QnaSidebar";
 import {
   Card,
   CardHeader,
@@ -14,6 +13,9 @@ import {
   handleSearchKeyword,
 } from "../../services/NoticeService.js";
 import NoticeSearch from "../Notice/NoticeSearch";
+import AdminSidebar from "../Admin/AdminSidebar";
+import MypageSidebar from "../Mypage/MypageSidebar";
+
 
 export default function NoticePage() {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
@@ -35,13 +37,11 @@ export default function NoticePage() {
       setDisplayList(response.data); // 가져온 데이터를 상태에 설정
 
     } catch (error) {
-      console.log("목록 불러오기 실패", error);
     }
   }
 
   // 키워드 검색 컴포넌트 핸들러 검색 결과 출력  result 에 검색 결과 담김
   const handleSearch = async (searchType, searchTerm) => {
-
     const response = await handleSearchKeyword(
       searchType,
       searchTerm,
@@ -58,8 +58,9 @@ export default function NoticePage() {
 
   return (
     <>
-      <QnaSidebar />
-      <div className="ml-56 mt-12">
+      <div className="ml-56 mt-20">
+        {authData.role === "ADMIN" ? <AdminSidebar /> : <MypageSidebar />}
+
         <Card className="h-full w-auto mx-4">
           <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="mb-8 flex items-center justify-between gap-8">
@@ -144,51 +145,6 @@ export default function NoticePage() {
                 </button>
               </Link>
             )}
-          </div>
-          <div>
-            <div className="mt-6 flex justify-center">
-              <nav aria-label="Page navigation example">
-                <ul className="list-style-none flex">
-                  <li key="previous-button">
-                    <button
-                      disabled={currentPage === 0}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                      className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0
-                        ? "text-neutral-500"
-                        : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
-                    >
-                      Previous
-                    </button>
-                  </li>
-                  {chunkedPosts.map((_, index) => (
-                    <li key={`page-button-${index}`}>
-                      <button
-                        onClick={() => setCurrentPage(index)}
-                        className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${index === currentPage
-                          ? "bg-gray-300 text-neutral-600"
-                          : "bg-gray-100 text-neutral-600"
-                          } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
-                      >
-                        {index + 1}
-                      </button>
-                    </li>
-                  ))}
-                  <li key="next-button">
-                    <button
-                      disabled={currentPage === chunkedPosts.length - 1}
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                      className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
-                        ? "text-neutral-600"
-                        : "text-neutral-600"
-                        } transition-all duration-300 dark:text-neutral-400`}
-                    >
-                      Next
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div>
           </div>
         </div>
         <div className="mt-6 flex justify-center">

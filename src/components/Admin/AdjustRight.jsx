@@ -35,14 +35,11 @@ export default function AdjustRight() {
                     setMembers(response.data.data || []);
 
                     if (code === 1) {
-                        console.log("스터디 멤버 불러오기 성공");
 
                     } else {
-                        console.log("스터디 멤버 불러오기 실패");
                     }
                 });
         } catch (error) {
-            console.error("스터디 멤버 조회 불러오는 중 오류 발생 :", error.response);
         }
     }
 
@@ -70,13 +67,10 @@ export default function AdjustRight() {
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("권한 조정 성공");
                     } else {
-                        console.log("권한 조정 실패");
                     }
                 });
         } catch (error) {
-            console.log("권한 조정 중 오류 발생 :", error);
         }
     };
 
