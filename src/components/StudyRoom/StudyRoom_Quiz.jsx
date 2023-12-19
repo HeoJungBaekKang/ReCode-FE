@@ -172,7 +172,7 @@ const Quiz = () => {
 
                         setQuizzes(response.data.data || []); // 리스트 갱신
 
-                        closeDetailModal();
+                        setDetailModalOpen(false);
                     } else {
                     }
                 });

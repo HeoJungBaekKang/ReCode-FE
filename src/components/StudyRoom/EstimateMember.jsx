@@ -142,7 +142,7 @@ export default function Estimate() {
         <>
             <StudyRoom_Sidebar />
             {users.filter(user => user.nickname !== authData.nickname).map((user, userIndex) => (
-                <div key={user.id} className="ml-56 mr-56 mt-20">
+                <div key={user.id} className="ml-80 mr-56 mt-20">
                     <div className="flex items-center mr-5 whitespace-nowrap w-auto">
                         <span className="flex items-center mr-2 whitespace-nowrap w-auto text-green-500 font-bold">
                             {user.nickname}

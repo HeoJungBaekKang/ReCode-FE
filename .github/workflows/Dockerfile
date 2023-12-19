@@ -6,6 +6,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+FROM alpine:latest
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Seoul
 RUN apk --no-cache add tzdata && \
