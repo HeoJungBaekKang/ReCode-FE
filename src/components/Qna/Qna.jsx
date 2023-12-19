@@ -129,32 +129,7 @@ export default function Qna() {
           </label>
           <div className="relative mt-10 flex justify-center items-center">
             <div className="flex justify-start w-full max-w-3xl space-x-4">
-              <button
-                id="dropdownActionButton"
-                data-dropdown-toggle="dropdownAction"
-                className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-1 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                type="button"
-                onClick={() => setIsOpen(!isOpen)}
-                style={{ width: "100px" }}
-              >
-                <span className="sr-only">Action button</span>
-                카테고리
-                <svg
-                  className="w-2.5 h-2.5 ml-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
+             
               <div
                 id="dropdownAction"
                 className={`absolute z-15 ${
