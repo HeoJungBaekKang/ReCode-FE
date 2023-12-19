@@ -4,7 +4,7 @@ let roomNum = prompt("채팅 방 번호를 입력하세요");
 document.querySelector("#username").innerHTML = username; 
 
 //SSE 연결하기
-const eventSource = new EventSource(`http://localhost:8080/chat/roomNum/${roomNum}`);
+const eventSource = new EventSource(`/chat/roomNum/${roomNum}`);
 
 eventSource.onmessage = (event) => {
     const data = JSON.parse(event.data);
@@ -55,7 +55,7 @@ async function addMessage(){
         msg:msgInput.value
     };
 
-   fetch("http://localhost:8080/chat",{
+   fetch("/chat",{
         method:"post", //Http post 메소드
         body:JSON.stringify(chat), //JS Object -> JSON
         headers:{

@@ -47,7 +47,7 @@ const ChatApp = () => {
         msg: msgInput.value
       };
 
-      fetch("http://52.79.108.89:8080/chat", {
+      fetch("/chat", {
         method: "post", //Http post 메소드
         body: JSON.stringify(chat), //JS Object -> JSON
         headers: {
@@ -87,7 +87,7 @@ const ChatApp = () => {
     });
 
     //=====
-    const eventSource = new EventSource(`http://52.79.108.89:8080/chat/roomNum/${chatRoomId}`);
+    const eventSource = new EventSource(`/chat/roomNum/${chatRoomId}`);
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);

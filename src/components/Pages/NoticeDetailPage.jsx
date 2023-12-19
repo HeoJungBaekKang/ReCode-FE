@@ -146,10 +146,6 @@ export default function NoticeDetailPage() {
                           {noticeTitle}
                         </td>
                       </tr>
-                      {/* <tr className="border-b">
-                        <td className="p-2 font-medium text-sm">작성일</td>
-                        <td className="p-2 text-sm">{noticeCreatedAt}</td>
-                      </tr> */}
                       <tr className="border-b">
                         <td className="p-2 font-medium text-sm">
                           {noticeUpdatedAt &&
@@ -181,7 +177,6 @@ export default function NoticeDetailPage() {
                   <div className="mt-2.5">
                     {isEditMode ? (
                       <MyEditor
-                        // <input
                         data={editedContent}
                         name="noticeContent"
                         id="noticeContent"

@@ -58,12 +58,6 @@ export default function Post() {
     // 글 작성 완료 버튼을 클릭했을 때 실행되는 함수
     const handlePostSubmit = async () => {
         try {
-            // 파일 선택했는지 체크
-            if (!selectedFile) {
-                alert("파일을 선택해주세요");
-                return;
-            }
-            
             // 파일 업로드 먼저 동작
             const fileName = await uploadFile(selectedFile);
 

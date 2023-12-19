@@ -127,7 +127,7 @@ export default function Estimate() {
             // 각 사용자에 대한 총점 계산
             const userScores = selectedScores[user.userId];
             if (userScores) {
-                userTotalScore = Object.values(userScores).reduce((total, score) => total + score, 0);
+                const userTotalScore = Object.values(userScores).reduce((total, score) => total + parseInt(score, 10) || 0, 0);
                 console.log("해당 유저의 총점: ", userTotalScore);
 
                 console.log(`사용자의 점수 전송 중 ${user.userId}`, {
@@ -139,21 +139,6 @@ export default function Estimate() {
 
                 console.log("해당 유저의 총점 들어 오나요? : ", userTotalScore);
 
-                // for (let questionIndex = 0; questionIndex < questions.length; questionIndex++) {
-                //     // 현재 사용자와 질문에 대한 점수 가져오기
-                //     const scoreKey = `${user.id}-${questionIndex}`;
-                //     const scoreValue = selectedScores[scoreKey];
-                //     console.log("총점 있나요 ? :", scoreValue);
-
-                //     console.log(`사용자의 점수 전송 중 ${user.userId}`, {
-                //         studyId: study_id,
-                //         userId: user.userId,
-                //         point: userTotalScore,
-                //         nickname: user.nickname
-                //     });
-
-                // 점수가 선택되었는지 확인
-                // if (scoreValue) {
                 try {
                     const response = await axios.post(`/api/v1/study/${study_id}/estimate/${user.userId}`, {
                         studyId: study_id,
