@@ -128,7 +128,7 @@ const StudyModify = () => {
     try {
       const formattedStartTime = convertToHHMM(
         parseInt(startTime.split(":")[0]) * 60 +
-          parseInt(startTime.split(":")[1])
+        parseInt(startTime.split(":")[1])
       );
       const formattedEndTime = convertToHHMM(
         parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
@@ -228,12 +228,12 @@ const StudyModify = () => {
 
   const handleCheckboxChange = (e) => {
     const selectedDayId = e.target.id;
-  
+
     setAttendanceDay((prevDetail) => {
       const currentAttendanceDay = Array.isArray(prevDetail)
         ? prevDetail
         : [];
-  
+
       if (currentAttendanceDay.includes(selectedDayId)) {
         return currentAttendanceDay.filter((day) => day !== selectedDayId);
       } else {
@@ -327,19 +327,18 @@ const StudyModify = () => {
         </div>
 
         <div
-          className={`text-sm px-2 py-1 w-20 rounded-full ${
-            maxNum - currentNum <= 2 && maxNum !== currentNum
+          className={`text-sm px-2 py-1 w-20 rounded-full ${maxNum - currentNum <= 2 && maxNum !== currentNum
               ? "bg-red-400 text-white"
               : maxNum > currentNum
-              ? "inline-block bg-green-400 text-white"
-              : "bg-gray-400 text-white"
-          }`}
+                ? "inline-block bg-green-400 text-white"
+                : "bg-gray-400 text-white"
+            }`}
         >
           {maxNum - currentNum <= 2 && maxNum !== currentNum
             ? "마감 임박"
             : maxNum > currentNum
-            ? "모집중"
-            : "모집 완료"}
+              ? "모집중"
+              : "모집 완료"}
         </div>
 
         <div className="mt-6 border-t border-gray-100">

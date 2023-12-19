@@ -105,7 +105,7 @@ export default function Participants() {
     return (
         <>
             <StudyRoom_Sidebar />
-            <div className="ml-56">
+            <div className='ml-80 mr-20'>
                 <div className="ml-3 text-4xl">스터디 참가 인원</div>
                 <div className="flex items-center justify-end py-4 bg-white dark:bg-gray-800 mr-5">
                     <div className="flex items-center">

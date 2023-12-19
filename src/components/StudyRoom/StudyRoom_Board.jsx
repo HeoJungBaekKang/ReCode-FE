@@ -138,13 +138,13 @@ export default function Board() {
                                     <th scope="col" className="px-6 py-3">
                                         카테고리
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-20 py-3">
                                         제목
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         작성자
                                     </th>
-                                    <th scope="col" className="px-6 py-3">
+                                    <th scope="col" className="px-20 py-3">
                                         작성일
                                     </th>
                                 </tr>
@@ -153,7 +153,7 @@ export default function Board() {
                                 {chunkedPosts && chunkedPosts[currentPage] && chunkedPosts[currentPage].map((post, index) => (
                                     <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td className="w-20 p-4">
-                                            <div className="flex items-center">
+                                            <div className="flex items-center px-4">
                                                 <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.id}</Link>
                                             </div>
                                         </td>
