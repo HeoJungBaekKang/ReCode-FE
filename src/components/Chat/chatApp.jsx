@@ -112,7 +112,7 @@ const ChatApp = () => {
     <>
       <StudyRoom_Sidebar />
       <div className="max-w-screen-md mx-auto p-4">
-        <div className="container-fluid mt-20">
+        <div className="container-fluid mt-10">
           <div className="row">
             <div className="col-sm-12">
               <div id="user_chat_data" className="user_chat_data">
