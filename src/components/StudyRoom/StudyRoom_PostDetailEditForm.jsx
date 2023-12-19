@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import MyEditor from "../Editor/MyEditor";
 
@@ -9,6 +9,7 @@ const EditPost = () => {
   const { authData } = useContext(AuthContext);
   const [editedContent, setEditedContent] = useState(""); // 수정한 내용 상태
   const { post_id, study_id } = useParams();
+  const navigate = useNavigate();
 
   const [postData, setPostData] = useState({
     category: "",
@@ -75,7 +76,12 @@ const EditPost = () => {
     try {
 
       // 파일 업로드 먼저 동작
-      const fileName = await uploadFile(selectedFile);
+      let fileName = null;
+
+      // 파일 선택됐을 때 동작
+      if (selectedFile) {
+          fileName = await uploadFile(selectedFile);
+      }
 
       // 게시글 데이터에 파일 이름 추가
       const postDataWithFile = {
@@ -95,6 +101,7 @@ const EditPost = () => {
       );
 
       if (response.data.code === 1) {
+        navigate(-1);
       } else {
       }
     } catch (error) {
