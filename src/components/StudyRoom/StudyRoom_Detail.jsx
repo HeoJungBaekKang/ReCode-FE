@@ -15,7 +15,6 @@ import {
   TEModalFooter,
 } from "tw-elements-react";
 import { Typography } from "@material-tailwind/react";
-
 const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
   const { study_id } = useParams();
@@ -39,7 +38,6 @@ const StudyRoomNotLogin = () => {
     updatedAt: "",
     userId: "",
   });
-
   const [badge, setBadge] = useState({
     userId: detail.userId,
     name: "",
@@ -97,7 +95,6 @@ const StudyRoomNotLogin = () => {
       //console.error("스터디 신청 중 오류 발생 :", error);
     }
   };
-
   const modalPosition = {
     width: "70%",
     maxWidth: "38rem",
@@ -110,7 +107,6 @@ const StudyRoomNotLogin = () => {
     alignItems: "center",
     justifyContent: "center",
   };
-
   const [showModal, setShowModal] = useState(false);
   // 스터디룸 가입 여부를 확인하는 함수
   const checkStudyRoomMembership = async () => {
@@ -129,9 +125,7 @@ const StudyRoomNotLogin = () => {
           },
         }
       );
-
       console.log("API Response:", response.data);
-
       setIsInStudyRoom(response.data);
       console.log("스터디 룸 가입여부 확인", response.data);
     } catch (error) {
@@ -145,10 +139,8 @@ const StudyRoomNotLogin = () => {
       navigate("/login");
       return;
     }
-
     try {
       await checkStudyRoomMembership();
-
       if (isInStudyRoom) {
         alert("이미 가입된 스터디입니다.");
       } else {
@@ -161,14 +153,12 @@ const StudyRoomNotLogin = () => {
       // Handle error as needed
     }
   };
-
   const handleGetBadge = async () => {
     const userId = detail.userId;
     if (!userId) {
       console.log("작성자 아이디 안 불러와졌다.");
       return;
     }
-
     try {
       const response = await axios.get(`/api/get-badge/${userId}`, {
         headers: {
@@ -185,7 +175,6 @@ const StudyRoomNotLogin = () => {
       console.error("뱃지 정보 가져오는 중 오류 발생: ", error);
     }
   };
-
   const badgeImages = {
     Seed: "/img/Seed.png",
     Sprout: "/img/Sprout.png",
@@ -193,11 +182,9 @@ const StudyRoomNotLogin = () => {
     Bud: "/img/Bud.png",
     Bloom: "/img/Bloom.png",
   };
-
   useEffect(() => {
     handleGet();
   }, []);
-
   useEffect(() => {
     if (detail.userId) {
       handleGetBadge();
@@ -220,7 +207,6 @@ const StudyRoomNotLogin = () => {
       ),
     },
   ];
-
   const handleWithdrawStudy = async () => {
     try {
       const response = await axios.post(
@@ -230,9 +216,7 @@ const StudyRoomNotLogin = () => {
           'Authorization': `Bearer ${authData.token}`
         }
       });
-
       const code = response.data.code;
-
       if (code === 1) {
         navigate(`/mypage/${authData.id}`);
       } else {
@@ -242,8 +226,6 @@ const StudyRoomNotLogin = () => {
       console.log("탈퇴중 오류 발생", error);
     }
   }
-
-
   return (
     <>
       <StudyRoom_Sidebar />
@@ -289,7 +271,6 @@ const StudyRoomNotLogin = () => {
               </div>
             </div>
           </div>
-
           <div className="mt-6 border-t border-gray-100">
             <dl className="divide-y divide-gray-100">
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -366,7 +347,6 @@ const StudyRoomNotLogin = () => {
                     )}
                 </dd>
               </div>
-
               <div className="px-4 py-6 sm:grid sm:grid-cols-1sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium leading-6 text-gray-900 ">
                   소개
@@ -387,7 +367,6 @@ const StudyRoomNotLogin = () => {
                 </TERipple>
               </div>
             </dl>
-
             {/* Modal */}
             <TEModal show={showModal} setShow={setShowModal}>
               <TEModalDialog style={modalPosition}>
@@ -494,5 +473,4 @@ const StudyRoomNotLogin = () => {
     </>
   );
 };
-
 export default StudyRoomNotLogin;

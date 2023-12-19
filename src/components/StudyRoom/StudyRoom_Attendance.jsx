@@ -78,6 +78,7 @@ const Attendance = () => {
         } catch (error) {
             console.error("Error on Attendance Check: ", error);
             console.log(error.response.data);  // 에러 데이터 출력
+            alert("오늘은 스터디가 없는 날입니다.")
 
             if (error.response && error.response.data.message.includes("이미 출석되었습니다.")) {
                 alert("이미 출석되었습니다.");

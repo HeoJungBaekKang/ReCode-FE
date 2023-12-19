@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../context/AuthContext";
+import MypageSidebar from "../Mypage/MypageSidebar";
 
 export default function ChatCreate() {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ export default function ChatCreate() {
   return (
 
     <>
+    <MypageSidebar/>
         <div className="max-w-md mx-auto mt-10">
             <div className="bg-white shadow-md rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">

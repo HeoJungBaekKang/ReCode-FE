@@ -271,8 +271,8 @@ const Quiz = () => {
                                             </div>
                                         </th>
                                         <td className="w-20 p-4">
-                                            <div className="flex items-center mr-5">
-                                                <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" />{quiz.difficulty}
+                                            <div className="flex items-center">
+                                                <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0"style={{ width: '20px', height: '20px' }}/>{quiz.difficulty}
                                             </div>
                                         </td>
                                         <td className="w-20 p-2">
@@ -282,6 +282,7 @@ const Quiz = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             <a href={quiz.quiz_link} target="_blank" rel="noopener noreferrer">
+                                                
                                                 {quiz.quiz_link}
                                             </a>
                                         </td>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import QnaSidebar from "../Qna/QnaSidebar";
 import {
   Card,
   CardHeader,
@@ -16,6 +15,7 @@ import {
 } from "../../services/NoticeService.js";
 import ReactHtmlParser from "html-react-parser";
 import MyEditor from "../Editor/MyEditor";
+import MypageSidebar from "../Mypage/MypageSidebar";
 export default function NoticeDetailPage() {
   const { authData } = useContext(AuthContext);
   const { noticeId } = useParams();
@@ -92,7 +92,7 @@ export default function NoticeDetailPage() {
   };
   return (
     <>
-      <QnaSidebar />
+      <MypageSidebar />
       <div className="ml-56 text-center">
         <div className="ml-3 text-2xl font-bold">
           공지사항

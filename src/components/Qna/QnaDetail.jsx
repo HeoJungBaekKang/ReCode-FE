@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import QnaSidebar from "./QnaSidebar";
+
 import {
     Card,
     CardHeader,
@@ -12,6 +12,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { format, parseISO } from 'date-fns';
 import ReactHtmlParser from "html-react-parser"
 import MyEditor from "../Editor/MyEditor";
+import MypageSidebar from "../Mypage/MypageSidebar";
 
 export default function QnaDetail() {
     const { authData } = useContext(AuthContext);
@@ -168,7 +169,7 @@ export default function QnaDetail() {
 
     return (
         <>
-            <QnaSidebar />
+            <MypageSidebar />
             <div className="ml-56">
                 <div className="ml-3 text-7xl">QnA</div>
                 <br />
