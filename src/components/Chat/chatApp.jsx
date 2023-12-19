@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css";
 import { useNavigate } from 'react-router-dom'; 
+import StudyRoom_Sidebar from '../StudyRoom/StudyRoom_Sidebar';
 
 
 const ChatApp = () => {
@@ -47,7 +48,7 @@ const ChatApp = () => {
         msg: msgInput.value
       };
 
-      fetch("http://52.79.108.89:8080/chat", {
+      fetch("/chat", {
         method: "post", //Http post 메소드
         body: JSON.stringify(chat), //JS Object -> JSON
         headers: {
@@ -87,7 +88,7 @@ const ChatApp = () => {
     });
 
     //=====
-    const eventSource = new EventSource(`http://52.79.108.89:8080/chat/roomNum/${chatRoomId}`);
+    const eventSource = new EventSource(`/chat/roomNum/${chatRoomId}`);
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -109,6 +110,7 @@ const ChatApp = () => {
 
   return (
     <>
+      <StudyRoom_Sidebar />
       <div className="container-fluid mt-20">
         <div className="row">
           <div className="col-sm-12">

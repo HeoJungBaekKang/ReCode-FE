@@ -17,7 +17,7 @@ export default function ChatCreate() {
     const fetchData = async () => {
       console.log("유저정보", users);
       try {
-        const response = await axios.get(`http://52.79.108.89:8081/api/select-users`, {
+        const response = await axios.get(`/api/select-users`, {
           headers: {
             'Content-Type': 'application/json',
           }
@@ -47,7 +47,7 @@ export default function ChatCreate() {
     };
 
     try {
-      const response = await axios.post('http://52.79.108.89:8081/api/v1/chat/chatRoom', requestData, {
+      const response = await axios.post('/api/v1/chat/chatRoom', requestData, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authData.token}`

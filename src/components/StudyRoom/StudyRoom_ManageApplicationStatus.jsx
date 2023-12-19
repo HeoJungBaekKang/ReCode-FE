@@ -10,6 +10,7 @@ const ApplyStatus = () => {
     const { authData } = useContext(AuthContext);
     const [applications, setApplications] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [selectedUser, setSelectedUser] = useState({
         userId: "",
         username: "",
@@ -101,7 +102,7 @@ const ApplyStatus = () => {
 
     // 승인
     const handleApproval = async () => {
-
+        setLoading(true);
         console.log("승인 버튼", selectedUser);
         try {
 
@@ -277,7 +278,13 @@ const ApplyStatus = () => {
                                 <p><strong>Essay:</strong> {selectedUser.essay}</p>
                             </div>
                         </div>
-
+                        {loading && (
+                        <div
+                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                            role="status">
+                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                        </div>
+                    )}
                         <div className="flex items-center justify-center mt-2">
                             <button className="bg-blue-500 text-white ml-2 px-2 py-1 w-16"
                                 onClick={handleCloseModal}>닫기

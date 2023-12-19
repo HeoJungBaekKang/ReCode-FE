@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
@@ -124,15 +125,6 @@ const EditPost = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
               rows={8}
             />
-            {/* <textarea
-                        
-                            name="content"
-                            value={postData.content || ''}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
-                            rows="8"
-                            placeholder="게시글 내용을 입력하세요..."
-                        ></textarea> */}
           </div>
 
           <button onClick={handlePostUpdate}>수정 완료</button>

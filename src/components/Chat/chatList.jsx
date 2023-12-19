@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { CardBody, Card } from "@material-tailwind/react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
+import StudyRoom_Sidebar from '../StudyRoom/StudyRoom_Sidebar';
 
 export default function ChatList() {
   const navigate = useNavigate();
@@ -69,7 +70,8 @@ export default function ChatList() {
 
   return (
     <>
-        <div className="p-6 bg-gray-100 min-h-screen flex justify-center items-center">
+    <StudyRoom_Sidebar />
+        <div className="p-6 bg-white-100 max-w-screen-lg mx-auto p-4 min-h-screen flex justify-center items-center">
             <div className="border-2 border-black rounded-lg w-3/4">
                 <div className="w-full bg-white rounded-md shadow-md mr-10">
                     <Card className="divide-y divide-gray-200">
