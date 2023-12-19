@@ -46,11 +46,54 @@ const EditPost = () => {
     fetchPostData();
   }, [post_id, study_id]);
 
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  }
+
+  // 파일 업로드
+  const uploadFile = async (file) => {
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await axios.post(
+        '/file/upload',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log('파일 업로드 성공', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('파일 업로드 중 에러 발생', error);
+      throw error;
+    }
+  };
+
   const handlePostUpdate = async () => {
     try {
+
+      // 파일 업로드 먼저 동작
+      const fileName = await uploadFile(selectedFile);
+
+      // 게시글 데이터에 파일 이름 추가
+      const postDataWithFile = {
+        ...postData,
+        fileName: fileName,
+      };
+
+      console.log("전송 전 postDataWithFiel", postDataWithFile);
+
       const response = await axios.put(
         `/api/v1/study/${study_id}/post/edit/${post_id}`,
-        postData,
+        postDataWithFile,
         {
           headers: {
             "Content-Type": "application/json",
@@ -74,6 +117,7 @@ const EditPost = () => {
   const handleChange = (e) => {
     setPostData({ ...postData, [e.target.name]: e.target.value });
   };
+
 
   return (
     <div>
@@ -112,6 +156,20 @@ const EditPost = () => {
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600"
               placeholder="제목을 입력하세요..."
             />
+            <div className="mb-4">
+              <label
+                htmlFor="formFile"
+                className="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
+              >
+                파일 첨부
+              </label>
+              <input
+                className="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-4 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                type="file"
+                id="formFile"
+                onChange={handleFileChange}
+              />
+            </div>
           </div>
 
           <div className="mb-4">

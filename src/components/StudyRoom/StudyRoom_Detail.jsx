@@ -221,259 +221,275 @@ const StudyRoomNotLogin = () => {
     },
   ];
 
+  const handleWithdrawStudy = async () => {
+    try {
+      const response = await axios.post(
+        `/api/v1/study/${study_id}/withdraw`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        }
+      });
+
+      const code = response.data.code;
+
+      if (code === 1) {
+        navigate(`/mypage/${authData.id}`);
+      } else {
+        alert("탈퇴 실패", response);
+      }
+    } catch (error) {
+      console.log("탈퇴중 오류 발생", error);
+    }
+  }
+
+
   return (
     <>
       <StudyRoom_Sidebar />
-      <div className="ml-56 mt-12 mb-20">
-      <div className="max-w-screen-lg max-h-screen mx-auto p-4">
-        <div className="px-4 sm:px-0">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900">
-              {detail.title}
-            </h2>
-            <div
-              className={`text-sm px-3 py-1 w-30 rounded-full ${
-                detail.maxNum - detail.currentNum <= 2 &&
-                detail.maxNum !== detail.currentNum
-                  ? "bg-red-400 text-white"
+      <div className="ml-56 mt-12">
+        <div className="max-w-screen-lg max-h-screen mx-auto p-4">
+          <div className="px-4 sm:px-0">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold leading-7 text-gray-900">
+                {detail.title}
+              </h2>
+              <div
+                className={`text-sm px-3 py-1 w-20 rounded-full ${detail.maxNum - detail.currentNum <= 2 &&
+                    detail.maxNum !== detail.currentNum
+                    ? "bg-red-400 text-white"
+                    : detail.maxNum > detail.currentNum
+                      ? "inline-block bg-green-400 text-white"
+                      : "bg-gray-400 text-white"
+                  }`}
+              >
+                {detail.maxNum - detail.currentNum <= 2 &&
+                  detail.maxNum !== detail.currentNum
+                  ? "마감 임박"
                   : detail.maxNum > detail.currentNum
-                  ? "inline-block bg-green-400 text-white"
-                  : "bg-gray-400 text-white"
-              }`}
-            >
-              {detail.maxNum - detail.currentNum <= 2 &&
-              detail.maxNum !== detail.currentNum
-                ? "마감 임박"
-                : detail.maxNum > detail.currentNum
-                ? "모집중"
-                : "모집 완료"}
+                    ? "모집중"
+                    : "모집 완료"}
+              </div>
+            </div>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+              {" "}
+              {detail.createdAt}{" "}
+            </p>
+            <div className="flex items-center text-sm font-medium -leading-6 text-gray-600">
+              <div className="flex items-center">
+                <span>작성자 | {detail.master}</span>
+                {badge.name && (
+                  <img
+                    src={badgeImages[badge.name]}
+                    alt={badge.name}
+                    className="ml-2"
+                    style={{ width: "30px", height: "30px" }} // 이미지 크기 조절
+                  />
+                )}
+              </div>
             </div>
           </div>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-            {" "}
-            {detail.createdAt}{" "}
-          </p>
-          <div className="flex items-center text-sm font-medium -leading-6 text-gray-600">
-            <div className="flex items-center">
-              <span>작성자 | {detail.master}</span>
-              {badge.name && (
-                <img
-                  src={badgeImages[badge.name]}
-                  alt={badge.name}
-                  className="ml-2"
-                  style={{ width: "30px", height: "30px" }} // 이미지 크기 조절
-                />
-              )}
-            </div>
-          </div>
-        </div>
 
-        <div className="mt-6 border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                스터디 이름
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {detail.studyName}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                모집 인원
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {detail.maxNum} 명{" "}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                진행 기간
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {detail.startDate} ~ {detail.endDate}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                출석 시간
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {detail.startTime} ~ {detail.endTime}{" "}
-              </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                출석 요일
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {Array.isArray(detail.attendanceDay) &&
-                  detail.attendanceDay.map(
-                    (
-                      attendanceDay,
-                      index // 배열인지 확인
-                    ) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
-                      >
-                        {attendanceDay}
-                      </span>
-                    )
-                  )}
-              </dd>
-            </div>
-            <div className="sm:col-span-4">
-                <div className="mt-2.5 mb-4">
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      기술 스택
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      <div className="flex flex-wrap">
-                        {Array.isArray(detail.skillNames) &&
-                          detail.skillNames.map(
-                            (
-                              skill,
-                              index // 배열인지 확인
-                            ) => (
-                              <span
-                                key={index}
-                                className="px-2 py-1 mt-1 ml-1 mb-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
-                              >
-                                {skill}
-                              </span>
-                            )
-                          )}
-                      </div>
-                    </dd>
-                  </div>
+          <div className="mt-6 border-t border-gray-100">
+            <dl className="divide-y divide-gray-100">
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  스터디 이름
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {detail.studyName}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  모집 인원
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {detail.maxNum} 명{" "}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  진행 기간
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {detail.startDate} ~ {detail.endDate}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  출석 시간
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {detail.startTime} ~ {detail.endTime}{" "}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  출석 요일
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {Array.isArray(detail.attendanceDay) &&
+                    detail.attendanceDay.map(
+                      (
+                        attendanceDay,
+                        index // 배열인지 확인
+                      ) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
+                        >
+                          {attendanceDay}
+                        </span>
+                      )
+                    )}
+                </dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">
+                  기술 스택
+                </dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {Array.isArray(detail.skillNames) &&
+                    detail.skillNames.map(
+                      (
+                        skill,
+                        index // 배열인지 확인
+                      ) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
+                        >
+                          {skill}
+                        </span>
+                      )
+                    )}
+                </dd>
+              </div>
+
+              <div className="px-4 py-6 sm:grid sm:grid-cols-1sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900 ">
+                  소개
+                </dt>
+                <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  {ReactHtmlParser(detail.description)}
                 </div>
               </div>
-
-            <div className="px-4 py-6 sm:grid sm:grid-cols-1sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900 ">
-                소개
-              </dt>
-              <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {ReactHtmlParser(detail.description)}
-              </div>
-            </div>
-            <div className="mt-5 flex justify-end">
-              <TERipple rippleColor="white">
-                <button
-                  type="button"
-                  className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  onClick={() => setShowModal(true)}
-                >
-                  탈퇴
-                </button>
-              </TERipple>
-            </div>
-          </dl>
-
-          {/* Modal */}
-          <TEModal show={showModal} setShow={setShowModal}>
-            <TEModalDialog style={modalPosition}>
-              <TEModalContent>
-                <TEModalHeader>
-                  <div>
-                    <Typography variant="h5" color="blue-gray">
-                      탈퇴 안내
-                    </Typography>
-                    <Typography color="gray" className="mt-2 w-80 font-normal">
-                      스터디 탈퇴에 대한 안내 사항입니다.
-                    </Typography>
-                  </div>
+              <div className="mt-5 flex justify-end">
+                <TERipple rippleColor="white">
                   <button
                     type="button"
-                    className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                    className="text-white bg-red-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     onClick={() => setShowModal(true)}
-                    aria-label="Close"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
+                    탈퇴
                   </button>
-                </TEModalHeader>
-                <TEModalBody>
-                  <table className="mt-4 w-full min-w-max table-auto text-left">
-                    <tbody>
-                      {TABLE_ROWS.map(({ name }, index) => {
-                        const classes =
-                          index === TABLE_ROWS.length - 1
-                            ? "p-4"
-                            : "p-4 border-b border-blue-gray-50";
-                        return (
-                          <tr key={index}>
-                            <td className={classes}>
-                              <div className="flex items-center gap-3">
-                                <div className="flex flex-col">
-                                  <div className="flex items-center">
-                                    <hr className="flex-grow border-t border-gray-300" />
-                                    <span className="px-3 text-gray-500">
-                                      유의 사항
-                                    </span>
-                                    <hr className="flex-grow border-t border-gray-300" />
-                                  </div>
-                                  <br />
-                                  <Typography
-                                    variant="small"
-                                    color="blue-gray"
-                                    className="font-normal"
-                                  >
-                                    {name}
-                                  </Typography>
-                                  <br />
-                                  <div className="flex items-center">
-                                    <hr className="flex-grow border-t border-gray-300" />
+                </TERipple>
+              </div>
+            </dl>
+
+            {/* Modal */}
+            <TEModal show={showModal} setShow={setShowModal}>
+              <TEModalDialog style={modalPosition}>
+                <TEModalContent>
+                  <TEModalHeader>
+                    <div>
+                      <Typography variant="h5" color="blue-gray">
+                        탈퇴 안내
+                      </Typography>
+                      <Typography color="gray" className="mt-2 w-80 font-normal">
+                        스터디 탈퇴에 대한 안내 사항입니다.
+                      </Typography>
+                    </div>
+                    <button
+                      type="button"
+                      className="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+                      onClick={() => setShowModal(true)}
+                      aria-label="Close"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </TEModalHeader>
+                  <TEModalBody>
+                    <table className="mt-4 w-full min-w-max table-auto text-left">
+                      <tbody>
+                        {TABLE_ROWS.map(({ name }, index) => {
+                          const classes =
+                            index === TABLE_ROWS.length - 1
+                              ? "p-4"
+                              : "p-4 border-b border-blue-gray-50";
+                          return (
+                            <tr key={index}>
+                              <td className={classes}>
+                                <div className="flex items-center gap-3">
+                                  <div className="flex flex-col">
+                                    <div className="flex items-center">
+                                      <hr className="flex-grow border-t border-gray-300" />
+                                      <span className="px-3 text-gray-500">
+                                        유의 사항
+                                      </span>
+                                      <hr className="flex-grow border-t border-gray-300" />
+                                    </div>
+                                    <br />
+                                    <Typography
+                                      variant="small"
+                                      color="blue-gray"
+                                      className="font-normal"
+                                    >
+                                      {name}
+                                    </Typography>
+                                    <br />
+                                    <div className="flex items-center">
+                                      <hr className="flex-grow border-t border-gray-300" />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </TEModalBody>
-                <TEModalFooter>
-                  <TERipple
-                    rippleColor="light"
-                    style={{ display: "flex", justifyContent: "flex-end" }}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setShowModal(false)}
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-2"
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </TEModalBody>
+                  <TEModalFooter>
+                    <TERipple
+                      rippleColor="light"
+                      style={{ display: "flex", justifyContent: "flex-end" }}
                     >
-                      취소
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
-                      onClick={() => setShowModal(false)}
-                    >
-                      탈퇴
-                    </button>
-                  </TERipple>
-                </TEModalFooter>
-              </TEModalContent>
-            </TEModalDialog>
-          </TEModal>
+                      <button
+                        type="button"
+                        onClick={() => setShowModal(false)}
+                        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 whitespace-nowrap mr-2"
+                      >
+                        취소
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+                        onClick={() => handleWithdrawStudy()}
+                      >
+                        탈퇴
+                      </button>
+                    </TERipple>
+                  </TEModalFooter>
+                </TEModalContent>
+              </TEModalDialog>
+            </TEModal>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

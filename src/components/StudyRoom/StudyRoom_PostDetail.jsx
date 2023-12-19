@@ -53,6 +53,55 @@ const PostDetail = () => {
     console.log("수정 버튼 클릭:", post_id);
   };
 
+  const handleDownload = async (fileName) => {
+    try {
+      const response = await axios.get(`/file/download/${fileName}`, {
+        responseType: 'blob',
+      });
+
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName); // 파일이름 설정
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("파일 다운로드 중 에러 발생 :", error);
+    }
+  };
+
+  const handleDeleteFile = async (fileName) => {
+    if (!fileName) return;
+
+    try {
+      const response = await axios.delete(`/api/v1/study/${study_id}/post/${post_id}/${fileName}`, {
+        headers: {
+          'Authorization': `Bearer ${authData.token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.status === 200) {
+        console.log("파일 삭제 성공:", response.data);
+        setPostData(prevState => ({
+          ...prevState,
+          data: {
+            ...prevState.data,
+            fileName: null
+          }
+        }));
+      } else {
+        console.log("파일 삭제 실패:", response);
+      }
+    } catch (error) {
+      console.error("파일 삭제 중 오류 발생:", error);
+    }
+  };
+
   // 삭제 버튼 클릭 시의 동작
   const handleDelete = async () => {
     try {
@@ -74,27 +123,6 @@ const PostDetail = () => {
       }
     } catch (error) {
       console.log("글 삭제 중 오류 발생 :", error);
-    }
-  };
-
-  const handleDownload = async (fileName) => {
-    try {
-      const response = await axios.get(`/file/download/${fileName}`, {
-        responseType: "blob",
-      });
-
-      // Create a URL for the blob
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", fileName); // 파일이름 설정
-      document.body.appendChild(link);
-      link.click();
-
-      link.parentNode.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("파일 다운로드 중 에러 발생 :", error);
     }
   };
 
@@ -324,7 +352,7 @@ const PostDetail = () => {
                 </Typography>
               </>
             )}
-           
+
           </div>
 
           {/* 수정 버튼과 삭제 버튼 */}
@@ -342,29 +370,38 @@ const PostDetail = () => {
             >
               삭제
             </button>
-             {/* 파일 검색 결과 표시 */}
-             <div className="file-search-results my-1 flex items-center">
-          
-              <span
-                style={{
-                  border: "0px solid #ccc",
-                  padding: "1px",
-                  margin: "1px",
-                  display: "inline-block",
-                  borderRadius: "1px",
-                  fontSize:"small",
-                  
-                }}
-              >
-                {postData.data.fileName}
-              </span>
-              <img
-                src="/img/download-icon.png"
-                alt="download-logo"
-                border="0"
-                className="h-6 sm:h-6 cursor-pointer hover:opacity-75"
-                onClick={() => handleDownload(postData.data.fileName)}
-              />
+            {/* 파일 검색 결과 표시 */}
+            <div className="file-search-results my-4 flex items-center">
+              {postData.data.fileName && (
+                <>
+                  <span
+                    style={{
+                      border: '1px solid #ccc',
+                      padding: '8px',
+                      margin: '5px',
+                      display: 'inline-block',
+                      borderRadius: '4px'
+                    }}>
+                    {postData.data.fileName}
+                  </span>
+                  <img
+                    src="/img/download-icon.png"
+                    alt="download-logo"
+                    border="0"
+                    className="h-6 sm:h-6 cursor-pointer hover:opacity-75"
+                    onClick={() => handleDownload(postData.data.fileName)}
+                  />
+                  {authData.nickname == postData.data.nickName && (
+                    <img
+                      src="/img/x-icon.png"
+                      alt="x-icon"
+                      border="0"
+                      className="h-6 sm:h-6 cursor-pointer hover:opacity-75"
+                      onClick={() => handleDeleteFile(postData.data.fileName)}
+                    />
+                  )}
+                </>
+              )}
             </div>
           </div>
 
