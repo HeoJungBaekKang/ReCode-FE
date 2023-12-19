@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import StudyRoom_Sidebar from "../StudyRoom/StudyRoom_Sidebar";
+import MypageSidebar from '../Mypage/MypageSidebar';
 
 const ChatApp = () => {
   const navigate = useNavigate();
@@ -110,7 +110,8 @@ const ChatApp = () => {
 
   return (
     <>
-      <StudyRoom_Sidebar />
+      {/* <StudyRoom_Sidebar /> */}
+      <MypageSidebar />
       <div className="max-w-screen-md mx-auto p-4">
         <div className="container-fluid mt-10">
           <div className="row">
