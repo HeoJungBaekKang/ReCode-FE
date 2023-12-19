@@ -38,7 +38,6 @@ const Main = () => {
 
   const menuItems = [
     // 다른 메뉴 아이템들...
-
     { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
     { label: "고객센터", path: "/faq", handleClick: () => navigate("/faq") },
 
@@ -73,6 +72,7 @@ const Main = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(60 * 60);
+
   // 타이머 업데이트 함수
   const updateTimer = () => {
     setTimeLeft((prevTime) => {
@@ -207,18 +207,24 @@ const Main = () => {
             >
               <ul className="flex flex-col lg:flex-row lg:space-x-8 lg:mt-0">
                 {authData.token != null && ( // 추가된 부분: 사용자가 로그인 중일 때만 알림 버튼 표시
-                  <span className="flex-1 mt-2.5 text-gray-600 ms-3 whitespace-nowrap">
-                    <div onClick={navigateToNotification} role="button" tabIndex={0} style={{ cursor: 'pointer' }}>
+                  <span className="flex-1 mt-2 text-gray-700 ms-3 whitespace-nowrap">
+                    <div
+                      onClick={navigateToNotification}
+                      role="button"
+                      tabIndex={0}
+                      style={{ cursor: "pointer" }}
+                      className="block pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                   >
+
                       알림
                       {notificationCount > 0 && (
-                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 mb-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                        <span className="inline-flex items-center justify-center w-3 h-3 p-2.5 ms-3 mb-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                           {notificationCount}
                         </span>
                       )}
                     </div>
                   </span>
                 )}
-
                 {menuItems.map((item, index) => (
                   <li
                     key={index}

@@ -303,7 +303,7 @@ const StudyModify = () => {
           </div>
 
           <div
-            className={`text-sm px-2 py-1 w-20 rounded-full ${maxNum - currentNum <= 2 && maxNum !== currentNum
+            className={`text-sm px-2 py-1 w-30 rounded-full ${maxNum - currentNum <= 2 && maxNum !== currentNum
               ? "bg-red-400 text-white"
               : maxNum > currentNum
                 ? "inline-block bg-green-400 text-white"
