@@ -199,11 +199,10 @@ const Main = () => {
             </div>
 
             <div
-              className={`${
-                isMenuOpen
+              className={`${isMenuOpen
                   ? "flex flex-col absolute right-0 w-1/4 top-[4.0rem]"
                   : "hidden"
-              } lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`}
+                } lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`}
               id="mobile-menu-2"
             >
               <ul className="flex flex-col lg:flex-row lg:space-x-8 lg:mt-0">

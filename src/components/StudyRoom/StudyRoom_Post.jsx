@@ -57,7 +57,12 @@ export default function Post() {
     const handlePostSubmit = async () => {
         try {
             // 파일 업로드 먼저 동작
-            const fileName = await uploadFile(selectedFile);
+            let fileName = null;
+
+            // 파일 선택됐을 때 동작
+            if (selectedFile) {
+                fileName = await uploadFile(selectedFile);
+            }
 
             // 게시글 데이터에 파일 이름 추가
             const postDataWithFile = {
