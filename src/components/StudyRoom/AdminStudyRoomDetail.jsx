@@ -1,10 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const AdminStudyRoomDetail = () => {
-  const navigate = useNavigate();
   const { study_id } = useParams();
 
   const [detail, setDetail] = useState({
@@ -33,20 +31,16 @@ const AdminStudyRoomDetail = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           setDetail(response.data.data || {});
 
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("스터디 상세보기 조회 성공");
           } else {
-            console.log("스터디 상세보기 조회 실패");
           }
         });
     } catch (error) {
-      console.error("스터디 상세보기 조회 중 오류 발생 : ", error);
     }
   };
 

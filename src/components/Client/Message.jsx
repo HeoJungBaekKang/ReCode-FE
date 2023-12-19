@@ -9,9 +9,7 @@ export default function Message() {
                 phoneNumber: "+8201058802941",
                 message: "Recode 스터디 신청에 승인되셨습니다. :)"
             });
-            console.log("Message sent, response:", response.data);
         } catch (error) {
-            console.error("Error sending message:", error);
         }
     }, []);
 

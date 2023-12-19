@@ -26,7 +26,6 @@ const Attendance = () => {
                         'Authorization': `Bearer ${authData.token}`,
                     },
                 });
-                console.log("Response.Data", response.data);
                 if (response.data) {
                     setStudyInfo({
                         startDate: response.data.data.startDate,
@@ -36,10 +35,8 @@ const Attendance = () => {
                         attendanceDay: Array.isArray(response.data.data.attendanceDay) ? response.data.data.attendanceDay.join(", ") : ""
                     });
                 } else {
-                    console.error("Unexpected response data structure");
                 }
             } catch (error) {
-                console.error("Error Fetching Study Info: ", error);
             }
         };
         fetchStudyInfo();
@@ -57,27 +54,18 @@ const Attendance = () => {
                     'Authorization': `Bearer ${authData.token}`
                 }
             });
-
-            console.log("HTTP status: ", response.status);
             if (response.status === 201) {  // HTTP Status Code가 201이면 성공
 
-                console.log("Response data status: ", response.data.status);
-
                 setIsAttended(true);  // 출석체크 상태를 변경
-                console.log(response.data);  // 응답 데이터 출력
 
                 if (response.data.data.status === '출석') {
-                    console.log("11111111", response.data.data.status);
                     alert("출석하였습니다.");
                 } else if (response.data.data.status === '지각') {
-                    console.log("22222222", response.data.data.status);
                     alert("지각입니다.");
                 }
             }
 
         } catch (error) {
-            console.error("Error on Attendance Check: ", error);
-            console.log(error.response.data);  // 에러 데이터 출력
             alert("오늘은 스터디가 없는 날입니다.")
 
             if (error.response && error.response.data.message.includes("이미 출석되었습니다.")) {

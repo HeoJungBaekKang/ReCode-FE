@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,20 +9,16 @@ import MultiSelect from "../Study/MultiSelect";
 import { getSkillNameByPosition } from "../../services/FilterService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
 import { updateStudy } from "../../services/StudyRecruitmentService";
-import { data } from "autoprefixer";
 
 const StudyModify = () => {
   const navigate = useNavigate();
-  const [selectedSkills, setSelectedSkills] = useState([]);
   const [editedSkillName, setEditedSkillName] = useState([]); // 수정모드에서 새롭게 저장된 스킬 이름
   const [selectedPosition, setSelectedPosition] = useState("");
   const [position, setPosition] = useState(""); // 포지션 상태
   const [skillNames, setSkillNames] = useState([]); // skillName 목록 상태
   const [isEditing, setIsEditing] = useState(false); // 수정 모드를 위한 상태
-  const [selectedDays, setSelectedDays] = useState([]);
   const [description, setDescription] = useState("");
   const [attendanceDay, setAttendanceDay] = useState([]);
-  const [initialSelectedDays, setInitialSelectedDays] = useState([]);
   const [startDate, setStartDate] = useState([]);
   const [endDate, setEndDate] = useState([]);
   const [createdAt, setCreatedAt] = useState("");
@@ -31,7 +26,6 @@ const StudyModify = () => {
   const [startTime, setStartTime] = useState(""); // 출석 인정 시작 시간
   const [endTime, setEndTime] = useState(""); // 출석 인정 종료 시간
   const [maxNum, setMaxNum] = useState("");
-  // const plainTextContent = removeFormatting(description);
   const { study_id } = useParams();
   const { authData } = useContext(AuthContext);
   const [studyName, setStudyName] = useState("");
@@ -56,16 +50,9 @@ const StudyModify = () => {
         },
       });
       const data = response.data.data;
-      console.log("날 화나게 하지마 : ", data);
-
-      // setDetail(data || {});
-
       const code = response.data.code;
-      console.log("code", code);
+
       if (code === 1) {
-        console.log("스터디 상세보기 조회 성공");
-        console.log("화가난다.", data.title);
-        console.log(data.currentNum);
         setTitle(data.title);
         setMaxNum(data.maxNum);
         setCurrentNum(data.currentNum);
@@ -73,7 +60,6 @@ const StudyModify = () => {
         setStudyName(data.studyName);
         setSkillNames(data.skillNames);
         setDescription(data.description);
-        console.log(data.description);
         setAttendanceDay(data.attendanceDay);
         setStartTime(data.startTime || "");
         setEndTime(data.endTime || "");
@@ -82,10 +68,8 @@ const StudyModify = () => {
         setCreatedAt(data.createdAt);
         setUpdatedAt(data.updatedAt);
       } else {
-        console.log("스터디 상세보기 조회 실패");
       }
     } catch (error) {
-      console.error("스터디 상세보기 조회 중 오류 발생 : ", error.response);
     }
   };
 
@@ -137,7 +121,6 @@ const StudyModify = () => {
       const mergedSkills = Array.from(
         new Set([...skillNames, ...editedSkillName])
       );
-      console.log("mergedSkills", mergedSkills);
 
       const updatedStudy = await updateStudy(
         title,
@@ -151,12 +134,9 @@ const StudyModify = () => {
         startDate,
         endDate
       );
-      console.log("수정한 인원입니다. : ", maxNum);
       setEditedSkillName(mergedSkills);
       setIsEditing(false);
-      console.log("Study updated successfully", updatedStudy);
     } catch (error) {
-      console.error("Error updating study:", error);
     }
   };
 
@@ -189,9 +169,7 @@ const StudyModify = () => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log("skillByPosition", skillByPosition);
       } catch (error) {
-        console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
       }
     };
     if (position) {
@@ -208,7 +186,6 @@ const StudyModify = () => {
           setSkillNames(skillNames);
         })
         .catch((error) => {
-          console.error("스킬 이름을 가져오는 중 오류 발생: ", error);
         });
     }
   }, [position]);
@@ -262,9 +239,7 @@ const StudyModify = () => {
         }
       );
       setIsInStudyRoom(response.data);
-      console.log("스터디 룸 가입여부 확인", response.data);
     } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }
   };
 
@@ -329,10 +304,10 @@ const StudyModify = () => {
 
           <div
             className={`text-sm px-2 py-1 w-20 rounded-full ${maxNum - currentNum <= 2 && maxNum !== currentNum
-                ? "bg-red-400 text-white"
-                : maxNum > currentNum
-                  ? "inline-block bg-green-400 text-white"
-                  : "bg-gray-400 text-white"
+              ? "bg-red-400 text-white"
+              : maxNum > currentNum
+                ? "inline-block bg-green-400 text-white"
+                : "bg-gray-400 text-white"
               }`}
           >
             {maxNum - currentNum <= 2 && maxNum !== currentNum
@@ -368,7 +343,6 @@ const StudyModify = () => {
                     const inputValue = parseInt(e.target.value, 10);
                     const newValue = inputValue >= 0 ? inputValue : 0;
                     // 상태 업데이트
-                    // s({ ...detail, maxNum: newValue });
                     setMaxNum(newValue);
                   }}
                   min={0}
@@ -576,7 +550,6 @@ const StudyModify = () => {
               </dt>
               {isEditing ? (
                 <StudyRecruitEditor
-                  // dangerouslySetInnerHTML={{ __html: plainTextContent }}
                   placeholder={description}
                   data={description}
                   initialContent={description}

@@ -4,14 +4,11 @@ import { AuthContext } from "../../context/AuthContext";
 import MultiSelect from "./MultiSelect";
 import { createStudyRecruitment } from "../../services/StudyRecruitmentService";
 import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
-import { format, addDays } from "date-fns";
+import { format } from "date-fns";
 import { getSkillNameByPosition } from "../../services/FilterService";
-import Detail from "../StudyRoom/StudyRoom_Detail";
 import Footer from "../Fix/Footer";
 
 export default function StudyRecruitment() {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   const [selectedDays, setSelectedDays] = useState([]); // 선택한 요일을 저장하는 배열
   const { authData } = useContext(AuthContext);
@@ -24,15 +21,12 @@ export default function StudyRecruitment() {
   const [description, setDescription] = useState("");
   const plainTextContent = removeFormatting(description);
 
-  const [time, setTime] = useState(""); // 시간 상태
-
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value); // 셀렉트박스 값 변경 시 상태 업데이트
   };
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 실행되는 로직
-    console.log("StudyRecruitment 컴포넌트가 마운트됨");
   }, []);
 
   useEffect(() => {
@@ -40,9 +34,7 @@ export default function StudyRecruitment() {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
         setSkillNames(skillByPosition);
-        console.log("${position} skill을  불러왔습니다.", skillByPosition);
       } catch (error) {
-        console.error("스킬 이름을 불러오는 중 오류 발생 ", error);
       }
     };
     if (position) {
@@ -58,7 +50,6 @@ export default function StudyRecruitment() {
           setWrite({ ...write, skillNames });
         })
         .catch((error) => {
-          console.error("스킬 이름을 가져오는 중 오류 발생: ", error);
         });
     }
   }, [position]);
@@ -145,14 +136,13 @@ export default function StudyRecruitment() {
     try {
       const formattedStartTime = convertToHHMM(
         parseInt(startTime.split(":")[0]) * 60 +
-          parseInt(startTime.split(":")[1])
+        parseInt(startTime.split(":")[1])
       );
       const formattedEndTime = convertToHHMM(
         parseInt(endTime.split(":")[0]) * 60 + parseInt(endTime.split(":")[1])
       );
 
       const combinedSkills = [...selectedSkills].filter(Boolean);
-      // const combinedSkills = [...selectedSkills, write.skills];
 
       const studyRecruitmentData = {
         ...write,
@@ -164,18 +154,13 @@ export default function StudyRecruitment() {
         // 다른 필드들도 추가해야 함
       };
 
-      console.log("studyRecruitmentData : ", studyRecruitmentData);
-
       const response = await createStudyRecruitment(studyRecruitmentData);
 
       // 성공 처리: response를 이용하여 처리
-      console.log("스터디 모집 글 작성 완료", response);
-
       navigate("/"); // 목록 페이지 경로로 변경
       // 필요한 리디렉션 또는 다른 동작 수행
     } catch (error) {
       // 오류 처리
-      console.error("스터디 모집 글 작성 중 오류 발생", error);
     }
   };
 
@@ -183,7 +168,7 @@ export default function StudyRecruitment() {
   const handleEditorDataChange = (newContent) => {
     // 자식 컴포넌트로 부터 받은 값을 상태에 따라 저장하거나 원하는 작업을 수행
     setDescription(newContent);
-    console.log("newContent in form : ", newContent);
+
   };
 
   function removeFormatting(discription) {
@@ -262,7 +247,6 @@ export default function StudyRecruitment() {
                   // 입력값을 가져옴
                   const inputValue = parseInt(e.target.value, 10);
                   const newValue = inputValue >= 0 ? inputValue : 0;
-                  // const newValue = inputValue >= 25 ? 25 : inputValue;
 
                   // 상태 업데이트
                   setWrite({ ...write, maxNum: newValue });
@@ -393,9 +377,6 @@ export default function StudyRecruitment() {
               name="position"
               required
               value={write.position}
-              // onChange={(e) =>
-              //   setWrite({ ...write, skillNamespostion: e.target.value })
-              // }
               onChange={handlePositionChange}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             >

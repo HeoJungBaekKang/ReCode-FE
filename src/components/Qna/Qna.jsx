@@ -25,9 +25,8 @@ export default function Qna() {
   async function fetchData() {
     try {
       const response = await fetchQnaList();
-      console.log("data안에는 무엇이 있나요", response.data);
       setQnaList(response.data); // 가져온 데이터를 상태에 설정
-    } catch (error) {}
+    } catch (error) { }
   }
   useEffect(() => {
     fetchData();
@@ -102,12 +101,10 @@ export default function Qna() {
                                   {qna.nickname}
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                  {/* {qna.createdAt} */}
                                   {format(
                                     new Date(qna.createdAt),
                                     "yyyy-MM-dd HH:mm"
                                   )}
-                                  {/* {format(parseISO(qna.createdAt), 'yyyy-MM-dd HH:mm')} */}
                                 </td>
                               </tr>
                             ))
@@ -129,12 +126,11 @@ export default function Qna() {
           </label>
           <div className="relative mt-10 flex justify-center items-center">
             <div className="flex justify-start w-full max-w-3xl space-x-4">
-             
+
               <div
                 id="dropdownAction"
-                className={`absolute z-15 ${
-                  isOpen ? "block" : "hidden"
-                } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
+                className={`absolute z-15 ${isOpen ? "block" : "hidden"
+                  } bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
                 style={{ marginTop: "50px" }}
               >
                 <ul
@@ -227,9 +223,8 @@ export default function Qna() {
               <button
                 disabled={currentPage === 0}
                 onClick={() => setCurrentPage(currentPage - 1)}
-                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                  currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
-                } transition-all duration-300 dark:text-neutral-400`}
+                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
+                  } transition-all duration-300 dark:text-neutral-400`}
               >
                 Previous
               </button>
@@ -238,11 +233,10 @@ export default function Qna() {
               <li key={`page-button-${index}`}>
                 <button
                   onClick={() => setCurrentPage(index)}
-                  className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${
-                    index === currentPage
-                      ? "bg-gray-300 text-neutral-600"
-                      : "bg-gray-100 text-neutral-600"
-                  } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
+                  className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${index === currentPage
+                    ? "bg-gray-300 text-neutral-600"
+                    : "bg-gray-100 text-neutral-600"
+                    } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
                 >
                   {index + 1}
                 </button>
@@ -252,11 +246,10 @@ export default function Qna() {
               <button
                 disabled={currentPage === chunkedPosts.length - 1}
                 onClick={() => setCurrentPage(currentPage + 1)}
-                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                  currentPage === chunkedPosts.length - 1
-                    ? "text-neutral-600"
-                    : "text-neutral-600"
-                } transition-all duration-300 dark:text-neutral-400`}
+                className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
+                  ? "text-neutral-600"
+                  : "text-neutral-600"
+                  } transition-all duration-300 dark:text-neutral-400`}
               >
                 Next
               </button>

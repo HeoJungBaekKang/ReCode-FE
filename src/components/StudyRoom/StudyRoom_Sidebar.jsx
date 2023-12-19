@@ -34,19 +34,15 @@ function Sidebar() {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("해당 스터디의 조장입니다 : ", response.data.data);
             setInfo({ ...info, username: response.data.data.username });
           } else {
-            console.log("해당 스터디의 조장이 아닙니다 :", response.data);
           }
         });
     } catch (error) {
-      console.log("스터디 조장인지 체크 중 오류 발생 :", error.response);
     }
   };
 
@@ -60,41 +56,29 @@ function Sidebar() {
           },
         })
         .then((response) => {
-          console.log(response.data);
-
           const code = response.data.code;
 
           if (code === 1) {
-            console.log(
-              "현재날짜와 스터디의 endDate 비교 성공 : ",
-              response.data.data
-            );
+
             setCheck({
               ...check,
               endDateToday: response.data.data.endDateToday,
             });
           } else {
-            console.log(
-              "현재날짜와 스터디의 endDate 비교 실패 :",
-              response.data
-            );
+
           }
         });
     } catch (error) {
-      console.log(
-        "현재날짜와 스터디의 endDate 비교 중 오류 발생 :",
-        error.response
-      );
+
     }
   };
 
   useEffect(() => {
     if (study_id) {
-      console.log("Study Room ID: ", study_id);
+
       checkMaster();
       checkDate();
     } else {
-      console.log("Study Room ID Not found");
     }
   }, [study_id]);
 
@@ -127,9 +111,8 @@ function Sidebar() {
 
       <aside
         id="studyRoom-sidebar"
-        className={`${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-35 left-0 z-40 w-76 h-screen transition-transform lg:translate-x-0`}
+        className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } fixed top-35 left-0 z-40 w-76 h-screen transition-transform lg:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
@@ -230,9 +213,8 @@ function Sidebar() {
             {/* 현재 날짜와 스터디의 endDate 가 일치할 경우에만 보이는 메뉴 */}
             {check.endDateToday === true && (
               <li
-                className={`bg-gray-100 ${
-                  check.endDateToday === true ? "blink" : ""
-                }`}
+                className={`bg-gray-100 ${check.endDateToday === true ? "blink" : ""
+                  }`}
               >
                 <Link
                   to={`/studyroom/${study_id}/estimate`}

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import QnaSidebar from "../Qna/QnaSidebar";
 import {
   Card,
   CardHeader,
@@ -37,9 +36,7 @@ export default function NoticePage() {
       const response = await fetchNoticeList(currentPage); // API에서 공지사항 목록을 가져오는 함수
       setDisplayList(response.data); // 가져온 데이터를 상태에 설정
 
-      console.log(response.data);
     } catch (error) {
-      console.log("목록 불러오기 실패", error);
     }
   }
 
@@ -50,7 +47,6 @@ export default function NoticePage() {
       searchTerm,
       setResults
     );
-
     setDisplayList(response.data);
   };
 
@@ -158,9 +154,8 @@ export default function NoticePage() {
                 <button
                   disabled={currentPage === 0}
                   onClick={() => setCurrentPage(currentPage - 1)}
-                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                    currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
-                  } transition-all duration-300 dark:text-neutral-400`}
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0 ? "text-neutral-500" : "text-neutral-600"
+                    } transition-all duration-300 dark:text-neutral-400`}
                 >
                   Previous
                 </button>
@@ -169,11 +164,10 @@ export default function NoticePage() {
                 <li key={`page-button-${index}`}>
                   <button
                     onClick={() => setCurrentPage(index)}
-                    className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${
-                      index === currentPage
-                        ? "bg-gray-300 text-neutral-600"
-                        : "bg-gray-100 text-neutral-600"
-                    } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
+                    className={`flex flex-col cursor-pointer items-center justify-center w-9 h-9 shadow-[0_4px_10px_rgba(0,0,0,0.03)] text-sm font-normal transition-colors rounded-lg ${index === currentPage
+                      ? "bg-gray-300 text-neutral-600"
+                      : "bg-gray-100 text-neutral-600"
+                      } transition-all duration-300 dark:text-black dark:hover:bg-neutral-700 dark:hover:text-white`}
                   >
                     {index + 1}
                   </button>
@@ -183,11 +177,10 @@ export default function NoticePage() {
                 <button
                   disabled={currentPage === chunkedPosts.length - 1}
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
-                    currentPage === chunkedPosts.length - 1
-                      ? "text-neutral-600"
-                      : "text-neutral-600"
-                  } transition-all duration-300 dark:text-neutral-400`}
+                  className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
+                    ? "text-neutral-600"
+                    : "text-neutral-600"
+                    } transition-all duration-300 dark:text-neutral-400`}
                 >
                   Next
                 </button>

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,7 +10,6 @@ const PostDetail = () => {
   const { post_id, study_id, postReply_id } = useParams();
   const { authData } = useContext(AuthContext); // 로그인 상태를 가져옵니다.
   const navigate = useNavigate();
-  const [matchingFiles, setMatchingFiles] = useState([]);
 
   const [postData, setPostData] = useState({
     data: {
@@ -37,10 +35,8 @@ const PostDetail = () => {
             },
           }
         );
-        console.log("API 응답:", response.data);
         setPostData({ data: response.data.data });
       } catch (error) {
-        console.error("글 정보를 가져오는 중 오류 발생:", error);
       }
     };
 
@@ -50,7 +46,6 @@ const PostDetail = () => {
   // 수정 버튼 클릭 시의 동작
   const handleEdit = () => {
     navigate(`/studyroom/${study_id}/post/edit/${post_id}`);
-    console.log("수정 버튼 클릭:", post_id);
   };
 
   const handleDownload = async (fileName) => {
@@ -70,7 +65,6 @@ const PostDetail = () => {
       link.parentNode.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("파일 다운로드 중 에러 발생 :", error);
     }
   };
 
@@ -86,7 +80,6 @@ const PostDetail = () => {
       });
 
       if (response.status === 200) {
-        console.log("파일 삭제 성공:", response.data);
         setPostData(prevState => ({
           ...prevState,
           data: {
@@ -95,10 +88,8 @@ const PostDetail = () => {
           }
         }));
       } else {
-        console.log("파일 삭제 실패:", response);
       }
     } catch (error) {
-      console.error("파일 삭제 중 오류 발생:", error);
     }
   };
 
@@ -116,13 +107,10 @@ const PostDetail = () => {
       );
 
       if (response.data.code === 1) {
-        console.log("글 삭제 성공 : ", response.data);
         navigate(`/studyroom/board/${study_id}`);
       } else {
-        console.log("글 삭제 실패 :", response);
       }
     } catch (error) {
-      console.log("글 삭제 중 오류 발생 :", error);
     }
   };
 
@@ -167,7 +155,6 @@ const PostDetail = () => {
           }
         )
         .then((response) => {
-          console.log(response);
           // 서버 응답이 성공적일 경우, 댓글 목록에 새 댓글 추가
           const newComment = {
             id: response.data.data.id,
@@ -179,7 +166,6 @@ const PostDetail = () => {
           setComment(""); // 댓글 작성 폼 초기화
         })
         .catch((error) => {
-          console.error(error);
         });
     }
   };
@@ -195,11 +181,8 @@ const PostDetail = () => {
           },
         }
       );
-      console.log("댓글 응답:", postReplyResponse.data);
       setComments(postReplyResponse.data.data);
     } catch (error) {
-      // 훈호님 바보
-      console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
     }
   };
 
@@ -228,7 +211,6 @@ const PostDetail = () => {
   };
 
   const handleUpdateComment = async (comment) => {
-    console.log("postReply_Id", postReply_id);
     try {
       const response = await axios.put(
         `/api/v1/study/${study_id}/post/${post_id}/postReply/edit/${comment.id}`,
@@ -244,15 +226,11 @@ const PostDetail = () => {
       );
 
       if (response.data.code === 1) {
-        console.log("댓글 수정 성공 : ", response.data);
         // 서버 응답이 성공적일 경우, 수정 상태를 초기화
         setEditingComment(null);
       } else {
-        console.log("댓글 수정 실패 :", response);
       }
     } catch (error) {
-      console.log("댓글 수정 중 오류 발생 :", error);
-      console.log("서버 응답:", error.response); // 서버 응답 기록
     }
   };
 
@@ -271,11 +249,9 @@ const PostDetail = () => {
 
       if (response.status === 200) {
         // 댓글 삭제가 성공하면, 댓글 목록을 다시 불러옵니다.
-        console.log("댓글 삭제 성공 : ", response.data);
         loadComments();
       }
     } catch (error) {
-      console.log("댓글 삭제 중 오류 발생 :", error);
     }
   };
 
@@ -293,12 +269,10 @@ const PostDetail = () => {
       );
       setComments(postReplyResponse.data.data);
     } catch (error) {
-      console.error("댓글 정보를 가져오는 중 오류 발생:", error.response);
     }
   };
 
   const handleCancelEdit = (comment) => {
-    console.log("취소 전 상태", comments);
 
     setComments((prevComments) =>
       prevComments.map((c) =>
@@ -306,7 +280,6 @@ const PostDetail = () => {
       )
     );
     window.location.reload(true);
-    console.log("취소 후 상태", comments);
 
     // 수정 상태를 초기화합니다.
     setEditingComment(null);
@@ -391,7 +364,7 @@ const PostDetail = () => {
                     className="h-6 sm:h-6 cursor-pointer hover:opacity-75"
                     onClick={() => handleDownload(postData.data.fileName)}
                   />
-                  {authData.nickname == postData.data.nickName && (
+                  {authData.nickname === postData.data.nickName && (
                     <img
                       src="/img/x-icon.png"
                       alt="x-icon"

@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { Typography } from "@material-tailwind/react";
 import { getUserNotifications } from "../../services/NorificationService";
-import { Link } from "react-router-dom";
 
 const Main = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +22,11 @@ const Main = () => {
           setNotificationCount(response.data.length);
           // status가 0인 알림 개수 세기
           const unreadNotificationCount = response.data.filter(
-            (notification) => notification.readStatus == 0
+            (notification) => notification.readStatus === 0
           ).length;
           setNotificationCount(unreadNotificationCount);
         }
       } catch (error) {
-        console.log("알림 목록 불러오기 실패", error);
       }
     }
     getUserNotificationList();

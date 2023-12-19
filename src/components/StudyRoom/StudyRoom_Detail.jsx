@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,7 +18,6 @@ const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
   const { study_id } = useParams();
   const { authData } = useContext(AuthContext);
-  console.log(authData);
   const [detail, setDetail] = useState({
     study_id: "",
     studyName: "",
@@ -51,21 +49,15 @@ const StudyRoomNotLogin = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
           setDetail(response.data.data || {});
           const code = response.data.code;
           if (code === 1) {
-            console.log("스터디 상세보기 조회 성공");
             checkStudyRoomMembership();
-            console.log("isInstudyRoom: ", isInStudyRoom);
             checkStudyRoomMembership();
-            console.log("isInstudyRoom: ", isInStudyRoom);
           } else {
-            console.log("스터디 상세보기 조회 실패");
           }
         });
     } catch (error) {
-      console.error("스터디 상세보기 조회 중 오류 발생 : ", error.response);
     }
   };
   const [isInStudyRoom, setIsInStudyRoom] = useState(false);
@@ -83,16 +75,12 @@ const StudyRoomNotLogin = () => {
           }
         )
         .then((response) => {
-          console(response.data);
           const code = response.data.code;
           if (code === 1) {
-            console.log("스터디 신청 완료");
           } else {
-            console.log("스터디 신청 실패");
           }
         });
     } catch (error) {
-      //console.error("스터디 신청 중 오류 발생 :", error);
     }
   };
   const modalPosition = {
@@ -125,11 +113,8 @@ const StudyRoomNotLogin = () => {
           },
         }
       );
-      console.log("API Response:", response.data);
       setIsInStudyRoom(response.data);
-      console.log("스터디 룸 가입여부 확인", response.data);
     } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }
   };
   // 신청 버튼 클릭 핸들러
@@ -149,14 +134,11 @@ const StudyRoomNotLogin = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
-      // Handle error as needed
     }
   };
   const handleGetBadge = async () => {
     const userId = detail.userId;
     if (!userId) {
-      console.log("작성자 아이디 안 불러와졌다.");
       return;
     }
     try {
@@ -165,14 +147,11 @@ const StudyRoomNotLogin = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("뱃지 정보 가져오기 성공: ", response.data);
       if (response.data && response.data.code === 1) {
         setBadge(response.data.data);
       } else {
-        console.log("뱃지 정보 가져오기 실패: ", response.data.msg);
       }
     } catch (error) {
-      console.error("뱃지 정보 가져오는 중 오류 발생: ", error);
     }
   };
   const badgeImages = {
@@ -223,7 +202,6 @@ const StudyRoomNotLogin = () => {
         alert("탈퇴 실패", response);
       }
     } catch (error) {
-      console.log("탈퇴중 오류 발생", error);
     }
   }
   return (
@@ -238,11 +216,11 @@ const StudyRoomNotLogin = () => {
               </h2>
               <div
                 className={`text-sm px-3 py-1 w-20 rounded-full ${detail.maxNum - detail.currentNum <= 2 &&
-                    detail.maxNum !== detail.currentNum
-                    ? "bg-red-400 text-white"
-                    : detail.maxNum > detail.currentNum
-                      ? "inline-block bg-green-400 text-white"
-                      : "bg-gray-400 text-white"
+                  detail.maxNum !== detail.currentNum
+                  ? "bg-red-400 text-white"
+                  : detail.maxNum > detail.currentNum
+                    ? "inline-block bg-green-400 text-white"
+                    : "bg-gray-400 text-white"
                   }`}
               >
                 {detail.maxNum - detail.currentNum <= 2 &&

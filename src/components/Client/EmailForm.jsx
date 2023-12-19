@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 export default function Email() {
     const { authData } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    
+
     const handleSubmit = async () => {
         setLoading(true);
         let url, headers = {};
@@ -23,15 +23,12 @@ export default function Email() {
             const response = await axios.post(url, {}, { headers });
             const code = response.data.code;
             if (code === 1) {
-                console.log("이메일 전송 성공");
                 setLoading(false);
                 alert("이메일이 전송되었습니다. 입력하신 이메일을 확인해주세요.")
             } else {
-                console.log("이메일 전송 실패");
                 alert("등록되지 않은 이메일입니다.");
             }
         } catch (error) {
-            console.error("이메일 전송 중 오류 발생: ", error);
         }
     };
     const checkEmailExist = async () => {

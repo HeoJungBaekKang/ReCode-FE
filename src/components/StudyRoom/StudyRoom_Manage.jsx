@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 const Manage = () => {

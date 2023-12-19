@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../../context/AuthContext";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 
 export default function Estimate() {
-
-
-    const navigate = useNavigate();
 
     const { study_id, member_id } = useParams();
     const { authData } = useContext(AuthContext);
@@ -85,7 +82,6 @@ export default function Estimate() {
                     [questionIndex]: parseInt(score, 10)
                 }
             };
-            console.log(`사용자의 평점 업데이트 ${userId}:`, newScores);
             return newScores;
         });
     };
@@ -94,7 +90,6 @@ export default function Estimate() {
     useEffect(() => {
 
         const fetchData = async () => {
-            console.log("유저정보", users);
             try {
                 const response = await axios.get(`/api/v1/study/${study_id}/memberlist`, {
                     headers: {
@@ -102,11 +97,9 @@ export default function Estimate() {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("스터디룸 인원 목록을 가져오는데 성공:", response.data);
                 setUsers(response.data.data);
 
             } catch (error) {
-                console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
         };
 
@@ -115,12 +108,10 @@ export default function Estimate() {
 
     const handlePost = async (event) => {
         event.preventDefault();
-        console.log('handlePost 호출됨');
 
         // 각 사용자에 대해 반복
         for (const user of users) {
             // 각 질문에 대해 반복
-            console.log("점수가져오게나");
 
             let userTotalScore = 0;
 
@@ -128,16 +119,6 @@ export default function Estimate() {
             const userScores = selectedScores[user.userId];
             if (userScores) {
                 const userTotalScore = Object.values(userScores).reduce((total, score) => total + parseInt(score, 10) || 0, 0);
-                console.log("해당 유저의 총점: ", userTotalScore);
-
-                console.log(`사용자의 점수 전송 중 ${user.userId}`, {
-                    studyId: study_id,
-                    userId: user.userId,
-                    point: userTotalScore,
-                    nickname: user.nickname
-                });
-
-                console.log("해당 유저의 총점 들어 오나요? : ", userTotalScore);
 
                 try {
                     const response = await axios.post(`/api/v1/study/${study_id}/estimate/${user.userId}`, {
@@ -150,9 +131,7 @@ export default function Estimate() {
                             'Authorization': `Bearer ${authData.token}`
                         }
                     });
-                    console.log("평가 결과:", response.data);
                 } catch (error) {
-                    console.log("평가 결과 제출 중 오류 발생: ", error.response || error);
                 }
             }
         }

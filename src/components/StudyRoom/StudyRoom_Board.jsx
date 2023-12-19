@@ -1,13 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import axios from 'axios';
 
 export default function Board() {
     const [isOpen, setIsOpen] = useState(false);
     const [currentCategory, setCurrentCategory] = useState('카테고리');
-    const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
     const { study_id } = useParams();
 
@@ -35,21 +34,16 @@ export default function Board() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setPost(response.data.data || []);
 
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("게시글 목록 조회 성공");
                     } else {
-                        console.log("게시글 목록 조회 실패");
                     }
                 });
         } catch (error) {
-            console.error("게시글 목록 조회 중 오류 발생 : ", error);
-            console.log(error.response);
         }
     }
 
@@ -244,7 +238,6 @@ function SearchBox({ keyword, setKeyword }) {
                     setResults(response.data.data || []);
                 })
                 .catch(error => {
-                    console.error("Error fetching data: ", error);
                     setResults([]);
                 });
         } else {

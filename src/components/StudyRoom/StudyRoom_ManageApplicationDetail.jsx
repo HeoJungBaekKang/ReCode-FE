@@ -14,13 +14,11 @@ const ApplicationDetail = () => {
     }
 
     const handleApprove = () => {
-        // 승인 로직 추가
-        console.log(`승인 버튼이 클릭되었습니다. ID: ${id}`);
+
     };
 
     const handleReject = () => {
-        // 거절 로직 추가
-        console.log(`거절 버튼이 클릭되었습니다. ID: ${id}`);
+
     };
 
 

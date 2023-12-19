@@ -34,11 +34,13 @@ jobs:
 
       - name: Upload to S3
         run: |
+          touch docker-stop.sh
+          echo '[ -z "$(docker ps -q)" ] || docker stop "$(docker ps -q)"' >> docker-stop.sh
           touch deploy.sh
           echo "aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com" >> deploy.sh
           echo "docker pull 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com:"${{ env.DATE_TIME }} >> deploy.sh
-          echo "docker run -d -p 80:80 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:"${{ env.DATE_TIME }} >> deploy.sh
-          zip archive-${{ env.DATE_TIME }}.zip deploy.sh appspec.yml
+          echo "docker run -d -v config:/etc/nginx/conf.d -p 80:80 699926146296.dkr.ecr.ap-northeast-2.amazonaws.com/recode-fe:"${{ env.DATE_TIME }} >> deploy.sh
+          zip archive-${{ env.DATE_TIME }}.zip docker-stop.sh deploy.sh appspec.yml
           aws s3 cp archive-${{ env.DATE_TIME }}.zip s3://abo2-recode/recode-fe/ --region ap-northeast-2  
           
           

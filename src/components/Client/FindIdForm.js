@@ -31,18 +31,15 @@ export default function FindIdForm() {
         }
       });
 
-      console.log(response.data);
       const code = response.data.code;
 
       if (code === 1) {
-        console.log("입력 정보 : ", info);
+
         setFoundUsername(response.data.data.username);
         setShowModal(true);
       } else {
-        console.log("아이디 찾기 실패");
       }
     } catch (error) {
-      console.log("아이디 찾기 중 오류 발생 :", error);
     }
   };
 

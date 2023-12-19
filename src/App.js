@@ -51,7 +51,6 @@ import ChatCreate from "./components/Chat/chatCreate";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
 import StudyRoomRecommend from "./components/StudyRoom/StudyRoom_Recommend";
-import Footer from "./components/Fix/Footer";
 
 
 
@@ -63,7 +62,7 @@ function App() {
         <Header /> {/* 모든 페이지 상단에 헤더를 렌더링합니다 */}
         <div className="main-content">
           {" "}
-      
+
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
@@ -113,9 +112,9 @@ function App() {
             <Route path="/chat/chatApp/:chatRoomId/:nickname" element={<ChatApp />} />
             <Route path="/notification" element={<NotificationPage />} />
             <Route path="/studyroom/:study_id/estimate" element={<Estimate />} />
-            <Route path="/client/recruitment" element={<StudyRecruitment/>}/>
+            <Route path="/client/recruitment" element={<StudyRecruitment />} />
             <Route path="/studyroom/:study_id/get-recommend" element={<StudyRoomRecommend />} />
-        </Routes>
+          </Routes>
         </div>
       </AuthProvider>
     </Router >

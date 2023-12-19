@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [authData, setAuthData] = useState(() => {
     const storedAuthData = localStorage.getItem('authData');
 
-  
+
     let initialAuthData = storedAuthData ? JSON.parse(storedAuthData) : {   // 변경한 부분 
       id: null,
       username: null,
@@ -17,12 +17,12 @@ export const AuthProvider = ({ children }) => {
     };
 
     // 관리자 여부 확인 
-    initialAuthData = { 
+    initialAuthData = {
       ...initialAuthData,
       isAdmin: initialAuthData.role === 'ADMIN',
     }
     return initialAuthData;
-  
+
   });
 
   return (

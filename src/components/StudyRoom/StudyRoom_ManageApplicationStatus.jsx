@@ -59,11 +59,9 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", response.data);
                 setApplications(response.data.data);
 
             } catch (error) {
-                console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
         };
 
@@ -87,11 +85,8 @@ const ApplyStatus = () => {
                 }
             });
             setSelectedUser(prevUser => ({ ...prevUser, essay: response.data.data.essay }));
-            console.log("유저정보", application);
-            console.log("에세이 조회 성공", response.data);
 
         } catch (error) {
-            console.error("에세이를 가져오는 중 오류 발생:", error);
         }
     };
 
@@ -103,7 +98,6 @@ const ApplyStatus = () => {
     // 승인
     const handleApproval = async () => {
         setLoading(true);
-        console.log("승인 버튼", selectedUser);
         try {
 
             const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
@@ -115,7 +109,6 @@ const ApplyStatus = () => {
                 }
             });
             setSelectedUser(response.data.data);
-            console.log("승인 성공", response.data);
             handleCloseModal();
 
             // 승인 후에 신청 목록 다시 불러오기
@@ -126,16 +119,12 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
                 window.location.reload(true);
-                // setApplications(fetchResponse.data.data); // 상태 업데이트
 
             } catch (error) {
-                console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
 
         } catch (error) {
-            console.error("가입 승인 또는 거절 중 오류 발생:", error);
         }
     };
 
@@ -143,7 +132,6 @@ const ApplyStatus = () => {
 
     // 거절
     const handleRejection = async () => {
-        console.log("거절 버튼", selectedUser);
         try {
             const response = await axios.post(`/api/v1/study-member/${study_id}/${selectedUser.userId}`, {
                 status: "Rejected"
@@ -155,7 +143,6 @@ const ApplyStatus = () => {
                     }
                 });
             setSelectedUser(response.data.data);
-            console.log("거절 성공", response.data);
             handleCloseModal();
 
             // 거절된 사용자를 신청 목록에서 제거
@@ -169,16 +156,12 @@ const ApplyStatus = () => {
                         'Authorization': `Bearer ${authData.token}`
                     }
                 });
-                console.log("신청 정보를 가져오는데 성공:", fetchResponse.data);
                 window.location.reload(true);
-                // setApplications(fetchResponse.data.data);
 
             } catch (error) {
-                console.error("신청 정보를 가져오는 중 오류 발생:", error);
             }
 
         } catch (error) {
-            console.error("가입 거절 중 오류 발생:", error);
         }
 
     };
@@ -279,12 +262,12 @@ const ApplyStatus = () => {
                             </div>
                         </div>
                         {loading && (
-                        <div
-                            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                            role="status">
-                            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
-                        </div>
-                    )}
+                            <div
+                                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                role="status">
+                                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+                            </div>
+                        )}
                         <div className="flex items-center justify-center mt-2">
                             <button className="bg-blue-500 text-white ml-2 px-2 py-1 w-16"
                                 onClick={handleCloseModal}>닫기

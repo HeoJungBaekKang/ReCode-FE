@@ -93,7 +93,6 @@ document.querySelector("#chat-send").addEventListener("click",() =>{
 
 
 document.querySelector("#chat-outgoing-msg").addEventListener("keydown",(e) =>{
-    console.log(e.keyCode);
     if(e.keyCode === 13){
         addMessage();
     }

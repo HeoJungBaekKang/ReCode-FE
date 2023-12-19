@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-
 import {
     Card,
     CardHeader,
@@ -30,14 +29,11 @@ export default function QnaDetail() {
 
 
     const [qnaReplies, setQnaReplies] = useState([]);
-    const [qnaReplyId, setQnaReplyId] = useState("");
     const [comment, setComment] = useState("");
     const [replyCreatedAt, setReplyCreatedAt] = useState("");
-    // const [formatReplyCreatedAt, setFormatReplyCreatedAt] = useState("");
     const [replyUpdatedAt, setReplyUpdatedAt] = useState("");
     const replyUserId = authData.id
     const replyUserNickname = authData.nickname
-    // const loginUserId = authData.id
 
     const [isEditMode, setIsEditMode] = useState(false);
 
@@ -93,7 +89,7 @@ export default function QnaDetail() {
         setQnaContent(newContent);
     };
     const loginUser = authData.id;
-    console.log("외부" + loginUser);
+
     //Qna 수정 저장 버튼
     const handleSaveChanges = async () => {
 
@@ -102,29 +98,22 @@ export default function QnaDetail() {
             // const loginUser = authData.id;
             const qnaModifyData = { qnaTitle, loginUser, qnaContent };
             await saveQna(qnaId, qnaModifyData);
-            console.log("1234" + authData)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
+
             // 편집 모드 해제
             setIsEditMode(false);
             window.location.reload(true);
         } catch (error) {
-            console.log("1234" + authData.nickname)
-            console.log("awqsedf" + loginUser)
-            console.log("id :" + authData.id)
-
         }
     };
 
     //Qna 삭제 버튼 핸들러
     const handleDelete = async () => {
-        if (window.confirm("진짜루 삭제할고야...?")) {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
             try {
                 await deleteQna(qnaId);
                 // 삭제 후 목록 페이지로 이동
                 navigate("/qna");
             } catch (error) {
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
@@ -154,14 +143,11 @@ export default function QnaDetail() {
 
     //Qna 댓글 삭제 핸들러
     const replyDelete = async (currentReplyId) => {
-        console.log("replyDelete 함수 실행됨");
         if (window.confirm("진짜루 댓글 삭제할고야...?")) {
             try {
                 await deleteQnaReply(qnaId, currentReplyId);
                 window.location.reload(true);
             } catch (error) {
-                console.log("댓글 번호" + currentReplyId)
-                console.error("삭제 중 오류 발생", error);
             }
         }
     };
@@ -287,8 +273,6 @@ export default function QnaDetail() {
                         <React.Fragment>
                             {isEditMode ? (
                                 <React.Fragment>
-                                    {console.log("btn: " + userId)}
-                                    {console.log("id: " + authData.id)}
                                     <button onClick={handleSaveChanges} className="px-3 py-1 my-2 w-24 bg-green-500 text-white rounded whitespace-nowrap">저장</button>
                                     <button onClick={handleGoToQna} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">취소</button>
                                 </React.Fragment>
@@ -309,7 +293,6 @@ export default function QnaDetail() {
                     ) : (
                         <React.Fragment>
                             <button onClick={handleGoToList} className="px-3 py-1 my-2 w-24 bg-gray-500 text-white rounded whitespace-nowrap">목록</button>
-                            {/* <button onClick={handleReplyButtonClick} className="px-3 py-1 my-2 w-24 bg-blue-500 text-white rounded whitespace-nowrap">댓글 달기</button> */}
                         </React.Fragment>
                     )}
                 </div>
@@ -362,8 +345,6 @@ export default function QnaDetail() {
                                                     <span className="mr-20">
                                                         {reply.comment}
                                                     </span>
-                                                    {/* {console.log("userId : ",[reply])} */}
-                                                    {/* {console.log("authdata : ",authData.id)} */}
                                                     {reply.userId === authData.id || authData.role === "ADMIN" ? (
                                                         <React.Fragment>
                                                             <button onClick={() => {
@@ -378,13 +359,7 @@ export default function QnaDetail() {
                                                     {format(parseISO(reply.createdAt), 'MM-dd HH:mm')}
 
                                                 </td>
-
-
-
-
-
                                             </tr>
-
                                         ))}
 
                                     </tbody>

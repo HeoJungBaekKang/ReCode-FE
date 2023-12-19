@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,22 +30,18 @@ export default function Join() {
     try {
       await axios.get(`/api/user-name/${formData.username}/exists`
       )
-     
+
         .then(response => {
           const code = response.data.code;
 
-          console.log(response)
-
           if (code === 1) {
-            console.log("아이디 중복 확인 성공");
             alert("사용 가능한 아이디입니다.");
             setIsUsernameValidated(true);
-          } else if (code === -1){
+          } else if (code === -1) {
             alert("이미 사용 중인 아이디 입니다.");
           }
         });
     } catch (error) {
-      console.error("중복 확인 중 오류 발생 : ", error.data.code);
     }
   };
 
@@ -53,22 +49,19 @@ export default function Join() {
     try {
       await axios.get(`/api/nickname/${formData.nickname}/exists`
       )
-     
+
         .then(response => {
           const code = response.data.code;
 
-          console.log(response)
 
           if (code === 1) {
-            console.log("닉네임 중복 확인 성공");
             alert("사용 가능한 닉네임입니다.");
             setIsNicknameValidated(true);
-          } else if (code === -1){
+          } else if (code === -1) {
             alert("이미 사용 중인 닉네임 입니다.");
           }
         });
     } catch (error) {
-      console.error("중복 확인 중 오류 발생 : ", error.data.code);
     }
   };
 
@@ -79,7 +72,7 @@ export default function Join() {
         alert("사용 가능한 이메일입니다.");
         setIsEmailValidated(true);
       } else {
-      
+
         alert(response.data.msg);
         setIsEmailValidated(false);
       }
