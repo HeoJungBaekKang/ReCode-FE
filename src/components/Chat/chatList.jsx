@@ -47,7 +47,7 @@ export default function ChatList() {
       window.location.reload(); // 페이지 새로고침
     } catch (error) {
       console.error('Error deleting chat room:', error);
-      alert(error);
+      alert("채팅방 생성자만 해당 채팅을 삭제할 수 있습니다. ");
     }
   };
   
