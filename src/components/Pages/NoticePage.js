@@ -14,6 +14,9 @@ import {
   handleSearchKeyword,
 } from "../../services/NoticeService.js";
 import NoticeSearch from "../Notice/NoticeSearch";
+import AdminSidebar from "../Admin/AdminSidebar";
+import MypageSidebar from "../Mypage/MypageSidebar";
+
 
 export default function NoticePage() {
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지
@@ -59,8 +62,9 @@ export default function NoticePage() {
 
   return (
     <>
-      <QnaSidebar />
-      <div className="ml-56 mt-12">
+      <div className="ml-56 mt-20">
+        {authData.role === "ADMIN" ? <AdminSidebar /> : <MypageSidebar />}
+
         <Card className="h-full w-auto mx-4">
           <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="mb-8 flex items-center justify-between gap-8">

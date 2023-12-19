@@ -21,16 +21,13 @@ export default function AdminStudyList({ filteredStudies }) {
   };
 
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-white py-10 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            전체 스터디 목록
-          </h2>
-
-        </div>
         <div class="justify-items-stretch">
-          <div className="bg-white py-24 sm:py-5">
+          <div className="bg-white py-10 sm:py-5">
+            <div className="text-2xl ml-4 font-semibold tracking-tight text-gray-900 sm:text-2xl">
+              전체 스터디 목록
+            </div>
             <div className="mx-auto max-w-9xl px-4 lg:px-1">
               <div className="mx-auto mt-10m max-w-2xl gap-y-4 gap-x-4 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid lg:grid-cols-3 grid-flow-row-dense">
                 {chunkedPosts[currentPage].map((post) => (
@@ -41,28 +38,31 @@ export default function AdminStudyList({ filteredStudies }) {
                     <div className="flex items-center gap-x-4 text-xs">
                       <div className="text-gray-500">{post.studyName}</div>
                       <div
-                        className={`text-xs px-2 py-1 rounded-full ${post.maxNum - post.currentNum <= 2 &&
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          post.maxNum - post.currentNum <= 2 &&
                           post.maxNum !== post.currentNum
-                          ? "bg-red-400 text-white"
-                          : post.maxNum > post.currentNum
+                            ? "bg-red-400 text-white"
+                            : post.maxNum > post.currentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
-                          }`}
+                        }`}
                       >
                         {post.maxNum - post.currentNum <= 2 &&
-                          post.maxNum !== post.currentNum
+                        post.maxNum !== post.currentNum
                           ? "마감 임박"
                           : post.maxNum > post.currentNum
-                            ? "모집중"
-                            : "모집 완료"}
+                          ? "모집중"
+                          : "모집 완료"}
                       </div>
                     </div>
                     <div className="flex items-start text-sm">
-                      {post.skillNames.map((skill, index) => (
-                        <span key={index} style={{ marginRight: "10px" }}>
-                          {skill}
-                        </span>
-                      ))}
+                      <div className="flex flex-wrap row-reverse">
+                        {post.skillNames.map((skill, index) => (
+                          <span key={index} style={{ marginRight: "10px" }}>
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-blue-600 cursor-pointer">
@@ -93,10 +93,11 @@ export default function AdminStudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === 0}
                         onClick={() => setCurrentPage(currentPage - 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === 0
-                          ? "text-neutral-500"
-                          : "text-neutral-600"
-                          } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
+                          currentPage === 0
+                            ? "text-neutral-500"
+                            : "text-neutral-600"
+                        } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Previous
                       </button>
@@ -105,10 +106,11 @@ export default function AdminStudyList({ filteredStudies }) {
                       <li key={`page-button-${index}`}>
                         <button
                           onClick={() => setCurrentPage(index)}
-                          className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage
-                            ? "text-neutral-50 bg-blue-200"
-                            : "text-neutral-600"
-                            } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
+                          className={`relative block rounded px-3 py-1.5 text-sm ${
+                            index === currentPage
+                              ? "text-neutral-50 bg-blue-200"
+                              : "text-neutral-600"
+                          } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                         >
                           {index + 1}
                         </button>
@@ -118,10 +120,11 @@ export default function AdminStudyList({ filteredStudies }) {
                       <button
                         disabled={currentPage === chunkedPosts.length - 1}
                         onClick={() => setCurrentPage(currentPage + 1)}
-                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
-                          ? "text-neutral-500"
-                          : "text-neutral-600"
-                          } transition-all duration-300 dark:text-neutral-400`}
+                        className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${
+                          currentPage === chunkedPosts.length - 1
+                            ? "text-neutral-500"
+                            : "text-neutral-600"
+                        } transition-all duration-300 dark:text-neutral-400`}
                       >
                         Next
                       </button>

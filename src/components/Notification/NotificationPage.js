@@ -6,7 +6,8 @@ import {
   deleteNotification,
 } from "../../services/NorificationService";
 import { AuthContext } from "../../context/AuthContext";
-
+import MypageSidebar from "../Mypage/MypageSidebar";
+import AdminSidebar from "../Admin/AdminSidebar";
 
 export default function NotificationPage({ notification }) {
 
@@ -68,7 +69,9 @@ export default function NotificationPage({ notification }) {
   };
 
   return (
+    <>
     <div className="ml-56 mr-56 mt-12">
+      {authData.role === "ADMIN" ? <AdminSidebar /> : <MypageSidebar />}
       <Card className="h-full w-auto mx-4">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
@@ -163,5 +166,6 @@ export default function NotificationPage({ notification }) {
         )}
       </Card>
     </div>
+    </>
   );
 }

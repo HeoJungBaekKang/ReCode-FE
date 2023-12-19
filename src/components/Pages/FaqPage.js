@@ -1,5 +1,4 @@
-import React from "react";
-import QnaSidebar from "../Qna/QnaSidebar";
+import React, {useContext} from "react";
 import {
     Card,
     CardHeader,
@@ -7,14 +6,19 @@ import {
     CardBody,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-
+import { AuthContext } from "../../context/AuthContext";
+import AdminSidebar from "../Admin/AdminSidebar";
+import MypageSidebar from "../Mypage/MypageSidebar";
 
 export default function FaqPage() {
+    const { authData } = useContext(AuthContext);
     return (
   
         <div className="ml-56 mt-12">
+        {authData.role === "ADMIN" ? <AdminSidebar /> : <MypageSidebar />}
         <div className="lg:w-1/4 hidden lg:block">
-            <QnaSidebar />
+
+
             </div>
             <Card className="h-full w-auto mx-4">
             

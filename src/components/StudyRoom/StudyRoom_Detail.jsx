@@ -232,7 +232,7 @@ const StudyRoomNotLogin = () => {
               {detail.title}
             </h2>
             <div
-              className={`text-sm px-3 py-1 w-20 rounded-full ${
+              className={`text-sm px-3 py-1 w-30 rounded-full ${
                 detail.maxNum - detail.currentNum <= 2 &&
                 detail.maxNum !== detail.currentNum
                   ? "bg-red-400 text-white"
