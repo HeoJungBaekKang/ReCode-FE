@@ -23,7 +23,6 @@ export default function StudyRoom_Recommend() {
         );
         setMentors(response.data.data);
       } catch (error) {
-        console.error(error);
       }
     };
 

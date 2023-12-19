@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,12 +14,10 @@ import {
   TEModalFooter,
 } from "tw-elements-react";
 import { Typography } from "@material-tailwind/react";
-
 const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
   const { study_id } = useParams();
   const { authData } = useContext(AuthContext);
-  console.log(authData);
   const [detail, setDetail] = useState({
     study_id: "",
     studyName: "",
@@ -39,7 +36,6 @@ const StudyRoomNotLogin = () => {
     updatedAt: "",
     userId: "",
   });
-
   const [badge, setBadge] = useState({
     userId: detail.userId,
     name: "",
@@ -53,21 +49,15 @@ const StudyRoomNotLogin = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
           setDetail(response.data.data || {});
           const code = response.data.code;
           if (code === 1) {
-            console.log("스터디 상세보기 조회 성공");
             checkStudyRoomMembership();
-            console.log("isInstudyRoom: ", isInStudyRoom);
             checkStudyRoomMembership();
-            console.log("isInstudyRoom: ", isInStudyRoom);
           } else {
-            console.log("스터디 상세보기 조회 실패");
           }
         });
     } catch (error) {
-      console.error("스터디 상세보기 조회 중 오류 발생 : ", error.response);
     }
   };
   const [isInStudyRoom, setIsInStudyRoom] = useState(false);
@@ -85,19 +75,14 @@ const StudyRoomNotLogin = () => {
           }
         )
         .then((response) => {
-          console(response.data);
           const code = response.data.code;
           if (code === 1) {
-            console.log("스터디 신청 완료");
           } else {
-            console.log("스터디 신청 실패");
           }
         });
     } catch (error) {
-      //console.error("스터디 신청 중 오류 발생 :", error);
     }
   };
-
   const modalPosition = {
     width: "70%",
     maxWidth: "38rem",
@@ -110,7 +95,6 @@ const StudyRoomNotLogin = () => {
     alignItems: "center",
     justifyContent: "center",
   };
-
   const [showModal, setShowModal] = useState(false);
   // 스터디룸 가입 여부를 확인하는 함수
   const checkStudyRoomMembership = async () => {
@@ -129,13 +113,8 @@ const StudyRoomNotLogin = () => {
           },
         }
       );
-
-      console.log("API Response:", response.data);
-
       setIsInStudyRoom(response.data);
-      console.log("스터디 룸 가입여부 확인", response.data);
     } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
     }
   };
   // 신청 버튼 클릭 핸들러
@@ -145,10 +124,8 @@ const StudyRoomNotLogin = () => {
       navigate("/login");
       return;
     }
-
     try {
       await checkStudyRoomMembership();
-
       if (isInStudyRoom) {
         alert("이미 가입된 스터디입니다.");
       } else {
@@ -157,35 +134,26 @@ const StudyRoomNotLogin = () => {
         navigate("/");
       }
     } catch (error) {
-      console.error("스터디룸 가입 여부 확인 중 오류 : ", error);
-      // Handle error as needed
     }
   };
-
   const handleGetBadge = async () => {
     const userId = detail.userId;
     if (!userId) {
-      console.log("작성자 아이디 안 불러와졌다.");
       return;
     }
-
     try {
       const response = await axios.get(`/api/get-badge/${userId}`, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log("뱃지 정보 가져오기 성공: ", response.data);
       if (response.data && response.data.code === 1) {
         setBadge(response.data.data);
       } else {
-        console.log("뱃지 정보 가져오기 실패: ", response.data.msg);
       }
     } catch (error) {
-      console.error("뱃지 정보 가져오는 중 오류 발생: ", error);
     }
   };
-
   const badgeImages = {
     Seed: "/img/Seed.png",
     Sprout: "/img/Sprout.png",
@@ -193,11 +161,9 @@ const StudyRoomNotLogin = () => {
     Bud: "/img/Bud.png",
     Bloom: "/img/Bloom.png",
   };
-
   useEffect(() => {
     handleGet();
   }, []);
-
   useEffect(() => {
     if (detail.userId) {
       handleGetBadge();
@@ -220,7 +186,6 @@ const StudyRoomNotLogin = () => {
       ),
     },
   ];
-
   const handleWithdrawStudy = async () => {
     try {
       const response = await axios.post(
@@ -230,20 +195,15 @@ const StudyRoomNotLogin = () => {
           'Authorization': `Bearer ${authData.token}`
         }
       });
-
       const code = response.data.code;
-
       if (code === 1) {
         navigate(`/mypage/${authData.id}`);
       } else {
         alert("탈퇴 실패", response);
       }
     } catch (error) {
-      console.log("탈퇴중 오류 발생", error);
     }
   }
-
-
   return (
     <>
       <StudyRoom_Sidebar />
@@ -256,11 +216,11 @@ const StudyRoomNotLogin = () => {
               </h2>
               <div
                 className={`text-sm px-3 py-1 w-20 rounded-full ${detail.maxNum - detail.currentNum <= 2 &&
-                    detail.maxNum !== detail.currentNum
-                    ? "bg-red-400 text-white"
-                    : detail.maxNum > detail.currentNum
-                      ? "inline-block bg-green-400 text-white"
-                      : "bg-gray-400 text-white"
+                  detail.maxNum !== detail.currentNum
+                  ? "bg-red-400 text-white"
+                  : detail.maxNum > detail.currentNum
+                    ? "inline-block bg-green-400 text-white"
+                    : "bg-gray-400 text-white"
                   }`}
               >
                 {detail.maxNum - detail.currentNum <= 2 &&
@@ -289,7 +249,6 @@ const StudyRoomNotLogin = () => {
               </div>
             </div>
           </div>
-
           <div className="mt-6 border-t border-gray-100">
             <dl className="divide-y divide-gray-100">
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -366,7 +325,6 @@ const StudyRoomNotLogin = () => {
                     )}
                 </dd>
               </div>
-
               <div className="px-4 py-6 sm:grid sm:grid-cols-1sm:gap-4 sm:px-0">
                 <dt className="text-sm font-medium leading-6 text-gray-900 ">
                   소개
@@ -387,7 +345,6 @@ const StudyRoomNotLogin = () => {
                 </TERipple>
               </div>
             </dl>
-
             {/* Modal */}
             <TEModal show={showModal} setShow={setShowModal}>
               <TEModalDialog style={modalPosition}>
@@ -494,5 +451,4 @@ const StudyRoomNotLogin = () => {
     </>
   );
 };
-
 export default StudyRoomNotLogin;

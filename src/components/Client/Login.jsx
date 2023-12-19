@@ -1,8 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Alert } from "@material-tailwind/react";
 
 export default function Login() {
 
@@ -29,11 +28,9 @@ export default function Login() {
         const { id, username, nickname, role, createdAt } = data; // role 추가 : minhee 
         const token = response.headers.authorization;
         const newAuthData = { id, username, nickname, role, createdAt, token };
-        console.log(newAuthData);
         setAuthData(newAuthData);
         localStorage.setItem("token", token);
         localStorage.setItem("authData", JSON.stringify(newAuthData)); // authData를 로컬 스토리지에 저장
-        console.log("로그인 성공");
         navigate("/");
       } else {
         setLoginError("아이디 혹은 비밀번호가 올바르지 않습니다. 다시 확인해주세요.")
@@ -42,7 +39,6 @@ export default function Login() {
       if (error.response && error.response.status === 401) {
         setLoginError("아이디 혹은 비밀번호가 올바르지 않습니다. 다시 확인해주세요.")
       } else {
-        console.error("로그인 요청 중 오류 발생:", error);
       }
     }
   };

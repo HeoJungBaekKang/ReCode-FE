@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getSkillNameByPosition } from "../../services/FilterService";
 
 export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
-  // const [selectedSkills, setSelectedSkills] = useState([]);
   const [skills, setSkills] = useState([]);
 
   // tab -> 전체보기, 백엔드, 프론트 엔드 전달받는 함수
@@ -30,14 +29,12 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       const skillByPosition = [...frontSkillByPosition, ...backSkillByPosition];
       setSkills(skillByPosition);
     } else if (tabName === "Backend") {
-      console.log(tabName);
+
       const skillByPosition = await getSkillNameByPosition("backend");
-      console.log("backend skill 불러왔습니다. ", skillByPosition);
       setSkills(skillByPosition);
     } else if (tabName === "Frontend") {
       const skillByPosition = await getSkillNameByPosition("frontend");
       setSkills(skillByPosition);
-      console.log("frontend skill 불러왔습니다. ", skillByPosition);
     } // 다른 탭에 대해서도 필요한 포지션에 따른 스킬 불러오기 함수 호출 추가
 
     // 이후 탭에 따라서 스킬 목록이 설정될 것입니다.
@@ -47,10 +44,8 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
     const loadSkillsByPosition = async (position) => {
       try {
         const skillByPosition = await getSkillNameByPosition(position);
-        console.log("skillByPosition 출력 : ", skillByPosition);
         setSkills(skillByPosition);
       } catch (error) {
-        console.log("position 별 스킬 목록 가져오기 중 오류 : ", error);
       }
     };
     loadSkillsByPosition(activeTab);
@@ -81,9 +76,8 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
             <a
               href="#"
               onClick={() => handleTabClick("FullStack")}
-              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
-                activeTab === "FullStack" ? "text-blue-600 border-blue-600" : ""
-              }`}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "FullStack" ? "text-blue-600 border-blue-600" : ""
+                }`}
             >
               FullStack
             </a>
@@ -92,9 +86,8 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
             <a
               href="#"
               onClick={() => handleTabClick("Backend")}
-              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
-                activeTab === "Backend" ? "text-blue-600 border-blue-600" : ""
-              }`}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "Backend" ? "text-blue-600 border-blue-600" : ""
+                }`}
             >
               Backend
             </a>
@@ -103,9 +96,8 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
             <a
               href="#"
               onClick={() => handleTabClick("Frontend")}
-              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${
-                activeTab === "Frontend" ? "text-blue-600 border-blue-600" : ""
-              }`}
+              className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-blue-600 dark:hover:text-gray-300 ${activeTab === "Frontend" ? "text-blue-600 border-blue-600" : ""
+                }`}
             >
               Frontend
             </a>
@@ -116,7 +108,7 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
       {/* 데이터베이스에 저장되어있는 skill 불러와서 선택 창에 띄우는 부분  */}
       <div className="flex flex-wrap grid-cols-10">
         <div className="mt-5  mr-3 ml-3">
-          {/* 스킬 목록 출력 */} 
+          {/* 스킬 목록 출력 */}
           {activeTab && (
             <div className="flex flex-wrap grid grid-cols-10 gap-3">
               {skills &&
@@ -125,11 +117,10 @@ export default function TabsWithButtons({ selectedSkills, setSelectedSkills }) {
                   <button
                     key={index}
                     onClick={() => handleSkillClick(skill)}
-                    className={`text-ms rounded-full px-2 py-1 ${
-                      isSkillSelected(skill)
+                    className={`text-ms rounded-full px-2 py-1 ${isSkillSelected(skill)
                         ? "bg-blue-50 text-blue-600 border-solid border-2 border-blue-100"
                         : "bg-white text-gray-800"
-                    } rounded-full shadow-md focus:outline-none hover:bg-blue-50`}
+                      } rounded-full shadow-md focus:outline-none hover:bg-blue-50`}
                   >
                     {skill}
                   </button>

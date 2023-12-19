@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import MypageSidebar from '../Mypage/MypageSidebar';
@@ -10,7 +9,7 @@ const ChatApp = () => {
   const { nickname, chatRoomId } = useParams();
 
   useEffect(() => {
-    //===
+
     const initMyMessage = (data) => {
       let chatBox = document.querySelector("#chat-box");
 
@@ -81,7 +80,6 @@ const ChatApp = () => {
     document
       .querySelector("#chat-outgoing-msg")
       .addEventListener("keydown", (e) => {
-        console.log(e.keyCode);
         if (e.keyCode === 13) {
           addMessage();
         }

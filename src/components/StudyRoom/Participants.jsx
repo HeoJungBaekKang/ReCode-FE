@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { UserMinusIcon } from "@heroicons/react/24/outline";
 import { IconButton, Tooltip } from "@material-tailwind/react";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
@@ -7,7 +7,6 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Participants() {
-  const navigate = useNavigate();
 
   const { study_id, member_id } = useParams();
   const { authData } = useContext(AuthContext);
@@ -21,7 +20,6 @@ export default function Participants() {
   // 사용자 데이터 가져오기
   useEffect(() => {
     const fetchData = async () => {
-      console.log("유저정보", users);
       try {
         const response = await axios.get(
           `/api/v1/study/${study_id}/memberlist`,
@@ -32,10 +30,8 @@ export default function Participants() {
             },
           }
         );
-        console.log("스터디룸 인원 목록을 가져오는데 성공:", response.data);
         setUsers(response.data.data);
       } catch (error) {
-        console.error("신청 정보를 가져오는 중 오류 발생:", error);
       }
     };
 
@@ -59,10 +55,7 @@ export default function Participants() {
       setUsers((prevUsers) =>
         prevUsers.filter((user) => user.id !== member_id)
       );
-
-      console.log("탈퇴 성공:", response.data);
     } catch (error) {
-      console.error("탈퇴 중 오류 발생:", error);
     }
   };
 
@@ -76,28 +69,22 @@ export default function Participants() {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("해당 스터디의 조장입니다 : ", response.data.data);
             setInfo({ ...info, username: response.data.data.username });
           } else {
-            console.log("해당 스터디의 조장이 아닙니다 :", response.data);
           }
         });
     } catch (error) {
-      console.log("스터디 조장인지 체크 중 오류 발생 :", error.response);
     }
   };
 
   useEffect(() => {
     if (study_id) {
-      console.log("Study Room ID: ", study_id);
       checkMaster();
     } else {
-      console.log("Study Room ID Not found");
     }
   }, [study_id]);
 
@@ -105,7 +92,6 @@ export default function Participants() {
     <>
       <StudyRoom_Sidebar />
       <div className="ml-76 mt-12">
-        {/* <div className="ml-76 text-4xl"> */}
       </div>
       <div className="ml-80">
         <div className="text-xl">스터디 참가 인원</div>
@@ -161,7 +147,6 @@ export default function Participants() {
           </div>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 }

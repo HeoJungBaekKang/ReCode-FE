@@ -11,7 +11,6 @@ function SearchMain({ onSearch }) {
             const results = await handleSearchKeyword(searchTerm);
             setResults(results.data);
         } catch (error) {
-            console.error("검색 중 오류 발생", error);
         }
     };
 

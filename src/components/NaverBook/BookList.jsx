@@ -123,7 +123,6 @@ function SearchBox({ query, setQuery, setResults }) {
                 });
                 setResults(response.data.items || []);
             } catch (error) {
-                console.error("Error fetching data: ", error.response ? error.response.data : error);
                 setResults([]);
             }
         };

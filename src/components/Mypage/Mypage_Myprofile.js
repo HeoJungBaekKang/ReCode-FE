@@ -40,7 +40,6 @@ export default function MypageMyprofile() {
 
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    console.log(authData);
 
     const [info, setInfo] = useState({
         username: "",
@@ -57,7 +56,6 @@ export default function MypageMyprofile() {
                 }
             })
                 .then(response => {
-                    console.log(response.data); // code, msg, data
 
                     const code = response.data.code;
 
@@ -67,13 +65,10 @@ export default function MypageMyprofile() {
                             nickname: response.data.data.nickname,
                             email: response.data.data.email,
                         });
-                        console.log("개인 정보 조회 성공");
                     } else {
-                        console.log("개인 정보 조회 실패");
                     }
                 });
         } catch (error) {
-            console.error("개인 정보 조회 중 오류 발생 : ", error);
         }
     };
 

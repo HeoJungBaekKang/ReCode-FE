@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function MypageSidebar() {
@@ -12,7 +11,6 @@ export default function MypageSidebar() {
 
   return (
     <>
-      {/* <div className="flex h-screen"> */}
       <button
         onClick={toggleSidebar}
         data-drawer-target="default-sidebar"
@@ -39,9 +37,8 @@ export default function MypageSidebar() {
 
       <aside
         id="mypage-sidebar"
-        className={`${
-          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } fixed top-35 left-0 z-40 w-56 h-screen transition-transform sm:translate-x-0`}
+        className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } fixed top-35 left-0 z-40 w-56 h-screen transition-transform sm:translate-x-0`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto lg:px-5 py-1 bg-gray-50 dark:bg-gray-800">
@@ -135,7 +132,6 @@ export default function MypageSidebar() {
           </ul>
         </div>
       </aside>
-      {/* </div> */}
     </>
   );
 }

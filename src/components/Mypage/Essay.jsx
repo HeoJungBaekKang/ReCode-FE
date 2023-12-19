@@ -6,7 +6,6 @@ import axios from 'axios';
 export default function Essay() {
     const navigate = useNavigate();
     const { authData } = useContext(AuthContext);
-    console.log(authData);
 
     const [essay, setEssay] = useState({
         essay: "",
@@ -22,20 +21,15 @@ export default function Essay() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
-                    console.log(response.data.essay);
+
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log(essay);
-                        console.log("자기 소개서 등록 성공");
                         navigate("/mypage/myprofile");
                     } else {
-                        console.log("자기 소개서 등록 실패");
                     }
                 });
         } catch (error) {
-            console.error("자기 소개서 등록 중 오류 발생 : ", error);
         }
     };
 
@@ -49,20 +43,16 @@ export default function Essay() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     setEssay({ essay: response.data.data.essay || '' }); // 가져온 데이터로 essay 상태를 업데이트
 
                     const code = response.data.code;
 
                     if (code === 1) {
-                        console.log("자기 소개서 조회 성공");
                     } else {
-                        console.log("자기 소개서 조회 실패");
                     }
                 });
         } catch (error) {
-            console.error("자기 소개서 조회 중 오류 발생 : ", error);
         }
     };
 

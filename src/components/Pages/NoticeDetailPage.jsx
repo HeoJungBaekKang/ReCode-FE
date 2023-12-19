@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import QnaSidebar from "../Qna/QnaSidebar";
 import {
   Card,
   CardHeader,
@@ -12,14 +11,14 @@ import {
   fetchNoticeDetail,
   saveNotice,
   deleteNotice,
-  
+
 } from "../../services/NoticeService.js";
 import ReactHtmlParser from "html-react-parser";
 import MyEditor from "../Editor/MyEditor";
+import MypageSidebar from "../Mypage/MypageSidebar";
 export default function NoticeDetailPage() {
   const { authData } = useContext(AuthContext);
   const { noticeId } = useParams();
-  console.log(noticeId);
   const navigate = useNavigate();
   const handleGoToList = () => {
     navigate("/notice"); // '목록' 페이지의 경로로 이동
@@ -33,7 +32,7 @@ export default function NoticeDetailPage() {
   const [noticeUpdatedAt, setNoticeUpdatedAt] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   // fetchNoticeDetail 함수를 사용하여 데이터를 가져오는 부분
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +59,6 @@ export default function NoticeDetailPage() {
         await deleteNotice(noticeId);
         navigate("/notice"); // 삭제 후 목록 페이지로 이동
       } catch (error) {
-        console.error("삭제 중 오류 발생", error);
         // 오류 처리
       }
     }
@@ -92,7 +90,7 @@ export default function NoticeDetailPage() {
   };
   return (
     <>
-      <QnaSidebar />
+      <MypageSidebar />
       <div className="ml-56 text-center">
         <div className="ml-3 text-2xl font-bold">
           공지사항
@@ -149,13 +147,13 @@ export default function NoticeDetailPage() {
                       <tr className="border-b">
                         <td className="p-2 font-medium text-sm">
                           {noticeUpdatedAt &&
-                          noticeCreatedAt !== noticeUpdatedAt
+                            noticeCreatedAt !== noticeUpdatedAt
                             ? "수정일"
                             : "작성일"}
                         </td>
                         <td className="p-2 text-sm">
                           {noticeUpdatedAt &&
-                          noticeCreatedAt !== noticeUpdatedAt
+                            noticeCreatedAt !== noticeUpdatedAt
                             ? noticeUpdatedAt
                             : noticeCreatedAt}
                         </td>

@@ -1,5 +1,3 @@
-// components/Layout.js
-
 const Layout = ({ sidebar, children }) => {
     return (
         <div className="layout-container">

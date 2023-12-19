@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -48,7 +48,6 @@ export default function Withdraw() {
     const navigate = useNavigate();
 
     const { authData, setAuthData } = useContext(AuthContext);
-    console.log(authData);
 
     const handleWithdraw = async (event) => {
         try {
@@ -59,7 +58,6 @@ export default function Withdraw() {
                 }
             })
                 .then(response => {
-                    console.log(response.data);
 
                     const code = response.data.code;
 
@@ -69,11 +67,9 @@ export default function Withdraw() {
                         localStorage.removeItem("authData");  // authData를 로컬 스토리지에서 삭제
                         navigate("/login");
                     } else {
-                        console.log("계정 탈퇴 실패");
                     }
                 });
         } catch (error) {
-            console.error("계정 탈퇴 중 오류 발생 : ", error);
         }
     }
 

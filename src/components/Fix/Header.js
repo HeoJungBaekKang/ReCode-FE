@@ -1,9 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { Typography } from "@material-tailwind/react";
 import { getUserNotifications } from "../../services/NorificationService";
-import { Link } from "react-router-dom";
 
 const Main = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +22,11 @@ const Main = () => {
           setNotificationCount(response.data.length);
           // status가 0인 알림 개수 세기
           const unreadNotificationCount = response.data.filter(
-            (notification) => notification.readStatus == 0
+            (notification) => notification.readStatus === 0
           ).length;
           setNotificationCount(unreadNotificationCount);
         }
       } catch (error) {
-        console.log("알림 목록 불러오기 실패", error);
       }
     }
     getUserNotificationList();
@@ -41,29 +38,28 @@ const Main = () => {
 
   const menuItems = [
     // 다른 메뉴 아이템들...
-    { label: "알림", path: "/notification", handleClick:() => navigateToNotification()},
+
     { label: "채팅", path: "/chat", handleClick: () => navigateToChat() },
     { label: "고객센터", path: "/faq", handleClick: () => navigate("/faq") },
 
     // 다른 메뉴 아이템들...
   ].filter((item) => item !== null);
 
-  const navigateToNotification =() => {
-    if(authData.token) {
+  const navigateToNotification = () => {
+    if (authData.token) {
       navigate("/notification");
-    }else{
-      alert("로그인을 진행해주세요.")
+    } else {
+      alert("로그인을 진행해주세요.");
       navigate("/login");
     }
-  }
-
+  };
 
   // 비로그인 상태에서 채팅을 눌렀을 때 로그인창으로 이동되도록
   const navigateToChat = () => {
     if (authData.token) {
       navigate("/chat");
     } else {
-      alert("로그인을 진행해주세요.")
+      alert("로그인을 진행해주세요.");
       navigate("/login");
     }
   };
@@ -211,6 +207,23 @@ const Main = () => {
               id="mobile-menu-2"
             >
               <ul className="flex flex-col lg:flex-row lg:space-x-8 lg:mt-0">
+                {authData.token != null && ( // 추가된 부분: 사용자가 로그인 중일 때만 알림 버튼 표시
+                  <span className="flex-1 mt-2.5 text-gray-600 ms-3 whitespace-nowrap">
+                    <a
+                    href=""
+                    onClick={navigateToNotification}>
+                      알림
+                      {notificationCount > 0 && (
+                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 mb-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                          {notificationCount}
+                
+                        </span>
+                        
+                      )}
+                    </a>
+                  </span>
+                )}
+
                 {menuItems.map((item, index) => (
                   <li
                     key={index}

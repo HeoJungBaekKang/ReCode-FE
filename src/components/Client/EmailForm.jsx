@@ -1,10 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
 export default function Email() {
-
     const { authData } = useContext(AuthContext);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
@@ -14,7 +12,6 @@ export default function Email() {
     const handleSubmit = async () => {
         setLoading(true);
         let url, headers = {};
-
         // 로그인 사용자의 경우 헤더에 Bearer 토큰 요청
         if (authData && authData.token) {
             url = `/api/v1/send-email?email=${encodeURIComponent(email)}`;
@@ -22,24 +19,18 @@ export default function Email() {
         } else {
             url = `/api/send-email?email=${encodeURIComponent(email)}`;
         }
-
         try {
             const response = await axios.post(url, {}, { headers });
             const code = response.data.code;
-
             if (code === 1) {
-                console.log("이메일 전송 성공");
                 setLoading(false);
                 alert("이메일이 전송되었습니다. 입력하신 이메일을 확인해주세요.")
             } else {
-                console.log("이메일 전송 실패");
                 alert("등록되지 않은 이메일입니다.");
             }
         } catch (error) {
-            console.error("이메일 전송 중 오류 발생: ", error);
         }
     };
-
     const checkEmailExist = async () => {
         try {
             const response = await axios.get(`/api/user-email/${email}/exists`);
@@ -53,7 +44,6 @@ export default function Email() {
             return null;
         }
     }
-
     const handleOnClick = async () => {
         const emailExists = await checkEmailExist();
         if (emailExists === -1) {
@@ -62,12 +52,9 @@ export default function Email() {
             alert("등록되지 않은 이메일입니다. 가입하신 이메일을 입력해주세요.");
         }
     };
-
-
     const onCancle = () => {
         navigate(-1);
     }
-
     return (
         <div className="flex justify-center items-center h-screen mt-[-5rem]">
             <div className="w-full max-w-xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -122,3 +109,12 @@ export default function Email() {
         </div>
     );
 }
+
+
+
+
+
+
+
+
+

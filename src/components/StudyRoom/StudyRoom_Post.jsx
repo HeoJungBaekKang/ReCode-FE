@@ -32,10 +32,10 @@ export default function Post() {
 
     // 파일 업로드
     const uploadFile = async (file) => {
-    
+
         const formData = new FormData();
         formData.append('file', file);
-    
+
         try {
             const response = await axios.post(
                 '/file/upload',
@@ -46,11 +46,9 @@ export default function Post() {
                     },
                 }
             );
-    
-            console.log('파일 업로드 성공', response.data);
+
             return response.data;
         } catch (error) {
-            console.error('파일 업로드 중 에러 발생', error);
             throw error;
         }
     };
@@ -67,9 +65,6 @@ export default function Post() {
                 fileName: fileName,
             };
 
-            // 작성된 글을 서버로 전송
-            console.log("전송 전 newPost:", newPost); // 디버깅용
-
             // 작성된 글을 서버로 전송하되, headers 객체를 axios.post() 메소드의 세 번째 매개변수로 전달합니다.
             const response = await axios.post(
                 `/api/v1/study/${study_id}/posts`,
@@ -85,24 +80,16 @@ export default function Post() {
             const code = response.data.code;
 
             if (code === 1) {
-                console.log("글 작성 성공 : ", response.data);
                 setNewPost(response.data.data.newPost || {});
-
                 // 작성한 글의 상세보기로 이동
                 navigate(`/studyroom/${study_id}/post/${response.data.data.id}`);
-
             } else {
-                console.log("글 작성 실패 :", response);
             }
         } catch (error) {
-            console.log("글 작성 중 오류 발생 :", error.config);
-            console.log(newPost);
-            console.log(newPost.id);
         }
     };
 
     useEffect(() => {
-        console.log("Study Room ID:", study_id);
     }, [study_id, authData]);
 
     return (

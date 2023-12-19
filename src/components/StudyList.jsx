@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function StudyList({ filteredStudies }) {
+
   const [currentPage, setCurrentPage] = useState(0);
   const navigate = useNavigate();
 

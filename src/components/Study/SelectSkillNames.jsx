@@ -21,11 +21,6 @@ export default function SelectSkillNames({
     // 필터링된 스터디 목록을 상태로 설정
     setFilteredStudies(filteredStudies);
 
-    // 콘솔 확인 코드 
-    console.log(
-      "filteredStudies는 이것 입니다. 이제 이게 목록으로 출력이 되어야 하는데 !!!",
-      filteredStudies
-    );
   }, [selectedSkills, studies, setFilteredStudies]);
 
   // 선택된 스킬을 토글하는 함수

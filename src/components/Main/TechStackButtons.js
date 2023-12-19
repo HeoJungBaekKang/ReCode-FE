@@ -26,18 +26,14 @@ const TechStacks = () => {
   return (
     <div className="container mx-auto p-4">
       <TechStackButton name="Java">
-        {/* Add Java related content here */}
         <p>This is Java related content.</p>
       </TechStackButton>
       <TechStackButton name="Spring">
-        {/* Add Spring related content here */}
         <p>This is Spring related content.</p>
       </TechStackButton>
       <TechStackButton name="Node.js">
-        {/* Add Node.js related content here */}
         <p>This is Node.js related content.</p>
       </TechStackButton>
-      {/* ... add more buttons as needed */}
     </div>
   );
 };

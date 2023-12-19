@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
 import MyEditor from "../Editor/MyEditor";
 
@@ -10,7 +9,6 @@ const EditPost = () => {
   const { authData } = useContext(AuthContext);
   const [editedContent, setEditedContent] = useState(""); // 수정한 내용 상태
   const { post_id, study_id } = useParams();
-  const navigate = useNavigate();
 
   const [postData, setPostData] = useState({
     category: "",
@@ -18,7 +16,7 @@ const EditPost = () => {
     content: "",
   });
 
-  // minhee 추가
+
   const handleContentChange = (newContent) => {
     setPostData((prevData) => ({
       ...prevData,
@@ -39,7 +37,6 @@ const EditPost = () => {
         );
         setPostData(response.data.data);
       } catch (error) {
-        console.error("글 정보를 가져오는 중 오류 발생:", error);
       }
     };
 
@@ -68,11 +65,8 @@ const EditPost = () => {
           },
         }
       );
-
-      console.log('파일 업로드 성공', response.data);
       return response.data;
     } catch (error) {
-      console.error('파일 업로드 중 에러 발생', error);
       throw error;
     }
   };
@@ -89,8 +83,6 @@ const EditPost = () => {
         fileName: fileName,
       };
 
-      console.log("전송 전 postDataWithFiel", postDataWithFile);
-
       const response = await axios.put(
         `/api/v1/study/${study_id}/post/edit/${post_id}`,
         postDataWithFile,
@@ -103,13 +95,9 @@ const EditPost = () => {
       );
 
       if (response.data.code === 1) {
-        console.log("글 수정 성공 : ", response.data);
-        navigate(`/studyroom/${study_id}/post/${post_id}`);
       } else {
-        console.log("글 수정 실패 :", response);
       }
     } catch (error) {
-      console.log("글 수정 중 오류 발생 :", error);
     }
   };
 

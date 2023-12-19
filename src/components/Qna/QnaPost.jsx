@@ -16,7 +16,7 @@ export const QnaPost = () => {
         try {
             const qnaData = { title, content };
             await createQna(qnaData);
-            console.log(createQna)
+
             // 성공 후 페이지 리디렉션
             navigate(`/qna`);
 

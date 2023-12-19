@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AdminSidebar from "./AdminSidebar";
-// import SkillFilter from "../Main/SkillFilter";
+
 import {
   Card,
   CardHeader,
@@ -12,10 +11,8 @@ import {
 } from "@material-tailwind/react";
 
 export default function ModifySkill() {
-  const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
   const [selectedPosition, setSelectedPosition] = useState(""); // 컴포넌트의 상태
-  const [selectedSkills, setSelectedSkills] = useState([]);
 
   const handlePositionChange = (e) => {
     setSelectedPosition(e.target.value);
@@ -47,7 +44,6 @@ export default function ModifySkill() {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           setPosition({ position: response.data.data.position || "" });
           setSkill({ skill: response.data.data.skill || "" }); // 가져온 데이터로 essay 상태를 업데이트
@@ -55,13 +51,10 @@ export default function ModifySkill() {
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("스택 등록 성공");
           } else {
-            console.log("스택 등록 실패");
           }
         });
     } catch (error) {
-      console.error("스택 등록 중 오류 발생 : ", error);
     }
   };
 
@@ -77,21 +70,16 @@ export default function ModifySkill() {
           },
         })
         .then((response) => {
-          console.log(response.data);
 
           setList(response.data.data || []);
 
           const code = response.data.code;
 
           if (code === 1) {
-            console.log("스킬 목록 조회 성공");
           } else {
-            console.log("스킬 목록 조회 실패");
           }
         });
     } catch (error) {
-      console.error("스킬 목록 조회 중 오류 발생 : ", error);
-      console.log(error.response);
     }
   };
 
