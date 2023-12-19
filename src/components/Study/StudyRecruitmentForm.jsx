@@ -7,6 +7,7 @@ import StudyRecruitEditor from "../Editor/StudyRecruitEditor";
 import { format, addDays } from "date-fns";
 import { getSkillNameByPosition } from "../../services/FilterService";
 import Detail from "../StudyRoom/StudyRoom_Detail";
+import Footer from "../Fix/Footer";
 
 export default function StudyRecruitment() {
   const [startDate, setStartDate] = useState(null);
@@ -478,6 +479,8 @@ export default function StudyRecruitment() {
           </div>
         </div>
       </form>
+
+      <Footer />
     </div>
   );
 }

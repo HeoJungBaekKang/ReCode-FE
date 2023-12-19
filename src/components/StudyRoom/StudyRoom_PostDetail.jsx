@@ -322,8 +322,8 @@ const PostDetail = () => {
             {postData.data && (
               <>
                 {postData.data.category === 0 && "공지사항"}
-                {postData.data.category === 1 && "자료공유"}
-                {postData.data.category === 2 && "회고록"}
+                {postData.data.category === 1 && "회고록"}
+                {postData.data.category === 2 && "자료공유"}
                 <br></br>
               </>
             )}

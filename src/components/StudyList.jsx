@@ -52,7 +52,7 @@ export default function StudyList({ filteredStudies }) {
                           post.maxNum - post.currentNum <= 2 &&
                           post.maxNum !== post.currentNum
                             ? "bg-red-400 text-white"
-                            : post.maxNum > post.currentNum
+                            : post.maxNum > post.cuƒrentNum
                             ? "bg-green-400 text-white"
                             : "bg-gray-400 text-white"
                         }`}

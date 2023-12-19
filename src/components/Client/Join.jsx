@@ -189,7 +189,7 @@ export default function Join() {
                   onClick={CheckNicknameDuplicate}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
-                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white whitespace-nowrap"
                 >
                   중복확인
                 </button>
@@ -222,7 +222,7 @@ export default function Join() {
                   onClick={CheckEmailDuplicate}
                   className="h-9 ml-px w-24 relative inline-flex items-center rounded-r-md border 
                           border-gray-300 bg-indigo-700 px-4 py-2 text-xs font-medium text-white-700 
-                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white"
+                    hover:bg-indigo-600 focus:z-10 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-white whitespace-nowrap"
                 >
                   중복확인
                 </button>
