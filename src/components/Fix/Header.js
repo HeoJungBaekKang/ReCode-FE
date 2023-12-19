@@ -199,11 +199,10 @@ const Main = () => {
             </div>
 
             <div
-              className={`${
-                isMenuOpen
+              className={`${isMenuOpen
                   ? "flex flex-col absolute right-0 w-1/4 top-[4.0rem]"
                   : "hidden"
-              } lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`}
+                } lg:flex lg:flex-row lg:items-center lg:w-auto lg:relative z-10 ml-10`}
               id="mobile-menu-2"
             >
               <ul className="flex flex-col lg:flex-row lg:space-x-8 lg:mt-0">
@@ -216,6 +215,7 @@ const Main = () => {
                       style={{ cursor: "pointer" }}
                       className="block pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                    >
+
                       알림
                       {notificationCount > 0 && (
                         <span className="inline-flex items-center justify-center w-3 h-3 p-2.5 ms-3 mb-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
