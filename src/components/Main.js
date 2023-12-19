@@ -170,7 +170,7 @@ const Main = () => {
           </div>
         </Layout>
       </div>
-      <Footer />
+      <Footer/>
     </>
   );
 };

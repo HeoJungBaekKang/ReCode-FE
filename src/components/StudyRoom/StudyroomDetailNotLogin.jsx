@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactHtmlParser from "html-react-parser";
 import axios from "axios";
+import Footer from "../Fix/Footer";
 
 const StudyRoomNotLogin = () => {
   const navigate = useNavigate();
@@ -160,11 +161,11 @@ const StudyRoomNotLogin = () => {
   };
 
   const badgeImages = {
-    "Seed": "/img/Seed.png",
-    "Sprout": "/img/Sprout.png",
-    "Seedling": "/img/Seedling.png",
-    "Bud": "/img/Bud.png",
-    "Bloom": "/img/Bloom.png"
+    Seed: "/img/Seed.png",
+    Sprout: "/img/Sprout.png",
+    Seedling: "/img/Seedling.png",
+    Bud: "/img/Bud.png",
+    Bloom: "/img/Bloom.png",
   };
 
   useEffect(() => {
@@ -186,20 +187,21 @@ const StudyRoomNotLogin = () => {
               {detail.title}
             </h2>
             <div
-              className={`text-sm px-3 py-1 w-30 rounded-full ${detail.maxNum - detail.currentNum <= 2 &&
+              className={`text-sm px-3 py-1 w-30 rounded-full ${
+                detail.maxNum - detail.currentNum <= 2 &&
                 detail.maxNum !== detail.currentNum
-                ? "bg-red-400 text-white"
-                : detail.maxNum > detail.currentNum
+                  ? "bg-red-400 text-white"
+                  : detail.maxNum > detail.currentNum
                   ? "inline-block bg-green-400 text-white"
                   : "bg-gray-400 text-white"
-                }`}
+              }`}
             >
               {detail.maxNum - detail.currentNum <= 2 &&
-                detail.maxNum !== detail.currentNum
+              detail.maxNum !== detail.currentNum
                 ? "마감 임박"
                 : detail.maxNum > detail.currentNum
-                  ? "모집중"
-                  : "모집 완료"}
+                ? "모집중"
+                : "모집 완료"}
             </div>
           </div>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
@@ -214,14 +216,12 @@ const StudyRoomNotLogin = () => {
                   src={badgeImages[badge.name]}
                   alt={badge.name}
                   className="ml-2"
-                  style={{ width: '30px', height: '30px' }} // 이미지 크기 조절
+                  style={{ width: "30px", height: "30px" }} // 이미지 크기 조절
                 />
               )}
             </div>
           </div>
         </div>
- 
-
 
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
@@ -283,20 +283,22 @@ const StudyRoomNotLogin = () => {
                 기술 스택
               </dt>
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {Array.isArray(detail.skillNames) &&
-                  detail.skillNames.map(
-                    (
-                      skill,
-                      index // 배열인지 확인
-                    ) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
-                      >
-                        {skill}
-                      </span>
-                    )
-                  )}
+                <div className="flex flex-wrap">
+                  {Array.isArray(detail.skillNames) &&
+                    detail.skillNames.map(
+                      (
+                        skill,
+                        index // 배열인지 확인
+                      ) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 mt-1 ml-1 mb-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
+                        >
+                          {skill}
+                        </span>
+                      )
+                    )}
+                </div>
               </dd>
             </div>
 
@@ -318,6 +320,7 @@ const StudyRoomNotLogin = () => {
           </dl>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

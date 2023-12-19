@@ -224,7 +224,7 @@ const StudyRoomNotLogin = () => {
   return (
     <>
       <StudyRoom_Sidebar />
-      <div className="ml-56 mt-12">
+      <div className="ml-56 mt-12 mb-20">
       <div className="max-w-screen-lg max-h-screen mx-auto p-4">
         <div className="px-4 sm:px-0">
           <div className="flex justify-between items-center">
@@ -323,27 +323,33 @@ const StudyRoomNotLogin = () => {
                   )}
               </dd>
             </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                기술 스택
-              </dt>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                {Array.isArray(detail.skillNames) &&
-                  detail.skillNames.map(
-                    (
-                      skill,
-                      index // 배열인지 확인
-                    ) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
-                      >
-                        {skill}
-                      </span>
-                    )
-                  )}
-              </dd>
-            </div>
+            <div className="sm:col-span-4">
+                <div className="mt-2.5 mb-4">
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      기술 스택
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      <div className="flex flex-wrap">
+                        {Array.isArray(detail.skillNames) &&
+                          detail.skillNames.map(
+                            (
+                              skill,
+                              index // 배열인지 확인
+                            ) => (
+                              <span
+                                key={index}
+                                className="px-2 py-1 mt-1 ml-1 mb-1 mr-1 bg-blue-200 text-blue-700 rounded-full"
+                              >
+                                {skill}
+                              </span>
+                            )
+                          )}
+                      </div>
+                    </dd>
+                  </div>
+                </div>
+              </div>
 
             <div className="px-4 py-6 sm:grid sm:grid-cols-1sm:gap-4 sm:px-0">
               <dt className="text-sm font-medium leading-6 text-gray-900 ">

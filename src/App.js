@@ -51,6 +51,7 @@ import ChatCreate from "./components/Chat/chatCreate";
 import NotificationPage from "./components/Notification/NotificationPage";
 import Estimate from "./components/StudyRoom/EstimateMember";
 import StudyRoomRecommend from "./components/StudyRoom/StudyRoom_Recommend";
+import Footer from "./components/Fix/Footer";
 
 
 
