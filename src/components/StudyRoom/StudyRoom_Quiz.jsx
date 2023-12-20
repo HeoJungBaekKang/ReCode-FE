@@ -101,9 +101,11 @@ const Quiz = () => {
         setDetailModalOpen(false);
     };
 
-    const handleDetail = async () => {
+    const [selectedQuiz, setSelectedQuiz] = useState(null);
+
+    const handleDetail = async (quiz) => {
         try {
-            await axios.get(`/api/v1/study/${study_id}/quiz/${authData.id}/detail`, {
+            await axios.get(`/api/v1/study/${study_id}/quiz/${quiz.id}/detail`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`
@@ -170,7 +172,7 @@ const Quiz = () => {
 
                         setQuizzes(response.data.data || []); // 리스트 갱신
 
-                        closeDetailModal();
+                        setDetailModalOpen(false);
                     } else {
                     }
                 });
@@ -236,7 +238,8 @@ const Quiz = () => {
                                                 style={{ cursor: quiz.nickname === authData.nickname ? 'pointer' : 'default' }}
                                                 onClick={async () => {
                                                     if (quiz.nickname === authData.nickname) {
-                                                        await handleDetail();
+                                                        await handleDetail(quiz);
+                                                        setSelectedQuiz(quiz);
                                                         openDetailModal();
                                                     }
                                                 }}>
