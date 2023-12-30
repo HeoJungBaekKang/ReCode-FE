@@ -49,7 +49,7 @@ export default function MypageMyprofile() {
 
     const handleGet = async () => {
         try {
-            await axios.get(`/api/v1/users/${authData.id}/getuser`, {
+            await axios.get(`/api/v1/users/get-user`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authData.token}`

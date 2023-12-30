@@ -29,7 +29,7 @@ export default function MyStudyList() {
   const handleGet = async () => {
     try {
       await axios
-        .get(`/api/v1/users/${user_id}/study-applications`, {
+        .get(`/api/v1/users/study-applications`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${authData.token}`,
