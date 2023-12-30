@@ -70,7 +70,7 @@ function App() {
             <Route path="/findId" element={<FindIdForm />} />
             <Route path="/email" element={<Email />} />
             <Route path="/client/findId" element={<FindIdForm />} />
-            <Route path="/mypage/:id" element={<MypageMain />} />
+            <Route path="/mypage" element={<MypageMain />} />
             <Route path="/mypage/myprofile" element={<MypageMyprofile />} />
             <Route path="/mypage/myprofile/essay" element={<Essay />} />
             <Route path="/mypage/myprofile/modifyProfile" element={<ModifyProfile />} />
