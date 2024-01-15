@@ -48,11 +48,6 @@ export default function MyStudyList() {
         });
     } catch (error) {
       alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
-      setAuthData({});
-      localStorage.removeItem("token");
-      localStorage.removeItem("authData");
-
-      navigate("/login");
     }
   };
 

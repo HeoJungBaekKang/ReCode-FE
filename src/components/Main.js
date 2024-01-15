@@ -10,9 +10,10 @@ import Footer from "./Fix/Footer";
 import { useState } from "react";
 import SkillFilter from "./Main/SkillFilter";
 import { getStudies, handleSearchKeyword } from "../services/FilterService";
+import axios from "axios";
 
 const Main = () => {
-  const { authData } = useContext(AuthContext);
+  const { authData, setAuthData } = useContext(AuthContext);
   const [studies, setStudies] = useState([]); // 전체 스터디 목록
   const [filteredStudies, setFilteredStudies] = useState([]); // 필터링된 스터디 목록
   const [selectedSkills, setSelectedSkills] = useState([]); // 사용자가 선택한 스터디 목록
@@ -92,6 +93,38 @@ const Main = () => {
       navigate("/client/recruitment");
     }
   };
+
+  const CheckToken = async () => {
+    try {
+      const response = await axios.get('/api/check-token', {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authData.token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log('토큰이 유효합니다.');
+      } else if (response.status === 401) {
+        console.log('토큰이 만료되었습니다.');
+        alert('토큰이 만료되었습니다. 다시 로그인해주세요.');
+
+        setAuthData({});
+        localStorage.removeItem("token");
+        localStorage.removeItem("authData");
+
+        navigate("/login");
+      } else {
+        console.error('토큰을 검사하는데 실패하였습니다:', response.status);
+      }
+    } catch (error) {
+      console.error('토큰을 검사하는 중 오류 발생:', error);
+    }
+  };
+
+  useEffect(() => {
+    CheckToken();
+  })
 
   return (
     <>
