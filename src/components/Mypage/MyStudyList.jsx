@@ -19,10 +19,11 @@ import axios from "axios";
 export default function MyStudyList() {
   const navigate = useNavigate();
 
-  const { authData } = useContext(AuthContext);
   const { user_id } = useParams();
 
   const [currentPage, setCurrentPage] = useState(0);
+
+  const { authData, setAuthData } = useContext(AuthContext);
 
   const [posts, setPost] = useState([]);
 
@@ -46,6 +47,12 @@ export default function MyStudyList() {
           }
         });
     } catch (error) {
+      alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
+      setAuthData({});
+      localStorage.removeItem("token");
+      localStorage.removeItem("authData");
+
+      navigate("/login");
     }
   };
 
@@ -125,10 +132,10 @@ export default function MyStudyList() {
                   <div className="text-gray-500">{post.study_name}</div>
                   <div
                     className={`text-xs px-2 py-1 rounded-full ${post.status === "거절됨"
-                        ? "bg-red-400 text-white"
-                        : post.status === "대기중"
-                          ? "bg-gray-400 text-white"
-                          : "bg-green-400 text-white"
+                      ? "bg-red-400 text-white"
+                      : post.status === "대기중"
+                        ? "bg-gray-400 text-white"
+                        : "bg-green-400 text-white"
                       }`}
                   >
                     {post.status}
@@ -161,8 +168,8 @@ export default function MyStudyList() {
                 <div className="group relative">
                   <h3
                     className={`mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600 ${post.status === "거절됨" || post.status === "대기중"
-                        ? "pointer-events-none"
-                        : ""
+                      ? "pointer-events-none"
+                      : ""
                       }`}
                   >
                     {
@@ -199,8 +206,8 @@ export default function MyStudyList() {
                   <button
                     onClick={() => setCurrentPage(index)}
                     className={`relative block rounded px-3 py-1.5 text-sm ${index === currentPage
-                        ? "text-neutral-50 bg-blue-200"
-                        : "text-neutral-600"
+                      ? "text-neutral-50 bg-blue-200"
+                      : "text-neutral-600"
                       } transition-all duration-300 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white`}
                   >
                     {index + 1}
@@ -212,8 +219,8 @@ export default function MyStudyList() {
                   disabled={currentPage === chunkedPosts.length - 1}
                   onClick={() => setCurrentPage(currentPage + 1)}
                   className={`relative block rounded bg-transparent px-3 py-1.5 text-sm ${currentPage === chunkedPosts.length - 1
-                      ? "text-neutral-500"
-                      : "text-neutral-600"
+                    ? "text-neutral-500"
+                    : "text-neutral-600"
                     } transition-all duration-300 dark:text-neutral-400`}
                 >
                   Next

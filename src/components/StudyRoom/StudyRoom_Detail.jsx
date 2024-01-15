@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import ReactHtmlParser from "html-react-parser";
 import axios from "axios";
 import StudyRoom_Sidebar from "./StudyRoom_Sidebar";
@@ -163,12 +163,16 @@ const StudyRoomNotLogin = () => {
   };
   useEffect(() => {
     handleGet();
+    handleGetBoard();
+    handleGetQuiz();
   }, []);
+
   useEffect(() => {
     if (detail.userId) {
       handleGetBadge();
     }
   }, [detail.userId]);
+
   const TABLE_ROWS = [
     {
       name: (
@@ -204,6 +208,70 @@ const StudyRoomNotLogin = () => {
     } catch (error) {
     }
   }
+
+  /*
+    게시판 리스트 불러오기
+  */
+
+  const [posts, setPost] = useState([]);
+
+  const handleGetBoard = async () => {
+    try {
+      let url = `/api/v1/study/${study_id}/list`;
+
+      await axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        }
+      })
+        .then(response => {
+
+          setPost(response.data.data || []);
+
+          const code = response.data.code;
+
+          if (code === 1) {
+          } else {
+          }
+        });
+    } catch (error) {
+    }
+  }
+
+  /*
+    퀴즈 리스트 불러오기
+  */
+  const [quizzes, setQuizzes] = useState([]);
+
+  const handleGetQuiz = async () => {
+    if (!study_id) {
+      return;
+    }
+
+    try {
+      let url = `/api/v1/study/${study_id}/quiz-list`;
+
+      await axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authData.token}`
+        }
+      })
+        .then(response => {
+
+          const code = response.data.code;
+
+          setQuizzes(response.data.data || []);
+
+          if (code === 1) {
+          } else {
+          }
+        });
+    } catch (error) {
+    }
+  }
+
   return (
     <>
       <StudyRoom_Sidebar />
@@ -445,6 +513,114 @@ const StudyRoomNotLogin = () => {
                 </TEModalContent>
               </TEModalDialog>
             </TEModal>
+          </div>
+        </div>
+        <div className="max-w-screen-lg max-h-screen mx-auto p-4">
+          <div className="px-9 sm:px-0">
+            <div className="flex justify-center gap-8">
+              <div className="w-1/2 p-4">
+                <div className="flex flex-col items-center">
+                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block py-2 sm:px-6 lg:px-8">
+                      <div className="overflow-hidden">
+                        <table className="min-w-full text-left text-sm font-light">
+                          <thead className="border-b font-medium dark:border-neutral-500">
+                            <tr>
+                              <th scope="col" className="py-4">전체글보기</th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="py-4 flex justify-end">
+                                <Link to={`/studyroom/board/${study_id}`} className="text-gray-250 hover:underline">
+                                더보기 >
+                                </Link>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {posts.slice(0, 10).map((post, index) => (
+                              <tr
+                                key={index}
+                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                <td className="w-20 p-4">
+                                  <div className="flex items-center">
+                                    <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.id}</Link>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <Link to={`/studyroom/${study_id}/post/${post.id}`}>
+                                    {post.title.length > 13 ? `${post.title.substring(0, 13)}...` : post.title}
+                                  </Link>
+                                </td>
+                                <td className="px-2 py-4">
+                                  {post.nickname}
+                                </td>
+                                <td className="px-6 py-4">
+                                  {post.createdAt}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/2 p-4">
+                <div className="flex flex-col items-center">
+                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block py-2 sm:px-6 lg:px-8">
+                      <div className="overflow-hidden">
+                        <table className="min-w-full text-left text-sm font-light">
+                          <thead className="border-b font-medium dark:border-neutral-500">
+                            <tr>
+                              <th scope="col" className="py-4">전체글보기</th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="py-4 flex justify-end">
+                                <Link to={`/studyroom/quiz/${study_id}`} className="text-gray-250 hover:underline">
+                                더보기 >
+                                </Link>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {quizzes.slice(0, 10).map((quiz, index) => (
+                              <tr
+                                key={index}
+                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                <td className="w-20 p-4">
+                                  <div className="flex items-center">
+                                    {quiz.id}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <Link to={`/studyroom/quiz/${study_id}`}>
+                                    {quiz.title.length > 13 ? `${quiz.title.substring(0, 13)}...` : quiz.title}
+                                  </Link>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <div className="flex items-center">
+                                    <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" style={{ width: '20px', height: '20px' }} />{quiz.difficulty}
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  {quiz.nickname}
+                                </td>
+                                <td className="py-4">
+                                  {quiz.updatedAt}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
