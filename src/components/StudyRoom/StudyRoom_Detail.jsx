@@ -623,6 +623,102 @@ const StudyRoomNotLogin = () => {
             </div>
           </div>
         </div>
+        <div className="max-w-screen-lg max-h-screen mx-auto p-4">
+          <div className="px-9 sm:px-0">
+            <div className="flex justify-center gap-8">
+              <div className="w-1/2 p-4">
+                <div className="flex flex-col items-center">
+                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block py-2 sm:px-6 lg:px-8">
+                      <div className="overflow-hidden">
+                        <table className="min-w-full text-left text-sm font-light">
+                          <thead className="border-b font-medium dark:border-neutral-500">
+                            <tr>
+                              <th scope="col" className="py-4">전체글보기</th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="px-6 py-4"></th>
+                              <th scope="col" className="py-4 flex justify-end">
+                                <Link to={`/studyroom/board/${study_id}`} className="text-gray-250 hover:underline">
+                                더보기 >
+                                </Link>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {posts.slice(0, 10).map((post, index) => (
+                              <tr
+                                key={index}
+                                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                                <td className="w-20 p-4">
+                                  <div className="flex items-center">
+                                    <Link to={`/studyroom/${study_id}/post/${post.id}`}>{post.id}</Link>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                  <Link to={`/studyroom/${study_id}/post/${post.id}`}>
+                                    {post.title.length > 13 ? `${post.title.substring(0, 13)}...` : post.title}
+                                  </Link>
+                                </td>
+                                <td className="px-2 py-4">
+                                  {post.nickname}
+                                </td>
+                                <td className="px-6 py-4">
+                                  {post.createdAt}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/2 p-4">
+                <div className="flex flex-col items-center">
+                  <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="inline-block py-2 sm:px-6 lg:px-8">
+                      <div className="overflow-hidden">
+                        <div className="col-span-1 border-b rounded-t-lg rounded-l-lg p-4">
+                          <Link to={`/studyroom/quiz/${study_id}`} className="flex justify-end text-gray-250 hover:underline text-sm font-bold">
+      더보기 >
+                          </Link>
+                        </div>
+                        <div className="col-span-1 border-b rounded-t-lg rounded-r-lg p-4">
+                          <div className="grid grid-cols-1 grid-rows-2 gap-4">
+                          </div>
+                          {quizzes.slice(0, 5).map((quiz, index) => (
+                            <React.Fragment key={index}>
+                              <div className="col-span-2 border rounded-lg transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600 p-4">
+                                <div className="flex items-center">
+                                  {quiz.id}
+                                </div>
+                                <div>
+                                  <Link to={`/studyroom/quiz/${study_id}`}>
+                                    {quiz.title.length > 13 ? `${quiz.title.substring(0, 13)}...` : quiz.title}
+                                  </Link>
+                                </div>
+                                <div className="flex items-center">
+                                  <img src="https://i.ibb.co/r7CGcbr/star-emoji-clipart-md-removebg-preview.png" alt="star-emoji-clipart-md-removebg-preview" border="0" style={{ width: '20px', height: '20px' }} />{quiz.difficulty}
+                                </div>
+                                <div>
+                                  {quiz.nickname}
+                                </div>
+                                <div>
+                                  {quiz.updatedAt}
+                                </div>
+                              </div>
+                            </React.Fragment>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
