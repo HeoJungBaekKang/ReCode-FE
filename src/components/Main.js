@@ -119,6 +119,15 @@ const Main = () => {
       }
     } catch (error) {
       console.error('토큰을 검사하는 중 오류 발생:', error);
+
+      console.log('토큰이 만료되었습니다.');
+      alert('토큰이 만료되었습니다. 다시 로그인해주세요.');
+
+      setAuthData({});
+      localStorage.removeItem("token");
+      localStorage.removeItem("authData");
+
+      navigate("/login");
     }
   };
 
